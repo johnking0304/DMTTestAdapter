@@ -11,7 +11,7 @@
 using System.Reflection;
 
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
     public class UsbLibVersion
     {

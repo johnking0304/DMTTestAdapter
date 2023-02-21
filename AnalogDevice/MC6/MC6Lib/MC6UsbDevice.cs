@@ -13,7 +13,7 @@
 using System;
 
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
 
     public class MC6UsbDevice : UsbIo, IUsbDevice

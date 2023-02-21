@@ -12,7 +12,7 @@ using System.Threading;
 using System.IO;
 using System.Diagnostics;
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
 
     public class Log

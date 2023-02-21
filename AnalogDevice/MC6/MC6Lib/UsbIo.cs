@@ -18,7 +18,7 @@ using System.Collections;
 using System.Diagnostics;
 
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
 
     public class UsbIo : IDisposable

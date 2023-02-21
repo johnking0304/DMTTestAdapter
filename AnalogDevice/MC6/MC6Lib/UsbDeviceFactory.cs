@@ -9,7 +9,7 @@
 //
 //-----------------------------------------------------------------------------
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
 
     public class UsbDeviceFactory

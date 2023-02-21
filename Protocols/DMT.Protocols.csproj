@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DMT.BaseModels\DMT.Models.csproj" />
-    <ProjectReference Include="..\Protocols\DMT.Protocols.csproj" />
+    <PackageReference Include="NModbus4" Version="2.1.0" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Utils\DMT.Utils.csproj" />
   </ItemGroup>
 

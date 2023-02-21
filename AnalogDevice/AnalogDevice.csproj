@@ -13,8 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Fluke8846\" />
-    <Folder Include="Fluke7526\" />
+    <ProjectReference Include="..\Channels\DMT.Channels.csproj" />
+    <ProjectReference Include="..\DMT.BaseModels\DMT.Models.csproj" />
+    <ProjectReference Include="..\Utils\DMT.Utils.csproj" />
   </ItemGroup>
 
 </Project>

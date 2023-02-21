@@ -15,7 +15,8 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
+    
 {
 
     //-------------------------------------------------------------------------

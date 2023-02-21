@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DMT.BaseModels\DMT.Models.csproj" />
+    <ProjectReference Include="..\Channels\DMT.Channels.csproj" />
+    <ProjectReference Include="..\Utils\DMT.Utils.csproj" />
   </ItemGroup>
 
 </Project>

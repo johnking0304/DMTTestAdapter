@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
 
     public class MC4UsbDevice : UsbIo, IUsbDevice

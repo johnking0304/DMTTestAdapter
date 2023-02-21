@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace BeamexDotNetUsbLowLib
+namespace AnalogDevice.MC6
 {
 
     public class Win

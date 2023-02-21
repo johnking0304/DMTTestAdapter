@@ -1,10 +1,14 @@
 ﻿using System;
+using DMT.Models;
+
 
 namespace DMTTestAapter
 {
-    public class AnalogDevice
+    public class DeviceMaster: BaseDevice
     {
 
 
     }
+
+
 }
