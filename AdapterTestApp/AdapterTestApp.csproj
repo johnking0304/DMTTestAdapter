@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj" />
+    <ProjectReference Include="..\DMT.Core.Models\DMT.Core.Models.csproj" />
+    <ProjectReference Include="..\DMT.Core.Protocols\DMT.Core.Protocols.csproj" />
+    <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj" />
+    <ProjectReference Include="..\TAI.Contants\TAI.Contants.csproj" />
+    <ProjectReference Include="..\TAI.Device.Analog\TAI.Device.Analog.csproj" />
+    <ProjectReference Include="..\TAI.Device.Digital\TAI.Device.Digital.csproj" />
+    <ProjectReference Include="..\TAI.ProcessController\TAI.ProcessController.csproj" />
+    <ProjectReference Include="..\TAI.SwitchController\TAI.SwitchController.csproj" />
+    <ProjectReference Include="..\TAI.TestAdapterLib\TAI.TestAdapterLib.csproj" />
+    <ProjectReference Include="..\TAI.VISController\TAI.VISController.csproj" />
+  </ItemGroup>
+
+</Project>
