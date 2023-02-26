@@ -1,6 +1,6 @@
-﻿using AnalogDevice;
+﻿
 using System;
-using DMTTestAdapter;
+using System.Runtime.InteropServices;
 using DMT.Core.Models;
 using DMT.Core.Utils;
 using TAI.Constants;
@@ -24,6 +24,8 @@ namespace DMTTestAdapter
     /// <summary>
     /// 测试接口
     /// </summary>
+    [Guid("7BAFA04D-0619-4D1C-B21B-5BF7AE1B0AF4")]
+    [ClassInterface(ClassInterfaceType.None)]
     public class TestAdapter : Controller, ITestAdapter
     {
 
@@ -177,6 +179,17 @@ namespace DMTTestAdapter
         public void StopTest()
         {
             this.SystemStatus = SystemStatus.Idle;
+        }
+
+        public void NotifyMessage(int Event, int code, string message)
+        {
+            try
+            {
+                this.NotifyCallback?.Invoke( Event,  code,  message);
+            }
+            catch { 
+            }
+
         }
     }
 }

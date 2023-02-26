@@ -12,7 +12,7 @@
 using System;
 
 
-namespace AnalogDevice.MC6
+namespace TAI.Device.MC6
 {
 
     public interface IUsbDevice : IDisposable

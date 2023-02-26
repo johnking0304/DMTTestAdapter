@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 
-namespace AnalogDevice.MC6
+namespace TAI.Device.MC6
 {
 
     public class MC4UsbDevice : UsbIo, IUsbDevice

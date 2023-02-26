@@ -12,7 +12,7 @@ using System.Threading;
 using System.IO;
 using System.Diagnostics;
 
-namespace AnalogDevice.MC6
+namespace TAI.Device.MC6
 {
 
     public class Log

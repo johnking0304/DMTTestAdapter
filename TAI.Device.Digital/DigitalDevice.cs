@@ -9,6 +9,14 @@ namespace TAI.Device
     {
         public ModbusTCPClient Channel { get; set; }
 
+
+        public DigitalDevice() : base()
+        { 
+            
+        
+        
+        }
+
         public bool Active()
         {
             throw new NotImplementedException();

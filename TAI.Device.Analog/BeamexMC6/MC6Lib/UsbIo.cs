@@ -18,7 +18,7 @@ using System.Collections;
 using System.Diagnostics;
 
 
-namespace AnalogDevice.MC6
+namespace TAI.Device.MC6
 {
 
     public class UsbIo : IDisposable

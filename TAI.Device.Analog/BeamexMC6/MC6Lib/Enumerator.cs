@@ -15,7 +15,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 
 
-namespace AnalogDevice.MC6
+namespace TAI.Device.MC6
     
 {
 

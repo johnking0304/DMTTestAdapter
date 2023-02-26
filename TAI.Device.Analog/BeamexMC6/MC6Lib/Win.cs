@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace AnalogDevice.MC6
+namespace TAI.Device.MC6
 {
 
     public class Win
