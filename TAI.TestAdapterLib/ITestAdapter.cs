@@ -7,10 +7,6 @@ using TAI.Device;
 
 namespace DMTTestAdapter
 {
-
-    public delegate void NotifyHandler(int Event, int code, string message);
-
-
     [Guid("A24ECE6B-202D-48C0-B054-A52514FEE069")]
     public interface ITestAdapter
     {
@@ -58,7 +54,7 @@ namespace DMTTestAdapter
         /// <param name="value"></param>
         /// <returns></returns>
         [DispId(6)]
-        bool SetAnalogueChannelValue(int channelId, ChannelType type, double value);
+        bool SetAnalogueChannelValue(int channelId, int type, double value);
 
         /// <summary>
         /// 获取模拟量通道数据
@@ -67,7 +63,7 @@ namespace DMTTestAdapter
         /// <param name="type"></param>
         /// <returns></returns>
         [DispId(7)]
-        double GetAnalogueChannelValue(int channelId, ChannelType type);
+        double GetAnalogueChannelValue(int channelId, int type);
 
         /// <summary>
         /// 设置数字量通道数据
@@ -98,14 +94,6 @@ namespace DMTTestAdapter
         /// <returns></returns>
         [DispId(11)]
         string GetVISResult();
-
-
-        /// <summary>
-        /// 注册通知回调函数
-        /// </summary>
-        /// <param name="notify"></param>
-        [DispId(12)]
-        void SetNotifyCallback(NotifyHandler notify);
 
     }
 }

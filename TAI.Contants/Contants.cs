@@ -15,6 +15,8 @@ namespace TAI.Constants
 
         public static readonly string CONFIG = Path.Combine(HOME, "config.ini");
 
+        public static readonly string DIGITAL_CONFIG = Path.Combine(HOME, "digital.ini");
+
 
     }
 }

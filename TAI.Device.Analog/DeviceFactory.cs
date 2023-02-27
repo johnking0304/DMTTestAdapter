@@ -22,7 +22,7 @@ namespace TAI.Device
                     }
                 case DeviceModel.Fluke7526:
                     {
-                        device = new Device.Fluke7526();
+                        device = new Fluke7526();
                         break;
                         
                     }

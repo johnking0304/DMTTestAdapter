@@ -57,6 +57,10 @@
       <Project>{898a164e-86aa-4d2f-a096-d9ab030ae9c0}</Project>
       <Name>DMT.Core.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TAI.Contants\TAI.Contants.csproj">
+      <Project>{7cf01fb2-2256-43e0-b9c6-ec15ca7dc03c}</Project>
+      <Name>TAI.Contants</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -66,7 +66,9 @@ namespace DMT.Core.Channels
         SendError       = 5,
         ReceiveError    = 6,
         Operating       = 7,
+        ReceiveTimeOut   = 8,
         UnknownError    = 10  
+
     }
 
     
@@ -86,6 +88,7 @@ namespace DMT.Core.Channels
         abstract public  void LoadFromFile(string fileName);
         abstract public  void SaveToFile(string fileName);
 
+        abstract public string Receive();
         abstract public  void StartReceiveData();
         abstract public void StopReceiveData();
 
@@ -99,6 +102,7 @@ namespace DMT.Core.Channels
 
         public string ConfigFileName { get; set; }
         public String LastMessage { get; set; }  //最后的消息（错误）
+        public ChannelResult LastErrorCode { get; set; }
 
 
 
@@ -134,6 +138,11 @@ namespace DMT.Core.Channels
         public override Boolean SendCommand(byte[] command)
         {
             return true;
+        }
+
+        public override string Receive()
+        {
+            return "";
         }
 
         public override Boolean SendCommandNoReply(string command)

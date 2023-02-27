@@ -293,6 +293,22 @@ namespace DMT.Core.Models
             return this.SendCount >= this.TryCountMax;
         }
 
+
+        public virtual bool ParseResponse(string content, ref double value)
+        {
+            return true;
+        }
+
+        public virtual bool ParseResponse(string content, ref string value)
+        {
+            return true;
+        }
+
+        public virtual bool ParseResponse(string content)
+        {
+            return true;
+        }
+
         public string ParseExecuteResult(ResponseResult result)
         {
             string message = "";
@@ -327,8 +343,6 @@ namespace DMT.Core.Models
             this.UpdatedTime = DateTime.Now;
             this.Updated = true;
         }
-
-
 
 
         public virtual string Pack()

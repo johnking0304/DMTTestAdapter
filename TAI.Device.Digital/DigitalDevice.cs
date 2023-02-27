@@ -11,44 +11,48 @@ namespace TAI.Device
 
 
         public DigitalDevice() : base()
-        { 
-            
-        
-        
+        {
+            this.Caption = "DigitalDevice";
+            this.Channel = new ModbusTCPClient(this.Caption);
+
         }
 
         public bool Active()
         {
-            throw new NotImplementedException();
+            return this.Channel.hasError;
         }
 
         public bool Close()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool Initialize()
         {
-            throw new NotImplementedException();
+            this.Channel.Initialize(Constants.Contant.DIGITAL_CONFIG);
+            return true;
         }
 
         public bool Open()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Start()
-        { 
-        
+        {
+            return ;
         }
 
         public bool SetValue(int channelId, bool value)
         {
+
+            //this.Channel.WriteMultipleRegisters();
             return true;
         }
 
         public bool GetValue(int channelId)
         {
+            //this.Channel.ReadHoldingRegisters();
             return true;
         }
 

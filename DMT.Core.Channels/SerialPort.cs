@@ -56,9 +56,10 @@ namespace DMT.Core.Channels
         public void Initialize()
         {
             this.SerialPort = new System.IO.Ports.SerialPort();
+            
             this.SerialPort.ReadTimeout = 1000;
             // 
-            this.SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortDataReceived);
+            
 
             //          
         }
@@ -69,9 +70,11 @@ namespace DMT.Core.Channels
             String Name = "串口[" + this.SerialPort.PortName + "]";
             try
             {
+
                 this.SerialPort.Open();
                 result = this.SerialPort.IsOpen;
                 this.LastMessage = Name + "打开成功！";
+                this.LastErrorCode = ChannelResult.OK;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(), "", ChannelResult.OK, this.LastMessage);
                 return result;
             }
@@ -97,6 +100,7 @@ namespace DMT.Core.Channels
                 result = false;
             }
 
+            this.LastErrorCode = ChannelResult.CanNotOpen;
             this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(), "", ChannelResult.CanNotOpen, this.LastMessage);
             return result;
         }
@@ -111,11 +115,13 @@ namespace DMT.Core.Channels
                 {
                     this.SerialPort.Close();
                     this.LastMessage = Name + "关闭成功！";
+                    this.LastErrorCode = ChannelResult.OK;
                     this.Notify(CHANNEL_EVENT, ChannelControl.Close.ToString(), "", ChannelResult.OK, this.LastMessage);
                 }
                 catch (System.IO.IOException)
                 {
                     this.LastMessage = Name + "无效，关闭失败！";
+                    this.LastErrorCode = ChannelResult.CanNotClose;
                     this.Notify(CHANNEL_EVENT, ChannelControl.Close.ToString(), "", ChannelResult.CanNotClose, this.LastMessage);
                     return false;
                 }
@@ -140,12 +146,14 @@ namespace DMT.Core.Channels
             {
                 this.SerialPort.Write(command,0,command.Length);
                 this.LastMessage = "发送数据成功";
+                this.LastErrorCode = ChannelResult.OK;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.OK, this.LastMessage);
                 return true;
             }
             else
             {
                 this.LastMessage = "发送数据失败";
+                this.LastErrorCode = ChannelResult.SendError;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.SendError, this.LastMessage);
                 return false;
             }
@@ -163,16 +171,57 @@ namespace DMT.Core.Channels
             {
                 this.SerialPort.Write(command);
                 this.LastMessage = "发送数据成功";
+                this.LastErrorCode = ChannelResult.OK;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.OK, this.LastMessage);
                 return true;
             }
             else
             {
                 this.LastMessage = "发送数据失败";
+                this.LastErrorCode = ChannelResult.SendError;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.SendError, this.LastMessage);
                 return false;
             }
         }
+
+
+        public override string Receive()
+        {
+            ChannelResult resResult = ChannelResult.OK;
+            string ReceiveString = "";
+            if (!this.SerialPort.IsOpen)
+            {
+                this.Open();
+            }
+
+            try
+            {
+                ReceiveString = this.SerialPort.ReadLine();
+                resResult = ChannelResult.OK;
+                this.LastMessage = "读取数据";
+                this.LastErrorCode = ChannelResult.OK;
+                this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), ReceiveString, resResult, this.LastMessage);
+                return ReceiveString;
+            }
+            catch (System.TimeoutException)
+            {
+                resResult = ChannelResult.ReceiveError;
+                this.LastMessage = "接收数据超时";
+                this.LastErrorCode = ChannelResult.ReceiveTimeOut;
+                this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), ReceiveString, resResult, this.LastMessage);
+                return "";
+            }
+            catch (System.Exception)
+            {
+                resResult = ChannelResult.ReceiveError;
+                this.LastMessage = "接收数据错误";
+                this.LastErrorCode = ChannelResult.ReceiveError;
+                this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), ReceiveString, resResult, this.LastMessage);
+                return "";
+            }
+           
+        }
+        
 
 
 
@@ -192,7 +241,7 @@ namespace DMT.Core.Channels
                 this.SerialPort.Parity = (System.IO.Ports.Parity)IniFiles.GetIntValue(fileName, this.Caption, "Parity", (int)System.IO.Ports.Parity.None);
                 this.SerialPort.DataBits = IniFiles.GetIntValue(fileName, this.Caption, "DataBits", 8);
                 this.SerialPort.StopBits = (System.IO.Ports.StopBits)IniFiles.GetIntValue(fileName, this.Caption, "StopBits", (int)System.IO.Ports.StopBits.One);
-                this.SerialPort.NewLine = IniFiles.GetStringValue(fileName, this.Caption, "NewlineText", "E");
+                this.SerialPort.NewLine = IniFiles.GetStringValue(fileName, this.Caption, "NewlineText", "\r");
                 this.SerialPort.ReadTimeout = IniFiles.GetIntValue(fileName, this.Caption, "ReadTimeout", 1000);
 
                 if (!System.IO.File.Exists(fileName))
@@ -204,10 +253,12 @@ namespace DMT.Core.Channels
             catch (System.IO.IOException)
             {
                 this.LastMessage = "初始化访问无效！";
+                this.LastErrorCode = ChannelResult.InvalidParam;
             }
             catch (System.ArgumentOutOfRangeException)
             {
                 this.LastMessage = "初始化串口参数出错！";
+                this.LastErrorCode = ChannelResult.InvalidParam;
             }
             this.Notify(CHANNEL_EVENT, ChannelControl.Init.ToString(), "",ChannelResult.InvalidParam, this.LastMessage);
 
@@ -232,6 +283,7 @@ namespace DMT.Core.Channels
             {               
                 string value = this.SerialPort.ReadExisting();
                 this.LastMessage = "";
+                this.LastErrorCode = ChannelResult.OK;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), value, ChannelResult.OK, this.LastMessage);
            }
             catch
@@ -240,6 +292,7 @@ namespace DMT.Core.Channels
             }
 
         }
+
 
 
         private void PorcessReceiveData()
@@ -258,12 +311,14 @@ namespace DMT.Core.Channels
                             ReceiveString = this.SerialPort.ReadExisting();          
                             resResult = ChannelResult.OK;
                             this.LastMessage = "读取数据";
+                            this.LastErrorCode = ChannelResult.OK;
                             this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), ReceiveString, resResult, this.LastMessage);
                         }
                         catch (System.Exception)
                         {
                             resResult = ChannelResult.Fail;
                             this.LastMessage = "接收数据错误";
+                            this.LastErrorCode = ChannelResult.ReceiveError;
                             this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), ReceiveString, resResult, this.LastMessage);
                         }
                     }
@@ -277,6 +332,7 @@ namespace DMT.Core.Channels
         public override void StartReceiveData()
         {
             this.Terminated = false;
+            this.SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortDataReceived);
             this.ReceiveProcessor = new Thread(new ThreadStart(this.PorcessReceiveData));
             this.ReceiveProcessor.IsBackground = true;
             this.ReceiveProcessor.Start();
@@ -285,6 +341,7 @@ namespace DMT.Core.Channels
         public override void StopReceiveData()
         {
             this.Terminated = true;
+            this.SerialPort.DataReceived -= new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortDataReceived);
             this.ReceiveProcessor.Interrupt();
         }
 

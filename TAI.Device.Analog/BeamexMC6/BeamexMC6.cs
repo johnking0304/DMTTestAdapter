@@ -16,7 +16,7 @@ namespace TAI.Device
             throw new NotImplementedException();
         }
 
-        public bool GetValue(int channelId, ChannelType channelType, ref double value)
+        public bool GetValue( ChannelType channelType, ref double value)
         {
             throw new NotImplementedException();
         }
@@ -33,7 +33,7 @@ namespace TAI.Device
             throw new NotImplementedException();
         }
 
-        public bool SetValue(int channelId, ChannelType channelType, double value)
+        public bool SetValue( ChannelType channelType, double value)
         {
             throw new NotImplementedException();
         }

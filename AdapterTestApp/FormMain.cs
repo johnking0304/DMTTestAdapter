@@ -22,14 +22,13 @@ namespace AdapterTestApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.TestAdapter.NotifyMessage(1,2,"OK");
+   
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             this.TestAdapter = new TestAdapter();
 
-            this.TestAdapter.SetNotifyCallback(this.NotifyMessage);
         }
 
 

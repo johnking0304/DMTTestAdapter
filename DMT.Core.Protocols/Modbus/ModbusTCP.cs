@@ -274,9 +274,9 @@ namespace DMT.Core.Protocols
             IniFiles.WriteIntValue(fileName, Section, "SlaveAddress", this.slaveAddress);
             IniFiles.WriteIntValue(fileName, Section, "BaseIndex", this.baseIndex);
         }
-        public ModbusTCPClient()
+        public ModbusTCPClient(string caption)
         {
-            this.name = "ModbusTCPClient";
+            this.name =string.Format("{0}_ModbusTCPClient", caption);
             this.lastMessage = "";
             this.lastErrorCode = ModbusErrorCode.Ok;
             this.slaveAddress = 1;

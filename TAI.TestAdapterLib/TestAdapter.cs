@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using DMT.Core.Models;
 using DMT.Core.Utils;
@@ -40,9 +39,9 @@ namespace DMTTestAdapter
         public SwitchController SwitchController { get; set; }
         public VISController VISController { get; set; }
 
-        public event NotifyHandler NotifyCallback;
-
         public SystemStatus SystemStatus { get; set; }
+
+      /*  public TestState */
 
         public int LastErrorCode { get
             {
@@ -117,11 +116,11 @@ namespace DMTTestAdapter
         }
 
 
-        public double GetAnalogueChannelValue(int channelId, ChannelType type)
+        public double GetAnalogueChannelValue(int channelId, int type)
         {
             this.SwitchController.SwitchChannel(channelId);
             double value = 0.0;
-            this.MeasureDevice.GetValue(channelId, type, ref value);        
+            this.MeasureDevice.GetValue( (ChannelType)type, ref value);        
             return value;        
         }
 
@@ -153,11 +152,11 @@ namespace DMTTestAdapter
             return true;
         }
 
-        public bool SetAnalogueChannelValue(int channelId, ChannelType type, double value)
+        public bool SetAnalogueChannelValue(int channelId, int type, double value)
         {
 
             bool result = this.SwitchController.SwitchChannel(channelId);
-            result &= this.GeneratorDevice.SetValue(channelId, type, value);
+            result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
             return result;
         }
 
@@ -166,10 +165,6 @@ namespace DMTTestAdapter
             return this.DigitalDevice.SetValue(channelId,value);
         }
 
-        public void SetNotifyCallback(NotifyHandler notify)
-        {
-            this.NotifyCallback += notify;
-        }
 
         public void StartTest()
         {
@@ -181,15 +176,5 @@ namespace DMTTestAdapter
             this.SystemStatus = SystemStatus.Idle;
         }
 
-        public void NotifyMessage(int Event, int code, string message)
-        {
-            try
-            {
-                this.NotifyCallback?.Invoke( Event,  code,  message);
-            }
-            catch { 
-            }
-
-        }
     }
 }

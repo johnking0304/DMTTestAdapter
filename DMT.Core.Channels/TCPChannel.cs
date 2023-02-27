@@ -250,7 +250,7 @@ namespace DMT.Core.Channels
             this.ReceiveProcessor.Interrupt();
         }
 
-        public void ReceiveData()
+        public void  ReceiveData()
         {
             while (!this.Terminated)
             {
@@ -268,7 +268,7 @@ namespace DMT.Core.Channels
                             int numberOfReadBytes = ClientStream.Read(ReceiveBytes, 0, RECEIVE_BUFFER_SIZE);
                             byte[] realReceiveBytes = new byte[numberOfReadBytes];
                             Array.Copy(ReceiveBytes, 0, realReceiveBytes, 0, numberOfReadBytes);
-                            ReceiveString = BitConverter.ToString(realReceiveBytes);
+                            ReceiveString = System.Text.Encoding.Default.GetString(realReceiveBytes);
                             resResult = ChannelResult.OK;
                             this.LastMessage = "收到数据(上报)";
                             this.Notify(CHANNEL_EVENT, ChannelControl.Report.ToString(), ReceiveString, resResult, this.LastMessage);
@@ -319,7 +319,7 @@ namespace DMT.Core.Channels
                             int numberOfReadBytes = ClientStream.EndRead(asyncResult);
                             byte[] realReceiveBytes = new byte[numberOfReadBytes];
                             Array.Copy(ReceiveBytes, 0, realReceiveBytes, 0, numberOfReadBytes);
-                            ReceiveString = BitConverter.ToString(realReceiveBytes); 
+                            ReceiveString = System.Text.Encoding.Default.GetString(realReceiveBytes);
                             resResult = ResponseResult.Ok;
                             result = true;
                             this.LastMessage = "接收返回数据成功!";
@@ -327,7 +327,7 @@ namespace DMT.Core.Channels
                         catch (System.Exception e)
                         {
                             resResult = ResponseResult.Error;
-                            this.LastMessage = "接收返回数据失败!";
+                            this.LastMessage = string.Format("接收返回数据失败:[{0}]!",e.ToString());
                         }
                     }
                     else

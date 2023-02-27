@@ -48,6 +48,7 @@
     <Compile Include="ITestAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAdapter.cs" />
+    <Compile Include="TestState\BaseTestState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj">
