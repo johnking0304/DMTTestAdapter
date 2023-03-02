@@ -16,7 +16,21 @@ namespace TAI.Device.Fluke.D8846
         public override string Pack()
         {
             return string.Format("*IDN?");;
-        }       
+        }
+
+        public override bool ParseResponse(string content, ref string value)
+        {
+            if (!string.IsNullOrEmpty(content))
+            {
+                string[] list = content.Split(',');
+                if (list.Length >= 3)
+                {
+                    value = string.Format("{0}-{1}",list[1],list[2]);
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }

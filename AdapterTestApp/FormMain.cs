@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMTTestAdapter;
+using TAI.Manager;
 
 namespace AdapterTestApp
 {
@@ -22,13 +23,15 @@ namespace AdapterTestApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-   
+
+
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            this.TestAdapter = new TestAdapter();
 
+
+  
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using DMT.Core.Utils;
 
 namespace DMT.Core.Models
@@ -10,6 +11,12 @@ namespace DMT.Core.Models
         public string Caption { get; set; }
         public string ConfigFileName { get; set; }
 
+
+        public Thread Processor { get; set; }
+        public bool Terminated { get; set; }
+
+        public int WaitSeconds = 5;
+        public DateTime StartWaitDateTime = DateTime.Now;
         public BaseController()
         {
             this.Caption = "Controller";
@@ -40,12 +47,66 @@ namespace DMT.Core.Models
                 this.SaveToFile(this.ConfigFileName);
             }
         }
+
+
+        public bool WaitTimeOut()
+        {
+            TimeSpan span = DateTime.Now - this.StartWaitDateTime;
+            if (span.TotalSeconds >= this.WaitSeconds)
+            {
+                this.StartWaitDateTime = DateTime.Now;
+                return true;
+            }
+            return false;
+
+        }
+
+        public  virtual  void ProcessEvent()
+        {
+            return;
+        }
+        public  void Process()
+        {
+            while (!this.Terminated)
+            {
+                try
+                {
+                    Thread.Sleep(1);
+
+                    this.ProcessEvent();
+                }
+                catch (System.Threading.ThreadInterruptedException)
+                {
+                }
+            }
+
+        }
+
+        public void StartThread()
+        {
+            this.Processor = new Thread(new ThreadStart(this.Process))
+            {
+                IsBackground = true
+            };
+            this.Processor.Start();
+        }
+
+        public void StopThread()
+        {
+            this.Terminated = true;
+        }
+
+
+
+
+
     }
 
 
 
     public class Controller : BaseController
     {
-
+        public int LastErrorCode { get; set; }
+        public string LastMessage { get; set; }
     }
 }

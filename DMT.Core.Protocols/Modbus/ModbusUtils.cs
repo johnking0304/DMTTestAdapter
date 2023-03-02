@@ -42,22 +42,23 @@ namespace DMT.Core.Protocols
 
     public class ModbusItem
     {
-        public string section { get; set; }
-        public ChannelType channelType { get; set; }
-        public short baseIndex { get; set; }
-        public string name { get; set; }
-        public ushort offset { get; set; }
-        public ushort length { get; set; }
-        public ushort[] datas { get; set; }
-        public string dataValue { get;set;}
+        public string Section { get; set; }
+        public string Caption { get; set; }
+        public ChannelType ChannelType { get; set; }
+        public short BaseAddress { get; set; }
+        public string Name { get; set; }
+        public ushort Offset { get; set; }
+        public ushort Length { get; set; }
+        public ushort[] Datas { get; set; }
+        public string DataValue { get;set;}
 
-        public Boolean enable { get; set; }
+        public Boolean Enable { get; set; }
 
-        public ushort startIndex
+        public ushort StartAddress
         {
             get
             {
-                return (ushort)(this.baseIndex + this.offset);
+                return (ushort)(this.BaseAddress + this.Offset);
             }
         }
 
@@ -70,35 +71,37 @@ namespace DMT.Core.Protocols
 
         public ModbusItem(short baseIndex,ushort offset, ushort length, ChannelType type)
         {
-            this.length = length;
-            this.offset = offset;
-            this.enable = true;
-            this.channelType = type;
+            this.Length = length;
+            this.Offset = offset;
+            this.Enable = true;
+            this.ChannelType = type;
             this.Initialize(baseIndex);
         }
-        public ModbusItem(string section, string name, short baseIndex, ushort offset, ushort length, ChannelType type)
+        
+        public ModbusItem(string section, string caption,string name, short baseIndex, ushort offset, ushort length, ChannelType type)
         {
-            this.section = section;
-            this.name = name;
-            this.length = length;
-            this.offset = offset;
-            this.enable = false;
-            this.channelType = type;
+            this.Section = section;
+            this.Caption = caption;
+            this.Name = name;
+            this.Length = length;
+            this.Offset = offset;
+            this.Enable = false;
+            this.ChannelType = type;
             this.Initialize(baseIndex);
         }
         public void Initialize(short baseIndex)
         {
-            this.datas = new ushort[this.length];
-            this.baseIndex = baseIndex;
+            this.Datas = new ushort[this.Length];
+            this.BaseAddress = baseIndex;
         }
 
         public void Clear()
         {
-            this.dataValue = "";
-            this.enable = false;
-            for (int i = 0; i < this.length; i++)
+            this.DataValue = "";
+            this.Enable = false;
+            for (int i = 0; i < this.Length; i++)
             {
-                this.datas[i] = 0;
+                this.Datas[i] = 0;
             }
         }
 
@@ -106,7 +109,7 @@ namespace DMT.Core.Protocols
         {
             get
             {
-                return this.name + ".offset";
+                return this.Name + ".offset";
             }
         }
 
@@ -114,17 +117,17 @@ namespace DMT.Core.Protocols
         {
             get
             {
-                return this.name + ".Length";
+                return this.Name + ".Length";
             }
         }
 
         public void LoadFromFile(string fileName)
         {
-            this.offset = (ushort)IniFiles.GetIntValue(fileName, this.section, this.offsetKey, this.offset);
-            this.length = (ushort)IniFiles.GetIntValue(fileName, this.section, this.lengthKey, this.length);
+            this.Offset = (ushort)IniFiles.GetIntValue(fileName, this.Section, this.offsetKey, this.Offset);
+            this.Length = (ushort)IniFiles.GetIntValue(fileName, this.Section, this.lengthKey, this.Length);
 
             string[] list = IniFiles.GetAllSectionNames(fileName);
-            if (!list.Contains(this.name))
+            if (!list.Contains(this.Name))
             {
                 this.SaveToFile(fileName);
             }
@@ -133,8 +136,8 @@ namespace DMT.Core.Protocols
 
         public void SaveToFile(string fileName)
         {
-            IniFiles.WriteIntValue(fileName, this.section, this.offsetKey, this.offset);
-            IniFiles.WriteIntValue(fileName, this.section, this.lengthKey, this.length);
+            IniFiles.WriteIntValue(fileName, this.Section, this.offsetKey, this.Offset);
+            IniFiles.WriteIntValue(fileName, this.Section, this.lengthKey, this.Length);
         }
 
 

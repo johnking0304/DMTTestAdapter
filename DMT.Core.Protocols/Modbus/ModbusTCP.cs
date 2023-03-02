@@ -17,21 +17,21 @@ namespace DMT.Core.Protocols
     {
 
         public static ushort DATA_LENGTH = 2096 ;
-        public string name = "ModbusTCPService";
-        public ModbusSlave modbusSlave { get; set; }        
-        public int listenPort { get; set; }
-        public byte slaveId { get; set; }
-        public string lastMessage { get; set; }
-        public ModbusErrorCode lastErrorCode { get; set; }
+        public string Name = "ModbusTCPService";
+        public ModbusSlave ModbusSlave { get; set; }        
+        public int ListenPort { get; set; }
+        public byte SlaveId { get; set; }
+        public string LastMessage { get; set; }
+        public ModbusErrorCode LastErrorCode { get; set; }
 
 
         public ModbusTCPService()
         {
-            this.name = "ModbusTCPService";
-            this.lastMessage = "";
-            this.listenPort = 502;
-            this.slaveId = 1;
-            this.lastErrorCode = ModbusErrorCode.Ok;
+            this.Name = "ModbusTCPService";
+            this.LastMessage = "";
+            this.ListenPort = 502;
+            this.SlaveId = 1;
+            this.LastErrorCode = ModbusErrorCode.Ok;
         }
         public override void ProcessResponse(int notifyEvent, string flag,string content, object result, string message, object sender)
         {
@@ -45,31 +45,31 @@ namespace DMT.Core.Protocols
             {
                 IPAddress address = new IPAddress(new byte[] { 0, 0, 0, 0 });
 
-                TcpListener slaveTcpListener = new TcpListener(address, this.listenPort);
+                TcpListener slaveTcpListener = new TcpListener(address, this.ListenPort);
                 slaveTcpListener.Start();
 
-                this.modbusSlave = ModbusTcpSlave.CreateTcp(this.slaveId, slaveTcpListener);
-                this.modbusSlave.DataStore = DataStoreFactory.CreateDefaultDataStore(DATA_LENGTH, DATA_LENGTH, DATA_LENGTH, DATA_LENGTH);
+                this.ModbusSlave = ModbusTcpSlave.CreateTcp(this.SlaveId, slaveTcpListener);
+                this.ModbusSlave.DataStore = DataStoreFactory.CreateDefaultDataStore(DATA_LENGTH, DATA_LENGTH, DATA_LENGTH, DATA_LENGTH);
 
-                this.modbusSlave.Listen();
-                this.lastErrorCode = ModbusErrorCode.Ok;   
-                this.lastMessage = "Modbus TCP Service 启动成功";
+                this.ModbusSlave.Listen();
+                this.LastErrorCode = ModbusErrorCode.Ok;   
+                this.LastMessage = "Modbus TCP Service 启动成功";
 
             }
             catch (Exception)
             {
-                this.lastErrorCode = ModbusErrorCode.InitError;   
-                this.lastMessage = "Modbus TCP Service 启动失败";   
+                this.LastErrorCode = ModbusErrorCode.InitError;   
+                this.LastMessage = "Modbus TCP Service 启动失败";   
                 
             }
-            this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, this.lastErrorCode.ToString(),"", this.modbusSlave, this.lastMessage);
+            this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, this.LastErrorCode.ToString(),"", this.ModbusSlave, this.LastMessage);
         }
 
         public void LoadFromFile(string fileName)
         {
-            string Section = this.name;
-            this.listenPort = IniFiles.GetIntValue(fileName, Section, "ListenPort", 502);
-            this.slaveId = (byte)IniFiles.GetIntValue(fileName, Section, "SlaveId", 1);
+            string Section = this.Name;
+            this.ListenPort = IniFiles.GetIntValue(fileName, Section, "ListenPort", 502);
+            this.SlaveId = (byte)IniFiles.GetIntValue(fileName, Section, "SlaveId", 1);
 
             string[] list = IniFiles.GetAllSectionNames(fileName);
             if (!list.Contains(Section))
@@ -79,9 +79,9 @@ namespace DMT.Core.Protocols
         }
         public void SaveToFile(string fileName)
         {
-            string Section = this.name;
-            IniFiles.WriteIntValue(fileName, Section, "ListenPort", this.listenPort);
-            IniFiles.WriteIntValue(fileName, Section, "SlaveId", this.slaveId );
+            string Section = this.Name;
+            IniFiles.WriteIntValue(fileName, Section, "ListenPort", this.ListenPort);
+            IniFiles.WriteIntValue(fileName, Section, "SlaveId", this.SlaveId );
         }
 
 
@@ -89,7 +89,7 @@ namespace DMT.Core.Protocols
         {
             get
             {
-                return this.lastErrorCode != ModbusErrorCode.Ok;
+                return this.LastErrorCode != ModbusErrorCode.Ok;
             }
         }
 
@@ -99,7 +99,7 @@ namespace DMT.Core.Protocols
             ushort[] datas = new ushort[length];
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                datas[i - startIndex] = this.modbusSlave.DataStore.HoldingRegisters[i];     
+                datas[i - startIndex] = this.ModbusSlave.DataStore.HoldingRegisters[i];     
             }
             return datas;
         }
@@ -109,7 +109,7 @@ namespace DMT.Core.Protocols
             ushort[] datas = new ushort[length];
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                datas[i - startIndex] = this.modbusSlave.DataStore.InputRegisters[i];     
+                datas[i - startIndex] = this.ModbusSlave.DataStore.InputRegisters[i];     
             }
             return datas;
         }
@@ -119,7 +119,7 @@ namespace DMT.Core.Protocols
             bool [] datas = new bool[length];
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                datas[i - startIndex] = this.modbusSlave.DataStore.CoilDiscretes[i];
+                datas[i - startIndex] = this.ModbusSlave.DataStore.CoilDiscretes[i];
             }
             return datas;
         }
@@ -130,7 +130,7 @@ namespace DMT.Core.Protocols
             bool[] datas = new bool[length];
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                datas[i - startIndex] = this.modbusSlave.DataStore.InputDiscretes[i];
+                datas[i - startIndex] = this.ModbusSlave.DataStore.InputDiscretes[i];
             }
             return datas;
         }
@@ -141,7 +141,7 @@ namespace DMT.Core.Protocols
         {
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                this.modbusSlave.DataStore.HoldingRegisters[i] = datas[i - startIndex] ;
+                this.ModbusSlave.DataStore.HoldingRegisters[i] = datas[i - startIndex] ;
             }
         }
 
@@ -150,7 +150,7 @@ namespace DMT.Core.Protocols
         {
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                this.modbusSlave.DataStore.InputRegisters[i] = datas[i - startIndex];
+                this.ModbusSlave.DataStore.InputRegisters[i] = datas[i - startIndex];
             }
         }
 
@@ -163,7 +163,7 @@ namespace DMT.Core.Protocols
 
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                this.modbusSlave.DataStore.InputDiscretes[i] = datas[i - startIndex];
+                this.ModbusSlave.DataStore.InputDiscretes[i] = datas[i - startIndex];
             }
         }
 
@@ -172,7 +172,7 @@ namespace DMT.Core.Protocols
 
             for (int i = startIndex; i < (startIndex + length); i++)
             {
-                this.modbusSlave.DataStore.CoilDiscretes[i] = datas[i - startIndex];
+                this.ModbusSlave.DataStore.CoilDiscretes[i] = datas[i - startIndex];
             }
         }
 
@@ -207,22 +207,22 @@ namespace DMT.Core.Protocols
                 {
                     case ModbusDataType.Coil:
                         {
-                            this.modbusSlave.DataStore.CoilDiscretes[i] = false;
+                            this.ModbusSlave.DataStore.CoilDiscretes[i] = false;
                             break;
                         }
                     case ModbusDataType.HoldingRegister:
                         {
-                            this.modbusSlave.DataStore.HoldingRegisters[i] = 0;
+                            this.ModbusSlave.DataStore.HoldingRegisters[i] = 0;
                             break;
                         }
                     case ModbusDataType.InputRegister:
                         {
-                            this.modbusSlave.DataStore.InputRegisters[i] = 0;
+                            this.ModbusSlave.DataStore.InputRegisters[i] = 0;
                             break;
                         }
                     case ModbusDataType.Input:
                         {
-                            this.modbusSlave.DataStore.InputDiscretes[i] = false;
+                            this.ModbusSlave.DataStore.InputDiscretes[i] = false;
                             break;
                         }
             
@@ -236,29 +236,29 @@ namespace DMT.Core.Protocols
 
     public class ModbusTCPClient : Subject
     {
-        public string name = "ModbusTCPClient";
+        public string Name = "ModbusTCPClient";
         public static int DEFAULT_PORT = 502;
 
         public const int WRITE_MAX = 123;
-        public ModbusErrorCode lastErrorCode { get; set; }
-        public short baseIndex { get; set; }
-        public ModbusMaster modbusClient { get; set; }
+        public ModbusErrorCode LastErrorCode { get; set; }
+        public short BaseIndex { get; set; }
+        public ModbusMaster ModbusClient { get; set; }
 
-        private TcpClient tcpClient;
-        public byte slaveAddress { get; set; }
+        private TcpClient TcpClient;
+        public byte SlaveAddress { get; set; }
         public string Ip { get; set; }
-        public int port { get; set; }
-        private DateTime lastConnectedDatetime{get;set;}
+        public int Port { get; set; }
+        private DateTime LastConnectedDatetime{get;set;}
 
-        public string lastMessage { get; set; }
+        public string LastMessage { get; set; }
         public void LoadFromFile(string fileName)
         {
-            string Section = this.name;
+            string Section = this.Name;
 
             this.Ip = IniFiles.GetStringValue(fileName, Section, "IPAddress", "127.0.0.1");
-            this.port = IniFiles.GetIntValue(fileName, Section, "Port", DEFAULT_PORT);
-            this.slaveAddress = (byte)IniFiles.GetIntValue(fileName, Section, "SlaveAddress", 1);
-            this.baseIndex = (short)IniFiles.GetIntValue(fileName, Section, "BaseIndex", 0);
+            this.Port = IniFiles.GetIntValue(fileName, Section, "Port", DEFAULT_PORT);
+            this.SlaveAddress = (byte)IniFiles.GetIntValue(fileName, Section, "SlaveAddress", 1);
+            this.BaseIndex = (short)IniFiles.GetIntValue(fileName, Section, "BaseIndex", 0);
 
             string[] list = IniFiles.GetAllSectionNames(fileName);
             if (!list.Contains(Section))
@@ -268,32 +268,32 @@ namespace DMT.Core.Protocols
         }
         public void SaveToFile(string fileName)
         {
-            string Section = this.name;
+            string Section = this.Name;
             IniFiles.WriteStringValue(fileName, Section, "IPAddress", this.Ip);
-            IniFiles.WriteIntValue(fileName, Section, "Port", this.port);
-            IniFiles.WriteIntValue(fileName, Section, "SlaveAddress", this.slaveAddress);
-            IniFiles.WriteIntValue(fileName, Section, "BaseIndex", this.baseIndex);
+            IniFiles.WriteIntValue(fileName, Section, "Port", this.Port);
+            IniFiles.WriteIntValue(fileName, Section, "SlaveAddress", this.SlaveAddress);
+            IniFiles.WriteIntValue(fileName, Section, "BaseIndex", this.BaseIndex);
         }
         public ModbusTCPClient(string caption)
         {
-            this.name =string.Format("{0}_ModbusTCPClient", caption);
-            this.lastMessage = "";
-            this.lastErrorCode = ModbusErrorCode.Ok;
-            this.slaveAddress = 1;
+            this.Name =string.Format("{0}_ModbusTCPClient", caption);
+            this.LastMessage = "";
+            this.LastErrorCode = ModbusErrorCode.Ok;
+            this.SlaveAddress = 1;
         }
 
 
-        public Boolean hasError
+        public Boolean HasError
         {
             get {
-                return this.lastErrorCode != ModbusErrorCode.Ok;
+                return this.LastErrorCode != ModbusErrorCode.Ok;
             }
         }
 
         
         public Boolean ReConnectTCPServer()
         {
-            if (this.lastErrorCode != ModbusErrorCode.Ok &&　this.ConnectTimeOut())
+            if (this.LastErrorCode != ModbusErrorCode.Ok &&　this.ConnectTimeOut())
             {
                return  this.ConnectToTCPServer();
             }
@@ -302,10 +302,10 @@ namespace DMT.Core.Protocols
 
         public Boolean ConnectTimeOut()
         {
-            TimeSpan span = DateTime.Now - this.lastConnectedDatetime;
+            TimeSpan span = DateTime.Now - this.LastConnectedDatetime;
             if (span.TotalSeconds >= 5)
             {
-                this.lastConnectedDatetime = DateTime.Now;
+                this.LastConnectedDatetime = DateTime.Now;
                 return true;
             }
             return false;
@@ -314,42 +314,42 @@ namespace DMT.Core.Protocols
         {
             try
             {
-                this.tcpClient = new TcpClient();
-                this.modbusClient = ModbusIpMaster.CreateIp(this.tcpClient);    
+                this.TcpClient = new TcpClient();
+                this.ModbusClient = ModbusIpMaster.CreateIp(this.TcpClient);    
 
-                IAsyncResult connResult = this.tcpClient.BeginConnect(this.Ip, this.port, null, null);
+                IAsyncResult connResult = this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
                 connResult.AsyncWaitHandle.WaitOne(1500, true);
                 if (!connResult.IsCompleted)
                 {
-                    this.tcpClient.Close();
-                    this.lastMessage = "无法连接到Modbus TCP 服务器";
-                    this.lastErrorCode = ModbusErrorCode.InitError;
-                    this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.InitError.ToString(), "", this.modbusClient, this.lastMessage);
+                    this.TcpClient.Close();
+                    this.LastMessage = "无法连接到Modbus TCP 服务器";
+                    this.LastErrorCode = ModbusErrorCode.InitError;
+                    this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.InitError.ToString(), "", this.ModbusClient, this.LastMessage);
                     return false;
                 }
-                else if (this.tcpClient != null && this.tcpClient.Connected)
+                else if (this.TcpClient != null && this.TcpClient.Connected)
                 {
-                    this.lastMessage = "连接到Modbus TCP服务器!";
-                    this.lastConnectedDatetime = DateTime.Now;
-                    this.lastErrorCode = ModbusErrorCode.Ok;
-                    this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.Ok.ToString(), "", this.modbusClient, this.lastMessage);
+                    this.LastMessage = "连接到Modbus TCP服务器!";
+                    this.LastConnectedDatetime = DateTime.Now;
+                    this.LastErrorCode = ModbusErrorCode.Ok;
+                    this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.Ok.ToString(), "", this.ModbusClient, this.LastMessage);
                     return true;
                 }
                 else
                 {
-                    this.tcpClient.Close();
-                    this.lastMessage = "无法连接到Modbus TCP 服务器";
-                    this.lastErrorCode = ModbusErrorCode.InitError;
-                    this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.InitError.ToString(), "", this.modbusClient, this.lastMessage);
+                    this.TcpClient.Close();
+                    this.LastMessage = "无法连接到Modbus TCP 服务器";
+                    this.LastErrorCode = ModbusErrorCode.InitError;
+                    this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.InitError.ToString(), "", this.ModbusClient, this.LastMessage);
                     return false;
                 }
             }
             catch (Exception msg)
             {
-                this.tcpClient.Close();
-                this.lastMessage = "无法连接到Modbus TCP 服务器";
-                this.lastErrorCode = ModbusErrorCode.InitError;
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.InitError.ToString(), "", this.modbusClient, this.lastMessage + ":" + msg.ToString());
+                this.TcpClient.Close();
+                this.LastMessage = "无法连接到Modbus TCP 服务器";
+                this.LastErrorCode = ModbusErrorCode.InitError;
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_INIT, ModbusErrorCode.InitError.ToString(), "", this.ModbusClient, this.LastMessage + ":" + msg.ToString());
                 return false;
             }
 
@@ -374,33 +374,33 @@ namespace DMT.Core.Protocols
             {
                 for (int i = 0; i < count; i++)
                 {
-                    ushort[] readDatas = this.modbusClient.ReadHoldingRegisters(this.slaveAddress, newAddress, WRITE_MAX);
+                    ushort[] readDatas = this.ModbusClient.ReadHoldingRegisters(this.SlaveAddress, newAddress, WRITE_MAX);
                     Array.Copy(readDatas, 0, datas, index, WRITE_MAX);
                     newAddress += WRITE_MAX;
                     index += WRITE_MAX;
                 }
                 if (remainder != 0)
                 {
-                    ushort[] readDatas = this.modbusClient.ReadHoldingRegisters(this.slaveAddress, newAddress, remainder);
+                    ushort[] readDatas = this.ModbusClient.ReadHoldingRegisters(this.SlaveAddress, newAddress, remainder);
                     Array.Copy(readDatas, 0, datas, index, remainder);
                 }
         
-                this.lastErrorCode = ModbusErrorCode.Ok;
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.Ok.ToString(), "", this.modbusClient, this.lastMessage + "成功");
+                this.LastErrorCode = ModbusErrorCode.Ok;
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.Ok.ToString(), "", this.ModbusClient, this.LastMessage + "成功");
                 return datas;
             }
             catch (System.InvalidOperationException)
             {
-                this.lastErrorCode = ModbusErrorCode.ReadError;
-                this.lastMessage = "无法读取Modbus TCP数据";
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.modbusClient, this.lastMessage);
+                this.LastErrorCode = ModbusErrorCode.ReadError;
+                this.LastMessage = "无法读取Modbus TCP数据";
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.ModbusClient, this.LastMessage);
                 return datas;
             }
             catch (Exception )
             {
-                this.lastErrorCode = ModbusErrorCode.ReadError;
-                this.lastMessage = "无法读取Modbus TCP数据";
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.modbusClient, this.lastMessage);
+                this.LastErrorCode = ModbusErrorCode.ReadError;
+                this.LastMessage = "无法读取Modbus TCP数据";
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.ModbusClient, this.LastMessage);
                 return datas;
             }
         }
@@ -426,7 +426,7 @@ namespace DMT.Core.Protocols
                 for (int i = 0; i < count;i++ )
                 {
                     Array.Copy(data, index, datas, 0, WRITE_MAX);
-                    this.modbusClient.WriteMultipleRegisters(this.slaveAddress, newAddress, datas);
+                    this.ModbusClient.WriteMultipleRegisters(this.SlaveAddress, newAddress, datas);
                     newAddress += WRITE_MAX;
                     index += WRITE_MAX;
                 }
@@ -434,22 +434,22 @@ namespace DMT.Core.Protocols
                 {
                     datas = new ushort[remainder];
                     Array.Copy(data, index, datas, 0, remainder);
-                    this.modbusClient.WriteMultipleRegisters(this.slaveAddress, newAddress, datas);                  
+                    this.ModbusClient.WriteMultipleRegisters(this.SlaveAddress, newAddress, datas);                  
                 }
-                this.lastErrorCode = ModbusErrorCode.Ok;
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.Ok.ToString(), "", this.modbusClient, this.lastMessage + "成功");
+                this.LastErrorCode = ModbusErrorCode.Ok;
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.Ok.ToString(), "", this.ModbusClient, this.LastMessage + "成功");
             }
             catch (System.InvalidOperationException)
             {
-                this.lastErrorCode = ModbusErrorCode.WriteError;
-                this.lastMessage = "无法写入Modbus TCP数据";
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_WRITE, ModbusErrorCode.WriteError.ToString(), "", this.modbusClient, this.lastMessage);
+                this.LastErrorCode = ModbusErrorCode.WriteError;
+                this.LastMessage = "无法写入Modbus TCP数据";
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_WRITE, ModbusErrorCode.WriteError.ToString(), "", this.ModbusClient, this.LastMessage);
             }
             catch (Exception)
             {
-                this.lastErrorCode = ModbusErrorCode.WriteError;
-                this.lastMessage = "无法写入Modbus TCP数据";
-                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.modbusClient, this.lastMessage);
+                this.LastErrorCode = ModbusErrorCode.WriteError;
+                this.LastMessage = "无法写入Modbus TCP数据";
+                this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.ModbusClient, this.LastMessage);
             }
 
         }

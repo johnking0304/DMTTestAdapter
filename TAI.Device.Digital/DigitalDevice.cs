@@ -19,13 +19,15 @@ namespace TAI.Device
 
         public bool Active()
         {
-            return this.Channel.hasError;
+            return this.Channel.HasError;
         }
 
         public bool Close()
         {
             return true;
         }
+
+        
 
         public bool Initialize()
         {
@@ -54,6 +56,19 @@ namespace TAI.Device
         {
             //this.Channel.ReadHoldingRegisters();
             return true;
+        }
+
+        public override void ProcessEvent()
+        {
+            if (!this.Channel.HasError)
+            {
+
+            }
+            else
+            {
+                //通道读写错误，重连判断及动作
+                this.Channel.ReConnectTCPServer();
+            }
         }
 
     }

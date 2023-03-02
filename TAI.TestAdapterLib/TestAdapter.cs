@@ -43,11 +43,6 @@ namespace DMTTestAdapter
 
       /*  public TestState */
 
-        public int LastErrorCode { get
-            {
-                return 0;
-            
-            } }
 
 
         public TestAdapter()
@@ -118,7 +113,7 @@ namespace DMTTestAdapter
 
         public double GetAnalogueChannelValue(int channelId, int type)
         {
-            this.SwitchController.SwitchChannel(channelId);
+            this.SwitchController.SwitchChannel((ushort)channelId);
             double value = 0.0;
             this.MeasureDevice.GetValue( (ChannelType)type, ref value);        
             return value;        
@@ -141,7 +136,7 @@ namespace DMTTestAdapter
 
         public string GetVISResult()
         {
-            return this.VISController.GetResult();
+            return "";
         }
 
 
@@ -155,7 +150,7 @@ namespace DMTTestAdapter
         public bool SetAnalogueChannelValue(int channelId, int type, double value)
         {
 
-            bool result = this.SwitchController.SwitchChannel(channelId);
+            bool result = this.SwitchController.SwitchChannel((ushort)channelId);
             result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
             return result;
         }

@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.VISController", "TAI.VI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.TestAdapterLib", "TAI.TestAdapterLib\TAI.TestAdapterLib.csproj", "{CA09C66D-70AC-4B59-97E7-ED1D870DFF4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.UnitTest", "TAI.UnitTest\TAI.UnitTest.csproj", "{65953DE8-5E51-4C7D-9943-06FF7E522456}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{CA09C66D-70AC-4B59-97E7-ED1D870DFF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA09C66D-70AC-4B59-97E7-ED1D870DFF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA09C66D-70AC-4B59-97E7-ED1D870DFF4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65953DE8-5E51-4C7D-9943-06FF7E522456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65953DE8-5E51-4C7D-9943-06FF7E522456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65953DE8-5E51-4C7D-9943-06FF7E522456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65953DE8-5E51-4C7D-9943-06FF7E522456}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,7 +18,7 @@ namespace DMT.Core.Channels
 {
     public class TCPClientChannel:BaseChannel
     {
-        public const int RECEIVE_BUFFER_SIZE = 65535*10;
+        public const int RECEIVE_BUFFER_SIZE = 10240;
 
         private TcpClient TCPClient {get;set;}
         
@@ -56,7 +56,7 @@ namespace DMT.Core.Channels
         {
             this.Caption = Caption + "_TCPClient";
             this.Initialize();
-            this.TCPClient.ReceiveTimeout = 2000;           
+                     
         }
 
 
@@ -74,6 +74,7 @@ namespace DMT.Core.Channels
                     this.Connected = true;
                     client.EndConnect(result);
                     this.LastMessage = "连接成功!";
+                    this.LastErrorCode = ChannelResult.OK;
                     this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(), "", ChannelResult.OK, this.LastMessage);
                     return;
                 }
@@ -81,23 +82,28 @@ namespace DMT.Core.Channels
                 {
                     client.EndConnect(result);
                     this.LastMessage = "连接失败!";
+                    this.LastErrorCode = ChannelResult.CanNotOpen;
                 }
             }
             catch (System.NullReferenceException)
             {
                 this.LastMessage = "无效的连接！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
             }
             catch (System.ObjectDisposedException)
             {
                 this.LastMessage = "连接关闭！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
             }
             catch (System.ArgumentOutOfRangeException)
             {
                 this.LastMessage = "无效端口 [" + this.Port.ToString() + "]！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
             }
             catch (System.Net.Sockets.SocketException)
             {
                 this.LastMessage = "连接错误！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
             }
             this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(),"", ChannelResult.Fail, this.LastMessage); 
         }
@@ -122,7 +128,7 @@ namespace DMT.Core.Channels
                 }
                 catch (System.InvalidOperationException)
                 {
-            
+                    this.LastErrorCode = ChannelResult.CanNotOpen;
                 }
             }   
         }
@@ -138,21 +144,25 @@ namespace DMT.Core.Channels
                 this.TCPClient = new TcpClient();
                 this.TCPClient.Connect(this.Host, this.Port);
                 this.LastMessage = "连接成功！";
+                this.LastErrorCode = ChannelResult.OK;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(),"", ChannelResult.OK, this.LastMessage);
                 return true;
             }
             catch (System.ObjectDisposedException)
             {
                 this.LastMessage = "客户端关闭！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
                 this.TCPClient = new TcpClient();
             }
             catch (System.ArgumentOutOfRangeException)
             {
                 this.LastMessage = "无效端口[" + this.Port.ToString() + "]！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
             }
             catch (System.Net.Sockets.SocketException)
             {
                 this.LastMessage = "连接失败！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
             }
             this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(),"", ChannelResult.CanNotOpen, this.LastMessage);
             return false;
@@ -166,10 +176,12 @@ namespace DMT.Core.Channels
                 this.Connecting = false;
                 this.LastMessage = "客户端关闭";
                 this.Notify(CHANNEL_EVENT, ChannelControl.Close.ToString(),"", ChannelResult.OK, this.LastMessage);
+                this.LastErrorCode = ChannelResult.OK;
             }
             catch(System.Net.Sockets.SocketException)
             {
                 this.LastMessage = "套接字错误！";
+                this.LastErrorCode = ChannelResult.CanNotClose;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Close.ToString(),"", ChannelResult.CanNotClose, this.LastMessage);
                 return false;
             }
@@ -188,17 +200,17 @@ namespace DMT.Core.Channels
             return span.TotalSeconds > this.TryConnectInterval;
         }
         //异步方法
-        public  Task<Boolean> SendAsync(string Command, int TimeOut)
+        public  Task<string> SendAsync(string Command, int TimeOut)
         {
-            return Task.Run<Boolean>(() =>
+            return Task.Run<string>(() =>
             {
                 return SendSync(Command, TimeOut);
             });
         }
 
-        public Task<Boolean> SendAsync(byte[] command, int TimeOut)
+        public Task<string> SendAsync(byte[] command, int TimeOut)
         {
-            return Task.Run<Boolean>(() =>
+            return Task.Run<string>(() =>
             {
                 return SendSync(command, TimeOut);
             });
@@ -225,6 +237,7 @@ namespace DMT.Core.Channels
                 NetworkStream ClientStream = this.TCPClient.GetStream();
                 ClientStream.Write(dataGram, 0, dataGram.Length);
                 this.LastMessage = "发送数据成功";
+                this.LastErrorCode = ChannelResult.OK;
                 this.Notify(CHANNEL_EVENT, ChannelControl.Send.ToString(),"", ChannelResult.OK, this.LastMessage);
                 result = true;
             }
@@ -232,6 +245,7 @@ namespace DMT.Core.Channels
             {
                 result = false;
                 this.LastMessage = "发送数据失败!";
+                this.LastErrorCode = ChannelResult.SendError;
             }
             return result;
         }
@@ -271,6 +285,7 @@ namespace DMT.Core.Channels
                             ReceiveString = System.Text.Encoding.Default.GetString(realReceiveBytes);
                             resResult = ChannelResult.OK;
                             this.LastMessage = "收到数据(上报)";
+                            this.LastErrorCode = ChannelResult.OK;
                             this.Notify(CHANNEL_EVENT, ChannelControl.Report.ToString(), ReceiveString, resResult, this.LastMessage);
 
                         }
@@ -278,6 +293,7 @@ namespace DMT.Core.Channels
                         {
                             resResult = ChannelResult.Fail;
                             this.LastMessage = "接收数据错误";
+                            this.LastErrorCode = ChannelResult.ReceiveError;
                             this.Notify(CHANNEL_EVENT, ChannelControl.Report.ToString(), ReceiveString, resResult, this.LastMessage);
                         }
                     }                  
@@ -289,9 +305,8 @@ namespace DMT.Core.Channels
         }
 
         //同步方法
-        public Boolean SendSync(byte[] command, int TimeOut)
+        public string SendSync(byte[] command, int TimeOut)
         {
-            Boolean result = false;
             if (!this.Active())
             {
                 this.OpenSync();
@@ -299,8 +314,8 @@ namespace DMT.Core.Channels
 
             ResponseResult resResult = ResponseResult.Unknown;
             string ReceiveString = "";
-            
-            
+
+
             byte[] ReceiveBytes = new byte[RECEIVE_BUFFER_SIZE];
             if (this.Active())
             {
@@ -316,17 +331,21 @@ namespace DMT.Core.Channels
                     {
                         try
                         {
+ 
                             int numberOfReadBytes = ClientStream.EndRead(asyncResult);
                             byte[] realReceiveBytes = new byte[numberOfReadBytes];
                             Array.Copy(ReceiveBytes, 0, realReceiveBytes, 0, numberOfReadBytes);
                             ReceiveString = System.Text.Encoding.Default.GetString(realReceiveBytes);
                             resResult = ResponseResult.Ok;
-                            result = true;
+                            this.LastErrorCode = ChannelResult.OK;
                             this.LastMessage = "接收返回数据成功!";
+                            return ReceiveString;
+                            
                         }
                         catch (System.Exception e)
                         {
                             resResult = ResponseResult.Error;
+                            this.LastErrorCode = ChannelResult.ReceiveError;
                             this.LastMessage = string.Format("接收返回数据失败:[{0}]!",e.ToString());
                         }
                     }
@@ -335,12 +354,14 @@ namespace DMT.Core.Channels
 
                         resResult = ResponseResult.TimeOut;
                         this.LastMessage = "接收返回数据超时";
+                        this.LastErrorCode = ChannelResult.ReceiveTimeOut;
 
                     }
                 }
                 catch (System.Exception)
                 {
                     resResult = ResponseResult.Error;
+                    this.LastErrorCode = ChannelResult.SendError;
                     this.LastMessage = "发送数据错误";
                 }
 
@@ -348,21 +369,22 @@ namespace DMT.Core.Channels
             else
             {
                 resResult = ResponseResult.Error;
+                this.LastErrorCode = ChannelResult.SendError;
             }
             this.Notify(CHANNEL_EVENT, ChannelControl.Receive.ToString(), ReceiveString, resResult, this.LastMessage);
-            return result;
+            return "";
         }
 
 
         //同步方法
-        public  Boolean SendSync(string Command, int TimeOut)
+        public  string SendSync(string Command, int TimeOut)
         {
 
             byte[] dataGram = Encoding.ASCII.GetBytes(Command);
             return this.SendSync(dataGram, TimeOut);
         }
 
-        public Boolean SendCommandSync(string command)
+        public string SendCommandSync(string command)
         {
             return this.SendSync(command, this.ReadTimeout);  
             
@@ -382,12 +404,12 @@ namespace DMT.Core.Channels
 
         public async void SendCommandAsync(string command)
         {
-            Boolean result = await this.SendAsync(command, this.ReadTimeout);  
+            await this.SendAsync(command, this.ReadTimeout);  
         }
 
         public async void SendCommandAsync(byte[] command)
         {
-            Boolean result = await this.SendAsync(command, this.ReadTimeout);
+            await this.SendAsync(command, this.ReadTimeout);
         }
 
         public override void SaveToFile(string fileName)

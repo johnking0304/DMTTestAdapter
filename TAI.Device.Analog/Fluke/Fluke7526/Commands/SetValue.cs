@@ -16,11 +16,13 @@ namespace TAI.Device.Fluke.D7526
         public SetValueCommand(BaseDevice device, ChannelType type, double value):base(device)
         {
             this.Device = device;
+            this.Type = type;
+            this.Value = value;
         }
 
         public override string Pack()
         {
-            string value = string.Format("OUT {0} {1}",(int)this.Type,Units[(int)this.Type]);
+            string value = string.Format("OUT {0} {1}", this.Value ,Units[(int)this.Type]);
             return value;
         }
 

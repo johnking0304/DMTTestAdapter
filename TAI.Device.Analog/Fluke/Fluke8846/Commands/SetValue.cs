@@ -17,6 +17,8 @@ namespace TAI.Device.Fluke.D8846
         public SetValueCommand(BaseDevice device, ChannelType type, double value):base(device)
         {
             this.Device = device;
+            this.Type = type;
+            this.Value = value;
         }
 
         public override string Pack()

@@ -51,12 +51,7 @@ namespace TAI.Device
         {
             SetValueCommand command = new SetValueCommand(this, channelType, value);
             this.SendCommand(command.PackageString());
-            string content = this.Channel.Receive();
-            if (this.Channel.LastErrorCode == ChannelResult.OK)
-            {
-                return command.ParseResponse(content);
-            }
-            return false;
+            return true;
         }
 
         public bool GetIdentify()
@@ -66,7 +61,10 @@ namespace TAI.Device
             string content = this.Channel.Receive();
             if (this.Channel.LastErrorCode == ChannelResult.OK)
             {
-                return command.ParseResponse(content);
+                string value = "";
+                command.ParseResponse(content, ref value);
+                this.Identify = value;
+                return true;
             }
             return false;
         }
@@ -75,12 +73,7 @@ namespace TAI.Device
         {
             InitializeCommand command = new InitializeCommand(this);
             this.SendCommand(command.PackageString());
-            string content = this.Channel.Receive();
-            if (this.Channel.LastErrorCode == ChannelResult.OK)
-            {
-                return command.ParseResponse(content);
-            }
-            return false;
+            return true;
         }
 
         public bool GetValue(ChannelType channelType, ref double value)

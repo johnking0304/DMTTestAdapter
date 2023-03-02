@@ -19,7 +19,6 @@ namespace TAI.Device.Fluke.D8846
 
         public override string Pack()
         {
- 
 
             string value = string.Format("{0}", (int)this.Type, Commands[(int)this.Type]);
             return value;
