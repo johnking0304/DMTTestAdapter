@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMT.Core.Channels", "DMT.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAPPDemo", "TestAPPDemo\TestAPPDemo.csproj", "{A4FBDE27-7069-47D7-9105-152C6DAC5F5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMT.Core.LogManager", "DMT.Core.LogManager\DMT.Core.LogManager.csproj", "{52F91FE7-A58D-4E90-8CFF-2BF262A74B5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{A4FBDE27-7069-47D7-9105-152C6DAC5F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4FBDE27-7069-47D7-9105-152C6DAC5F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4FBDE27-7069-47D7-9105-152C6DAC5F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F91FE7-A58D-4E90-8CFF-2BF262A74B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F91FE7-A58D-4E90-8CFF-2BF262A74B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F91FE7-A58D-4E90-8CFF-2BF262A74B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F91FE7-A58D-4E90-8CFF-2BF262A74B5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

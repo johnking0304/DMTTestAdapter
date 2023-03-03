@@ -50,6 +50,7 @@
     <Compile Include="TestAdapter.cs" />
     <Compile Include="TestParameter.cs" />
     <Compile Include="TestState\BaseTestState.cs" />
+    <Compile Include="TestState\IdleTestState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Models\DMT.Core.Models.csproj">

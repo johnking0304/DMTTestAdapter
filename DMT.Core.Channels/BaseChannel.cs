@@ -74,7 +74,7 @@ namespace DMT.Core.Channels
     
 
 
-    public abstract class abstractChannel:Subject
+    public abstract class abstractChannel:SuperSubject
     {
         abstract public  Boolean Open();
         abstract public void  OpenSync();

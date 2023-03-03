@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace DMTTestAdapter
 {
     public enum TestingState
-    {
-        
+    {      
         Idle = 0, //空闲状态
 
         Feeding = 1,//上料状态

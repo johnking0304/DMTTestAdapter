@@ -75,7 +75,7 @@ namespace TAI.Manager.VIS
         }
         public override string PackageString()
         {
-            return string.Format("T1");
+            return string.Format("T1\r\n");
 
         }
 
@@ -84,70 +84,80 @@ namespace TAI.Manager.VIS
         public override bool ParseResponse(string content)
         {
             bool result = true;
+
+            int index = content.IndexOf("{");
+            content = content.Substring(index);
+            try
             //FIXME
-            switch (this.OCRType)
             {
-                case OCRType.ModelType:
-                    {
-                        try
+                switch (this.OCRType)
+                {
+                    case OCRType.ModelType:
                         {
-                            ModuleTypeResponse response = JsonConvert.DeserializeObject<ModuleTypeResponse>(content);
-                            if (response.Module == 0)
+                            try
                             {
-                                this.controller.ModelType = response.Type;
-                                result = true;
+                                ModuleTypeResponse response = JsonConvert.DeserializeObject<ModuleTypeResponse>(content);
+                                if (response.Module == 0)
+                                {
+                                    this.controller.ModelType = response.Type.Trim();
+                                    result = true;
+                                }
+                                else
+                                {
+                                    this.controller.ModelType = "";
+                                    result = false;
+                                }
                             }
-                            else
+                            catch
                             {
-                                this.controller.ModelType = "";
                                 result = false;
                             }
-                        }
-                        catch
-                        {
-                            result = false;
-                        }
 
-                        break;
-                    }
-                case OCRType.ModelSerialCode:
-                    {
-                        try
+                            break;
+                        }
+                    case OCRType.ModelSerialCode:
                         {
-                            ModuleSerialCodeResponse response = JsonConvert.DeserializeObject<ModuleSerialCodeResponse>(content);
-                            if (response.Code != "")
+                            try
                             {
-                                this.controller.ModelSerialCode = response.Code;
-                                result = true;
+                                ModuleSerialCodeResponse response = JsonConvert.DeserializeObject<ModuleSerialCodeResponse>(content);
+                                if (response.Code != "")
+                                {
+                                    this.controller.ModelSerialCode = response.Code.Trim();
+                                    result = true;
+                                }
                             }
-                        }
-                        catch
-                        {
-                            result = false;
-                        }
-                        break;
-                    }
-                case OCRType.ChannelLighting:
-                    {
-                        try
-                        {
-                            ChannelLightingRespone response = JsonConvert.DeserializeObject<ChannelLightingRespone>(content);
-                            for (int i = 0; i < response.Channels.Count; i++)
+                            catch
                             {
-                                this.controller.ChannelResults[i] = new KeyValuePair<string, int>(response.Channels[i].Key, response.Channels[i].Value);
-                                result = true;
+                                result = false;
                             }
-
+                            break;
                         }
-                        catch
+                    case OCRType.ChannelLighting:
                         {
-                            result = false;
-                        }
-                        break;
-                    }
+                            try
+                            {
+                                ChannelLightingRespone response = JsonConvert.DeserializeObject<ChannelLightingRespone>(content);
+                                for (int i = 0; i < response.Channels.Count; i++)
+                                {
+                                    this.controller.ChannelResults[i] = new KeyValuePair<string, int>(response.Channels[i].Key, response.Channels[i].Value);
+                                    result = true;
+                                }
 
+                            }
+                            catch
+                            {
+                                result = false;
+                            }
+                            break;
+                        }
+
+                }
+                return result;
             }
-            return result;
+            catch
+            {
+                return false;
+            }
         }
 
 
@@ -164,16 +174,16 @@ namespace TAI.Manager.VIS
         }
         public override string PackageString()
         {
-            return string.Format("PW,1,{0}", this.ProgramId);
+            return string.Format("PW,1,{0}\r\n", this.ProgramId);
         }
 
         public override bool ParseResponse(string content)
         {
-            if (content == "OK")
+            if (content.Contains("PW"))
             {
                 return true;
             }
-            if (content == "ER")
+            if (content.Contains("ER"))
             {
                 return false;
             }
