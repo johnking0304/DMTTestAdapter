@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B6A89296-AA29-45A7-A79A-DF24E2D8E5A5}</ProjectGuid>
+    <ProjectGuid>{C69632F0-7BCD-4D05-BC99-0D01C334C354}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TAI.VISController</RootNamespace>
-    <AssemblyName>TAI.VISController</AssemblyName>
+    <RootNamespace>TAI.Modules</RootNamespace>
+    <AssemblyName>TAI.Modules</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,34 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
+    <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VISController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj">
       <Project>{15dbb8b0-6391-438b-be41-cae129d46e82}</Project>
       <Name>DMT.Core.Channels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DMT.Core.Models\DMT.Core.Models.csproj">
-      <Project>{4ed54fd6-18e8-406e-8eba-be3af8983c15}</Project>
-      <Name>DMT.Core.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DMT.Core.Protocols\DMT.Core.Protocols.csproj">
-      <Project>{fc49c44d-f7fc-46df-b07b-af25015c1028}</Project>
-      <Name>DMT.Core.Protocols</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">
-      <Project>{898a164e-86aa-4d2f-a096-d9ab030ae9c0}</Project>
-      <Name>DMT.Core.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
-      <Project>{c69632f0-7bcd-4d05-bc99-0d01c334c354}</Project>
-      <Name>TAI.Modules</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

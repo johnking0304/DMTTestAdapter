@@ -4,9 +4,15 @@ using DMT.Core.Models;
 
 
 namespace TAI.Manager
-{ 
+{
+
+
+
      public class SwitchController : Controller, IController
     {
+        public readonly short BASE_INDEX = 0;
+
+
         public ModbusTCPClient Channel { get; set; }
 
         public ModbusItem SwitchItem { get; set; }
@@ -15,7 +21,7 @@ namespace TAI.Manager
         {
             this.Caption = "SwitchController";
             this.Channel = new ModbusTCPClient(this.Caption);
-            this.SwitchItem = new ModbusItem("SwithChannel",this.Caption,"通道切换",0,1,1,ChannelType.AO);
+            this.SwitchItem = new ModbusItem(this.Caption,"通道切换","SwithChannel", BASE_INDEX, 1,1,ChannelType.AO);
         }
 
 

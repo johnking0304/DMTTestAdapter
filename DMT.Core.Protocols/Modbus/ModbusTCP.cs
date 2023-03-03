@@ -276,7 +276,7 @@ namespace DMT.Core.Protocols
         }
         public ModbusTCPClient(string caption)
         {
-            this.Name =string.Format("{0}_ModbusTCPClient", caption);
+            this.Name =string.Format("{0}ModbusTCPClient", caption);
             this.LastMessage = "";
             this.LastErrorCode = ModbusErrorCode.Ok;
             this.SlaveAddress = 1;

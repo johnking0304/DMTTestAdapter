@@ -11,13 +11,6 @@ using TAI.Manager;
 namespace DMTTestAdapter
 {
 
-    public enum SystemStatus
-    {
-        Idle = 0,
-        Initialize =1,
-        Testing =2,
-        Error=3,
-    }
 
 
     /// <summary>
@@ -27,9 +20,7 @@ namespace DMTTestAdapter
     [ClassInterface(ClassInterfaceType.None)]
     public class TestAdapter : Controller, ITestAdapter
     {
-
         private DeviceModel MeasureDeviceModel { get; set; }
-
         private DeviceModel GeneratorDeviceModel { get; set; }
 
         public DigitalDevice DigitalDevice { get; set;}
@@ -41,7 +32,9 @@ namespace DMTTestAdapter
 
         public SystemStatus SystemStatus { get; set; }
 
-      /*  public TestState */
+        public TestState TestState { get; set; }
+
+        
 
 
 
@@ -55,22 +48,22 @@ namespace DMTTestAdapter
         {
             this.LoadFromFile(Contant.CONFIG);
             this.DigitalDevice = new DigitalDevice();
-            this.DigitalDevice.LoadFromFile(Contant.CONFIG);
+            this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
 
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
-            this.MeasureDevice.LoadFromFile(Contant.CONFIG);
+            this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
 
             this.GeneratorDevice = AnalogDeviceFactory.CreateDevice(this.GeneratorDeviceModel);
-            this.GeneratorDevice.LoadFromFile(Contant.CONFIG);
+            this.GeneratorDevice.LoadFromFile(Contant.ANALOG_CONFIG);
 
             this.ProcessController = new ProcessController();
-            this.ProcessController.LoadFromFile(Contant.CONFIG);
+            this.ProcessController.LoadFromFile(Contant.PROCESS_CONFIG);
 
             this.VISController = new VISController();
-            this.VISController.LoadFromFile(Contant.CONFIG);
+            this.VISController.LoadFromFile(Contant.VIS_CONFIG);
 
             this.SwitchController = new SwitchController();
-            this.SwitchController.LoadFromFile(Contant.CONFIG);
+            this.SwitchController.LoadFromFile(Contant.SWITCH_CONFIG);
 
         }
 
@@ -96,7 +89,7 @@ namespace DMTTestAdapter
 
         public override void LoadFromFile(string fileName)
         {
-            string value = IniFiles.GetStringValue(fileName, this.Caption, "MeasureDeviceModel", "BeamexMC6");
+            string value = IniFiles.GetStringValue(fileName, this.Caption, "MeasureDeviceModel", "Fluke7526");
             this.MeasureDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);
             value =  IniFiles.GetStringValue(fileName, this.Caption, "GeneratorDeviceModel", "Fluke8846");
             this.GeneratorDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);
@@ -107,7 +100,7 @@ namespace DMTTestAdapter
         public override void SaveToFile(string fileName)
         {
             IniFiles.WriteStringValue(fileName, this.Caption, "MeasureDeviceModel", this.MeasureDeviceModel.ToString());
-            IniFiles.GetStringValue(fileName, this.Caption, "GeneratorDeviceModel", this.GeneratorDeviceModel.ToString());
+            IniFiles.WriteStringValue(fileName, this.Caption, "GeneratorDeviceModel", this.GeneratorDeviceModel.ToString());
         }
 
 

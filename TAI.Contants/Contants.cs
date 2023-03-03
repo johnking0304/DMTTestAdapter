@@ -15,8 +15,15 @@ namespace TAI.Constants
 
         public static readonly string CONFIG = Path.Combine(HOME, "config.ini");
 
-        public static readonly string DIGITAL_CONFIG = Path.Combine(HOME, "digital.ini");
+        public static readonly string DIGITAL_CONFIG = Path.Combine(HOME, "digitaldevice.ini");
 
+        public static readonly string VIS_CONFIG = Path.Combine(HOME, "viscontroller.ini");
+
+        public static readonly string SWITCH_CONFIG = Path.Combine(HOME, "switchcontroller.ini");
+
+        public static readonly string ANALOG_CONFIG = Path.Combine(HOME, "analogdevice.ini");
+
+        public static readonly string PROCESS_CONFIG = Path.Combine(HOME, "processcontroller.ini");
 
     }
 }

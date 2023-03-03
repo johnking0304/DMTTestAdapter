@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using DMT.Core.Utils;
+using System.IO.Ports;
 
 namespace DMT.Core.Channels
 {
@@ -15,7 +16,7 @@ namespace DMT.Core.Channels
         private Thread ReceiveProcessor;
         private Boolean Terminated { get; set; }
 
-        private System.IO.Ports.SerialPort SerialPort;
+        private SerialPort SerialPort;
 
         public string Port
         {
@@ -55,7 +56,7 @@ namespace DMT.Core.Channels
 
         public void Initialize()
         {
-            this.SerialPort = new System.IO.Ports.SerialPort();
+            this.SerialPort = new SerialPort();
             
             this.SerialPort.ReadTimeout = 1000;
             // 
@@ -238,9 +239,9 @@ namespace DMT.Core.Channels
             {
                 this.SerialPort.PortName = IniFiles.GetStringValue(fileName, this.Caption, "PortName", "COM4");
                 this.SerialPort.BaudRate = IniFiles.GetIntValue(fileName, this.Caption, "BaudRate", 4800);
-                this.SerialPort.Parity = (System.IO.Ports.Parity)IniFiles.GetIntValue(fileName, this.Caption, "Parity", (int)System.IO.Ports.Parity.None);
+                this.SerialPort.Parity = (Parity)IniFiles.GetIntValue(fileName, this.Caption, "Parity", (int)Parity.None);
                 this.SerialPort.DataBits = IniFiles.GetIntValue(fileName, this.Caption, "DataBits", 8);
-                this.SerialPort.StopBits = (System.IO.Ports.StopBits)IniFiles.GetIntValue(fileName, this.Caption, "StopBits", (int)System.IO.Ports.StopBits.One);
+                this.SerialPort.StopBits = (StopBits)IniFiles.GetIntValue(fileName, this.Caption, "StopBits", (int)StopBits.One);
                 this.SerialPort.NewLine = IniFiles.GetStringValue(fileName, this.Caption, "NewlineText", "\r");
                 this.SerialPort.ReadTimeout = IniFiles.GetIntValue(fileName, this.Caption, "ReadTimeout", 1000);
 
@@ -277,7 +278,7 @@ namespace DMT.Core.Channels
 
 
 
-        private void SerialPortDataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
           try
             {               
@@ -332,7 +333,7 @@ namespace DMT.Core.Channels
         public override void StartReceiveData()
         {
             this.Terminated = false;
-            this.SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortDataReceived);
+            this.SerialPort.DataReceived += new SerialDataReceivedEventHandler(this.SerialPortDataReceived);
             this.ReceiveProcessor = new Thread(new ThreadStart(this.PorcessReceiveData));
             this.ReceiveProcessor.IsBackground = true;
             this.ReceiveProcessor.Start();
@@ -341,7 +342,7 @@ namespace DMT.Core.Channels
         public override void StopReceiveData()
         {
             this.Terminated = true;
-            this.SerialPort.DataReceived -= new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPortDataReceived);
+            this.SerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.SerialPortDataReceived);
             this.ReceiveProcessor.Interrupt();
         }
 

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0543A9E-30D7-405D-802A-51B5F907FA64}</ProjectGuid>
+    <ProjectGuid>{15DBB8B0-6391-438B-BE41-CAE129D46E82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DMT.Core.Channels</RootNamespace>

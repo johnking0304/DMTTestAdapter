@@ -25,7 +25,7 @@ namespace TAI.Device
 
         public bool Initialize()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool Open()

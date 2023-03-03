@@ -49,10 +49,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj">
-      <Project>{b0543a9e-30d7-405d-802a-51b5f907fa64}</Project>
-      <Name>DMT.Core.Channels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">
       <Project>{898a164e-86aa-4d2f-a096-d9ab030ae9c0}</Project>
       <Name>DMT.Core.Utils</Name>
