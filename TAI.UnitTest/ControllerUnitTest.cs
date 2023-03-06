@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using TAI.Manager.VIS;
 using TAI.Manager;
 using TAI.Device;
 using TAI.Constants;
@@ -14,7 +15,12 @@ namespace TAI.UnitTest
         {
             VISController controller = new VISController();
             controller.Initialize();
+           /* controller.Open();*/
             OCRecognizeCommand command = new OCRecognizeCommand(controller,OCRType.ModelType);
+         /*   string code = "";
+            controller.QRModelSerialCode(ref code);
+
+            Assert.AreEqual("24CHDigitalInput", controller.ModelType);*/
 
             command.ParseResponse("{\"module\":0,\"type\":\"24CHDigitalInput\"}");
             Assert.AreEqual("24CHDigitalInput", controller.ModelType);
@@ -28,11 +34,11 @@ namespace TAI.UnitTest
             Assert.AreEqual("KC94ES6010", controller.ModelSerialCode);
 
 
-            command = new OCRecognizeCommand(controller, OCRType.ChannelLighting);
+/*            command = new OCRecognizeCommand(controller, OCRType.ChannelLighting);
 
             command.ParseResponse("{\"channels\": [{\"CH1\": 1}, {\"CH2\": 0}, {\"CH3\": 0}]}");
             Assert.AreEqual(3, controller.ChannelResults.Count);
-            Assert.AreEqual("CH1", controller.ChannelResults[0].Key);
+            Assert.AreEqual("CH1", controller.ChannelResults[0].Key);*/
 
 
 

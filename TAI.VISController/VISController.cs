@@ -40,8 +40,6 @@ namespace TAI.Manager
         public string ModelType { get; set; }
         public string ModelSerialCode { get; set; }
 
-        private int ProgramId { get; set; }
-
         
 
         public List<KeyValuePair<string,int>> ProgramIds { get; set; }
@@ -56,9 +54,20 @@ namespace TAI.Manager
             this.Caption = "VISController";
             this.Channel = new TCPClientChannel(this.Caption);
             this.ChannelResults = new List<KeyValuePair<string, int>>();
-            this.ProgramIds = new List<KeyValuePair<string, int>>();
+            this.ProgramIds = new List<KeyValuePair<string, int>>();           
+        }
 
-            
+        private bool GetChannelValue(string name ,ref bool value)
+        {
+            foreach(KeyValuePair<string, int> pair in this.ChannelResults)
+            { 
+                if (pair.Key.Equals(name))
+                {
+                    value = pair.Value == 1;
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void SaveToFile(string fileName)
@@ -194,9 +203,19 @@ namespace TAI.Manager
                 this.ChannelResults.Clear();
                 if (this.StartOCRecognize(OCRType.ChannelLighting))
                 {
+                    bool value = false;
                     for (int i = 0; i < channelCount; i++)
                     {
-                       // channels[i] = this.ChannelResults[i];
+                        string channelName = string.Format("CH{0}", i);
+
+                        if (this.GetChannelValue(channelName, ref value))
+                        {
+                            channels[i] = value;
+                        }
+                        else
+                        {
+                            channels[i] = false;
+                        }
                     }
                     return true;
                 }

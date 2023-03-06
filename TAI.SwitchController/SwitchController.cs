@@ -6,12 +6,16 @@ using DMT.Core.Models;
 
 namespace TAI.Manager
 {
+    /// <summary>
+    /// SwitchController  通道切换控制器
+    /// 
+    /// 
+    /// </summary>
 
 
-
-     public class SwitchController : Controller, IController
+    public class SwitchController : Controller, IController
     {
-       
+      
         public ModbusTCPClient Channel { get; set; }
         public SwitchOperator Operator { get; set; }
 
@@ -26,6 +30,7 @@ namespace TAI.Manager
         public override void LoadFromFile(string fileName)
         {
             this.Operator.LoadFromFile(fileName);
+            this.Channel.LoadFromFile(fileName);
         }
         public bool Active()
         {
@@ -55,15 +60,15 @@ namespace TAI.Manager
 
         public bool SwitchMode(SwitchMode mode)
         {
-            this.Operator.ModeItem.Datas[0] = (ushort)mode;
-            this.Channel.WriteMultipleRegisters(this.Operator.ModeItem.StartAddress, this.Operator.ModeItem.Datas);
-            return this.Channel.HasError;
+            this.Operator.ModeSelect.Datas[0] = (ushort)mode;
+            this.Channel.WriteMultipleRegisters(this.Operator.ModeSelect.StartAddress, this.Operator.ModeSelect.Datas);
+            return !this.Channel.HasError;
         }
         public bool SwitchChannel(ushort channelId)
         {
-            this.Operator.SwitchItem.Datas[0] = channelId;
-            this.Channel.WriteMultipleRegisters(this.Operator.SwitchItem.StartAddress, this.Operator.SwitchItem.Datas);
-            return this.Channel.HasError;
+            this.Operator.ChannelSelectId.Datas[0] = channelId;
+            this.Channel.WriteMultipleRegisters(this.Operator.ChannelSelectId.StartAddress, this.Operator.ChannelSelectId.Datas);
+            return !this.Channel.HasError;
         }
 
 
@@ -73,7 +78,7 @@ namespace TAI.Manager
             { 
                 
             }
-            else if( this.WaitTimeOut())
+            else 
             {
                 //通道读写错误，重连判断及动作
                 this.Channel.ReConnectTCPServer();

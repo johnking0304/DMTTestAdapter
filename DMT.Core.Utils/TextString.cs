@@ -138,5 +138,50 @@ namespace DMT.Core.Utils
             return (value & (byte)Math.Pow(2, index)) > 0 ? true : false;
         }
 
+
+
+        /// <summary>
+        /// 获取Single类型数据
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        public static float GetSingle(ushort[] src, int start)
+        {
+            ushort[] temp = new ushort[2];
+            for (int i = 0; i < 2; i++)
+            {
+                temp[i] = src[i + start];
+            }
+            byte[] bytesTemp = Ushorts2Bytes(temp);
+            float res = BitConverter.ToSingle(bytesTemp, 0);
+            return res;
+        }
+
+
+        private static byte[] Ushorts2Bytes(ushort[] src, bool reverse = false)
+        {
+
+            int count = src.Length;
+            byte[] dest = new byte[count << 1];
+            if (reverse)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i * 2] = (byte)(src[i] >> 8);
+                    dest[i * 2 + 1] = (byte)(src[i] >> 0);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i * 2] = (byte)(src[i] >> 0);
+                    dest[i * 2 + 1] = (byte)(src[i] >> 8);
+                }
+            }
+            return dest;
+        }
+
     }
 }

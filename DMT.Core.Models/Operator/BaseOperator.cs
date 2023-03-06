@@ -20,9 +20,22 @@ namespace DMT.Core.Models
             this.Items = new List<ModbusItem>();
 
         }
-        public abstract void LoadFromFile(string fileName);
+        public virtual void LoadFromFile(string fileName)
+        {
+            foreach (ModbusItem item in this.Items)
+            {
+                item.LoadFromFile(fileName);
+            }
+    }
 
-        public abstract void SaveToFile(string fileName);
+        public virtual void SaveToFile(string fileName)
+        {
+
+            foreach (ModbusItem item in this.Items)
+            {
+                item.SaveToFile(fileName);
+            }
+        }
     }
 
 }

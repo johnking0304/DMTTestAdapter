@@ -28,15 +28,7 @@ namespace TAI.Manager
         /// 初始化结束 W
         /// </summary>
         public ModbusItem InitializeFinished { get; set; }
-        public override void LoadFromFile(string fileName)
-        {
 
-        }
-
-        public override void SaveToFile(string fileName)
-        {
-
-        }
     
 
  

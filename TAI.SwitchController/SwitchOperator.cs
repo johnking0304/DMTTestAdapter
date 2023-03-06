@@ -20,33 +20,30 @@ namespace TAI.Manager
     public class SwitchOperator:BaseOperator
     {
 
-        public ModbusItem SwitchItem { get; set; }
+        public readonly ushort DefaultSwithModeOffset = 5;    //40005
+        public readonly ushort DefaultSwithChannelOffset = 6; //40006
+        
+        /// <summary>
+        /// 切换的通道号
+        /// </summary>
+        public ModbusItem ChannelSelectId { get; set; }
 
         /*      通道模式寄存器(可读可写)
                 Mode: 0-关闭全部使能通道
                 1-A 进 A 出 （TC 和 AI、AO 电压型）
                 2-A 进 A 出，B 进 B 出（RTD3，4 线）*/
-        public ModbusItem ModeItem { get; set; }
+        public ModbusItem ModeSelect { get; set; }
 
         public SwitchOperator()
         {
             this.Caption = "SwitchOperator";
             this.BaseIndex = 0;
-            this.SwitchItem = new ModbusItem(this.Caption, "通道切换", "SwithChannel", this.BaseIndex, 6, 1, ChannelType.AO);
-            this.Items.Add(this.SwitchItem);
-            this.ModeItem = new ModbusItem(this.Caption, "通道模式", "SwithMode", this.BaseIndex, 5, 1, ChannelType.AO);
-            this.Items.Add(this.ModeItem);
+            this.ChannelSelectId = new ModbusItem(this.Caption, "通道切换", "SwithChannel", this.BaseIndex, DefaultSwithChannelOffset, 1, ChannelType.AO);
+            this.Items.Add(this.ChannelSelectId);
+            this.ModeSelect = new ModbusItem(this.Caption, "通道模式", "SwithMode", this.BaseIndex, DefaultSwithModeOffset, 1, ChannelType.AO);
+            this.Items.Add(this.ModeSelect);
         }
 
 
-        public override void LoadFromFile(string fileName)
-        {
-
-        }
-
-        public override void SaveToFile(string fileName)
-        {
-
-        }
     }
 }
