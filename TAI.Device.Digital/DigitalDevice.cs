@@ -48,13 +48,13 @@ namespace TAI.Device
         public bool SetValue(int channelId, bool value)
         {
 
-            //this.Channel.WriteMultipleRegisters();
+            
             return true;
         }
 
         public bool GetValue(int channelId)
         {
-            //this.Channel.ReadHoldingRegisters();
+            
             return true;
         }
 

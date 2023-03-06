@@ -21,8 +21,7 @@ namespace TestAPPDemo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.TestAdapter = new TestAdapter();
-            this.TestAdapter.Initialize();
+
         }
     }
 }

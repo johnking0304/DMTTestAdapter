@@ -3,6 +3,7 @@ using DMT.Core.Protocols;
 using DMT.Core.Models;
 
 
+
 namespace TAI.Manager
 {
 
@@ -10,24 +11,21 @@ namespace TAI.Manager
 
      public class SwitchController : Controller, IController
     {
-        public readonly short BASE_INDEX = 0;
-
-
+       
         public ModbusTCPClient Channel { get; set; }
-
-        public ModbusItem SwitchItem { get; set; }
+        public SwitchOperator Operator { get; set; }
 
         public SwitchController()
         {
             this.Caption = "SwitchController";
             this.Channel = new ModbusTCPClient(this.Caption);
-            this.SwitchItem = new ModbusItem(this.Caption,"通道切换","SwithChannel", BASE_INDEX, 1,1,ChannelType.AO);
+            this.Operator = new SwitchOperator();    
         }
 
 
         public override void LoadFromFile(string fileName)
         {
-            this.SwitchItem.LoadFromFile(fileName);
+            this.Operator.LoadFromFile(fileName);
         }
         public bool Active()
         {
@@ -55,17 +53,27 @@ namespace TAI.Manager
         }
 
 
+        public bool SwitchMode(SwitchMode mode)
+        {
+            this.Operator.ModeItem.Datas[0] = (ushort)mode;
+            this.Channel.WriteMultipleRegisters(this.Operator.ModeItem.StartAddress, this.Operator.ModeItem.Datas);
+            return this.Channel.HasError;
+        }
         public bool SwitchChannel(ushort channelId)
         {
-            this.SwitchItem.Datas[0] = channelId;
-            this.Channel.WriteMultipleRegisters(this.SwitchItem.StartAddress, this.SwitchItem.Datas);
-            return true;
+            this.Operator.SwitchItem.Datas[0] = channelId;
+            this.Channel.WriteMultipleRegisters(this.Operator.SwitchItem.StartAddress, this.Operator.SwitchItem.Datas);
+            return this.Channel.HasError;
         }
 
 
         public override void ProcessEvent()
         {
-            if (this.Channel.HasError && this.WaitTimeOut())
+            if (!this.Channel.HasError)
+            { 
+                
+            }
+            else if( this.WaitTimeOut())
             {
                 //通道读写错误，重连判断及动作
                 this.Channel.ReConnectTCPServer();

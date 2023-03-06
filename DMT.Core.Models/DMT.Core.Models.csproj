@@ -45,12 +45,17 @@
     <Compile Include="Controller\IController.cs" />
     <Compile Include="Device\BaseCommand.cs" />
     <Compile Include="Device\BaseDevice.cs" />
+    <Compile Include="Operator\BaseOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj">
       <Project>{15dbb8b0-6391-438b-be41-cae129d46e82}</Project>
       <Name>DMT.Core.Channels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMT.Core.Protocols\DMT.Core.Protocols.csproj">
+      <Project>{fc49c44d-f7fc-46df-b07b-af25015c1028}</Project>
+      <Name>DMT.Core.Protocols</Name>
     </ProjectReference>
     <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">
       <Project>{898a164e-86aa-4d2f-a096-d9ab030ae9c0}</Project>

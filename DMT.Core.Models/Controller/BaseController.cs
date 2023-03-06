@@ -10,17 +10,21 @@ namespace DMT.Core.Models
     {
         public string Caption { get; set; }
         public string ConfigFileName { get; set; }
-
-
         public Thread Processor { get; set; }
         public bool Terminated { get; set; }
 
-        public int WaitSeconds = 5;
-        public DateTime StartWaitDateTime = DateTime.Now;
+        public int WaitMilliseconds = 5000;
+        public DateTime StartWaitDateTime { get; set; }
+        public int ReadIntervalMilliseconds { get; set; }
+        public DateTime StartReadDateTime { get; set; }
         public BaseController()
         {
             this.Caption = "Controller";
             this.ConfigFileName = "";
+            this.StartWaitDateTime = DateTime.Now;
+            this.StartReadDateTime = DateTime.Now;
+            this.WaitMilliseconds = 5000;
+            this.ReadIntervalMilliseconds = 200;
         }
 
         public virtual void LoadFromFile(string fileName)
@@ -49,16 +53,25 @@ namespace DMT.Core.Models
         }
 
 
+        public bool ReadTrigger()
+        {
+            TimeSpan span = DateTime.Now - this.StartReadDateTime;
+            if (span.TotalMilliseconds >= this.ReadIntervalMilliseconds)
+            {
+                this.StartReadDateTime = DateTime.Now;
+                return true;
+            }
+            return false;
+        }
         public bool WaitTimeOut()
         {
             TimeSpan span = DateTime.Now - this.StartWaitDateTime;
-            if (span.TotalSeconds >= this.WaitSeconds)
+            if (span.TotalMilliseconds >= this.WaitMilliseconds)
             {
                 this.StartWaitDateTime = DateTime.Now;
                 return true;
             }
             return false;
-
         }
 
         public  virtual  void ProcessEvent()
