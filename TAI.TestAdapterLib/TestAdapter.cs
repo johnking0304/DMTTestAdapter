@@ -5,6 +5,9 @@ using DMT.Core.Utils;
 using TAI.Constants;
 using TAI.Device;
 using TAI.Manager;
+using TAI.Modules;
+using Newtonsoft.Json;
+
 
 
 
@@ -18,73 +21,108 @@ namespace DMTTestAdapter
     /// </summary>
     [Guid("7BAFA04D-0619-4D1C-B21B-5BF7AE1B0AF4")]
     [ClassInterface(ClassInterfaceType.None)]
-    public class TestAdapter : Controller, ITestAdapter
+    public class TestAdapter : OperatorController, ITestAdapter
     {
         private DeviceModel MeasureDeviceModel { get; set; }
         private DeviceModel GeneratorDeviceModel { get; set; }
 
-        public DigitalDevice DigitalDevice { get; set;}
+        public DigitalDevice DigitalDevice { get; set; }
         public IAnalogDevice MeasureDevice { get; set; }
         public IAnalogDevice GeneratorDevice { get; set; }
         public ProcessController ProcessController { get; set; }
         public SwitchController SwitchController { get; set; }
         public VISController VISController { get; set; }
 
-        public SystemStatus SystemStatus { get; set; }
-
         public TestState TestState { get; set; }
 
-        
+        public SystemMessage SystemMessage { get; set; }
+
+        public OperateCommand Command { get; set; }
+
+
+
+        /// <summary>
+        /// 初始化完成
+        /// </summary>
+        public bool  InitializeCompleted {get;set;}
+
+
+
 
 
 
         public TestAdapter()
         {
             this.Caption = "TestAdapter";
+            this.LoadConfig();
+            this.Command = OperateCommand.None;
         }
 
 
         private void  LoadConfig()
         {
+            this.SystemMessage = new SystemMessage();
+
+            this.InitializeCompleted = false;
+            this.TestState = new InitializeTestState(this);
+
             this.LoadFromFile(Contant.CONFIG);
             this.DigitalDevice = new DigitalDevice();
             this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
+            this.DigitalDevice.Open();
+            this.DigitalDevice.Start();
+            this.SystemMessage.Results.Add(this.DigitalDevice.StatusMessage);
 
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
             this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
+            this.MeasureDevice.Open();
+            this.SystemMessage.Results.Add(this.MeasureDevice.GetStatusMessage());
 
             this.GeneratorDevice = AnalogDeviceFactory.CreateDevice(this.GeneratorDeviceModel);
             this.GeneratorDevice.LoadFromFile(Contant.ANALOG_CONFIG);
+            this.GeneratorDevice.Open();
+            this.SystemMessage.Results.Add(this.GeneratorDevice.GetStatusMessage());
 
             this.ProcessController = new ProcessController();
             this.ProcessController.LoadFromFile(Contant.PROCESS_CONFIG);
+            this.ProcessController.Open();
+            this.ProcessController.Start();
+            this.SystemMessage.Results.Add(this.ProcessController.StatusMessage);
 
             this.VISController = new VISController();
             this.VISController.LoadFromFile(Contant.VIS_CONFIG);
+            this.VISController.Open();
+            this.VISController.Start();
+            this.SystemMessage.Results.Add(this.VISController.StatusMessage);
 
             this.SwitchController = new SwitchController();
             this.SwitchController.LoadFromFile(Contant.SWITCH_CONFIG);
+            this.SwitchController.Open();
+            this.SwitchController.Start();
+            this.SystemMessage.Results.Add(this.SwitchController.StatusMessage);
+
+            this.StartThread();
 
         }
 
         public bool Initialize()
         {
-            this.LoadConfig();
+            
+            bool result = this.DigitalDevice.Initialize();
 
-            this.DigitalDevice.Initialize();
+            result &= this.MeasureDevice.Initialize();
 
-            this.MeasureDevice.Initialize();
+            result &= this.GeneratorDevice.Initialize();
 
-            this.GeneratorDevice.Initialize();
+            result &= this.ProcessController.Initialize();
 
-            this.ProcessController.Initialize();
+            result &= this.VISController.Initialize();
 
-            this.VISController.Initialize();
+            result &= this.SwitchController.Initialize();
 
-            this.SwitchController.Initialize();
+            this.InitializeCompleted = true;
 
-
-            return true;
+            return result;
         }
 
         public override void LoadFromFile(string fileName)
@@ -106,7 +144,7 @@ namespace DMTTestAdapter
 
         public double GetAnalogueChannelValue(int channelId, int type)
         {
-            this.SwitchController.SwitchChannel((ushort)channelId);
+            this.SwitchController.SwitchChannelOperate((ushort)channelId);
             double value = 0.0;
             this.MeasureDevice.GetValue( (ChannelType)type, ref value);        
             return value;        
@@ -119,12 +157,12 @@ namespace DMTTestAdapter
 
         public int GetLastErrorCode()
         {
-            return this.LastErrorCode;
+            return 0;
         }
 
         public string GetSystemStatus()
-        {
-            return this.SystemStatus.ToString();
+        {           
+            return JsonConvert.SerializeObject(this.StatusMessage);
         }
 
         public string GetVISResult()
@@ -143,7 +181,7 @@ namespace DMTTestAdapter
         public bool SetAnalogueChannelValue(int channelId, int type, double value)
         {
 
-            bool result = this.SwitchController.SwitchChannel((ushort)channelId);
+            bool result = this.SwitchController.SwitchChannelOperate((ushort)channelId);
             result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
             return result;
         }
@@ -156,12 +194,21 @@ namespace DMTTestAdapter
 
         public void StartTest()
         {
-            this.SystemStatus = SystemStatus.Testing;           
+
+            this.Command = OperateCommand.StartTest;           
         }
 
         public void StopTest()
         {
-            this.SystemStatus = SystemStatus.Idle;
+            this.Command = OperateCommand.StopTest;
+        }
+
+        public override void ProcessEvent()
+        {
+            if (this.TestState != null)
+            {
+                this.TestState.Execute();
+            }
         }
 
     }

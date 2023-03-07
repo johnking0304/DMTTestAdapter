@@ -3,9 +3,29 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using DMT.Core.Utils;
+using Newtonsoft.Json;
 
 namespace DMT.Core.Models
 {
+    public class StatusMessage
+    {
+        [JsonProperty(propertyName: "message")]
+        public string LastMessage { get; set; }
+        
+        [JsonProperty(propertyName: "name")]
+        public string Name { get; set; }
+
+        [JsonProperty(propertyName: "code")]
+        public int LastErrorCode { get; set; }
+
+        [JsonProperty(propertyName: "status")]
+        public string Status { get; set; }
+
+
+    }
+
+
+
      public class BaseController : SuperSubject 
     {
         public string Caption { get; set; }
@@ -17,6 +37,8 @@ namespace DMT.Core.Models
         public DateTime StartWaitDateTime { get; set; }
         public int ReadIntervalMilliseconds { get; set; }
         public DateTime StartReadDateTime { get; set; }
+
+        public StatusMessage StatusMessage { get; set; }
         public BaseController()
         {
             this.Caption = "Controller";
@@ -25,6 +47,7 @@ namespace DMT.Core.Models
             this.StartReadDateTime = DateTime.Now;
             this.WaitMilliseconds = 5000;
             this.ReadIntervalMilliseconds = 200;
+            this.StatusMessage = new StatusMessage();
         }
 
         public virtual void LoadFromFile(string fileName)
@@ -117,9 +140,11 @@ namespace DMT.Core.Models
 
 
 
-    public class Controller : BaseController
+    public class OperatorController : BaseController
     {
-        public int LastErrorCode { get; set; }
-        public string LastMessage { get; set; }
+        public OperatorController() : base()
+        { 
+        
+        }
     }
 }

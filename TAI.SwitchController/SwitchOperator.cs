@@ -11,11 +11,11 @@ namespace TAI.Manager
 
     public enum SwitchMode
     { 
-        ModeOff = 0,
-        ModeTC=1,
-        ModeAI=1,
-        ModeAO=1,
-        ModeRTD=2,
+        Off = 0,
+        TC=1,
+        AI=1,
+        AO=1,
+        RTD=2,
     }
     public class SwitchOperator:BaseOperator
     {

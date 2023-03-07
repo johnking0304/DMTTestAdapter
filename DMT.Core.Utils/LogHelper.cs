@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +14,19 @@ namespace DMT.Core.Utils
         public static readonly log4net.ILog logerror = log4net.LogManager.GetLogger("logerror");//这里的 logerror 和 log4net.config 里的名字要一样
         public static readonly log4net.ILog lognet = log4net.LogManager.GetLogger("lognet");//网络请求日志
         public static readonly log4net.ILog logSql = log4net.LogManager.GetLogger("logsql");//数据库操作日志
+        public static readonly log4net.ILog logudp = log4net.LogManager.GetLogger("logudp");//udp 
+
+
+        /// <summary>
+        /// 输出信息日志
+        /// </summary>
+        /// <param name="msg"></param>
+        public static void LogudpMsg(string msg)
+        {
+            logudp.Info(msg);
+        }
+
+
         /// <summary>
         /// 输出信息日志
         /// </summary>
@@ -54,5 +69,10 @@ namespace DMT.Core.Utils
         {
             logSql.Info(msg);
         }
+
+
+
+
+
     }
 }

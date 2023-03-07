@@ -13,7 +13,7 @@ namespace TAI.Manager
     /// </summary>
 
 
-    public class SwitchController : Controller, IController
+    public class SwitchController : OperatorController, IController
     {
       
         public ModbusTCPClient Channel { get; set; }
@@ -44,6 +44,7 @@ namespace TAI.Manager
 
         public bool Initialize()
         {
+            this.SwitchModeOperate(SwitchMode.Off);
             return true;
         }
 
@@ -58,13 +59,13 @@ namespace TAI.Manager
         }
 
 
-        public bool SwitchMode(SwitchMode mode)
+        public bool SwitchModeOperate(SwitchMode mode)
         {
             this.Operator.ModeSelect.Datas[0] = (ushort)mode;
             this.Channel.WriteMultipleRegisters(this.Operator.ModeSelect.StartAddress, this.Operator.ModeSelect.Datas);
             return !this.Channel.HasError;
         }
-        public bool SwitchChannel(ushort channelId)
+        public bool SwitchChannelOperate(ushort channelId)
         {
             this.Operator.ChannelSelectId.Datas[0] = channelId;
             this.Channel.WriteMultipleRegisters(this.Operator.ChannelSelectId.StartAddress, this.Operator.ChannelSelectId.Datas);

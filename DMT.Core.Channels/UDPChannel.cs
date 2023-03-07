@@ -162,7 +162,7 @@ namespace DMT.Core.Channels
                 this.Notify(UDP_DATA_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.OK, command);
                 result = true;
             }
-            catch (System.Exception e )
+            catch (System.Exception  )
             {
                 this.Notify(UDP_DATA_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.SendError, command);
                 result = false;

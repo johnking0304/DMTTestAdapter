@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DMT.Core.Models;
 
 namespace TAI.Device
 {
@@ -29,6 +30,7 @@ namespace TAI.Device
 
     public interface IAnalogDevice
     {
+        
         bool Initialize();
         bool Open();
         bool Close();
@@ -40,7 +42,14 @@ namespace TAI.Device
         void LoadFromFile(string fileName);
 
         void SaveToFile(string fileName);
-        
+
+        StatusMessage GetStatusMessage();
+
+
+
+
+
+
 
     }
 }

@@ -18,27 +18,47 @@ namespace TAI.Manager
 
     public enum ActionMode
     { 
-        Capture =1,
-        Transport=2,
+        Capture =1,  //拍摄模式
+        Transport=2,  //运送模式
     }
     public class RobotOperator : BaseOperator
     {
         public ModbusItem GetIdleStatus { get; set; }
+        public readonly ushort DefaultGetIdleStatusOffset = 5;
         /// <summary>
         /// 设置移动位置及模式
         /// </summary>
         public ModbusItem MoveActionParams { get; set; }
+        public readonly ushort DefaultMoveActionParamsOffset = 6;
+        public readonly ushort MoveActionParamsDataLength = 3;
         /// <summary>
         /// 使能移动
         /// </summary>
         public ModbusItem EnabelMoveAction { get; set; }
+        public readonly ushort DefaultEnabelMoveActionOffset = 9;
         /// <summary>
         /// 移动是否完成
         /// </summary>
         public ModbusItem MoveCompletedStatus { get; set; }
+        public readonly ushort DefaultMoveCompletedStatusOffset = 10;
 
-        
 
+        public RobotOperator() : base()
+        {
+            this.Caption = "RobotOperator";
+            this.BaseIndex = 0;
+            this.GetIdleStatus = new ModbusItem(this.Caption, "初始化", "GetIdleStatus", this.BaseIndex, DefaultGetIdleStatusOffset, 1, ChannelType.AI);
+            this.Items.Add(this.GetIdleStatus);
+
+            this.MoveActionParams = new ModbusItem(this.Caption, "移动参数（起始位置、结束位置、模式）", "MoveActionParams", this.BaseIndex, DefaultMoveActionParamsOffset, MoveActionParamsDataLength, ChannelType.AO);
+            this.Items.Add(this.MoveActionParams);
+
+            this.EnabelMoveAction = new ModbusItem(this.Caption, "移动使能", "EnabelMoveAction", this.BaseIndex, DefaultEnabelMoveActionOffset, 1, ChannelType.AO);
+            this.Items.Add(this.EnabelMoveAction);
+
+            this.MoveCompletedStatus = new ModbusItem(this.Caption, "移动完成", "MoveCompletedStatus", this.BaseIndex, DefaultMoveCompletedStatusOffset, 1, ChannelType.AO);
+            this.Items.Add(this.MoveCompletedStatus);
+        }
 
 
     }

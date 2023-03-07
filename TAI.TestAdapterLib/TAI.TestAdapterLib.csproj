@@ -35,6 +35,9 @@
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +53,15 @@
     <Compile Include="TestAdapter.cs" />
     <Compile Include="TestParameter.cs" />
     <Compile Include="TestState\BaseTestState.cs" />
+    <Compile Include="TestState\FaultTestState.cs" />
+    <Compile Include="TestState\DigitalTestingTestState.cs" />
+    <Compile Include="TestState\BlankTestState.cs" />
+    <Compile Include="TestState\AnalogTestingTestState.cs" />
+    <Compile Include="TestState\FeedingTestState.cs" />
+    <Compile Include="TestState\AnalogFeedingTestState..cs" />
+    <Compile Include="TestState\DigitalFeedingTestState.cs" />
+    <Compile Include="TestState\RecognizeModuleTestState.cs" />
+    <Compile Include="TestState\InitializeTestState.cs" />
     <Compile Include="TestState\IdleTestState.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +105,9 @@
       <Project>{b6a89296-aa29-45a7-a79a-df24e2d8e5a5}</Project>
       <Name>TAI.VISController</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

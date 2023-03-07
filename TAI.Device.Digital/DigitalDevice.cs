@@ -7,7 +7,7 @@ using DMT.Core.Utils;
 namespace TAI.Device
 {
 
-    public class DigitalDevice : Controller, IController
+    public class DigitalDevice : OperatorController, IController
     {
         public ModbusTCPClient Channel { get; set; }
 
@@ -42,18 +42,20 @@ namespace TAI.Device
 
         public bool Initialize()
         {
-
+            this.SelectPIChannel(0);
+            this.SelectPWChannel(0);
+            this.SetPluseOutputMode(PluseMode.None);
             return true;
         }
 
         public bool Open()
         {
-            return true;
+            return this.Channel.ConnectToTCPServer();
         }
 
         public void Start()
-        {
-            return ;
+        {   
+            this.StartThread();
         }
 
 

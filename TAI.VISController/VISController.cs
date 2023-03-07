@@ -26,10 +26,6 @@ namespace TAI.Manager
 
 
 
-
-
-
-
     /// <summary>
     /// 视觉系统
     /// </summary>
@@ -67,7 +63,7 @@ namespace TAI.Manager
                     return true;
                 }
             }
-            return false;
+            return false;         
         }
 
         public override void SaveToFile(string fileName)
@@ -146,7 +142,7 @@ namespace TAI.Manager
 
         public bool Initialize()
         {
-            return true;
+            return this.Active();
         }
 
         public bool Open()
@@ -236,6 +232,16 @@ namespace TAI.Manager
                 }
             }
             return false;
+        }
+
+
+        public override void ProcessEvent()
+        {
+            if (!this.Active())
+            {
+                //通道读写错误，重连判断及动作
+                this.TCPChannel.ReConnect();
+            }
         }
 
     }

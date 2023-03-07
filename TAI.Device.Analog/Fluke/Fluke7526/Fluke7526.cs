@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TAI.Device.Fluke.D7526;
 using DMT.Core.Channels;
+using DMT.Core.Models;
 
 namespace TAI.Device
 {
@@ -31,14 +32,10 @@ namespace TAI.Device
 
 
 
-
-
-        public bool Initialize(string fileName)
+        public override void LoadFromFile(string fileName)
         {
-            this.LoadFromFile(fileName);
+            
             this.Channel.LoadFromFile(fileName);
-            return true;
-
         }
 
         public bool Open()
@@ -62,9 +59,9 @@ namespace TAI.Device
             if (this.Channel.LastErrorCode == ChannelResult.OK)
             {
                 string value = "";
-                command.ParseResponse(content, ref value);
+                bool result = command.ParseResponse(content, ref value);
                 this.Identify = value;
-                return true;
+                return result;
             }
             return false;
         }
@@ -73,7 +70,8 @@ namespace TAI.Device
         {
             InitializeCommand command = new InitializeCommand(this);
             this.SendCommand(command.PackageString());
-            return true;
+
+            return  this.GetIdentify();
         }
 
         public bool GetValue(ChannelType channelType, ref double value)
@@ -87,7 +85,6 @@ namespace TAI.Device
             }
             return false;
         }
-
 
     }
 }

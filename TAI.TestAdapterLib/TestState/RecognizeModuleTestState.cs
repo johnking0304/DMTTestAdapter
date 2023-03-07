@@ -7,21 +7,25 @@ using DMT.Core.Utils;
 
 namespace DMTTestAdapter
 {
-    public class IdleTestState: TestState
+    public class RecognizeModuleTestState : TestState
     {
         
-        public IdleTestState(TestAdapter manager) : base(manager)
+        public RecognizeModuleTestState(TestAdapter manager) : base(manager)
         {
-            this.Caption = "空闲状态";
-            this.TestingState = TestingState.Idle;
+            this.Caption = "上料状态-模块识别步骤";
+            this.TestingState = TestingState.Feeding;
         }
 
         public override void Initialize()
         {
-            this.LastMessage = "进入空闲状态，等待下发启动测试命令";
+            this.LastMessage = "进入模块识别";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 
+        public override void Execute()
+        {
+           
+        }
         public override void StateCheck()
         {
             if (this.Manager.Command == OperateCommand.StartTest)
@@ -32,10 +36,6 @@ namespace DMTTestAdapter
                 this.Manager.TestState = new FeedingTestState(this.Manager);
             }
 
-            if (this.Manager.SystemMessage.LastErrorCode == (int)SystemCode.Fault)
-            {
-                this.Manager.TestState = new FaultTestState(this.Manager);
-            }
         }
     }
 }

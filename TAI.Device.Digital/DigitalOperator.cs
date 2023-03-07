@@ -10,8 +10,9 @@ namespace TAI.Device
 {
      public enum PluseMode
     { 
-        Mode1HZ =1,
-        Mode10KHZ= 2,
+        None =0,
+        PL1HZ =1,
+        PL10KHZ= 2,
     }
 
 

@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 namespace DMTTestAdapter
 {
     public enum TestingState
-    {      
-        Idle = 0, //空闲状态
+    {   
+        Initial = 0,//系统启动状态   
 
-        Feeding = 1,//上料状态
+        Idle = 1, //空闲状态
+
+        Feeding = 2,//上料状态
         
-        Testing = 2,//测试状态
+        Testing = 3,//测试状态
 
-        Blanking =3,//下料状态
+        Blanking =4,//下料状态
 
-        Pause = 4,  //暂停状态
+        Pause = 5,  //暂停状态
        
-        Error = 5, //故障状态
+        Fault = 6, //故障状态
     }
 
 

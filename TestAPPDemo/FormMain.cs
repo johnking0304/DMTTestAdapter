@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMTTestAdapter;
+using DMT.Core.Utils;
 
 namespace TestAPPDemo
 {
@@ -22,6 +23,12 @@ namespace TestAPPDemo
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LogHelper.LogudpMsg("123");
+            LogHelper.LogInfoMsg("123");
         }
     }
 }

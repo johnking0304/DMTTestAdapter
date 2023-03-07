@@ -25,8 +25,14 @@ namespace TAI.Device
         {
             this.Identify = "";
 
-
         }
+
+        public StatusMessage GetStatusMessage()
+        {
+            return this.StatusMessage;
+        }
+
+
 
     }
 

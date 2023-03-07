@@ -45,16 +45,20 @@ namespace DMT.Core.Channels
             this.Initialize();
         }
 
-        public Boolean ReConnect()
+        public void ReConnect()
         {
-            this.Close();
-            return this.Open();
+            if (this.ConnectTimeout())
+            {
+                this.Close();
+                this.Open();
+            }
+            
         }
 
 
         public TCPClientChannel(String Caption)
         {
-            this.Caption = Caption + "_TCPClient";
+            this.Caption = Caption + "TCPClient";
             this.Initialize();
                      
         }
@@ -197,7 +201,12 @@ namespace DMT.Core.Channels
         public Boolean ConnectTimeout()
         {
             TimeSpan span = DateTime.Now - this.StartConnectDatetime;
-            return span.TotalSeconds > this.TryConnectInterval;
+            if (span.TotalSeconds > this.TryConnectInterval)
+            {
+                this.StartConnectDatetime = DateTime.Now;
+                return true;
+            }
+            return false;
         }
         //异步方法
         public  Task<string> SendAsync(string Command, int TimeOut)
