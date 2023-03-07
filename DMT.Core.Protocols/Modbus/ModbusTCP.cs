@@ -360,6 +360,11 @@ namespace DMT.Core.Protocols
             this.ConnectToTCPServer();
         }
 
+        public ushort[] ReadModbusItem(ModbusItem item)
+        {
+            return this.ReadHoldingRegisters(item.StartAddress, item.Length);
+        }
+
         public ushort[] ReadHoldingRegisters(ushort startAddress, ushort numberOfPoints)
         {
             ushort len = numberOfPoints;
@@ -410,6 +415,11 @@ namespace DMT.Core.Protocols
         public override  void ProcessResponse(int notifyEvent, string flag, string content,object result, string message, object sender)
         {
             this.Notify( notifyEvent,  flag,content,  result,  message);
+        }
+
+        public void WriteModbusItem(ModbusItem item)
+        {
+            this.WriteMultipleRegisters(item.StartAddress, item.Datas);
         }
 
         public void WriteMultipleRegisters(ushort startAddress, ushort[] data)

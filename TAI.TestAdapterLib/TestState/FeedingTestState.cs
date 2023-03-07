@@ -25,13 +25,14 @@ namespace DMTTestAdapter
         public override void StateCheck()
         {
             //如果为有重新上料 进入上料识别状态  Module
-
+            if (this.Manager.ProcessController.NewFeedSignal)
+            {
+                this.Manager.TestState = new RecognizeModuleTestState(this.Manager);
+                return;
+            }
+            
             //查看整体上料产品中是否有需要预热的模块，如果无，进入数字量模块上料流程
             //如果有进入模拟量模块上料流程
-
-
-
-
         }
     }
 }

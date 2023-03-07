@@ -17,7 +17,9 @@ namespace TAI.Manager
         public ModbusTCPClient WriteChannel { get; set; }
         public RobotOperator RobotOperator { get; set; }
         public SystemOperator SystemOperator { get; set; }
-        
+
+        public DetectOperator DetectOperator { get; set; }
+
         private ushort[] SystemStatusValues { get; set; }
 
 
@@ -32,6 +34,8 @@ namespace TAI.Manager
 
             this.SystemOperator = new SystemOperator();
 
+            this.DetectOperator = new DetectOperator();
+
             this.SystemStatusValues = new ushort[SystemOperator.SystemStatusMapLength];
         }
 
@@ -42,6 +46,7 @@ namespace TAI.Manager
 
             this.RobotOperator.LoadFromFile(fileName);
             this.SystemOperator.LoadFromFile(fileName);
+            this.DetectOperator.LoadFromFile(fileName);
         }
 
 
@@ -111,11 +116,11 @@ namespace TAI.Manager
 
         #region  系统模块
         /// <summary>
-        /// 工位是否油料判断
+        /// 工位是否有料判断
         /// </summary>
         /// <param name="stationType"></param>
         /// <returns></returns>
-        public bool StationBusy(StationType stationType)
+        public bool StationIsBusy(StationType stationType)
         {
             ModbusItem item = null;
             switch (stationType)
@@ -169,9 +174,43 @@ namespace TAI.Manager
             }
             if (item != null)
             {
-                return this.SystemStatusValues[item.StartAddress] == (ushort)Status.StationBusy;
+                return this.SystemStatusValues[item.StartAddress] == (ushort)Status.Busy;
             }
             return false;
+        }
+
+
+
+        public bool FeedLack {
+            get {
+                return this.SystemStatusValues[this.SystemOperator.FeedLackSignal.StartAddress] == (ushort)Status.Valid;
+            }
+        }
+
+        public bool BlankingOKFull
+        {
+            get
+            {
+                return this.SystemStatusValues[this.SystemOperator.OKBlankFullSignal.StartAddress] == (ushort)Status.Valid;
+            }
+        }
+
+
+        public bool BlankingNGFull
+        {
+            get
+            {
+                return this.SystemStatusValues[this.SystemOperator.NGBlankFullSignal.StartAddress] == (ushort)Status.Valid;
+            }
+        }
+
+
+        public bool InitializeCompleted
+        {
+            get
+            {
+                return this.SystemStatusValues[this.SystemOperator.InitializeCompleted.StartAddress] == (ushort)Status.Completed;
+            }
         }
 
 
@@ -179,22 +218,24 @@ namespace TAI.Manager
         /// 初始化流控模块
         /// </summary>
         /// <returns></returns>
+
         public bool InitializeSystem()
         {
             this.SystemOperator.InitializeOperate.Datas[0] = 1;
-            this.WriteChannel.WriteMultipleRegisters(this.SystemOperator.InitializeOperate.StartAddress, this.SystemOperator.InitializeOperate.Datas);
+            this.WriteChannel.WriteModbusItem(this.SystemOperator.InitializeOperate);
             return (!this.WriteChannel.HasError);
         }
-
 
         private void UpdateSystemStatus()
         {
             try
-            {
-                ushort[] datas = this.ReadChannel.ReadHoldingRegisters(this.SystemOperator.SystemStatusMap.StartAddress, this.SystemOperator.SystemStatusMapLength);
+            {              
+                ushort[] datas = this.ReadChannel.ReadModbusItem(this.SystemOperator.SystemStatusMap);
                 if (!this.ReadChannel.HasError)
                 {
                     Array.Copy(datas, this.SystemStatusValues, this.SystemOperator.SystemStatusMapLength);
+                    this.StatusMessage.LastErrorCode = this.SystemErrorCode;
+                    this.StatusMessage.LastMessage = this.MessageText;
                 }
             }
             catch
@@ -204,9 +245,154 @@ namespace TAI.Manager
         }
 
 
+        public bool SystemTerminated
+        {
+            get
+            {
+                return this.SystemStatusValues[this.SystemOperator.SystemStop.StartAddress] == (ushort)Status.Valid;
+            }
+        }
+
+        public bool NewFeedSignal
+        {
+            get
+            {
+                if (this.SystemStatusValues[this.SystemOperator.NewFeedSignal.StartAddress] == (ushort)Status.Valid)
+                {
+                    this.SystemOperator.NewFeedSignalReset.Datas[0] = (ushort)1;
+                    this.WriteChannel.WriteModbusItem(this.SystemOperator.NewFeedSignalReset);
+                    return true;
+                }
+                return false;
+            }
+        }
+
+
+        public ushort SystemErrorCode
+        {
+            get {
+                return this.SystemStatusValues[this.SystemOperator.SystemStop.StartAddress];
+               }
+        }
+
+
+        public string MessageText
+        {
+            get
+            {
+                return "ErrorCode=" + this.SystemErrorCode.ToString();
+            }
+        }
+
+        #endregion
+
+
+        #region Robot
+
+
+
+        public bool RobotIdle
+        {
+            get {
+                return this.SystemStatusValues[this.RobotOperator.GetIdleStatus.StartAddress] == (ushort)Status.Valid;
+            }
+        }
+
+
+        public bool SetRobotMoveParams(Position start, Position target , ActionMode mode)
+        {
+            this.RobotOperator.MoveActionParams.Datas[0] = (ushort)start;
+            this.RobotOperator.MoveActionParams.Datas[1] = (ushort)target;
+            this.RobotOperator.MoveActionParams.Datas[2] = (ushort)mode;
+            this.WriteChannel.WriteModbusItem(this.RobotOperator.MoveActionParams);
+
+            return(! this.WriteChannel.HasError);
+        }
+
+        public bool SetRobotMoveEnable(Position start, Position target, ActionMode mode,bool check)
+        {
+            bool result = true;
+            if (check)
+            {
+                result &= this.SystemStatusValues[this.RobotOperator.MoveActionParams.StartAddress] == (ushort)start;
+                result &= this.SystemStatusValues[this.RobotOperator.MoveActionParams.StartAddress+1] == (ushort)target;
+                result &= this.SystemStatusValues[this.RobotOperator.MoveActionParams.StartAddress+2] == (ushort)mode;
+            }
+            if (result)
+            {
+                this.RobotOperator.EnabelMoveAction.Datas[0] = (ushort)Status.Enable;
+                this.WriteChannel.WriteModbusItem(this.RobotOperator.EnabelMoveAction);
+            }
+            return !this.WriteChannel.HasError;
+        }
+
+
+        public bool RobotMoveCompleted
+        {
+            get
+            {
+                if (this.SystemStatusValues[this.RobotOperator.MoveCompletedStatus.StartAddress] == (ushort)Status.Completed)
+                {
+                    this.RobotOperator.MoveCompletedStatus.Datas[0] = (ushort)0;
+                    this.WriteChannel.WriteModbusItem(this.RobotOperator.MoveCompletedStatus);
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
+
+
 
 
         #endregion
+
+
+
+
+
+        #region Detector
+
+        public bool ModuleTestReady
+        {
+            get
+            {
+                return  this.SystemStatusValues[this.DetectOperator.ModuleTestReadyStatus.StartAddress] == (ushort)Status.Valid;
+            }
+
+        }
+
+
+
+        public bool SetModuleQRCompleted()
+        {
+            this.DetectOperator.ModuleQRCompleted.Datas[0] = (ushort)Status.Completed;
+
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.ModuleQRCompleted);
+            return (!this.WriteChannel.HasError);
+        }
+
+
+        public bool SetModuleOCRLightingCompleted()
+        {
+            this.DetectOperator.ModuleOCRLightingCompleted.Datas[0] = (ushort)Status.Completed;
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.ModuleOCRLightingCompleted);
+            return (!this.WriteChannel.HasError);
+        }
+
+
+        public bool SetModuleTestResult(Status result)
+        {
+            this.DetectOperator.TestResult.Datas[0] = (ushort)result;
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.TestResult);
+            return (!this.WriteChannel.HasError);
+        }
+
+
+        #endregion
+
+
 
     }
 }

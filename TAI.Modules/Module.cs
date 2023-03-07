@@ -10,6 +10,7 @@ namespace TAI.Modules
 {
     public enum ModuleType
     {
+        None =-1,
         AI = 0,     //模拟量输入模块（AI）	        nAI160，16通道
         AO = 1,     //模拟量输出模块（AO）	        nAO080，8通道
         DI = 2,     //数字量输入模块（DI）	        pDI240，24通道
@@ -65,7 +66,19 @@ namespace TAI.Modules
         RTD_3L = 12,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
         RTD_4L = 13,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
         TC = 14,      //热电偶温度采集模块（TC）	                    8路通道 
-        PREPARE = 15,  // 预热
+        Prepare = 15,  // 预热
+        DI_QR = 20,     
+        DO_QR = 21,     
+        PI_QR = 22,     
+        AI_QR = 23,    
+        AO_QR = 24,    
+        RTD_3L_QR = 25,
+        RTD_4L_QR = 26,
+        TC_QR = 27,
+        Prepare_QR =28,
+        Feed_OK =30,
+        Feed_NG =31,
+
     }
 
     public enum TestStep
@@ -73,14 +86,19 @@ namespace TAI.Modules
         Idle = 0,
         Wait = 1,
         Testing = 2,
-        Finish = 3,
+        Prepare = 3,
+        Finish = 4,
     }
 
 
     public enum Status
     { 
-        StationBusy =1,
-        StationIdle =0,
+        Busy =1,
+        Idle =0,
+        Completed =1,
+        Valid =1,
+        Invalid =0,
+        Enable =1,
     }
 
 
@@ -91,12 +109,30 @@ namespace TAI.Modules
     {
         public string SerialCode { get; set; }
         public ModuleType ModuleType { get; set; }
-        public TestStep TestStep { get; set; }
         public int ChnanelCount { get; set; }
-
+        public TestStep TestStep { get; set; }
+        
         //起始位置
         public Position StartPosition { get; set; }
         public ushort PositionIndex { get; set; }
+
+        public Module(int index)
+        {
+            this.SerialCode = "";
+            this.ModuleType = ModuleType.None;
+            this.ChnanelCount = 0;
+            this.TestStep = TestStep.Idle;
+            this.PositionIndex =(ushort) index;     
+        }
+
+        public Module()
+        {
+            this.SerialCode = "";
+            this.ModuleType = ModuleType.None;
+            this.ChnanelCount = 0;
+            this.TestStep = TestStep.Idle;
+        }
+
 
         public ushort StartPositionValue
         {
@@ -117,6 +153,20 @@ namespace TAI.Modules
             get {
                 return (ushort)this.TargetPosition;
             } }
+
+        public Module Clone()
+        {
+            Module module = new Module()
+            {
+                SerialCode = this.SerialCode,
+                ModuleType = this.ModuleType,
+                ChnanelCount = this.ChnanelCount,
+                TestStep = this.TestStep,
+                StartPosition = this.StartPosition,
+                PositionIndex = this.PositionIndex,
+            };
+            return module;
+        }
     }
 
 

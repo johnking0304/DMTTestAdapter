@@ -30,34 +30,58 @@ namespace TAI.Manager
         public readonly ushort DefaultResetOperateOffset = 3;
         
         /// <summary>
-        /// 动作结束 W
+        /// 暂停按钮 W
         /// </summary>
-        public ModbusItem ActionFinished { get; set; }
-        public readonly ushort DefaultActionFinishedOffset = 4;
+        public ModbusItem SystemPause { get; set; }
+        public readonly ushort DefaultSystemPauseOffset = 4;
+
+        /// <summary>
+        /// 系统急停
+        /// </summary>
+        public ModbusItem SystemStop { get; set; }
+        public readonly ushort DefaultSystemStopOffset = 5;
+
+        /// <summary>
+        /// 状态表
+        /// </summary>
         public ModbusItem SystemStatusMap { get; set; }
         public readonly ushort DefaultSystemStatusMapOffset = 1;
-        public readonly ushort SystemStatusMapLength = 32;
-        public ModbusItem TestResult { get; set; }
-        public readonly ushort DefaultTestResultOffset = 13;
+        public readonly ushort SystemStatusMapLength = 50;
+
+
+        public ModbusItem FeedLackSignal{ get; set; }
+        public readonly ushort DefaultFeedLackSignalOffset = 30;
+        public ModbusItem OKBlankFullSignal { get; set; }
+        public readonly ushort DefaultOKBlankFullSignalOffset = 31;
+        public ModbusItem NGBlankFullSignal { get; set; }
+        public readonly ushort DefaultNGBlankFullSignalOffset = 32;
 
         public ModbusItem DIStationBusy { get; set; }
-        public readonly ushort DefaultDIStationBusyOffset = 18;
+        public readonly ushort DefaultDIStationBusyOffset = 33;
         public ModbusItem DOStationBusy { get; set; }
-        public readonly ushort DefaultDOStationBusyOffset = 19;
+        public readonly ushort DefaultDOStationBusyOffset = 34;
         public ModbusItem PIStationBusy { get; set; }
-        public readonly ushort DefaultPIStationBusyOffset = 20;
+        public readonly ushort DefaultPIStationBusyOffset = 35;
         public ModbusItem AIStationBusy { get; set; }
-        public readonly ushort DefaultAIStationBusyOffset = 21;
+        public readonly ushort DefaultAIStationBusyOffset = 36;
         public ModbusItem AOStationBusy { get; set; }
-        public readonly ushort DefaultAOStationBusyOffset = 22;
+        public readonly ushort DefaultAOStationBusyOffset = 37;
         public ModbusItem RTD3StationBusy { get; set; }
-        public readonly ushort DefaultRTD3StationBusyOffset = 23;
+        public readonly ushort DefaultRTD3StationBusyOffset = 38;
         public ModbusItem RTD4StationBusy { get; set; }
-        public readonly ushort DefaultRTD4StationBusyOffset = 24;
+        public readonly ushort DefaultRTD4StationBusyOffset = 39;
         public ModbusItem TCStationBusy { get; set; }
-        public readonly ushort DefaultTCStationBusyOffset = 25;
+        public readonly ushort DefaultTCStationBusyOffset = 40;
         public ModbusItem PrepareStationBusy { get; set; }
-        public readonly ushort DefaultPrepareStationBusyOffset = 26;
+        public readonly ushort DefaultPrepareStationBusyOffset = 41;
+
+        public ModbusItem NewFeedSignal { get; set; }
+        public readonly ushort DefaultNewFeedSignalOffset = 42;
+
+        public ModbusItem NewFeedSignalReset { get; set; }
+        public readonly ushort DefaultNewFeedSignalResetOffset = 43;
+        
+
 
         public SystemOperator() : base()
         {
@@ -72,16 +96,24 @@ namespace TAI.Manager
             this.ResetOperate = new ModbusItem(this.Caption, "复位", "ResetOperate", this.BaseIndex, DefaultResetOperateOffset, 1, ChannelType.AO);
             this.Items.Add(this.ResetOperate);
 
-            this.ActionFinished = new ModbusItem(this.Caption, "初始化状态", "ActionFinished", this.BaseIndex, DefaultActionFinishedOffset, 1, ChannelType.AO);
-            this.Items.Add(this.ActionFinished);
+            this.SystemPause = new ModbusItem(this.Caption, "系统暂停", "SystemPause", this.BaseIndex, DefaultSystemPauseOffset, 1, ChannelType.AO);
+            this.Items.Add(this.SystemPause);
+
+            this.SystemStop = new ModbusItem(this.Caption, "系统急停", "SystemStop", this.BaseIndex, DefaultSystemStopOffset, 1, ChannelType.AI);
+            this.Items.Add(this.SystemStop);
 
             this.SystemStatusMap = new ModbusItem(this.Caption, "系统状态", "SystemStatusMap", 0, DefaultSystemStatusMapOffset, SystemStatusMapLength, ChannelType.AI);
-            this.Items.Add(this.ActionFinished);
-
-            this.TestResult = new ModbusItem(this.Caption, "总体测试结果", "TestResult", this.BaseIndex, DefaultTestResultOffset, 1, ChannelType.AO);
-            this.Items.Add(this.TestResult);
+            this.Items.Add(this.SystemStatusMap);
 
 
+            this.FeedLackSignal = new ModbusItem(this.Caption, "上料缺料信号", "FeedLackSignal", this.BaseIndex, DefaultFeedLackSignalOffset, 1, ChannelType.AI);
+            this.Items.Add(this.FeedLackSignal);
+
+            this.OKBlankFullSignal = new ModbusItem(this.Caption, "OK下料满料信号", "OKBlankFullSignal", this.BaseIndex, DefaultOKBlankFullSignalOffset, 1, ChannelType.AI);
+            this.Items.Add(this.OKBlankFullSignal);
+
+            this.NGBlankFullSignal = new ModbusItem(this.Caption, "NG下料满料信号", "NGBlankFullSignal", this.BaseIndex, DefaultNGBlankFullSignalOffset, 1, ChannelType.AI);
+            this.Items.Add(this.NGBlankFullSignal);
 
 
             this.DIStationBusy = new ModbusItem(this.Caption, "DI工位有料", "DIStationBusy", this.BaseIndex, DefaultDIStationBusyOffset, 1, ChannelType.AI);
@@ -110,6 +142,14 @@ namespace TAI.Manager
 
             this.PrepareStationBusy = new ModbusItem(this.Caption, "预热工位有料", "PrepareStationBusy", this.BaseIndex, DefaultPrepareStationBusyOffset, 1, ChannelType.AI);
             this.Items.Add(this.PrepareStationBusy);
+
+
+            this.NewFeedSignal = new ModbusItem(this.Caption, "新上料信号", "NewFeedSignal", this.BaseIndex, DefaultNewFeedSignalOffset, 1, ChannelType.AI);
+            this.Items.Add(this.NewFeedSignal);
+
+            this.NewFeedSignalReset = new ModbusItem(this.Caption, "新上料信号复位", "NewFeedSignalReset", this.BaseIndex, DefaultNewFeedSignalResetOffset, 1, ChannelType.AI);
+            this.Items.Add(this.NewFeedSignalReset);
+
 
 
         }

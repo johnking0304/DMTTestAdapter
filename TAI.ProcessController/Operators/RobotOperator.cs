@@ -24,23 +24,23 @@ namespace TAI.Manager
     public class RobotOperator : BaseOperator
     {
         public ModbusItem GetIdleStatus { get; set; }
-        public readonly ushort DefaultGetIdleStatusOffset = 5;
+        public readonly ushort DefaultGetIdleStatusOffset = 10;
         /// <summary>
         /// 设置移动位置及模式
         /// </summary>
         public ModbusItem MoveActionParams { get; set; }
-        public readonly ushort DefaultMoveActionParamsOffset = 6;
+        public readonly ushort DefaultMoveActionParamsOffset = 11;
         public readonly ushort MoveActionParamsDataLength = 3;
         /// <summary>
         /// 使能移动
         /// </summary>
         public ModbusItem EnabelMoveAction { get; set; }
-        public readonly ushort DefaultEnabelMoveActionOffset = 9;
+        public readonly ushort DefaultEnabelMoveActionOffset = 14;
         /// <summary>
         /// 移动是否完成
         /// </summary>
         public ModbusItem MoveCompletedStatus { get; set; }
-        public readonly ushort DefaultMoveCompletedStatusOffset = 10;
+        public readonly ushort DefaultMoveCompletedStatusOffset = 15;
 
 
         public RobotOperator() : base()

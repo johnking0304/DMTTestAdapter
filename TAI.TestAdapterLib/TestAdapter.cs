@@ -7,9 +7,7 @@ using TAI.Device;
 using TAI.Manager;
 using TAI.Modules;
 using Newtonsoft.Json;
-
-
-
+using System.Collections.Generic;
 
 namespace DMTTestAdapter
 {
@@ -23,6 +21,9 @@ namespace DMTTestAdapter
     [ClassInterface(ClassInterfaceType.None)]
     public class TestAdapter : OperatorController, ITestAdapter
     {
+
+        public static readonly int FeedCountMax  = 6;
+             
         private DeviceModel MeasureDeviceModel { get; set; }
         private DeviceModel GeneratorDeviceModel { get; set; }
 
@@ -39,15 +40,12 @@ namespace DMTTestAdapter
 
         public OperateCommand Command { get; set; }
 
-
-
+        //测试模块
+        public List<Module> TestingModules { get; set; }
         /// <summary>
         /// 初始化完成
         /// </summary>
         public bool  InitializeCompleted {get;set;}
-
-
-
 
 
 
@@ -56,6 +54,7 @@ namespace DMTTestAdapter
             this.Caption = "TestAdapter";
             this.LoadConfig();
             this.Command = OperateCommand.None;
+            this.TestingModules = new List<Module>();
         }
 
 
@@ -105,25 +104,7 @@ namespace DMTTestAdapter
 
         }
 
-        public bool Initialize()
-        {
-            
-            bool result = this.DigitalDevice.Initialize();
-
-            result &= this.MeasureDevice.Initialize();
-
-            result &= this.GeneratorDevice.Initialize();
-
-            result &= this.ProcessController.Initialize();
-
-            result &= this.VISController.Initialize();
-
-            result &= this.SwitchController.Initialize();
-
-            this.InitializeCompleted = true;
-
-            return result;
-        }
+        
 
         public override void LoadFromFile(string fileName)
         {
@@ -140,6 +121,40 @@ namespace DMTTestAdapter
             IniFiles.WriteStringValue(fileName, this.Caption, "MeasureDeviceModel", this.MeasureDeviceModel.ToString());
             IniFiles.WriteStringValue(fileName, this.Caption, "GeneratorDeviceModel", this.GeneratorDeviceModel.ToString());
         }
+        public override void ProcessEvent()
+        {
+            if (this.TestState != null)
+            {
+                this.TestState.Execute();
+            }
+        }
+
+
+
+
+        #region Interface
+
+        public bool Initialize()
+        {
+
+            bool result = this.DigitalDevice.Initialize();
+
+            result &= this.MeasureDevice.Initialize();
+
+            result &= this.GeneratorDevice.Initialize();
+
+            result &= this.ProcessController.Initialize();
+
+            result &= this.VISController.Initialize();
+
+            result &= this.SwitchController.Initialize();
+
+            this.InitializeCompleted = true;
+            this.TestingModules.Clear();
+
+            return result;
+        }
+
 
 
         public double GetAnalogueChannelValue(int channelId, int type)
@@ -202,14 +217,8 @@ namespace DMTTestAdapter
         {
             this.Command = OperateCommand.StopTest;
         }
+        #endregion
 
-        public override void ProcessEvent()
-        {
-            if (this.TestState != null)
-            {
-                this.TestState.Execute();
-            }
-        }
 
     }
 }

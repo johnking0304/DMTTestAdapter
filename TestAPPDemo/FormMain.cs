@@ -22,12 +22,13 @@ namespace TestAPPDemo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
+            this.TestAdapter = new TestAdapter();
+            this.TestAdapter.Initialize();
+                }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LogHelper.LogudpMsg("123");
+
             LogHelper.LogInfoMsg("123");
         }
     }
