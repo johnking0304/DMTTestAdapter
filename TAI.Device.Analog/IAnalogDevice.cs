@@ -35,9 +35,9 @@ namespace TAI.Device
         bool Open();
         bool Close();
         bool Active();
-        bool GetValue( ChannelType channelType,ref double value);
+        bool GetValue( ChannelType channelType,ref float value);
 
-        bool SetValue( ChannelType channelType,double value);
+        bool SetValue( ChannelType channelType,float value);
 
         void LoadFromFile(string fileName);
 

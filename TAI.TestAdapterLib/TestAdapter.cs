@@ -134,7 +134,7 @@ namespace DMTTestAdapter
 
         #region Interface
 
-        public bool Initialize()
+        public string Initialize()
         {
 
             bool result = this.DigitalDevice.Initialize();
@@ -152,15 +152,15 @@ namespace DMTTestAdapter
             this.InitializeCompleted = true;
             this.TestingModules.Clear();
 
-            return result;
+            return this.StatusMessageText;
         }
 
 
 
-        public double GetAnalogueChannelValue(int channelId, int type)
+        public float GetAnalogueChannelValue(int channelId, int type)
         {
             this.SwitchController.SwitchChannelOperate((ushort)channelId);
-            double value = 0.0;
+            float value = 0;
             this.MeasureDevice.GetValue( (ChannelType)type, ref value);        
             return value;        
         }
@@ -176,24 +176,20 @@ namespace DMTTestAdapter
         }
 
         public string GetSystemStatus()
-        {           
-            return JsonConvert.SerializeObject(this.StatusMessage);
+        {
+            return this.StatusMessageText;
         }
 
-        public string GetVISResult()
+
+
+
+        public string Initialize(string content)
         {
+            ///根据约定的content初始化设备信息
             return "";
         }
 
-
-
-        public bool Initialize(string content)
-        {
-            ///根据约定的content初始化设备信息
-            return true;
-        }
-
-        public bool SetAnalogueChannelValue(int channelId, int type, double value)
+        public bool SetAnalogueChannelValue(int channelId, int type, float value)
         {
 
             bool result = this.SwitchController.SwitchChannelOperate((ushort)channelId);
@@ -216,6 +212,32 @@ namespace DMTTestAdapter
         public void StopTest()
         {
             this.Command = OperateCommand.StopTest;
+        }
+
+        public bool StartStationTest(int StationId)
+        {
+            return true;
+        }
+
+
+        public string GetVISModuleType(int StationId)
+        {
+            return "";
+        }
+
+        public string GetVISModuleCode(int StationId)
+        {
+            return "";
+        }
+
+        public string GetVISLightingResult(int StationId)
+        {
+            return "";
+        }
+
+        public bool SetTestResult(int StationId, bool result)
+        {
+            return true;
         }
         #endregion
 

@@ -23,7 +23,7 @@ namespace TAI.Device
 
 
 
-        public override bool ParseResponse(string content ,ref double value)
+        public override bool ParseResponse(string content ,ref float value)
         {
             return true;
         }

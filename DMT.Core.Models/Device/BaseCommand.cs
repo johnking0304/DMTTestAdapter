@@ -294,7 +294,7 @@ namespace DMT.Core.Models
         }
 
 
-        public virtual bool ParseResponse(string content, ref double value)
+        public virtual bool ParseResponse(string content, ref float value)
         {
             return true;
         }

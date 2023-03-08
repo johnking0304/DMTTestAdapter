@@ -39,6 +39,13 @@ namespace DMT.Core.Models
         public DateTime StartReadDateTime { get; set; }
 
         public StatusMessage StatusMessage { get; set; }
+
+        public string StatusMessageText { 
+            get
+            { 
+                return JsonConvert.SerializeObject(this.StatusMessage);
+            } 
+        }
         public BaseController()
         {
             this.Caption = "Controller";

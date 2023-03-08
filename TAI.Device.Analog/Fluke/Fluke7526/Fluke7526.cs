@@ -44,7 +44,7 @@ namespace TAI.Device
             return this.Channel.Active();
         }
 
-        public bool SetValue(ChannelType channelType, double value)
+        public bool SetValue(ChannelType channelType, float value)
         {
             SetValueCommand command = new SetValueCommand(this, channelType, value);
             this.SendCommand(command.PackageString());
@@ -74,7 +74,7 @@ namespace TAI.Device
             return  this.GetIdentify();
         }
 
-        public bool GetValue(ChannelType channelType, ref double value)
+        public bool GetValue(ChannelType channelType, ref float value)
         {
             GetValueCommand command = new GetValueCommand(this, channelType);
             this.SendCommand(command.PackageString());
