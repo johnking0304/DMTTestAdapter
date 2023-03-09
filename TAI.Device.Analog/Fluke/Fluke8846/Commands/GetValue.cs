@@ -24,10 +24,24 @@ namespace TAI.Device.Fluke.D8846
             return value;
         }
 
-
+        /// <summary>
+        /// 
+        /// 
+        /// -1.000000E-07,A,0.000000E+00,NONE
+        /// -1.000000E-03,V,0.000000E+00,NONE
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public override bool ParseResponse(string content, ref float value)
         {
-            return true;
+            string[] values = content.Split(new char[1] { ','});
+            if (values.Length >= 2)
+            {
+                return float.TryParse(values[0], out value);
+            }
+            value = 0;
+            return false;
         }
 
 

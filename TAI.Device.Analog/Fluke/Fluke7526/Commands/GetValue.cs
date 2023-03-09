@@ -25,7 +25,8 @@ namespace TAI.Device.Fluke.D7526
 
         public override bool ParseResponse(string content, ref float value)
         {
-            return true;
+            content = content.Trim(new char[2] { (char)0x0D,(char)0x0A});
+           return float.TryParse(content, out value);
         }
 
 
