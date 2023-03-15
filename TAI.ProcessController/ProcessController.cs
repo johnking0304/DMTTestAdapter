@@ -3,6 +3,7 @@ using DMT.Core.Protocols;
 using DMT.Core.Models;
 using System.Collections.Generic;
 using TAI.Modules;
+using DMT.Core.Utils;
 
 namespace TAI.Manager
 {
@@ -114,6 +115,9 @@ namespace TAI.Manager
 
 
 
+
+
+
         #region  系统模块
         /// <summary>
         /// 工位是否有料判断
@@ -165,7 +169,7 @@ namespace TAI.Manager
                         item = this.SystemOperator.TCStationBusy;
                         break;
                     }
-                case StationType.PREPARE:
+                case StationType.Prepare:
                     {
                         item = this.SystemOperator.PrepareStationBusy;
                         break;
@@ -299,14 +303,22 @@ namespace TAI.Manager
         }
 
 
-        public bool SetRobotMoveParams(Position start, Position target , ActionMode mode)
+        public bool SetRobotMoveParams(int positionStart, int positionTarget , ActionMode mode)
         {
-            this.RobotOperator.MoveActionParams.Datas[0] = (ushort)start;
-            this.RobotOperator.MoveActionParams.Datas[1] = (ushort)target;
+            this.RobotOperator.MoveActionParams.Datas[0] = (ushort)positionStart;
+            this.RobotOperator.MoveActionParams.Datas[1] = (ushort)positionTarget;
             this.RobotOperator.MoveActionParams.Datas[2] = (ushort)mode;
             this.WriteChannel.WriteModbusItem(this.RobotOperator.MoveActionParams);
 
-            return(! this.WriteChannel.HasError);
+            LogHelper.LogInfoMsg(string.Format("机械手移动位置[{0}->{1}],模式：{2}", positionStart, positionTarget, mode.ToString()));
+            return (! this.WriteChannel.HasError);
+        }
+
+        public bool SetRobotMoveEnable()
+        {
+            this.RobotOperator.EnabelMoveAction.Datas[0] = (ushort)Status.Enable;
+            this.WriteChannel.WriteModbusItem(this.RobotOperator.EnabelMoveAction);          
+            return !this.WriteChannel.HasError;
         }
 
         public bool SetRobotMoveEnable(Position start, Position target, ActionMode mode,bool check)

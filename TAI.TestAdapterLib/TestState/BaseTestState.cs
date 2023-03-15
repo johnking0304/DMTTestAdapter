@@ -12,15 +12,21 @@ namespace DMTTestAdapter
 
         Idle = 1, //空闲状态
 
-        Feeding = 2,//上料状态
-        
-        Testing = 3,//测试状态
+        Recognize= 2,//模块识别状态
 
-        Blanking =4,//下料状态
+        PreFeeding = 3,//预上料状态
 
-        Pause = 5,  //暂停状态
+        FeedingToPrepare = 4,//上料到预热工位状态
+
+        FeedingToTest = 5,//上料到测试工位状态
+
+        Testing = 6,//测试状态
+
+        Blanking =7,//下料状态
+
+        Pause = 8,  //暂停状态
        
-        Fault = 6, //故障状态
+        Fault = 9, //故障状态
     }
 
 
@@ -37,17 +43,22 @@ namespace DMTTestAdapter
     {
         protected TestAdapter Manager;
 
+        public bool RobotMoving { get; set; }
+
         public TestingState TestingState { get; set; }
 
         public int WaitMilliseconds { get; set; }
 
         public string Caption { get; set; }
 
+  
         public string LastMessage { get; set; }
+
 
         public TestState(TestAdapter manager)
         {
             this.Manager = manager;
+            this.RobotMoving = false;
             this.Initialize();
         }
 

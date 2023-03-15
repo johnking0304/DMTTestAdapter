@@ -10,11 +10,13 @@ using System.Windows.Forms;
 using DMTTestAdapter;
 using DMT.Core.Utils;
 
+
 namespace TestAPPDemo
 {
     public partial class FormMain : Form
     {
         public TestAdapter TestAdapter { get; set; }
+
         public FormMain()
         {
             InitializeComponent();
@@ -24,12 +26,12 @@ namespace TestAPPDemo
         {
             this.TestAdapter = new TestAdapter();
             this.TestAdapter.Initialize();
-                }
+        }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void button1_Click_1(object sender, EventArgs e)
         {
-
-            LogHelper.LogInfoMsg("123");
+            this.TestAdapter.ProcessController.Initialize();
         }
     }
 }

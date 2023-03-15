@@ -16,7 +16,7 @@ namespace DMT.Core.Channels
         private Thread ReceiveProcessor;
         private Boolean Terminated { get; set; }
 
-        private SerialPort SerialPort;
+        public SerialPort SerialPort;
 
         public string Port
         {

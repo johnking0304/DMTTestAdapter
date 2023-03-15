@@ -42,6 +42,10 @@ namespace DMTTestAdapter
 
         //测试模块
         public List<Module> TestingModules { get; set; }
+
+        public List<Station> Stations { get; set; }
+
+
         /// <summary>
         /// 初始化完成
         /// </summary>
@@ -55,8 +59,25 @@ namespace DMTTestAdapter
             this.LoadConfig();
             this.Command = OperateCommand.None;
             this.TestingModules = new List<Module>();
+            this.Stations = new List<Station>();
+            foreach (StationType type in Enum.GetValues(typeof(StationType)))
+            {
+                Station station = new Station(type);
+                this.Stations.Add(station);
+            }
         }
 
+        public void RemoveModule(Module module)
+        {
+            this.TestingModules.Remove(module);           
+        }
+
+
+
+
+        public Station PrepareStation {
+            get => this.Stations[(int)StationType.Prepare - 1];
+         }
 
         private void  LoadConfig()
         {
@@ -128,6 +149,7 @@ namespace DMTTestAdapter
                 this.TestState.Execute();
             }
         }
+
 
 
 
@@ -205,7 +227,6 @@ namespace DMTTestAdapter
 
         public void StartTest()
         {
-
             this.Command = OperateCommand.StartTest;           
         }
 
@@ -237,8 +258,186 @@ namespace DMTTestAdapter
 
         public bool SetTestResult(int StationId, bool result)
         {
-            return true;
+            this.Command = OperateCommand.StopStationTest;
+            if ((StationId > 0) && (StationId < FeedCountMax))
+            {
+                Station station = this.Stations[StationId - 1];
+                station.LinkedModule.Conclusion = result;
+                return true;
+            }
+            return false;
+            
         }
+        #endregion
+
+
+
+        #region Module 
+
+
+
+        public void StartModulePrepare(Module module)
+        {
+            module.TestStep = TestStep.Prepare;
+            this.PrepareStation.LinkedModule = module;
+            module.CurrentPosition = Position.Prepare;
+            module.StartDateTime = DateTime.Now;
+            module.TargetPosition = this.Stations[(int)module.ModuleType - 1].TestPosition;
+        }
+
+
+        public void StartModuleTest(Module module)
+        {
+            module.TestStep = TestStep.Testing;
+            module.LinkStation.LinkedModule = module;
+            module.CurrentPosition = module.TargetPosition;
+            module.StartDateTime = DateTime.Now;
+            module.TargetPosition = Position.Out_OK;
+        }
+
+
+        public void StartModuleBlank(Module module)
+        {
+            module.TestStep = TestStep.Finish;
+            module.LinkStation.Clear();
+            this.RemoveModule(module);
+        }
+
+        public ModuleType ParseModuleType(string content)
+        {
+            //FIXME
+
+
+
+
+
+            return ModuleType.AI;
+        }
+
+        public Station GetModuleStation(ModuleType moduleType)
+        {
+            if (moduleType != ModuleType.None)
+            {
+                return this.Stations[(int)moduleType];
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+
+
+        public bool ModulePrepareCompleted()
+        {
+            if (this.PrepareStation.LinkedModule != null)
+            {
+                return this.PrepareStation.LinkedModule.PrepareReady;
+            }
+            return false;
+
+        }
+
+
+        public Module DigitalIdleModule
+        {
+            get
+            {
+
+                foreach (Module module in this.TestingModules)
+                {
+                    if (module.ModuleType >= ModuleType.DI && module.ModuleType <= ModuleType.PI)
+                    {
+                        if (module.TestStep == TestStep.Idle)
+                        {
+                            return module;
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+
+
+        public Module AnaloglIdleModule
+        {
+            get
+            {
+
+                foreach (Module module in this.TestingModules)
+                {
+                    if (module.ModuleType >= ModuleType.AI && module.ModuleType <= ModuleType.TC)
+                    {
+                        if (module.TestStep == TestStep.Idle)
+                        {
+                            return module;
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+
+
+
+
+
+
+        public bool ModuleIdle
+        {
+            get
+            {
+                foreach (Module module in this.TestingModules)
+                {
+                    if (module.TestStep == TestStep.Idle)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        }
+
+        public bool ModuleNeedFeed
+        {
+            get
+            {
+
+                foreach (Module module in this.TestingModules)
+                {
+                    if (module.ModuleType >= ModuleType.DI && module.ModuleType <= ModuleType.PI)
+                    {
+                        if (module.TestStep == TestStep.Idle)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        public Module ModuleNeedPrepare
+        {
+            get
+            {
+                foreach (Module module in this.TestingModules)
+                {
+                    if (module.ModuleType >= ModuleType.AI && module.ModuleType <= ModuleType.TC)
+                    {
+                        if (module.TestStep == TestStep.Idle)
+                        {
+                            return module;
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+
+
         #endregion
 
 

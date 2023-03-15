@@ -107,14 +107,14 @@ namespace TAI.Manager
         }
 
 
-        public int OCRModuleProgramId
+        public int ModuleProgramId
         {
             get {
                 return this.GetProgramId(VISProgram.MODULE);
                 }
         }
 
-        public int OCRModuleSerialCodeProgramId
+        public int ModuleSerialCodeProgramId
         {
             get
             {
@@ -122,7 +122,7 @@ namespace TAI.Manager
             }
         }
 
-        public int OCRModuleLightingProgramId(ModuleType type)
+        public int GetModuleLightingProgramId(ModuleType type)
         {
             VISProgram item = (VISProgram)Enum.Parse(typeof(VISProgram), type.ToString());
             return this.GetProgramId(item);
@@ -178,7 +178,7 @@ namespace TAI.Manager
 
         public bool OCRModelType(ref string modelType)
         {
-            if (this.StartSwitchProgram(this.OCRModuleProgramId))
+            if (this.StartSwitchProgram(this.ModuleProgramId))
             {
                 this.ModelType = "";
                 if (this.StartOCRecognize(OCRType.ModelType))
@@ -193,7 +193,7 @@ namespace TAI.Manager
         public bool OCRChannelLighting(int channelCount,ModuleType module, ref bool[] channels)
         {
 
-            if (this.StartSwitchProgram(this.OCRModuleLightingProgramId(module)))
+            if (this.StartSwitchProgram(this.GetModuleLightingProgramId(module)))
             {
                 this.ChannelCount = channelCount;
                 this.ChannelResults.Clear();
@@ -222,7 +222,7 @@ namespace TAI.Manager
         public bool QRModelSerialCode(ref string serialCode)
         {
 
-            if (this.StartSwitchProgram(this.OCRModuleSerialCodeProgramId))
+            if (this.StartSwitchProgram(this.ModuleSerialCodeProgramId))
             {
                 this.ModelSerialCode = "";
                 if (this.StartOCRecognize(OCRType.ModelSerialCode))

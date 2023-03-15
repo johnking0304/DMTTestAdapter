@@ -27,9 +27,9 @@ namespace DMTTestAdapter
             if (this.Manager.Command == OperateCommand.StartTest)
             {
                 this.Manager.Command = OperateCommand.None;
-                this.LastMessage = "接收到启动测试命令，转换为系统上料状态";
+                this.LastMessage = "接收到启动测试命令，转换为系统预上料状态";
                 LogHelper.LogInfoMsg(this.LastMessage);
-                this.Manager.TestState = new FeedingTestState(this.Manager);
+                this.Manager.TestState = new PreFeedingTestState(this.Manager);
             }
 
             if (this.Manager.SystemMessage.LastErrorCode == (int)SystemCode.Fault)
