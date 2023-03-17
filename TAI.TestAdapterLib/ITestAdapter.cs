@@ -16,13 +16,6 @@ namespace DMTTestAdapter
         /// <returns></returns>
         [DispId(1)]
         string Initialize();
-        /// <summary>
-        /// 根据配置内容，解析后刷新设备配置
-        /// </summary>
-        /// <param name="content"></param>
-        /// <returns></returns>
-        [DispId(2)]
-        string Initialize(string content);
 
         /// <summary>
         /// 获取当前系统状态

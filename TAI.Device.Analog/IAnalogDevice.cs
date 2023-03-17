@@ -29,8 +29,7 @@ namespace TAI.Device
 
 
     public interface IAnalogDevice
-    {
-        
+    {        
         bool Initialize();
         bool Open();
         bool Close();

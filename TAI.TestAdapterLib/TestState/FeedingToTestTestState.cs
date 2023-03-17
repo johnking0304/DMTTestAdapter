@@ -87,7 +87,7 @@ namespace DMTTestAdapter
                                 this.ActiveModule.SerialCode = "";
                                 LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别失败", this.ActiveModule.ModuleType));
                             }
-                            this.ActiveModule.TestStep = TestStep.WaitForTest;
+                            this.ActiveModule.TestStep = TestStep.Ready;
                             this.CaptureCompleted = true;
                             LogHelper.LogInfoMsg(string.Format("待测模块[{0}]上料完成,等待下发测试启动命令", this.ActiveModule.ModuleType));
                         }

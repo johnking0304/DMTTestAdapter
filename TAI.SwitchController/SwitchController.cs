@@ -23,7 +23,8 @@ namespace TAI.Manager
         {
             this.Caption = "SwitchController";
             this.Channel = new ModbusTCPClient(this.Caption);
-            this.Operator = new SwitchOperator();    
+            this.Operator = new SwitchOperator();
+            this.StatusMessage.Name = this.Caption;
         }
 
 

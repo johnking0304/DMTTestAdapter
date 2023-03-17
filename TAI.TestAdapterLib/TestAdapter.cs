@@ -12,8 +12,6 @@ using System.Collections.Generic;
 namespace DMTTestAdapter
 {
 
-
-
     /// <summary>
     /// 测试接口
     /// </summary>
@@ -22,14 +20,14 @@ namespace DMTTestAdapter
     public class TestAdapter : OperatorController, ITestAdapter
     {
 
-        public static readonly int FeedCountMax  = 6;
-             
+        public static readonly int FeedCountMax = 6;
+
         private DeviceModel MeasureDeviceModel { get; set; }
         private DeviceModel GeneratorDeviceModel { get; set; }
 
         public DigitalDevice DigitalDevice { get; set; }
-        public IAnalogDevice MeasureDevice { get; set; }
-        public IAnalogDevice GeneratorDevice { get; set; }
+        public DeviceMaster MeasureDevice { get; set; }
+        public DeviceMaster GeneratorDevice { get; set; }
         public ProcessController ProcessController { get; set; }
         public SwitchController SwitchController { get; set; }
         public VISController VISController { get; set; }
@@ -49,30 +47,38 @@ namespace DMTTestAdapter
         /// <summary>
         /// 初始化完成
         /// </summary>
-        public bool  InitializeCompleted {get;set;}
+        public bool InitializeCompleted { get; set; }
 
 
 
         public TestAdapter()
         {
             this.Caption = "TestAdapter";
-            this.LoadConfig();
+            
             this.Command = OperateCommand.None;
             this.TestingModules = new List<Module>();
             this.Stations = new List<Station>();
+            this.SystemMessage = new SystemMessage(this.Caption);
+           
             foreach (StationType type in Enum.GetValues(typeof(StationType)))
             {
                 Station station = new Station(type);
                 this.Stations.Add(station);
+                this.SystemMessage.Stations.Add(station.StationStatus);
             }
+            this.LoadConfig();
+
+            this.TestState = new InitializeTestState(this);
         }
 
         public void RemoveModule(Module module)
         {
-            this.TestingModules.Remove(module);           
+            this.TestingModules.Remove(module);
         }
 
-
+        public string SystemMessageText { 
+        get => JsonConvert.SerializeObject(this.SystemMessage);
+        }
 
 
         public Station PrepareStation {
@@ -81,48 +87,51 @@ namespace DMTTestAdapter
 
         private void  LoadConfig()
         {
-            this.SystemMessage = new SystemMessage();
-
             this.InitializeCompleted = false;
-            this.TestState = new InitializeTestState(this);
+            
 
             this.LoadFromFile(Contant.CONFIG);
             this.DigitalDevice = new DigitalDevice();
             this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
             this.DigitalDevice.Open();
             this.DigitalDevice.Start();
-            this.SystemMessage.Results.Add(this.DigitalDevice.StatusMessage);
+            this.SystemMessage.Devices.Add(this.DigitalDevice.StatusMessage);
 
+            
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
             this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
             this.MeasureDevice.Open();
-            this.SystemMessage.Results.Add(this.MeasureDevice.GetStatusMessage());
+            StatusMessage message = this.MeasureDevice.GetStatusMessage();
+            message.Name = "MeasureDevice";
+            this.SystemMessage.Devices.Add(this.MeasureDevice.GetStatusMessage());
 
             this.GeneratorDevice = AnalogDeviceFactory.CreateDevice(this.GeneratorDeviceModel);
             this.GeneratorDevice.LoadFromFile(Contant.ANALOG_CONFIG);
             this.GeneratorDevice.Open();
-            this.SystemMessage.Results.Add(this.GeneratorDevice.GetStatusMessage());
+            message = this.GeneratorDevice.GetStatusMessage();
+            message.Name = "GeneratorDevice";           
+            this.SystemMessage.Devices.Add(this.GeneratorDevice.GetStatusMessage());
 
             this.ProcessController = new ProcessController();
             this.ProcessController.LoadFromFile(Contant.PROCESS_CONFIG);
             this.ProcessController.Open();
             this.ProcessController.Start();
-            this.SystemMessage.Results.Add(this.ProcessController.StatusMessage);
+            this.SystemMessage.Devices.Add(this.ProcessController.StatusMessage);
 
             this.VISController = new VISController();
             this.VISController.LoadFromFile(Contant.VIS_CONFIG);
             this.VISController.Open();
             this.VISController.Start();
-            this.SystemMessage.Results.Add(this.VISController.StatusMessage);
+            this.SystemMessage.Devices.Add(this.VISController.StatusMessage);
 
             this.SwitchController = new SwitchController();
             this.SwitchController.LoadFromFile(Contant.SWITCH_CONFIG);
             this.SwitchController.Open();
             this.SwitchController.Start();
-            this.SystemMessage.Results.Add(this.SwitchController.StatusMessage);
+            this.SystemMessage.Devices.Add(this.SwitchController.StatusMessage);
 
             this.StartThread();
-
+            
         }
 
         
@@ -174,7 +183,7 @@ namespace DMTTestAdapter
             this.InitializeCompleted = true;
             this.TestingModules.Clear();
 
-            return this.StatusMessageText;
+            return  this.SystemMessageText;
         }
 
 

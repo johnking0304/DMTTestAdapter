@@ -16,9 +16,10 @@ namespace TAI.Device
 
         public DigitalDevice() : base()
         {
-            this.Caption = "DigitalDevice";
+            this.Caption = "DigitalModelPLC";
             this.Channel = new ModbusTCPClient(this.Caption);
             this.DigitalOperator = new DigitalOperator();
+            this.StatusMessage.Name = this.Caption;
 
         }
 

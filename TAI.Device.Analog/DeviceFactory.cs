@@ -10,9 +10,9 @@ namespace TAI.Device
     public class AnalogDeviceFactory
     {
 
-        public static IAnalogDevice CreateDevice(DeviceModel deviceModel)
+        public static DeviceMaster CreateDevice(DeviceModel deviceModel)
         {
-            IAnalogDevice device = null;
+            DeviceMaster device = null;
             switch (deviceModel)
             {
                 case DeviceModel.BeamexMC6:

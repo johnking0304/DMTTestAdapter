@@ -21,6 +21,14 @@ namespace DMT.Core.Models
         [JsonProperty(propertyName: "status")]
         public string Status { get; set; }
 
+        public StatusMessage(string name)
+        {
+            this.LastErrorCode = 0;
+            this.LastMessage = "";
+            this.Status = "";
+            this.Name = name;
+        }
+
 
     }
 
@@ -54,7 +62,7 @@ namespace DMT.Core.Models
             this.StartReadDateTime = DateTime.Now;
             this.WaitMilliseconds = 5000;
             this.ReadIntervalMilliseconds = 200;
-            this.StatusMessage = new StatusMessage();
+            this.StatusMessage = new StatusMessage(this.Caption);
         }
 
         public virtual void LoadFromFile(string fileName)

@@ -38,6 +38,7 @@ namespace TAI.Manager
             this.DetectOperator = new DetectOperator();
 
             this.SystemStatusValues = new ushort[SystemOperator.SystemStatusMapLength];
+            this.StatusMessage.Name = this.Caption;
         }
 
         public override void LoadFromFile(string fileName)

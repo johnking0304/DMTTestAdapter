@@ -50,7 +50,8 @@ namespace TAI.Manager
             this.Caption = "VISController";
             this.Channel = new TCPClientChannel(this.Caption);
             this.ChannelResults = new List<KeyValuePair<string, int>>();
-            this.ProgramIds = new List<KeyValuePair<string, int>>();           
+            this.ProgramIds = new List<KeyValuePair<string, int>>();
+            this.StatusMessage.Name = this.Caption;
         }
 
         private bool GetChannelValue(string name ,ref bool value)
@@ -190,7 +191,7 @@ namespace TAI.Manager
             return false;
         }
 
-        public bool OCRChannelLighting(int channelCount,ModuleType module, ref bool[] channels)
+        public bool OCRChannelLighting(int channelCount,ModuleType module,ref string content)
         {
 
             if (this.StartSwitchProgram(this.GetModuleLightingProgramId(module)))
@@ -199,20 +200,23 @@ namespace TAI.Manager
                 this.ChannelResults.Clear();
                 if (this.StartOCRecognize(OCRType.ChannelLighting))
                 {
-                    bool value = false;
+                    content = JsonConvert.SerializeObject(this.ChannelResults);
+
+/*                  bool value = false;
                     for (int i = 0; i < channelCount; i++)
                     {
-                        string channelName = string.Format("CH{0}", i);
+                        *//**//*string channelName = string.Format("CH{0}", i);
 
-                        if (this.GetChannelValue(channelName, ref value))
+
+*//*                        if (this.GetChannelValue(channelName, ref value))
                         {
                             channels[i] = value;
                         }
                         else
                         {
                             channels[i] = false;
-                        }
-                    }
+                        }*//*
+                    }*/
                     return true;
                 }
             }

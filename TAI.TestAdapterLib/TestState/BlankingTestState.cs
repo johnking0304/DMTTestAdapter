@@ -18,6 +18,7 @@ namespace DMTTestAdapter
         {
             this.Caption = "下料状态";
             this.ActiveModule = module;
+            this.ActiveModule.LinkStation.TestStep = TestStep.Blanking;
             this.TestingState = TestingState.Blanking;
         }
 

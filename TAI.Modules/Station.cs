@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace TAI.Modules
 {
@@ -21,6 +22,31 @@ namespace TAI.Modules
     }
 
 
+    public class StationStatus
+    {
+        [JsonProperty(propertyName: "id")]
+        public StationType StationType { get; set; }
+
+        [JsonProperty(propertyName: "station")]
+        public string station { get => this.StationType.ToString(); }
+
+        [JsonProperty(propertyName: "status")]
+        public TestStep TestStep { get; set; }
+
+
+
+
+        public StationStatus(StationType type)
+        {
+            this.StationType = type;
+            this.TestStep = TestStep.Idle;
+            
+        }
+    }
+
+
+
+
     public class Station
     {
         public Position TestPosition { get; set; }
@@ -30,15 +56,23 @@ namespace TAI.Modules
         
         public StationType StationType { get; set; }
         public Module LinkedModule { get; set; }
-        public TestStep TestStep { get; set; }
+        public TestStep TestStep {  set
+            {
+                this.StationStatus.TestStep = value;
+            } }
+
+
+        public StationStatus StationStatus { get; set; }
 
         public Station(StationType stationType)
         {
             this.StationType = stationType;
+            this.StationStatus = new StationStatus(this.StationType);
             this.TestStep = TestStep.Idle;
             this.TestPosition = (Position)((int)Position.StationBase + (int)stationType);
             this.QRPosition = (Position)((int)Position.StationQRBase + (int)stationType);
             this.LinkedModule = null;
+            
         }
 
 
@@ -47,11 +81,6 @@ namespace TAI.Modules
             this.LinkedModule = null;
             this.TestStep = TestStep.Idle;
         }
-
-
-
-
-
 
 
     }

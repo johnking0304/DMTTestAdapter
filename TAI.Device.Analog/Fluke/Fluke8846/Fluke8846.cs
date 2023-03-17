@@ -14,9 +14,10 @@ namespace TAI.Device
             this.Caption = "Fluke8846";
             this.Channel = new SerialChannel(this.Caption);
             this.Channel.AttachObserver(this.subjectObserver.Update);
+            this.StatusMessage.Name = this.Caption;
         }
 
-        public  bool Active()
+        public  override bool Active()
         {
             if (this.Channel != null)
             {
@@ -25,7 +26,7 @@ namespace TAI.Device
             return false;
         }
 
-        public bool Close()
+        public override bool Close()
         {
             return this.Channel.Close();
         }
@@ -37,13 +38,13 @@ namespace TAI.Device
 
         }
 
-        public bool Open()
+        public override bool Open()
         {
             this.Channel.Open();
             return this.Channel.Active();
         }
 
-        public bool SetValue(ChannelType channelType, float value)
+        public override bool SetValue(ChannelType channelType, float value)
         {
             SetValueCommand command = new SetValueCommand(this, channelType, value);
             this.SendCommand(command.PackageString());
@@ -65,14 +66,14 @@ namespace TAI.Device
             return false;
         }
 
-        public bool Initialize()
+        public override bool Initialize()
         {
             InitializeCommand command = new InitializeCommand(this);
             this.SendCommand(command.PackageString());
             return this.GetIdentify();
         }
 
-        public bool GetValue(ChannelType channelType, ref float value)
+        public override bool GetValue(ChannelType channelType, ref float value)
         {
             GetValueCommand command = new GetValueCommand(this, channelType);
             this.SendCommand(command.PackageString());

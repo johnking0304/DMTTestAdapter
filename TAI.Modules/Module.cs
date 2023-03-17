@@ -8,6 +8,9 @@ using DMT.Core.Models;
 
 namespace TAI.Modules
 {
+
+
+
     public enum ModuleType
     {
         None = -1,
@@ -60,10 +63,11 @@ namespace TAI.Modules
     {
         Idle = 1,
         Feeding =2,
-        WaitForTest =3,
+        Ready =3,
         Testing = 4,
         Prepare = 5,
-        Finish = 6,
+        Blanking = 6,
+        Finish = 7,
     }
 
 
@@ -77,13 +81,25 @@ namespace TAI.Modules
         Enable =1,
     }
 
+    public class SystemMessage : StatusMessage
+    {
+        [JsonProperty(propertyName: "devices")]
+        public List<StatusMessage> Devices { get; set; }
 
+        [JsonProperty(propertyName: "stations")]
+        public List<StationStatus> Stations { get; set; }
+
+        public SystemMessage(string name) : base(name)
+        {
+            this.Devices = new List<StatusMessage>();
+            this.Stations = new List<StationStatus>();
+        }
+    }
 
 
 
     public class Module
-    {
- 
+    { 
         public int Id { get; set; }
         public string SerialCode { get; set; }
         public ModuleType ModuleType { get; set; }
@@ -194,18 +210,9 @@ namespace TAI.Modules
     }
 
 
-
-
-
-    public class SystemMessage : StatusMessage
-    {
-        [JsonProperty(propertyName: "results")]
-        public List<StatusMessage> Results { get; set; }
-
-        public SystemMessage():base()
-        {
-            this.Results = new List<StatusMessage>();
-        }
-    }
-
 }
+
+
+
+
+
