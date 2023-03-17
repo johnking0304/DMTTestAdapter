@@ -82,7 +82,7 @@ namespace TestAPPDemo
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label10 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSwitchMode = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -172,7 +172,7 @@ namespace TestAPPDemo
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.comboBoxSwitchMode);
             this.groupBox1.Controls.Add(this.groupBoxGen);
             this.groupBox1.Controls.Add(this.groupBox5);
             this.groupBox1.Controls.Add(this.label5);
@@ -727,23 +727,18 @@ namespace TestAPPDemo
             this.label10.TabIndex = 22;
             this.label10.Text = "模式";
             // 
-            // comboBox1
+            // comboBoxSwitchMode
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "1-DI\t",
-            "2-DO\t",
-            "3-PI\t",
-            "4-AI\t",
-            "5-AO\t",
-            "6-RTD_3L",
-            "7-RTD_4L",
-            "8-TC"});
-            this.comboBox1.Location = new System.Drawing.Point(348, 34);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(89, 26);
-            this.comboBox1.TabIndex = 21;
+            this.comboBoxSwitchMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSwitchMode.FormattingEnabled = true;
+            this.comboBoxSwitchMode.Items.AddRange(new object[] {
+            "0-Off",
+            "1-TC/AI/AO",
+            "2-RTD"});
+            this.comboBoxSwitchMode.Location = new System.Drawing.Point(348, 34);
+            this.comboBoxSwitchMode.Name = "comboBoxSwitchMode";
+            this.comboBoxSwitchMode.Size = new System.Drawing.Size(152, 26);
+            this.comboBoxSwitchMode.TabIndex = 21;
             // 
             // FormMain
             // 
@@ -830,7 +825,7 @@ namespace TestAPPDemo
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxSwitchMode;
     }
 }
 

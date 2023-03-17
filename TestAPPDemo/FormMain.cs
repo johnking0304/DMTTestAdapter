@@ -34,6 +34,7 @@ namespace TestAPPDemo
             this.comboBoxMode.SelectedIndex = 0;
             this.comboBoxGtype.SelectedIndex = 0;
             this.comboBoxMType.SelectedIndex = 0;
+            this.comboBoxSwitchMode.SelectedIndex = 0;
 
         }
 
@@ -55,6 +56,7 @@ namespace TestAPPDemo
 
         private void button3_Click(object sender, EventArgs e)
         {
+            this.TestAdapter.SwitchController.SwitchModeOperate((SwitchMode)this.comboBoxSwitchMode.SelectedIndex);
             this.TestAdapter.SwitchController.SwitchChannelOperate((ushort)(this.comboBoxAnaChannel.SelectedIndex+1)); ;
         }
 
