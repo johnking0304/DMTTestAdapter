@@ -138,9 +138,9 @@ namespace DMTTestAdapter
 
         public override void LoadFromFile(string fileName)
         {
-            string value = IniFiles.GetStringValue(fileName, this.Caption, "MeasureDeviceModel", "Fluke7526");
+            string value = IniFiles.GetStringValue(fileName, this.Caption, "MeasureDeviceModel", "Fluke8846");
             this.MeasureDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);
-            value =  IniFiles.GetStringValue(fileName, this.Caption, "GeneratorDeviceModel", "Fluke8846");
+            value =  IniFiles.GetStringValue(fileName, this.Caption, "GeneratorDeviceModel", "Fluke7526");
             this.GeneratorDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);
 
             base.LoadFromFile(fileName);

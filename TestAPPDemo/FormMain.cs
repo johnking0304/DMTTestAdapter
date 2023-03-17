@@ -161,8 +161,8 @@ namespace TestAPPDemo
         {
             if (this.TestAdapter.GeneratorDevice.Initialize())
             {
-                this.groupBoxGen.Text = string.Format("模拟量信号发生器-", this.TestAdapter.GeneratorDevice.Identify);
-                this.buttonGSet.Enabled = true;
+                this.groupBoxGen.Text = string.Format("模拟量信号发生器-{0}", this.TestAdapter.GeneratorDevice.Identify);
+                this.buttonGSet.Visible = true;
             }
             else
             {
@@ -174,8 +174,8 @@ namespace TestAPPDemo
         {
             if (this.TestAdapter.MeasureDevice.Initialize())
             {
-                this.groupBoxGen.Text = string.Format("模拟量信号测量器-", this.TestAdapter.MeasureDevice.Identify);
-                this.buttonMGet.Enabled = true;
+                this.groupBoxGen.Text = string.Format("模拟量信号测量器-{0}", this.TestAdapter.MeasureDevice.Identify);
+                this.buttonMGet.Visible = true;
             }
             else
             {
