@@ -314,7 +314,9 @@ namespace DMT.Core.Protocols
         {
             try
             {
-                this.TcpClient = new TcpClient();
+
+                IPEndPoint localEP = new IPEndPoint(IPAddress.Any, 0);
+                this.TcpClient = new TcpClient(localEP);
                 this.ModbusClient = ModbusIpMaster.CreateIp(this.TcpClient);    
 
                 IAsyncResult connResult = this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
