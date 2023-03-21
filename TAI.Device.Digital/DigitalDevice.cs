@@ -18,7 +18,7 @@ namespace TAI.Device
         {
             this.Caption = "DigitalModelPLC";
             this.Channel = new ModbusTCPClient(this.Caption);
-            this.DigitalOperator = new DigitalOperator();
+            
             this.StatusMessage.Name = this.Caption;
 
         }
@@ -37,7 +37,7 @@ namespace TAI.Device
         public override void LoadFromFile(string fileName)
         {
             this.Channel.Initialize(fileName);
-
+            this.DigitalOperator = new DigitalOperator(this.Channel.BaseIndex);
             this.DigitalOperator.LoadFromFile(fileName);
         }
 

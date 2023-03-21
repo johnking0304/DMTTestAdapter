@@ -31,12 +31,6 @@ namespace TAI.Manager
             this.ReadChannel = new ModbusTCPClient(string.Format("{0}Read",this.Caption));
             this.WriteChannel = new ModbusTCPClient(string.Format("{0}Write", this.Caption));
 
-            this.RobotOperator = new RobotOperator();
-
-            this.SystemOperator = new SystemOperator();
-
-            this.DetectOperator = new DetectOperator();
-
             this.SystemStatusValues = new ushort[SystemOperator.SystemStatusMapLength];
             this.StatusMessage.Name = this.Caption;
         }
@@ -45,6 +39,10 @@ namespace TAI.Manager
         {
             this.ReadChannel.Initialize(fileName);
             this.WriteChannel.Initialize(fileName);
+
+            this.RobotOperator = new RobotOperator(this.ReadChannel.BaseIndex);
+            this.SystemOperator = new SystemOperator(this.ReadChannel.BaseIndex);
+            this.DetectOperator = new DetectOperator(this.ReadChannel.BaseIndex);
 
             this.RobotOperator.LoadFromFile(fileName);
             this.SystemOperator.LoadFromFile(fileName);

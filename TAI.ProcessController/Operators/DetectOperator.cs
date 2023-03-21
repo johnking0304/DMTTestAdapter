@@ -34,10 +34,9 @@ namespace TAI.Manager
         public ModbusItem TestResult { get; set; }
         public readonly ushort DefaultTestResultOffset = 23;
 
-        public DetectOperator() : base()
+        public DetectOperator(short baseIndex) : base(baseIndex)
         {
             this.Caption = "DetectOperator";
-            this.BaseIndex = 0;
 
             this.TestResult = new ModbusItem(this.Caption, "总体测试结果", "TestResult", this.BaseIndex, DefaultTestResultOffset, 1, ChannelType.AO);
             this.Items.Add(this.TestResult);

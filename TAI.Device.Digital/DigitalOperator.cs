@@ -57,10 +57,9 @@ namespace TAI.Device
         public readonly ushort DefaultMeasureVoltageOffset = 9;
 
 
-        public DigitalOperator() : base()
+        public DigitalOperator(short baseIndex) : base(baseIndex)
         {
             this.Caption = " DigitalChannelOperator";
-            this.BaseIndex = 0;
 
             this.PluseCount = new ModbusItem(this.Caption, "脉冲计数", "PluseCount", this.BaseIndex, DefaultPluseCountOffset, 1, ChannelType.AO);
             this.Items.Add(this.PluseCount);

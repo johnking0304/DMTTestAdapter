@@ -15,8 +15,9 @@ namespace DMT.Core.Models
         public string Caption = "Operator";
         public List<ModbusItem> Items { get; set; }
        
-        public BaseOperator()
+        public BaseOperator(short baseIndex)
         {
+            this.BaseIndex = baseIndex;
             this.Items = new List<ModbusItem>();
 
         }

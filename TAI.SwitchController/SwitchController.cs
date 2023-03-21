@@ -23,15 +23,19 @@ namespace TAI.Manager
         {
             this.Caption = "SwitchController";
             this.Channel = new ModbusTCPClient(this.Caption);
-            this.Operator = new SwitchOperator();
+            
             this.StatusMessage.Name = this.Caption;
         }
 
 
         public override void LoadFromFile(string fileName)
         {
-            this.Operator.LoadFromFile(fileName);
             this.Channel.LoadFromFile(fileName);
+            
+
+            this.Operator = new SwitchOperator(this.Channel.BaseIndex);
+            this.Operator.LoadFromFile(fileName);
+
         }
         public bool Active()
         {

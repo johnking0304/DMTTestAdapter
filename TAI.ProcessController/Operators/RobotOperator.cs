@@ -43,10 +43,9 @@ namespace TAI.Manager
         public readonly ushort DefaultMoveCompletedStatusOffset = 15;
 
 
-        public RobotOperator() : base()
+        public RobotOperator(short baseIndex) : base(baseIndex)
         {
             this.Caption = "RobotOperator";
-            this.BaseIndex = 0;
             this.GetIdleStatus = new ModbusItem(this.Caption, "初始化", "GetIdleStatus", this.BaseIndex, DefaultGetIdleStatusOffset, 1, ChannelType.AI);
             this.Items.Add(this.GetIdleStatus);
 

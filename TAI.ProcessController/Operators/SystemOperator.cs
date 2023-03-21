@@ -83,10 +83,9 @@ namespace TAI.Manager
         
 
 
-        public SystemOperator() : base()
+        public SystemOperator(short baseIndex) : base(baseIndex)
         {
             this.Caption = "SystemOperator";
-            this.BaseIndex = 0;
             this.InitializeOperate = new ModbusItem(this.Caption, "初始化", "InitializeOperate", this.BaseIndex, DefaultInitializeOperateOffset, 1, ChannelType.AO);
             this.Items.Add(this.InitializeOperate);
 

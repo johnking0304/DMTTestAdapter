@@ -32,10 +32,9 @@ namespace TAI.Manager
                 2-A 进 A 出，B 进 B 出（RTD3，4 线）*/
         public ModbusItem ModeSelect { get; set; }
 
-        public SwitchOperator()
+        public SwitchOperator(short baseIndex):base(baseIndex)
         {
             this.Caption = "SwitchOperator";
-            this.BaseIndex = 0;
             this.ChannelSelectId = new ModbusItem(this.Caption, "通道切换", "SwithChannel", this.BaseIndex, DefaultSwithChannelOffset, 1, ChannelType.AO);
             this.Items.Add(this.ChannelSelectId);
             this.ModeSelect = new ModbusItem(this.Caption, "通道模式", "SwithMode", this.BaseIndex, DefaultSwithModeOffset, 1, ChannelType.AO);
