@@ -8,20 +8,18 @@ using DMT.Core.Protocols;
 
 namespace TAI.Manager
 {
-
     public enum SwitchMode
     { 
-        Off = 0,
-        TC=1,
-        AI=1,
-        AO=1,
-        RTD=2,
+        Off = 0,    //0-关闭全部使能通道
+        Voltage =1, //1-A 进 A 出 （TC 和 AI、AO 电压型）
+        RTD =2,     //2-A 进 A 出，B 进 B 出（RTD3，4 线）
+        Current=3,  //3-B 进 A 出 （AI、AO 电流型）*/
     }
     public class SwitchOperator:BaseOperator
     {
 
-        public readonly ushort DefaultSwithModeOffset = 5;    //40005
-        public readonly ushort DefaultSwithChannelOffset = 6; //40006
+        public readonly ushort DefaultSwithModeOffset = 4;    //40005
+        public readonly ushort DefaultSwithChannelOffset = 5; //40006
         
         /// <summary>
         /// 切换的通道号

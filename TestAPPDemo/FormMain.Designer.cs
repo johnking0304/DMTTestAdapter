@@ -180,7 +180,7 @@ namespace TestAPPDemo
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Location = new System.Drawing.Point(434, 29);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(711, 508);
+            this.groupBox1.Size = new System.Drawing.Size(787, 508);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "调理模块";
@@ -207,14 +207,14 @@ namespace TestAPPDemo
             "14",
             "15",
             "16"});
-            this.comboBoxAnaChannel.Location = new System.Drawing.Point(105, 34);
+            this.comboBoxAnaChannel.Location = new System.Drawing.Point(105, 39);
             this.comboBoxAnaChannel.Name = "comboBoxAnaChannel";
             this.comboBoxAnaChannel.Size = new System.Drawing.Size(109, 26);
             this.comboBoxAnaChannel.TabIndex = 5;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(507, 31);
+            this.button3.Location = new System.Drawing.Point(577, 34);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(177, 41);
             this.button3.TabIndex = 4;
@@ -432,7 +432,7 @@ namespace TestAPPDemo
             this.groupBox5.Controls.Add(this.button11);
             this.groupBox5.Location = new System.Drawing.Point(44, 281);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(640, 198);
+            this.groupBox5.Size = new System.Drawing.Size(710, 198);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "模拟量信号测量器 Flue 8846";
@@ -447,7 +447,7 @@ namespace TestAPPDemo
             this.groupBoxGen.Controls.Add(this.button6);
             this.groupBoxGen.Location = new System.Drawing.Point(44, 90);
             this.groupBoxGen.Name = "groupBoxGen";
-            this.groupBoxGen.Size = new System.Drawing.Size(640, 176);
+            this.groupBoxGen.Size = new System.Drawing.Size(710, 176);
             this.groupBoxGen.TabIndex = 8;
             this.groupBoxGen.TabStop = false;
             this.groupBoxGen.Text = "模拟量信号发生器 Fluke7526";
@@ -464,9 +464,9 @@ namespace TestAPPDemo
             // 
             // buttonGSet
             // 
-            this.buttonGSet.Location = new System.Drawing.Point(519, 48);
+            this.buttonGSet.Location = new System.Drawing.Point(533, 43);
             this.buttonGSet.Name = "buttonGSet";
-            this.buttonGSet.Size = new System.Drawing.Size(103, 95);
+            this.buttonGSet.Size = new System.Drawing.Size(157, 95);
             this.buttonGSet.TabIndex = 2;
             this.buttonGSet.Text = "设置输出";
             this.buttonGSet.UseVisualStyleBackColor = true;
@@ -513,9 +513,9 @@ namespace TestAPPDemo
             // 
             // buttonMGet
             // 
-            this.buttonMGet.Location = new System.Drawing.Point(519, 48);
+            this.buttonMGet.Location = new System.Drawing.Point(533, 48);
             this.buttonMGet.Name = "buttonMGet";
-            this.buttonMGet.Size = new System.Drawing.Size(103, 95);
+            this.buttonMGet.Size = new System.Drawing.Size(157, 95);
             this.buttonMGet.TabIndex = 5;
             this.buttonMGet.Text = "读取输入";
             this.buttonMGet.UseVisualStyleBackColor = true;
@@ -733,11 +733,12 @@ namespace TestAPPDemo
             this.comboBoxSwitchMode.FormattingEnabled = true;
             this.comboBoxSwitchMode.Items.AddRange(new object[] {
             "0-Off",
-            "1-TC/AI/AO",
-            "2-RTD"});
-            this.comboBoxSwitchMode.Location = new System.Drawing.Point(348, 34);
+            "1-TC/AI/AO 电压型",
+            "2-RTD 3 4 线",
+            "3-AI/AO 电流型"});
+            this.comboBoxSwitchMode.Location = new System.Drawing.Point(332, 39);
             this.comboBoxSwitchMode.Name = "comboBoxSwitchMode";
-            this.comboBoxSwitchMode.Size = new System.Drawing.Size(152, 26);
+            this.comboBoxSwitchMode.Size = new System.Drawing.Size(204, 26);
             this.comboBoxSwitchMode.TabIndex = 21;
             // 
             // FormMain
