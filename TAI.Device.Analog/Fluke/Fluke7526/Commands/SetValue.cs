@@ -12,8 +12,8 @@ namespace TAI.Device.Fluke.D7526
     {
         private readonly string[] Units = new string[3] { "mA", "V", "Ohm" };
         private ChannelType Type { get; set; }
-        private double Value { get; set; }
-        public SetValueCommand(BaseDevice device, ChannelType type, double value):base(device)
+        private float Value { get; set; }
+        public SetValueCommand(BaseDevice device, ChannelType type, float value):base(device)
         {
             this.Device = device;
             this.Type = type;
