@@ -90,6 +90,9 @@ namespace DMTTestAdapter
                             this.ActiveModule.LinkStation = this.Manager.GetModuleStation(this.ActiveModule.ModuleType);
                             this.ActiveModule.Enable = true;
                             LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-类型[{1}]", moduleType, this.ActiveModule.ModuleType));
+                            //设置类型识别完成信号 
+                            this.Manager.ProcessController.SetModuleTypeOCRCompleted();
+                            LogHelper.LogInfoMsg(string.Format("使能PLC模块类型识别完成信号"));
                         }
                         else
                         {

@@ -83,12 +83,17 @@ namespace TAI.Manager.VIS
 
         public override bool ParseResponse(string content)
         {
+            
             bool result = true;
 
             int index = content.IndexOf("{");
+
+            if (index < 0)
+            {
+                return false;
+            }
             content = content.Substring(index);
             try
-            //FIXME
             {
                 switch (this.OCRType)
                 {

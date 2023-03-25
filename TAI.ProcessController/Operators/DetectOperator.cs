@@ -12,6 +12,12 @@ namespace TAI.Manager
 
     public class DetectOperator : BaseOperator
     {
+
+        /// <summary>
+        /// 模块类型识别完成
+        /// </summary>
+        public ModbusItem ModuleTypeOCRCompleted { get; set; }
+        public readonly ushort DefaultModuleTypeOCRCompletedOffset = 19;
         /// <summary>
         /// 模块上电就绪
         /// </summary>
@@ -47,8 +53,11 @@ namespace TAI.Manager
             this.ModuleQRCompleted = new ModbusItem(this.Caption, "模块二维码识别完成", "ModuleQRCompleted", this.BaseIndex, DefaultModuleQRCompletedOffset, 1, ChannelType.AO);
             this.Items.Add(this.ModuleQRCompleted);
 
-            this.ModuleOCRLightingCompleted = new ModbusItem(this.Caption, "模块等测识别完成", "ModuleOCRLightingCompleted", this.BaseIndex, DefaultModuleOCRLightingCompletedOffset, 1, ChannelType.AO);
+            this.ModuleOCRLightingCompleted = new ModbusItem(this.Caption, "模块灯测识别完成", "ModuleOCRLightingCompleted", this.BaseIndex, DefaultModuleOCRLightingCompletedOffset, 1, ChannelType.AO);
             this.Items.Add(this.ModuleOCRLightingCompleted);
+
+            this.ModuleTypeOCRCompleted = new ModbusItem(this.Caption, "模块类型识别完成", "ModuleTypeOCRCompleted", this.BaseIndex, DefaultModuleTypeOCRCompletedOffset, 1, ChannelType.AO);
+            this.Items.Add(this.ModuleTypeOCRCompleted);
 
 
         }

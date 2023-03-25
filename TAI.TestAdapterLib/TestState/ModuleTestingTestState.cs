@@ -8,11 +8,11 @@ using TAI.Modules;
 
 namespace DMTTestAdapter
 {
-    public class ModuleTestingTestState: TestState
+    public class ModuleTestingTestState : TestState
     {
         public Module ActiveModule { get; set; }
-        
-        public ModuleTestingTestState(TestAdapter manager,Module module) : base(manager)
+
+        public ModuleTestingTestState(TestAdapter manager, Module module) : base(manager)
         {
             this.Caption = "模块测试状态";
             this.TestingState = TestingState.Testing;
@@ -25,7 +25,11 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 
-
+        public override void Execute()
+        {
+           //FIXME 灯测位置移动，
+           //灯测完成后需要上端给信号，使能机械手空闲
+        }
         public override void StateCheck()
         {
             if (this.Manager.Command == OperateCommand.StopStationTest)

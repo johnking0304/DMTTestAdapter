@@ -15,7 +15,7 @@ namespace DMTTestAdapter
     /// <summary>
     /// 测试接口
     /// </summary>
-    [Guid("7BAFA04D-0619-4D1C-B21B-5BF7AE1B0AF4")]
+    [Guid("2BD2243F-816B-4FB9-ABB6-E9E24AD433E2")]
     [ClassInterface(ClassInterfaceType.None)]
     public class TestAdapter : OperatorController, ITestAdapter
     {
@@ -190,6 +190,7 @@ namespace DMTTestAdapter
 
         public float GetAnalogueChannelValue(int channelId, int type)
         {
+            LogHelper.LogInfoMsg(string.Format("Command:GetAnalogueChannelValue[channelId={0},type={1},value={2}]", channelId, type));
             this.SwitchController.SwitchChannelOperate((ushort)channelId);
             float value = 0;
             this.MeasureDevice.GetValue( (ChannelType)type, ref value);        
@@ -198,6 +199,7 @@ namespace DMTTestAdapter
 
         public bool GetDigitalChannelValue(int channelId)
         {
+            LogHelper.LogInfoMsg(string.Format("Command:GetDigitalChannelValue[channelId={0}]", channelId));
             return this.DigitalDevice.GetValue(channelId);
         }
 
@@ -208,21 +210,16 @@ namespace DMTTestAdapter
 
         public string GetSystemStatus()
         {
+            LogHelper.LogInfoMsg(string.Format("Command:GetSystemStatus"));
             return this.StatusMessageText;
         }
 
 
 
 
-        public string Initialize(string content)
-        {
-            ///根据约定的content初始化设备信息
-            return "";
-        }
-
         public bool SetAnalogueChannelValue(int channelId, int type, float value)
         {
-
+            LogHelper.LogInfoMsg(string.Format("Command:SetAnalogueChannelValue[channelId={0},type={1},value={2}]", channelId,type, value));
             bool result = this.SwitchController.SwitchChannelOperate((ushort)channelId);
             result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
             return result;
@@ -230,12 +227,14 @@ namespace DMTTestAdapter
 
         public bool SetDigitalChannelValue(int channelId, bool value)
         {
+            LogHelper.LogInfoMsg(string.Format("Command:SetDigitalChannelValue[channelId={0},value={1}]", channelId, value));
             return this.DigitalDevice.SetValue(channelId,value);
         }
 
 
         public void StartTest()
         {
+            LogHelper.LogInfoMsg(string.Format("Command:StartTest"));
             this.Command = OperateCommand.StartTest;           
         }
 
@@ -246,27 +245,32 @@ namespace DMTTestAdapter
 
         public bool StartStationTest(int StationId)
         {
+            LogHelper.LogInfoMsg(string.Format("Command:StartStationTest[{0}]", StationId));
             return true;
         }
 
 
         public string GetVISModuleType(int StationId)
         {
-            return "";
+            LogHelper.LogInfoMsg(string.Format("Command:GetVISModuleType[{0}]", StationId));
+            return "GetVISModuleType";
         }
 
         public string GetVISModuleCode(int StationId)
         {
-            return "";
+            LogHelper.LogInfoMsg(string.Format("Command:GetVISModuleCode[{0}]", StationId));
+            return "GetVISModuleCode";
         }
 
         public string GetVISLightingResult(int StationId)
         {
-            return "";
+            LogHelper.LogInfoMsg(string.Format("Command:GetVISLightingResult[{0}]", StationId));
+            return "GetVISLightingResult";
         }
 
         public bool SetTestResult(int StationId, bool result)
         {
+            LogHelper.LogInfoMsg(string.Format("Command:SetTestResult[{0}:{1}]", StationId,result));
             this.Command = OperateCommand.StopStationTest;
             if ((StationId > 0) && (StationId < FeedCountMax))
             {

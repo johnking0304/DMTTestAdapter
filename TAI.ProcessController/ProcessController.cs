@@ -385,6 +385,14 @@ namespace TAI.Manager
             return (!this.WriteChannel.HasError);
         }
 
+        public bool SetModuleTypeOCRCompleted()
+        {
+            this.DetectOperator.ModuleTypeOCRCompleted.Datas[0] = (ushort)Status.Completed;
+
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.ModuleTypeOCRCompleted);
+            return (!this.WriteChannel.HasError);
+        }
+
 
         public bool SetModuleOCRLightingCompleted()
         {

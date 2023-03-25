@@ -317,9 +317,12 @@ namespace DMT.Core.Protocols
 
                 IPEndPoint localEP = new IPEndPoint(IPAddress.Any, 0);
                 this.TcpClient = new TcpClient(localEP);
-                this.ModbusClient = ModbusIpMaster.CreateIp(this.TcpClient);    
+                this.ModbusClient = ModbusIpMaster.CreateIp(this.TcpClient);
 
-                IAsyncResult connResult = this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
+                
+                IAsyncResult connResult= this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
+
+
                 connResult.AsyncWaitHandle.WaitOne(1500, true);
                 if (!connResult.IsCompleted)
                 {
@@ -359,7 +362,7 @@ namespace DMT.Core.Protocols
         public void Initialize(string fileName)
         {
             this.LoadFromFile(fileName);
-            this.ConnectToTCPServer();
+            //this.ConnectToTCPServer();
         }
 
         public ushort[] ReadModbusItem(ModbusItem item)

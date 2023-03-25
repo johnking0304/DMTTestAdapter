@@ -28,19 +28,19 @@ namespace TAI.Modules
 
     public enum Position
     {
-        Origin =    100,
+        Origin =    0,
         FeedBase =  0,
 
-        StationBase =6,
-        DI =        7,     //数字量输入模块（DI）	        pDI240，24通道
-        DO =        8,     //数字量输出模块（DO）	        pDO160，16通道
-        PI =        9,     //脉冲量输入模块（PI）	        pPI080，8通道，24V/48V 、5V两种类型
-        AI =        10,     //模拟量输入模块（AI）	        nAI160，16通道
-        AO =        11,     //模拟量输出模块（AO）	        nAO080，8通道       
-        RTD_3L =    12,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
-        RTD_4L =    13,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
-        TC =        14,   //热电偶温度采集模块（TC）	                    8路通道 
-        Prepare =   15,  // 预热
+        StationBase =99,
+        DI =        100,     //数字量输入模块（DI）	        pDI240，24通道
+        DO =        101,     //数字量输出模块（DO）	        pDO160，16通道
+        PI =        102,     //脉冲量输入模块（PI）	        pPI080，8通道，24V/48V 、5V两种类型
+        AI =        103,     //模拟量输入模块（AI）	        nAI160，16通道
+        AO =        104,     //模拟量输出模块（AO）	        nAO080，8通道       
+        RTD_3L =    105,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
+        RTD_4L =    106,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
+        TC =        107,   //热电偶温度采集模块（TC）	                    8路通道 
+        Prepare =   108,  // 预热
 
 
         StationQRBase =19,
@@ -104,7 +104,21 @@ namespace TAI.Modules
         public string SerialCode { get; set; }
         public ModuleType ModuleType { get; set; }
         public int ChannelCount { get; set; }
-        public TestStep TestStep { get; set; }
+        private TestStep testStep { get; set; }
+        public TestStep TestStep { 
+            get
+            { 
+                return testStep;
+            }
+            set 
+            {
+                if (this.LinkStation != null)
+                {
+                    this.LinkStation.TestStep = value;
+                }
+                this.testStep = value;
+            } 
+        }
         public bool Enable { get; set; }
         public bool Conclusion {  set
             {

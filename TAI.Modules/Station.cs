@@ -33,9 +33,6 @@ namespace TAI.Modules
         [JsonProperty(propertyName: "status")]
         public TestStep TestStep { get; set; }
 
-
-
-
         public StationStatus(StationType type)
         {
             this.StationType = type;
@@ -51,9 +48,7 @@ namespace TAI.Modules
     {
         public Position TestPosition { get; set; }
 
-        public Position QRPosition { get; set; }
-
-        
+        public Position QRPosition { get; set; }      
         public StationType StationType { get; set; }
         public Module LinkedModule { get; set; }
         public TestStep TestStep {  set

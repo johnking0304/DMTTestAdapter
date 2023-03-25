@@ -25,9 +25,10 @@ namespace DMTTestAdapter
 
         public override void StateCheck()
         {
-            //如果有重新上料 进入上料识别状态  Module
+            //如果有重新上料 进入上料识别状态  Module   
             if (this.Manager.ProcessController.NewFeedSignal)
             {
+                //复位上料信号
                 this.Manager.TestState = new RecognizeModuleTestState(this.Manager);
                 return;
             }

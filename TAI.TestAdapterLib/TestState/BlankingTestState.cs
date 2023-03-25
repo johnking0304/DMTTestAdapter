@@ -18,7 +18,7 @@ namespace DMTTestAdapter
         {
             this.Caption = "下料状态";
             this.ActiveModule = module;
-            this.ActiveModule.LinkStation.TestStep = TestStep.Blanking;
+            this.ActiveModule.TestStep = TestStep.Blanking;
             this.TestingState = TestingState.Blanking;
         }
 
@@ -46,7 +46,6 @@ namespace DMTTestAdapter
                 {
                     if (this.Manager.ProcessController.RobotIdle)
                     {
-
                         this.Manager.ProcessController.SetRobotMoveParams(this.ActiveModule.CurrentPositionValue, this.ActiveModule.TargetPositionValue, TAI.Manager.ActionMode.Transport);
                         this.Manager.ProcessController.SetRobotMoveEnable();
                         LogHelper.LogInfoMsg(string.Format("开始模块[{0}]下料步骤", this.ActiveModule.Description));

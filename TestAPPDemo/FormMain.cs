@@ -78,11 +78,13 @@ namespace TestAPPDemo
             ActionMode mode = (ActionMode)(this.comboBoxMode.SelectedIndex + 1);
 
             this.TestAdapter.ProcessController.SetRobotMoveParams(start, targent, mode);
+            this.AppendText(string.Format("设置机械手动作参数[{0}->{1} : {2}]", start, targent, mode));
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             this.TestAdapter.ProcessController.SetRobotMoveEnable();
+            this.AppendText(string.Format("设置机械手使能"));
         }
 
         private void comboBoxStart_SelectedIndexChanged(object sender, EventArgs e)
@@ -216,6 +218,21 @@ namespace TestAPPDemo
             }
 
 
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            this.TestAdapter.ProcessController.SetModuleTypeOCRCompleted();
+        }
+
+        private void button8_Click_1(object sender, EventArgs e)
+        {
+            this.TestAdapter.ProcessController.SetModuleQRCompleted();
+        }
+
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+            this.TestAdapter.ProcessController.SetModuleOCRLightingCompleted();
         }
     }
 }

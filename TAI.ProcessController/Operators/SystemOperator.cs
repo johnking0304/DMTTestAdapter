@@ -101,7 +101,7 @@ namespace TAI.Manager
             this.SystemStop = new ModbusItem(this.Caption, "系统急停", "SystemStop", this.BaseIndex, DefaultSystemStopOffset, 1, ChannelType.AI);
             this.Items.Add(this.SystemStop);
 
-            this.SystemStatusMap = new ModbusItem(this.Caption, "系统状态", "SystemStatusMap", 0, DefaultSystemStatusMapOffset, SystemStatusMapLength, ChannelType.AI);
+            this.SystemStatusMap = new ModbusItem(this.Caption, "系统状态", "SystemStatusMap", this.BaseIndex, DefaultSystemStatusMapOffset, SystemStatusMapLength, ChannelType.AI);
             this.Items.Add(this.SystemStatusMap);
 
 

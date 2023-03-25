@@ -313,6 +313,54 @@ namespace DMT.Core.Channels
             }
         }
 
+        public override string Receive()
+        {
+
+
+            ResponseResult resResult = ResponseResult.Unknown;
+            string ReceiveString = "";
+
+            byte[] ReceiveBytes = new byte[RECEIVE_BUFFER_SIZE];
+
+            NetworkStream ClientStream = this.TCPClient.GetStream();
+            var asyncResult = ClientStream.BeginRead(ReceiveBytes, 0, RECEIVE_BUFFER_SIZE, null, null);
+            asyncResult.AsyncWaitHandle.WaitOne(this.ReadTimeout);
+            if (asyncResult.IsCompleted)
+            {
+                try
+                {
+
+                    int numberOfReadBytes = ClientStream.EndRead(asyncResult);
+                    byte[] realReceiveBytes = new byte[numberOfReadBytes];
+                    Array.Copy(ReceiveBytes, 0, realReceiveBytes, 0, numberOfReadBytes);
+                    ReceiveString = System.Text.Encoding.Default.GetString(realReceiveBytes);
+                    resResult = ResponseResult.Ok;
+                    this.LastErrorCode = ChannelResult.OK;
+                    this.LastMessage = "接收返回数据成功!";
+                    return  ReceiveString;
+
+                }
+                catch (System.Exception e)
+                {
+                    resResult = ResponseResult.Error;
+                    this.LastErrorCode = ChannelResult.ReceiveError;
+                    this.LastMessage = string.Format("接收返回数据失败:[{0}]!", e.ToString());
+                }
+            }
+            else
+            {
+
+                resResult = ResponseResult.TimeOut;
+                this.LastMessage = "接收返回数据超时";
+                this.LastErrorCode = ChannelResult.ReceiveTimeOut;
+
+            }
+
+            return "";
+
+            
+
+        }
         //同步方法
         public string SendSync(byte[] command, int TimeOut)
         {
@@ -334,6 +382,7 @@ namespace DMT.Core.Channels
                     
                     NetworkStream ClientStream = this.TCPClient.GetStream();
                     ClientStream.Write(dataGram, 0, dataGram.Length);
+                    Thread.Sleep(500);
                     var asyncResult = ClientStream.BeginRead(ReceiveBytes, 0, RECEIVE_BUFFER_SIZE, null, null);
                     asyncResult.AsyncWaitHandle.WaitOne(this.ReadTimeout);
                     if (asyncResult.IsCompleted)
