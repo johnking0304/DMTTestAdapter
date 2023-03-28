@@ -141,7 +141,7 @@ namespace DMTTestAdapter
 
             this.SwitchControllers = new List<SwitchController>();
 
-            for (int i = (int)StationType.AI; i < (int)StationType.TC; i++)
+            for (int i = (int)StationType.AI; i <= (int)StationType.TC; i++)
             {
                 SwitchController switchController = new SwitchController((StationType)i);
                 switchController.LoadFromFile(Contant.SWITCH_CONFIG);
