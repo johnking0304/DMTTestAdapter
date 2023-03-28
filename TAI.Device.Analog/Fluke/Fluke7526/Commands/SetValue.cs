@@ -10,7 +10,7 @@ namespace TAI.Device.Fluke.D7526
 
     public class SetValueCommand:FlukeCommand
     {
-        private readonly string[] Units = new string[3] { "mA", "V", "CEL" };
+        private readonly string[] Units = new string[3] { "mA", "mV", "CEL" };
         private ChannelType Type { get; set; }
         private float Value { get; set; }
         public SetValueCommand(BaseDevice device, ChannelType type, float value):base(device)
