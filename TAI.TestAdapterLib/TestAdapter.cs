@@ -897,8 +897,11 @@ namespace DMTTestAdapter
                             ChannelControl control = (ChannelControl)Enum.Parse(typeof(ChannelControl), flag);
                             if (control == ChannelControl.Report)
                             {
-                                
                                 this.ProcessCommand(content);
+                            }
+                            else
+                            {
+                                LogHelper.LogErrMsg(string.Format("{0}", message));
                             }
                         }
                         catch

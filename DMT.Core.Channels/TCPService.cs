@@ -135,7 +135,7 @@ namespace DMT.Core.Channels
 			//Sanity Check
 			if (null == this.mainsocket)
 			{
-                this.LastMessage = "No Socket to Listen on!";
+                this.LastMessage = "无有效的Socket侦听!";
                 this.Notify(EVENT_TYPE, ChannelControl.Open.ToString(), "", ChannelResult.CanNotOpen, this.LastMessage);
 			}
 
@@ -153,6 +153,8 @@ namespace DMT.Core.Channels
 							//Start Receiving on the socket now
 							SockWrapper s = new SockWrapper(this.NextConnectionNumber,newsock);
 							ThreadPool.QueueUserWorkItem(new WaitCallback(this.ReceiveClient),s);
+							this.LastMessage = string.Format("新的连接[{0}]!",s.Address);
+							this.Notify(EVENT_TYPE, ChannelControl.Connect.ToString(), "", ChannelResult.CanNotOpen, this.LastMessage);
 						}
 					}
 				}
@@ -163,7 +165,7 @@ namespace DMT.Core.Channels
 				//else thow exception
 				if (!this.stopping)
 				{
-                    this.LastMessage = "Listening socket problem,the network connection ended!";
+                    this.LastMessage = "侦听错误,网络连接结束!";
                     this.Notify(EVENT_TYPE, ChannelControl.Open.ToString(), ex.ToString(), ChannelResult.CanNotOpen, this.LastMessage);
 				}
 				//throw ex;
@@ -223,13 +225,13 @@ namespace DMT.Core.Channels
 			//Sanity Check
 			if (null == s)
 			{
-                this.LastMessage = "The SockWrapper is null!";
+                this.LastMessage = "错误：SockWrapper为空!";
                 this.Notify(EVENT_TYPE, ChannelControl.Receive.ToString(), "", ChannelResult.ReceiveError, this.LastMessage);
 				return;
 			}
 			if (s.State != SocketState.Connected)
 			{
-                this.LastMessage = "The socket is not connected!";
+                this.LastMessage = "错误：Socket未连接!";
                 this.Notify(EVENT_TYPE, ChannelControl.Receive.ToString(), "", ChannelResult.ReceiveError, this.LastMessage);
 				this.CleanupClientSocket(s);
 				return;
@@ -240,11 +242,14 @@ namespace DMT.Core.Channels
 				data = s.Receive();
 				if (data != null)
 				{
-                    string ReceiveString = System.Text.Encoding.UTF8.GetString(data);				
-					ChannelResult resResult = ChannelResult.OK;
-                    this.LastMessage = "收到数据(上报)";
-                    this.Notify(EVENT_TYPE, ChannelControl.Report.ToString(), ReceiveString, resResult, this.LastMessage);
-		
+                    string ReceiveString = System.Text.Encoding.UTF8.GetString(data);
+					ReceiveString = ReceiveString.Trim('\0');
+					if (!string.IsNullOrEmpty(ReceiveString))
+					{
+						ChannelResult resResult = ChannelResult.OK;
+						this.LastMessage = "信息：收到数据(上报)";
+						this.Notify(EVENT_TYPE, ChannelControl.Report.ToString(), ReceiveString, resResult, this.LastMessage); 
+					}		
 				}
 			}
 
@@ -256,6 +261,7 @@ namespace DMT.Core.Channels
 		{
 			if (s.State == SocketState.Disconnected)
 			{
+
 				this.NumConnections--;
 				this.clientsockets.Remove(s.connectionID);
 			}
@@ -264,6 +270,8 @@ namespace DMT.Core.Channels
 				s.Close();
 				this.clientsockets.Remove(s.connectionID);
 			}
+			this.LastMessage = string.Format("连接断开[{0}]!", s.Address);
+			this.Notify(EVENT_TYPE, ChannelControl.Disconnect.ToString(), "", ChannelResult.OK, this.LastMessage);
 		}
 
         public override bool SendCommand(string Command)
@@ -319,6 +327,11 @@ namespace DMT.Core.Channels
 		private SocketState sockState;
 		protected static object critSec = new object();
 
+		public string Address {
+
+			get => this.sock.RemoteEndPoint.ToString();
+				}
+
 		public SocketState State
 		{
 			get
@@ -365,7 +378,6 @@ namespace DMT.Core.Channels
 				catch(Exception ex)
 				{
 					this.Close();
-					Debug.Assert(false,"Failed during Send()","No clue.  Close the socket.");
 				}
 				finally
 				{
@@ -392,8 +404,7 @@ namespace DMT.Core.Channels
 						data = new Byte[4096];
 						nAvailable = sock.Receive(data,4096,SocketFlags.None);
 					}
-					else
-						throw new Exception("The socket is null");
+						
 				}
 				catch(SocketException ex)
 				{
@@ -405,7 +416,7 @@ namespace DMT.Core.Channels
 				catch(Exception ex)
 				{
 					this.Close();
-					Debug.Assert(false,"Failed during Receive()","No clue.  Close the socket.");
+		
 				}
 			}
 

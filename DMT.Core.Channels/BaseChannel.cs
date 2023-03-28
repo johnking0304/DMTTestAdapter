@@ -47,6 +47,8 @@ namespace DMT.Core.Channels
         Send = 3,
         Receive = 4,
         Report = 5,
+        Connect= 6,
+        Disconnect =7,
 
     }
 
