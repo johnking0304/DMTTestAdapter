@@ -297,7 +297,7 @@ namespace DMTTestAdapter
 
         public string GetAnalogueChannelValue(int stationId,int channelId, int type)
         {
-            LogHelper.LogInfoMsg(string.Format("接收命令:获取模拟量通道数据[工位={0},通道={1},类型={2}]", stationId, channelId, ((ChannelType)type).ToString()));
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取模拟量通道数据[工位={0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channelId, ((ChannelType)type).ToString()));
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
                 this.SwitchChannelOperate(stationId, (ushort)channelId, type);
@@ -340,7 +340,7 @@ namespace DMTTestAdapter
         {
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
-                LogHelper.LogInfoMsg(string.Format("接收命令:设置模拟量通道数据[通道={0},类型={1},值={2}]",channelId,((ChannelType)type).ToString(),value));
+                LogHelper.LogInfoMsg(string.Format("接收命令:设置模拟量通道数据[工位={0},通道={1},类型={2},值={3}]", ((StationType)stationId).ToString(), channelId,((ChannelType)type).ToString(),value));
                 bool result = this.SwitchChannelOperate(stationId, (ushort)channelId,type);
                 result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
 
@@ -393,7 +393,7 @@ namespace DMTTestAdapter
 
         public string GetVISModuleType(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("接收命令:获取工位[{0}]模块类型视觉识别结果", StationId));
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取工位[{0}]模块类型视觉识别结果", ((StationType)StationId).ToString()));
             Station station =this.GetModuleStation((ModuleType)StationId);
             if (station.LinkedModule != null)
             {
@@ -405,7 +405,7 @@ namespace DMTTestAdapter
 
         public string GetVISModuleCode(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("接收命令:获取工位[{0}]模块二维码视觉识别结果", StationId));
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取工位[{0}]模块二维码视觉识别结果", ((StationType)StationId).ToString()));
             Station station = this.GetModuleStation((ModuleType)StationId);
             if (station.LinkedModule != null)
             {
@@ -416,7 +416,7 @@ namespace DMTTestAdapter
 
         public string GetVISLightingResult(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("获取工位[{0}]模块灯测视觉识别结果[{0}]", StationId));
+            LogHelper.LogInfoMsg(string.Format("获取工位[{0}]模块灯测视觉识别结果[{0}]", ((StationType)StationId).ToString()));
             string value = "";
             if (this.VISController.OCRChannelLighting((ModuleType)StationId, ref value))
             {
@@ -427,7 +427,7 @@ namespace DMTTestAdapter
 
         public string SetTestResult(int StationId, bool result)
         {
-            LogHelper.LogInfoMsg(string.Format("接收命令:通知工位[{0}]测试结果[{1}]", StationId,result));
+            LogHelper.LogInfoMsg(string.Format("接收命令:通知工位[{0}]测试结果[{1}]", ((StationType)StationId).ToString(), result));
             this.Command = OperateCommand.StopStationTest;
             if ((StationId > 0) && (StationId < FeedCountMax))
             {
@@ -876,6 +876,7 @@ namespace DMTTestAdapter
                     }
 
                     this.SendCommandReply(reply);
+                    LogHelper.LogInfoMsg(string.Format("命令返回数据[{0}]", reply));
                 }
             }
         }

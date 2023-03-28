@@ -19,6 +19,7 @@ namespace TAI.Device
     //2 电阻模式
     public enum ChannelType
     { 
+        None =-1,
         Current =0,
         Voltage =1,
         Resistance =2,

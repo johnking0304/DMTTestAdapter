@@ -7,14 +7,26 @@ using DMT.Core.Models;
 
 namespace TAI.Device
 {
+
+    public enum RTDType
+    { 
+        None =1,
+        PT385_100 =2,
+    }
+
     class Fluke7526 : DeviceMaster, IAnalogDevice
     {
+
+        public ChannelType ChannelType { get; set; }
+        public RTDType RTDType { get; set; }
         public Fluke7526() : base()
         {
             this.Caption = "Fluke7526";
             this.Channel = new SerialChannel(this.Caption);
             this.Channel.AttachObserver(this.subjectObserver.Update);
             this.StatusMessage.Name = this.Caption;
+            this.RTDType = RTDType.None;
+            this.ChannelType = ChannelType.None;
         }
 
         public override bool Active()
@@ -47,13 +59,45 @@ namespace TAI.Device
 
         public override bool SetValue(ChannelType channelType, float value)
         {
+            if (channelType == ChannelType.Resistance)
+            {
+                if (this.RTDType != RTDType.PT385_100)
+                {
+                    FlukeCommand switchMode = new SwitchModeCommand(this);
+                    this.SendCommand(switchMode.PackageString());
+                    this.RTDType = RTDType.PT385_100;
+                }
+            }
+            else
+            {
+                this.RTDType = RTDType.None;
+            }
+
+
             FlukeCommand command = new SetValueCommand(this, channelType, value);
             this.SendCommand(command.PackageString());
 
-            command = new StandByCommand(this);
-            this.SendCommand(command.PackageString());
+            if (channelType == ChannelType.Resistance || channelType == ChannelType.Voltage)
+            {
+                if (this.ChannelType != channelType)
+                {
+                    command = new StandByCommand(this);
+                    this.SendCommand(command.PackageString());
 
-            this.Delay(1000);
+                    this.Delay(1000);
+                    this.ChannelType = channelType;
+                }
+            }
+            else
+            {
+                command = new StandByCommand(this);
+                this.SendCommand(command.PackageString());
+
+                this.Delay(1000);
+                this.ChannelType = channelType;
+            }
+
+
 
             command = new OperateCommand(this);
             this.SendCommand(command.PackageString());
@@ -95,6 +139,6 @@ namespace TAI.Device
             }
             return false;
         }
-
+ 
     }
 }

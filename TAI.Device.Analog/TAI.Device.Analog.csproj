@@ -64,6 +64,7 @@
     <Compile Include="BeamexMC6\MC6Lib\Version.cs" />
     <Compile Include="BeamexMC6\MC6Lib\Win.cs" />
     <Compile Include="DeviceFactory.cs" />
+    <Compile Include="Fluke\Fluke7526\Commands\SwitchMode.cs" />
     <Compile Include="Fluke\Fluke7526\Commands\Operate.cs" />
     <Compile Include="Fluke\Fluke7526\Commands\StandBy.cs" />
     <Compile Include="Fluke\Fluke7526\Fluke7526.cs" />

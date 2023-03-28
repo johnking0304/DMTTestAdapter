@@ -22,6 +22,7 @@ namespace TAI.Device.Fluke.D7526
 
         public override string Pack()
         {
+
             string value = string.Format("OUT {0} {1}", this.Value ,Units[(int)this.Type]);
             return value;
         }

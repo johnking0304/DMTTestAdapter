@@ -20,7 +20,7 @@ namespace TAI.Device.Fluke.D8846
         public override string Pack()
         {
 
-            string value = string.Format("{0}", (int)this.Type, Commands[(int)this.Type]);
+            string value = string.Format("{0}", Commands[(int)this.Type]);
             return value;
         }
 
@@ -36,9 +36,14 @@ namespace TAI.Device.Fluke.D8846
         public override bool ParseResponse(string content, ref float value)
         {
             string[] values = content.Split(new char[1] { ','});
-            if (values.Length >= 2)
+            if (values.Length > 0)
             {
-                return float.TryParse(values[0], out value);
+                bool result =  float.TryParse(values[0], out value);
+                if (this.Type == ChannelType.Current)
+                {
+                    value *= 1000;
+                }
+                return result;
             }
             value = 0;
             return false;
