@@ -43,7 +43,6 @@ namespace DMT.Core.Utils
         /// <param name="msg"></param>
         public static void LogDebugMsg(string msg)
         {
-
             loginfo.Debug(msg);
             logudp.Info(msg);
         }
@@ -54,7 +53,6 @@ namespace DMT.Core.Utils
         /// <param name="msg"></param>
         public static void LogNetMsg(string msg)
         {
-
             lognet.Info(msg);
         }
 

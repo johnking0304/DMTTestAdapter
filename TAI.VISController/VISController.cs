@@ -32,7 +32,7 @@ namespace TAI.Manager
     public class VISController : BaseDevice
     {
         public List<KeyValuePair<string, int>> ChannelResults { get; set; }
-        public int ChannelCount { get; set; }
+        public int ChannelId { get; set; }
         public string ModelType { get; set; }
         public string ModelSerialCode { get; set; }
 
@@ -191,32 +191,17 @@ namespace TAI.Manager
             return false;
         }
 
-        public bool OCRChannelLighting(int channelCount,ModuleType module,ref string content)
+        public bool OCRChannelLighting(ModuleType module,ref string content)
         {
 
             if (this.StartSwitchProgram(this.GetModuleLightingProgramId(module)))
             {
-                this.ChannelCount = channelCount;
+               
                 this.ChannelResults.Clear();
                 if (this.StartOCRecognize(OCRType.ChannelLighting))
                 {
                     content = JsonConvert.SerializeObject(this.ChannelResults);
 
-/*                  bool value = false;
-                    for (int i = 0; i < channelCount; i++)
-                    {
-                        *//**//*string channelName = string.Format("CH{0}", i);
-
-
-*//*                        if (this.GetChannelValue(channelName, ref value))
-                        {
-                            channels[i] = value;
-                        }
-                        else
-                        {
-                            channels[i] = false;
-                        }*//*
-                    }*/
                     return true;
                 }
             }

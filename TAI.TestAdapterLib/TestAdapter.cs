@@ -8,6 +8,7 @@ using TAI.Manager;
 using TAI.Modules;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using DMT.Core.Channels;
 
 namespace DMTTestAdapter
 {
@@ -29,7 +30,11 @@ namespace DMTTestAdapter
         public DeviceMaster MeasureDevice { get; set; }
         public DeviceMaster GeneratorDevice { get; set; }
         public ProcessController ProcessController { get; set; }
-        public SwitchController SwitchController { get; set; }
+        //public SwitchController SwitchController { get; set; }
+        public List<SwitchController> SwitchControllers { get; set; }
+
+        
+
         public VISController VISController { get; set; }
 
         public TestState TestState { get; set; }
@@ -43,6 +48,7 @@ namespace DMTTestAdapter
 
         public List<Station> Stations { get; set; }
 
+        public TCPService Service { get; set; }
 
         /// <summary>
         /// 初始化完成
@@ -59,7 +65,12 @@ namespace DMTTestAdapter
             this.TestingModules = new List<Module>();
             this.Stations = new List<Station>();
             this.SystemMessage = new SystemMessage(this.Caption);
-           
+
+            this.Service = new TCPService();
+
+            this.Service.AttachObserver(this.subjectObserver.Update);
+
+
             foreach (StationType type in Enum.GetValues(typeof(StationType)))
             {
                 Station station = new Station(type);
@@ -69,6 +80,7 @@ namespace DMTTestAdapter
             this.LoadConfig();
 
             this.TestState = new InitializeTestState(this);
+
         }
 
         public void RemoveModule(Module module)
@@ -88,8 +100,10 @@ namespace DMTTestAdapter
         private void  LoadConfig()
         {
             this.InitializeCompleted = false;
-            
 
+            this.Service.LoadFromFile(Contant.CONFIG);
+            this.Service.Open();
+                      
             this.LoadFromFile(Contant.CONFIG);
             this.DigitalDevice = new DigitalDevice();
             this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
@@ -124,11 +138,19 @@ namespace DMTTestAdapter
             this.VISController.Start();
             this.SystemMessage.Devices.Add(this.VISController.StatusMessage);
 
-            this.SwitchController = new SwitchController();
-            this.SwitchController.LoadFromFile(Contant.SWITCH_CONFIG);
-            this.SwitchController.Open();
-            this.SwitchController.Start();
-            this.SystemMessage.Devices.Add(this.SwitchController.StatusMessage);
+
+            this.SwitchControllers = new List<SwitchController>();
+
+            for (int i = (int)StationType.AI; i < (int)StationType.TC; i++)
+            {
+                SwitchController switchController = new SwitchController((StationType)i);
+                switchController.LoadFromFile(Contant.SWITCH_CONFIG);
+                switchController.Open();
+                switchController.Start();
+                this.SwitchControllers.Add(switchController);
+                this.SystemMessage.Devices.Add(switchController.StatusMessage);
+            }
+
 
             this.StartThread();
             
@@ -160,7 +182,89 @@ namespace DMTTestAdapter
         }
 
 
+        private bool SendCommandReply(string reply)
+        {
+            reply = string.Format("{0}\n", reply);
+            return this.Service.SendCommand(reply);
+        }
 
+
+
+        private SwitchMode GetSwitchChannelMode(int stationId, int type)
+        {
+            SwitchMode mode = SwitchMode.Off;
+            switch ((ChannelType)type)
+            {
+                case ChannelType.Current:
+                    {
+                        switch ((StationType)stationId)
+                        {
+                            case StationType.AI:
+                            case StationType.AO:
+                                {
+                                    mode = SwitchMode.Current;
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case ChannelType.Voltage:
+                    {
+                        switch ((StationType)stationId)
+                        {
+                            case StationType.AI:
+                            case StationType.AO:
+                            case StationType.TC:
+                                {
+                                    mode = SwitchMode.Voltage;
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case ChannelType.Resistance:
+                    {
+                        switch ((StationType)stationId)
+                        {
+                            case StationType.RTD_3L:
+                            case StationType.RTD_4L:
+                                {
+                                    mode = SwitchMode.RTD;
+                                    break;
+                                }
+                        }
+
+                        break;
+                    }
+
+            }
+            return mode;
+        }
+
+/*        Off = 0,    //0-关闭全部使能通道
+        Voltage =1, //1-A 进 A 出 （TC 和 AI、AO 电压型）
+        RTD =2,     //2-A 进 A 出，B 进 B 出（RTD3，4 线）
+        Current=3,  //3-B 进 A 出 （AI、AO 电流型）*/
+        public bool SwitchChannelOperate(int stationId, ushort channelId,int type)
+        {
+            SwitchMode mode = this.GetSwitchChannelMode(stationId, type);
+            int index = stationId - (int)StationType.AI;
+            bool result = this.SwitchControllers[index].SwitchModeOperate(mode);
+            return this.SwitchControllers[index].SwitchChannelOperate(channelId);       
+        }
+
+        public bool SwitchChannelOperate(int stationId, ushort channelId, SwitchMode mode)
+        {
+            int index = stationId - (int)StationType.AI;
+            bool result = this.SwitchControllers[index].SwitchModeOperate(mode);
+            return this.SwitchControllers[index].SwitchChannelOperate(channelId);
+        }
+
+        public bool SwitchModeOperate(int stationId, SwitchMode mode)
+        {
+            int index = stationId - (int)StationType.AI;
+            return this.SwitchControllers[index].SwitchModeOperate(mode);
+        }
 
 
         #region Interface
@@ -178,7 +282,10 @@ namespace DMTTestAdapter
 
             result &= this.VISController.Initialize();
 
-            result &= this.SwitchController.Initialize();
+            foreach (SwitchController switchController in this.SwitchControllers)
+            {
+                result &= switchController.Initialize();
+            }
 
             this.InitializeCompleted = true;
             this.TestingModules.Clear();
@@ -188,97 +295,150 @@ namespace DMTTestAdapter
 
 
 
-        public float GetAnalogueChannelValue(int channelId, int type)
+        public string GetAnalogueChannelValue(int stationId,int channelId, int type)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:GetAnalogueChannelValue[channelId={0},type={1},value={2}]", channelId, type));
-            this.SwitchController.SwitchChannelOperate((ushort)channelId);
-            float value = 0;
-            this.MeasureDevice.GetValue( (ChannelType)type, ref value);        
-            return value;        
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取模拟量通道数据[工位={0},通道={1},类型={2}]", stationId, channelId, ((ChannelType)type).ToString()));
+            if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
+            {
+                this.SwitchChannelOperate(stationId, (ushort)channelId, type);
+                float value = 0;
+                bool result = this.MeasureDevice.GetValue((ChannelType)type, ref value);
+                return string.Format("{0},{1}", result ? "Ok" : "Fail", value);
+            }
+            else
+            {
+                return string.Format("Fail");
+            }            
         }
 
-        public bool GetDigitalChannelValue(int channelId)
+        public string GetDigitalChannelValue(int stationId, int channelId)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:GetDigitalChannelValue[channelId={0}]", channelId));
-            return this.DigitalDevice.GetValue(channelId);
+
+            bool value = false;
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取数字量通道数据[通道={0}]", channelId));
+            bool result = this.DigitalDevice.GetValue(channelId, ref value);
+            return string.Format("{0},{1}", result ? "Ok" : "Fail", value ? "1" : "0");
+
+
         }
 
-        public int GetLastErrorCode()
+        public string GetLastErrorCode()
         {
-            return 0;
+            return "Ok";
         }
 
         public string GetSystemStatus()
         {
-            LogHelper.LogInfoMsg(string.Format("Command:GetSystemStatus"));
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取系统状态"));
             return this.StatusMessageText;
         }
 
 
 
 
-        public bool SetAnalogueChannelValue(int channelId, int type, float value)
+        public string SetAnalogueChannelValue(int stationId,int channelId, int type, float value)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:SetAnalogueChannelValue[channelId={0},type={1},value={2}]", channelId,type, value));
-            bool result = this.SwitchController.SwitchChannelOperate((ushort)channelId);
-            result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
-            return result;
+            if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
+            {
+                LogHelper.LogInfoMsg(string.Format("接收命令:设置模拟量通道数据[通道={0},类型={1},值={2}]",channelId,((ChannelType)type).ToString(),value));
+                bool result = this.SwitchChannelOperate(stationId, (ushort)channelId,type);
+                result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
+
+                return result?"Ok":"Fail";
+            }
+            else
+            {
+                return string.Format("Fail");
+            }
         }
 
-        public bool SetDigitalChannelValue(int channelId, bool value)
+        public string SetDigitalChannelValue(int stationId, int channelId, bool value)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:SetDigitalChannelValue[channelId={0},value={1}]", channelId, value));
-            return this.DigitalDevice.SetValue(channelId,value);
+            LogHelper.LogInfoMsg(string.Format("接收命令:设置数量通道数据[通道={0},值={1}]", channelId, value));
+            bool result=  this.DigitalDevice.SetValue(channelId,value);
+            return result? "Ok" : "Fail";
         }
 
 
-        public void StartTest()
+        public string StartTest()
         {
-            LogHelper.LogInfoMsg(string.Format("Command:StartTest"));
-            this.Command = OperateCommand.StartTest;           
+            LogHelper.LogInfoMsg(string.Format("接收命令:启动系统测试"));
+            this.Command = OperateCommand.StartTest;
+            return "Ok";
         }
 
-        public void StopTest()
+        public string StopTest()
         {
+            LogHelper.LogInfoMsg(string.Format("接收命令:停止系统测试"));
             this.Command = OperateCommand.StopTest;
+            return "Ok";
         }
 
-        public bool StartStationTest(int StationId)
+        public string StartStationTest(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:StartStationTest[{0}]", StationId));
-            return true;
+            this.Command = OperateCommand.StartStationTest;
+            LogHelper.LogInfoMsg(string.Format("接收命令:启动工位[{0}]测试", StationId));
+            return "Ok";
         }
+
+        public string EnableStationTest(int StationId)
+        {
+            this.Command = OperateCommand.EnableStationTest;
+            LogHelper.LogInfoMsg(string.Format("接收命令:使能工位[{0}]测试", StationId));
+            return "Ok";
+        }
+
+        
 
 
         public string GetVISModuleType(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:GetVISModuleType[{0}]", StationId));
-            return "GetVISModuleType";
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取工位[{0}]模块类型视觉识别结果", StationId));
+            Station station =this.GetModuleStation((ModuleType)StationId);
+            if (station.LinkedModule != null)
+            {
+                string content = station.LinkedModule.ModuleType.ToString();
+                return string.Format("Ok,{0}",content);
+            }
+            return "Fail";
         }
 
         public string GetVISModuleCode(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:GetVISModuleCode[{0}]", StationId));
-            return "GetVISModuleCode";
+            LogHelper.LogInfoMsg(string.Format("接收命令:获取工位[{0}]模块二维码视觉识别结果", StationId));
+            Station station = this.GetModuleStation((ModuleType)StationId);
+            if (station.LinkedModule != null)
+            {
+                return string.Format("Ok,{0}",station.LinkedModule.SerialCode);
+            }
+            return "Fail";
         }
 
         public string GetVISLightingResult(int StationId)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:GetVISLightingResult[{0}]", StationId));
-            return "GetVISLightingResult";
+            LogHelper.LogInfoMsg(string.Format("获取工位[{0}]模块灯测视觉识别结果[{0}]", StationId));
+            string value = "";
+            if (this.VISController.OCRChannelLighting((ModuleType)StationId, ref value))
+            {
+                string.Format("Ok,{0}", value);
+            }
+            return "Fail";
         }
 
-        public bool SetTestResult(int StationId, bool result)
+        public string SetTestResult(int StationId, bool result)
         {
-            LogHelper.LogInfoMsg(string.Format("Command:SetTestResult[{0}:{1}]", StationId,result));
+            LogHelper.LogInfoMsg(string.Format("接收命令:通知工位[{0}]测试结果[{1}]", StationId,result));
             this.Command = OperateCommand.StopStationTest;
             if ((StationId > 0) && (StationId < FeedCountMax))
             {
                 Station station = this.Stations[StationId - 1];
-                station.LinkedModule.Conclusion = result;
-                return true;
+                if (station.LinkedModule != null)
+                {
+                    station.LinkedModule.Conclusion = result;
+                }
+                return "Ok";
             }
-            return false;
+            return "Fail";
             
         }
         #endregion
@@ -286,9 +446,6 @@ namespace DMTTestAdapter
 
 
         #region Module 
-
-
-
         public void StartModulePrepare(Module module)
         {
             module.TestStep = TestStep.Prepare;
@@ -319,10 +476,6 @@ namespace DMTTestAdapter
         public ModuleType ParseModuleType(string content)
         {
             //FIXME
-
-
-
-
 
             return ModuleType.AI;
         }
@@ -452,6 +605,311 @@ namespace DMTTestAdapter
 
 
         #endregion
+
+        private string Pack(bool result,string reply)
+        {
+            string resultText = result ? "Ok" : "Fail";
+            if (string.IsNullOrEmpty(reply))
+            {
+                return string.Format("{0}", resultText);
+            }
+            else
+            {
+                return string.Format("{0},{1}", resultText, reply);
+            }
+        
+        }
+
+        private void  ProcessCommand(string  content)
+        {
+            string[] lines = content.Split(new char[1] { (char)0x0A});
+
+            foreach (string line in lines)
+            {
+
+                string commandText  = line.Trim(new char[3] { (char)0x0A, (char)0x0D, (char)0x0 });
+
+                if (!string.IsNullOrEmpty(commandText))
+                {
+                   
+                    string[] commands = commandText.Split(new char[2] { ',', ' ' });
+                    string reply = "Ok";
+                    if (commands.Length >= 1)
+                    {
+                        try
+                        {
+                            CommandName command = (CommandName)Enum.Parse(typeof(CommandName), commands[0]);                          
+                            switch (command)
+                            {
+                                case CommandName.Initialize:
+                                    {
+                                        reply = this.Initialize();
+                                        reply = this.Pack(true, reply);
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 获取当前系统状态
+                                /// </summary>
+
+                                case CommandName.GetSystemStatus:
+                                    {
+                                        reply = this.GetSystemStatus();
+                                        reply = this.Pack(true, reply);
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 启动试验进程
+                                /// </summary>
+                                case CommandName.StartTest:
+                                    {
+                                        reply = this.StartTest();
+
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 停止试验进程，并复位
+                                /// </summary>
+                                case CommandName.StopTest:
+                                    {
+                                        reply = this.StopTest();
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 设置模拟量通道数据
+                                /// </summary>
+
+                                case CommandName.SetAnalogueChannelValue:
+                                    {
+                                        if (commands.Length >= 5)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            int channelId = int.Parse(commands[2]);
+                                            int channelType = int.Parse(commands[3]);
+                                            float value = float.Parse(commands[4]);
+                                            reply = this.SetAnalogueChannelValue(stationlId, channelId, channelType, value);
+
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false,"");
+                                        }
+
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 获取模拟量通道数据
+                                /// </summary>
+                                case CommandName.GetAnalogueChannelValue:
+                                    {
+                                        if (commands.Length >= 4)
+                                        {
+                                            int staionId = int.Parse(commands[1]);
+                                            int channelId = int.Parse(commands[2]);
+                                            int channelType = int.Parse(commands[3]);
+                                            reply = this.GetAnalogueChannelValue(staionId, channelId, channelType);
+
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 设置数字量通道数据
+                                /// </summary>
+
+                                case CommandName.SetDigitalChannelValue:
+                                    {
+                                        if (commands.Length >= 4)
+                                        {
+                                            int stationId = int.Parse(commands[1]);
+                                            int channelId = int.Parse(commands[2]);
+                                            bool value = int.Parse(commands[3]) ==1;
+
+                                            reply = this.SetDigitalChannelValue(stationId, channelId, value);
+
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+
+                                        break;
+                                    }
+                                /// <summary>
+                                /// 获取数字量通道数据
+                                /// </summary>
+
+                                case CommandName.GetDigitalChannelValue:
+                                    {
+                                        if (commands.Length >= 3)
+                                        {
+                                            int stationId = int.Parse(commands[1]);
+                                            int channelId = int.Parse(commands[2]);
+                                            reply = this.GetDigitalChannelValue(stationId,channelId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 获取最后的错误码
+                                /// </summary>
+
+                                case CommandName.GetLastErrorCode:
+                                    {
+                                        reply = this.GetLastErrorCode();
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 获取视觉 模块类型
+                                /// </summary>
+
+                                case CommandName.GetVISModuleType:
+                                    {
+                                        if (commands.Length >= 2)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            reply = this.GetVISModuleType(stationlId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+
+                                        break;
+                                    }
+
+
+                                /// <summary>
+                                /// 获取视觉OCR 识别 模块码
+                                /// </summary>
+
+                                case CommandName.GetVISModuleCode:
+                                    {
+                                        if (commands.Length >= 2)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            reply = this.GetVISModuleCode(stationlId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+
+                                /// <summary>
+                                /// 获取视觉灯测结果
+                                /// </summary>
+                                case CommandName.GetVISLightingResult:
+                                    {
+                                        if (commands.Length >= 2)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            reply = this.GetVISLightingResult(stationlId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+
+
+                                /// <summary>
+                                /// 启动工位测试
+                                /// </summary>
+                                case CommandName.StartStationTest:
+                                    {
+                                        if (commands.Length >= 2)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            reply = this.StartStationTest(stationlId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+
+
+                                /// <summary>
+                                /// 设置测试工位测试结果
+                                /// </summary>
+
+                                case CommandName.SetTestResult:
+                                    {
+                                        if (commands.Length >= 3)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            bool value = int.Parse(commands[2])== 1;
+                                            reply = this.SetTestResult(stationlId, value);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+                            }
+                            reply = this.PackageReply(command.ToString(), reply);
+                        }
+                        catch
+                        {
+                            LogHelper.LogErrMsg(string.Format("无效的命令[{0}]", commandText));
+                            reply = this.PackageReply(commands[0],"Fail");
+                        }                       
+                    }
+
+                    this.SendCommandReply(reply);
+                }
+            }
+        }
+
+        private string PackageReply(string command ,string reply)
+        {
+            return string.Format("{0},{1}", command, reply);
+        }
+
+        public override void ProcessResponse(int notifyEvent, string flag, string content, object result, string message, object sender)
+        {           
+            switch(notifyEvent)
+            {
+                case TCPService.EVENT_TYPE:
+                    {
+                        try
+                        {
+                            ChannelControl control = (ChannelControl)Enum.Parse(typeof(ChannelControl), flag);
+                            if (control == ChannelControl.Report)
+                            {
+                                
+                                this.ProcessCommand(content);
+                            }
+                        }
+                        catch
+                        {
+                            LogHelper.LogErrMsg(string.Format("ChannelControl参数解析失败[{0}]!", flag));
+                            
+                        }
+                                      
+                        break;
+                    }
+            }
+        }
 
 
     }

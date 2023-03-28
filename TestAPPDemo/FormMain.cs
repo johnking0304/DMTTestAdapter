@@ -27,6 +27,7 @@ namespace TestAPPDemo
         private void Form1_Load(object sender, EventArgs e)
         {
             this.TestAdapter = new TestAdapter();
+   
 
             this.comboBoxAnaChannel.SelectedIndex = 0;
             this.comboBoxStart.SelectedIndex = 0;
@@ -35,7 +36,7 @@ namespace TestAPPDemo
             this.comboBoxGtype.SelectedIndex = 0;
             this.comboBoxMType.SelectedIndex = 0;
             this.comboBoxSwitchMode.SelectedIndex = 0;
-
+            this.comboBoxStation.SelectedIndex = 0;
         }
 
 
@@ -56,8 +57,11 @@ namespace TestAPPDemo
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.TestAdapter.SwitchController.SwitchModeOperate((SwitchMode)this.comboBoxSwitchMode.SelectedIndex);
-            this.TestAdapter.SwitchController.SwitchChannelOperate((ushort)(this.comboBoxAnaChannel.SelectedIndex+1)); ;
+
+            string[] lines = this.comboBoxAnaChannel.Text.Split('-');
+            ushort channel = ushort.Parse(lines[1]);
+            int stationId = this.comboBoxStation.SelectedIndex + 4;
+            this.TestAdapter.SwitchChannelOperate(stationId, channel, (SwitchMode)this.comboBoxSwitchMode.SelectedIndex); ;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -112,7 +116,7 @@ namespace TestAPPDemo
             string content = "";
             int channel = comboBoxModuleChannel.SelectedIndex + 1;
             ModuleType moduleType = (ModuleType)(comboBoxModuleType.SelectedIndex + 1);
-            bool result = this.TestAdapter.VISController.OCRChannelLighting(channel, moduleType, ref content);
+            bool result = this.TestAdapter.VISController.OCRChannelLighting( moduleType, ref content);
             this.richTextBoxLighting.Text = string.Format("{0}:{1}", result ? "OK" : "Error", content);
         }
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using DMT.Core.Protocols;
 using DMT.Core.Models;
-
+using TAI.Modules;
+using DMT.Core.Utils;
 
 
 namespace TAI.Manager
@@ -19,12 +20,14 @@ namespace TAI.Manager
         public ModbusTCPClient Channel { get; set; }
         public SwitchOperator Operator { get; set; }
 
-        public SwitchController()
+        public StationType StationType { get; set; }
+
+        public SwitchController(StationType stationType)
         {
-            this.Caption = "SwitchController";
+            this.Caption = string.Format("{0}SwitchController", stationType.ToString());
             this.Channel = new ModbusTCPClient(this.Caption);
             
-            this.StatusMessage.Name = this.Caption;
+            this.StatusMessage.Name = string.Format("{0} SwitchController", stationType.Description());
         }
 
 

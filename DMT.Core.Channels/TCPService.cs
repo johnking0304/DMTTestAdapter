@@ -7,8 +7,9 @@ using System.Threading;
 using System.Diagnostics;
 using System.IO;
 using DMT.Core.Channels;
+using DMT.Core.Utils;
 
-namespace JK.Channels.TCP
+namespace DMT.Core.Channels
 {
 	public delegate void ServerDelegate(int numConnections);
 	/// <summary>
@@ -24,7 +25,7 @@ namespace JK.Channels.TCP
 		private int currentConnectionID = 1;  //Used for a unique id for each socket
 		private Thread listeningThread; //Thread of the listener socket
 		const int MaxConnectionsAllowed = 100;
-		private int tcpPort;
+		private int tcpPort { get; set; }
 
 		/// <summary>
 		/// Property for current number of connections.  Fires event on change.
@@ -66,16 +67,17 @@ namespace JK.Channels.TCP
 		/// </summary>
 		public TCPService()
 		{
+			this.Caption = "TCPService";
 			this.clientsockets = new System.Collections.Specialized.ListDictionary();
 			this.NumConnections = 0;
 			this.tcpPort = 9000;
 		}
 
-		public TCPService(int tcpPort)
+		public TCPService(string caption)
 		{
+			this.Caption = caption + "TCPService";
 			this.clientsockets = new System.Collections.Specialized.ListDictionary();
 			this.NumConnections = 0;
-			this.tcpPort = tcpPort;
 		}
 
 		/// <summary>
@@ -238,10 +240,11 @@ namespace JK.Channels.TCP
 				data = s.Receive();
 				if (data != null)
 				{
-                    string ReceiveString = BitConverter.ToString(data);
-                    ChannelResult resResult = ChannelResult.OK;
+                    string ReceiveString = System.Text.Encoding.UTF8.GetString(data);				
+					ChannelResult resResult = ChannelResult.OK;
                     this.LastMessage = "收到数据(上报)";
                     this.Notify(EVENT_TYPE, ChannelControl.Report.ToString(), ReceiveString, resResult, this.LastMessage);
+		
 				}
 			}
 
@@ -283,6 +286,22 @@ namespace JK.Channels.TCP
 			}
             return true;
 		}
+
+
+		public override void SaveToFile(string fileName)
+		{
+			IniFiles.WriteIntValue(fileName, this.Caption, "Port", this.tcpPort);
+
+		}
+
+		public override void LoadFromFile(string fileName)
+		{
+			this.tcpPort = IniFiles.GetIntValue(fileName, this.Caption, "Port", 8000);
+			base.LoadFromFile(fileName);
+		}
+
+
+
 	}
 
 	public enum SocketState

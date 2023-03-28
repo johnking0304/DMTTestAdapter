@@ -22,14 +22,14 @@ namespace DMT.Core.Channels
         public const int UDP_COMMAND_EVENT = 3001;
 		public const int UDP_DATA_EVENT = 3002;
 
-        private UdpClient UDPClient;
+        public UdpClient UDPClient;
 
         public int Port { get; set; }
         public string Host { get; set; }
         public int ReadTimeout { get; set; }
 
-        private Thread receiveProcessor;
-        private Boolean terminated { get; set; }
+        public Thread receiveProcessor;
+        public  Boolean terminated { get; set; }
 
 
         private void Initialize()

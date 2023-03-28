@@ -126,14 +126,14 @@ namespace TAI.Device
             return (float)0.0;
         }
 
-        public bool GetValue(int channelId)
+        public bool GetValue(int channelId,ref bool result)
         {
             ushort[] data = this.Channel.ReadHoldingRegisters(this.DigitalOperator.InputChannels.StartAddress, this.DigitalOperator.InputChannels.Length);
             if (!this.Channel.HasError)
             {
 
-                bool result = (data[0] >> (channelId - 1) & 1) == 1;
-                return result;
+                result = (data[0] >> (channelId - 1) & 1) == 1;
+                return true;
                                
             }
             return false;

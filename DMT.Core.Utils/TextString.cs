@@ -4,9 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace DMT.Core.Utils
 {
+
+    public static class EnumHelper
+    {
+        #region Description
+        /// <summary>
+        /// 获取枚举值的描述文本
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string Description(this Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+            DescriptionAttribute[] attributes =
+            (DescriptionAttribute[])fi.GetCustomAttributes(
+            typeof(DescriptionAttribute), false);
+            return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
+        }
+        #endregion
+    }
+
     public static class TextString
     {
 

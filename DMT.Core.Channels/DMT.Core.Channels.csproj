@@ -54,6 +54,7 @@
     <Compile Include="TCPChannel.cs" />
     <Compile Include="TCPService.cs" />
     <Compile Include="UDPChannel.cs" />
+    <Compile Include="UDPService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dmt.snk" />
