@@ -49,10 +49,6 @@ namespace DMTTestManager
             this.comboBoxtarget = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxStart = new System.Windows.Forms.ComboBox();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -92,20 +88,23 @@ namespace DMTTestManager
             this.button13 = new System.Windows.Forms.Button();
             this.textBoxModuleType = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialTabControlMain.SuspendLayout();
             this.tabPageDevices.SuspendLayout();
             this.tabPageLog.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageProcessController.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-            this.groupControl1.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBoxGen.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tabPage12.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialTabControlMain
@@ -205,8 +204,8 @@ namespace DMTTestManager
             // 
             // tabPageProcessController
             // 
+            this.tabPageProcessController.Controls.Add(this.groupBox2);
             this.tabPageProcessController.Controls.Add(this.groupBox4);
-            this.tabPageProcessController.Controls.Add(this.groupControl1);
             this.tabPageProcessController.Location = new System.Drawing.Point(4, 33);
             this.tabPageProcessController.Name = "tabPageProcessController";
             this.tabPageProcessController.Padding = new System.Windows.Forms.Padding(3);
@@ -362,42 +361,6 @@ namespace DMTTestManager
             this.comboBoxStart.Name = "comboBoxStart";
             this.comboBoxStart.Size = new System.Drawing.Size(398, 32);
             this.comboBoxStart.TabIndex = 0;
-            // 
-            // groupControl1
-            // 
-            this.groupControl1.Controls.Add(this.listView1);
-            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupControl1.Location = new System.Drawing.Point(3, 3);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(353, 784);
-            this.groupControl1.TabIndex = 1;
-            this.groupControl1.Text = "信号状态";
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(2, 34);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(349, 748);
-            this.listView1.TabIndex = 3;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "项目";
-            this.columnHeader1.Width = 110;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "值(状态)";
-            this.columnHeader2.Width = 121;
             // 
             // tabPage10
             // 
@@ -848,6 +811,43 @@ namespace DMTTestManager
             this.button12.Text = "识别模块类型";
             this.button12.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.listView1);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(348, 784);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "项目信息";
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(3, 27);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(342, 754);
+            this.listView1.TabIndex = 4;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "项目";
+            this.columnHeader1.Width = 110;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "值(状态)";
+            this.columnHeader2.Width = 121;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -867,8 +867,6 @@ namespace DMTTestManager
             this.tabPageProcessController.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-            this.groupControl1.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -879,6 +877,7 @@ namespace DMTTestManager
             this.tabPage12.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -903,10 +902,6 @@ namespace DMTTestManager
         private System.Windows.Forms.ComboBox comboBoxtarget;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxStart;
-        private DevExpress.XtraEditors.GroupControl groupControl1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TabPage tabPage10;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label11;
@@ -946,6 +941,10 @@ namespace DMTTestManager
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.TextBox textBoxModuleType;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 
