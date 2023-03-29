@@ -317,9 +317,12 @@ namespace DMT.Core.Protocols
 
                 IPEndPoint localEP = new IPEndPoint(IPAddress.Any, 0);
                 this.TcpClient = new TcpClient(localEP);
+                this.TcpClient.ReceiveTimeout = 5000;
+                this.TcpClient.SendTimeout = 3000;
                 this.ModbusClient = ModbusIpMaster.CreateIp(this.TcpClient);
+                this.ModbusClient.Transport.ReadTimeout = 5000;
+                this.ModbusClient.Transport.WriteTimeout = 5000;
 
-                
                 IAsyncResult connResult= this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
 
 

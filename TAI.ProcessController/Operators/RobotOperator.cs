@@ -42,6 +42,9 @@ namespace TAI.Manager
         public ModbusItem MoveCompletedStatus { get; set; }
         public readonly ushort DefaultMoveCompletedStatusOffset = 15;
 
+        public ModbusItem SetTestStationId { get; set; }
+        public readonly ushort DefaultSetTestStationIdOffset = 16;
+
 
         public RobotOperator(short baseIndex) : base(baseIndex)
         {
@@ -57,6 +60,9 @@ namespace TAI.Manager
 
             this.MoveCompletedStatus = new ModbusItem(this.Caption, "移动完成", "MoveCompletedStatus", this.BaseIndex, DefaultMoveCompletedStatusOffset, 1, ChannelType.AO);
             this.Items.Add(this.MoveCompletedStatus);
+
+            this.SetTestStationId = new ModbusItem(this.Caption, "设置测试工位编号", "SetTestStationId", this.BaseIndex, DefaultSetTestStationIdOffset, 1, ChannelType.AO);
+            this.Items.Add(this.SetTestStationId);
         }
 
 

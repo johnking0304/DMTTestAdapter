@@ -339,6 +339,24 @@ namespace TAI.Manager
         }
 
 
+
+
+        public bool StartStationTest(int stationId)
+        {
+            ushort station = (ushort)((ushort)stationId + (ushort)(Position.StationBase));
+
+            this.RobotOperator.SetTestStationId.Datas[0] = station;
+            this.WriteChannel.WriteModbusItem(this.RobotOperator.SetTestStationId);
+
+            this.DetectOperator.StartStationTest.Datas[0] = 1;  //启动 OK =1  NG=2
+
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.StartStationTest);
+
+            LogHelper.LogInfoMsg(string.Format("启动工位[{0}]测试", stationId));
+            return (!this.WriteChannel.HasError);
+        }
+
+
         public bool RobotMoveCompleted
         {
             get

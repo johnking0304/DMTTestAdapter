@@ -34,12 +34,12 @@ namespace DMTTestManager
             this.materialTabControlMain = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageSystem = new System.Windows.Forms.TabPage();
             this.tabPageDevices = new System.Windows.Forms.TabPage();
-            this.tabPageLog = new System.Windows.Forms.TabPage();
-            this.tabPageAbout = new System.Windows.Forms.TabPage();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageProcessController = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.comboBoxMode = new System.Windows.Forms.ComboBox();
@@ -88,15 +88,15 @@ namespace DMTTestManager
             this.button13 = new System.Windows.Forms.Button();
             this.textBoxModuleType = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPageLog = new System.Windows.Forms.TabPage();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.tabPageAbout = new System.Windows.Forms.TabPage();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.materialTabControlMain.SuspendLayout();
             this.tabPageDevices.SuspendLayout();
-            this.tabPageLog.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageProcessController.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -104,7 +104,7 @@ namespace DMTTestManager
             this.groupBox5.SuspendLayout();
             this.tabPage12.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.tabPageLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialTabControlMain
@@ -148,47 +148,6 @@ namespace DMTTestManager
             this.tabPageDevices.Text = "设备";
             this.tabPageDevices.UseVisualStyleBackColor = true;
             // 
-            // tabPageLog
-            // 
-            this.tabPageLog.Controls.Add(this.richTextBoxLog);
-            this.tabPageLog.ImageKey = "Log.png";
-            this.tabPageLog.Location = new System.Drawing.Point(4, 39);
-            this.tabPageLog.Name = "tabPageLog";
-            this.tabPageLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLog.Size = new System.Drawing.Size(1460, 833);
-            this.tabPageLog.TabIndex = 2;
-            this.tabPageLog.Text = "日志";
-            this.tabPageLog.UseVisualStyleBackColor = true;
-            // 
-            // tabPageAbout
-            // 
-            this.tabPageAbout.ImageKey = "About.png";
-            this.tabPageAbout.Location = new System.Drawing.Point(4, 39);
-            this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAbout.Size = new System.Drawing.Size(1460, 833);
-            this.tabPageAbout.TabIndex = 3;
-            this.tabPageAbout.Text = "关于";
-            this.tabPageAbout.UseVisualStyleBackColor = true;
-            // 
-            // imageList
-            // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "all.png");
-            this.imageList.Images.SetKeyName(1, "DeviceInfo.png");
-            this.imageList.Images.SetKeyName(2, "Log.png");
-            this.imageList.Images.SetKeyName(3, "About.png");
-            // 
-            // richTextBoxLog
-            // 
-            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxLog.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(1454, 827);
-            this.richTextBoxLog.TabIndex = 0;
-            this.richTextBoxLog.Text = "";
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPageProcessController);
@@ -213,6 +172,43 @@ namespace DMTTestManager
             this.tabPageProcessController.TabIndex = 0;
             this.tabPageProcessController.Text = "测试流程控制";
             this.tabPageProcessController.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.listView1);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(348, 784);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "项目信息";
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(3, 27);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(342, 754);
+            this.listView1.TabIndex = 4;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "项目";
+            this.columnHeader1.Width = 110;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "值(状态)";
+            this.columnHeader2.Width = 121;
             // 
             // groupBox4
             // 
@@ -811,42 +807,46 @@ namespace DMTTestManager
             this.button12.Text = "识别模块类型";
             this.button12.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // tabPageLog
             // 
-            this.groupBox2.Controls.Add(this.listView1);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(348, 784);
-            this.groupBox2.TabIndex = 10;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "项目信息";
+            this.tabPageLog.Controls.Add(this.richTextBoxLog);
+            this.tabPageLog.ImageKey = "Log.png";
+            this.tabPageLog.Location = new System.Drawing.Point(4, 39);
+            this.tabPageLog.Name = "tabPageLog";
+            this.tabPageLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLog.Size = new System.Drawing.Size(1460, 833);
+            this.tabPageLog.TabIndex = 2;
+            this.tabPageLog.Text = "日志";
+            this.tabPageLog.UseVisualStyleBackColor = true;
             // 
-            // listView1
+            // richTextBoxLog
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 27);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(342, 754);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxLog.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.Size = new System.Drawing.Size(1454, 827);
+            this.richTextBoxLog.TabIndex = 0;
+            this.richTextBoxLog.Text = "";
             // 
-            // columnHeader1
+            // tabPageAbout
             // 
-            this.columnHeader1.Text = "项目";
-            this.columnHeader1.Width = 110;
+            this.tabPageAbout.ImageKey = "About.png";
+            this.tabPageAbout.Location = new System.Drawing.Point(4, 39);
+            this.tabPageAbout.Name = "tabPageAbout";
+            this.tabPageAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAbout.Size = new System.Drawing.Size(1460, 833);
+            this.tabPageAbout.TabIndex = 3;
+            this.tabPageAbout.Text = "关于";
+            this.tabPageAbout.UseVisualStyleBackColor = true;
             // 
-            // columnHeader2
+            // imageList
             // 
-            this.columnHeader2.Text = "值(状态)";
-            this.columnHeader2.Width = 121;
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "all.png");
+            this.imageList.Images.SetKeyName(1, "DeviceInfo.png");
+            this.imageList.Images.SetKeyName(2, "Log.png");
+            this.imageList.Images.SetKeyName(3, "About.png");
             // 
             // FormMain
             // 
@@ -859,12 +859,13 @@ namespace DMTTestManager
             this.DrawerTabControl = this.materialTabControlMain;
             this.Name = "FormMain";
             this.Text = "DMT测试调试服务平台";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.materialTabControlMain.ResumeLayout(false);
             this.tabPageDevices.ResumeLayout(false);
-            this.tabPageLog.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPageProcessController.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage10.ResumeLayout(false);
@@ -877,7 +878,7 @@ namespace DMTTestManager
             this.tabPage12.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.tabPageLog.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

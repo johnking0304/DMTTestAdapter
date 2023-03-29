@@ -68,6 +68,10 @@
       <Project>{4ed54fd6-18e8-406e-8eba-be3af8983c15}</Project>
       <Name>DMT.Core.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">
+      <Project>{898a164e-86aa-4d2f-a096-d9ab030ae9c0}</Project>
+      <Name>DMT.Core.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

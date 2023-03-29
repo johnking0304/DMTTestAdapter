@@ -156,7 +156,30 @@ namespace DMTTestAdapter
             
         }
 
-        
+
+        public void Dispose()
+        {
+            this.StopThread();
+
+            this.Service.Close();
+
+            this.DigitalDevice.Close();
+
+            this.MeasureDevice.Close();
+
+            this.GeneratorDevice.Close();
+
+            this.ProcessController.Close();
+
+            this.VISController.Close();
+
+            foreach (SwitchController switchController in this.SwitchControllers)
+            {
+                switchController.Close();
+            }
+
+        }
+
 
         public override void LoadFromFile(string fileName)
         {
@@ -179,6 +202,8 @@ namespace DMTTestAdapter
             {
                 this.TestState.Execute();
             }
+
+
         }
 
 
@@ -338,12 +363,20 @@ namespace DMTTestAdapter
 
         public string SetAnalogueChannelValue(int stationId,int channelId, int type, float value)
         {
-            if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
+            if (stationId >= (int)StationType.PI && stationId <= (int)StationType.TC)
             {
                 LogHelper.LogInfoMsg(string.Format("接收命令:设置模拟量通道数据[工位={0},通道={1},类型={2},值={3}]", ((StationType)stationId).ToString(), channelId,((ChannelType)type).ToString(),value));
-                bool result = this.SwitchChannelOperate(stationId, (ushort)channelId,type);
-                result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
-
+                bool result = true;
+                if (stationId == (int)StationType.PI)
+                {
+                    result &= this.DigitalDevice.SetPluseOutputMode(PluseMode.PL10KHZ);
+                    result &= this.DigitalDevice.SelectPIChannel(channelId);
+                }
+                else
+                {
+                    result = this.SwitchChannelOperate(stationId, (ushort)channelId, type);
+                    result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
+                }
                 return result?"Ok":"Fail";
             }
             else

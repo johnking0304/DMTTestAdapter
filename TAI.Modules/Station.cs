@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using DMT.Core.Utils;
 
 namespace TAI.Modules
 {
@@ -42,6 +43,14 @@ namespace TAI.Modules
 
         [JsonProperty(propertyName: "status")]
         public TestStep TestStep { get; set; }
+
+        [JsonProperty(propertyName: "statusText")]
+        public string StatusText
+        {
+            get {
+                return this.TestStep.Description();
+            }
+        }
 
         public StationStatus(StationType type)
         {

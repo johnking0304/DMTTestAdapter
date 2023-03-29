@@ -27,7 +27,7 @@ namespace TAI.Manager
             this.Caption = string.Format("{0}SwitchController", stationType.ToString());
             this.Channel = new ModbusTCPClient(this.Caption);
             
-            this.StatusMessage.Name = string.Format("{0} SwitchController", stationType.Description());
+            this.StatusMessage.Name = string.Format("{0} SwitchController", stationType.ToString());
         }
 
 

@@ -11,12 +11,14 @@ namespace DMTTestAdapter
     public class ModuleTestingTestState : TestState
     {
         public Module ActiveModule { get; set; }
+        public bool PreparedForOCRLighting { get; set; }
 
         public ModuleTestingTestState(TestAdapter manager, Module module) : base(manager)
         {
             this.Caption = "模块测试状态";
             this.TestingState = TestingState.Testing;
             this.ActiveModule = module;
+            this.PreparedForOCRLighting = false;
         }
 
         public override void Initialize()
@@ -27,7 +29,30 @@ namespace DMTTestAdapter
 
         public override void Execute()
         {
-           //FIXME 灯测位置移动，
+
+            //灯测位置移动，
+
+            //如果不在移动状态，
+            if ((!this.RobotMoving) && (!this.PreparedForOCRLighting))
+            {
+                if (this.Manager.ProcessController.RobotIdle)
+                {
+                    this.Manager.ProcessController.SetRobotMoveParams((int)Position.Origin, (int)this.ActiveModule.LinkStation.QRPosition, TAI.Manager.ActionMode.Capture);
+                    this.Manager.ProcessController.SetRobotMoveEnable();
+                    LogHelper.LogInfoMsg(string.Format("移动机械手到灯测位置", (int)this.ActiveModule.LinkStation.QRPosition));
+                    this.RobotMoving = true;
+                }
+            }
+            else
+            {   //判断移动是否结束
+                if (this.Manager.ProcessController.RobotMoveCompleted)
+                {
+                    this.RobotMoving = false;
+                    this.PreparedForOCRLighting = true;
+                    LogHelper.LogInfoMsg(string.Format("机械手已到达位置[{0}]等待模块测试和灯测驱动"));
+                }
+            }
+
            //灯测完成后需要上端给信号，使能机械手空闲
         }
         public override void StateCheck()

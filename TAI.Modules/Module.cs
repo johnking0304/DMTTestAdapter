@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DMT.Core.Models;
+using System.ComponentModel;
 
 namespace TAI.Modules
 {
@@ -62,12 +63,19 @@ namespace TAI.Modules
 
     public enum TestStep
     {
+        [Description("空闲")]
         Idle = 1,
+        [Description("上料")]
         Feeding =2,
+        [Description("准备完成")]
         Ready =3,
+        [Description("测试中")]
         Testing = 4,
+        [Description("预热")]
         Prepare = 5,
+        [Description("下料")]
         Blanking = 6,
+        [Description("测试完成")]
         Finish = 7,
     }
 

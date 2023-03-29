@@ -125,6 +125,7 @@ namespace DMT.Core.Models
                     Thread.Sleep(1);
 
                     this.ProcessEvent();
+                    
                 }
                 catch (System.Threading.ThreadInterruptedException)
                 {

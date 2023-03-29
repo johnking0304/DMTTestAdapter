@@ -23,6 +23,7 @@ namespace TAI.Device
         Current =0,
         Voltage =1,
         Resistance =2,
+        Pulse =3,
     }
 
 

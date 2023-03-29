@@ -181,7 +181,7 @@ namespace DMT.Core.Channels
 			try
 			{
 				this.stopping = true;
-				if (this.listeningThread.IsAlive)
+				if ((this.listeningThread!=null) && (this.listeningThread.IsAlive))
 				{
 					this.listeningThread.Abort();
 					this.listeningThread = null;
