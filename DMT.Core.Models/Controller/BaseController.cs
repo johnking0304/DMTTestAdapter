@@ -61,7 +61,7 @@ namespace DMT.Core.Models
             this.StartWaitDateTime = DateTime.Now;
             this.StartReadDateTime = DateTime.Now;
             this.WaitMilliseconds = 5000;
-            this.ReadIntervalMilliseconds = 200;
+            this.ReadIntervalMilliseconds = 20;
             this.StatusMessage = new StatusMessage(this.Caption);
         }
 

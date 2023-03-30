@@ -44,7 +44,7 @@ namespace DMTTestAdapter
                 }
                 else
                 {
-                    if (this.Manager.ProcessController.RobotIdle)
+                    //if (this.Manager.ProcessController.RobotIdle)
                     {
                         this.Manager.ProcessController.SetRobotMoveParams(this.ActiveModule.CurrentPositionValue, this.ActiveModule.TargetPositionValue, TAI.Manager.ActionMode.Transport);
                         this.Manager.ProcessController.SetRobotMoveEnable();

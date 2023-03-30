@@ -98,6 +98,7 @@ namespace DMTTestAdapter
                         {
                             this.ActiveModule.ModuleType = ModuleType.None;
                             LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别失败", moduleType));
+                            this.Manager.ProcessController.SetModuleTypeOCRCompleted();
                         }
 
                         this.NextModule();                          

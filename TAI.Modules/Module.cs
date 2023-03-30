@@ -220,6 +220,7 @@ namespace TAI.Modules
                 CurrentPosition = this.CurrentPosition,
                 PositionIndex = this.PositionIndex,
                 LinkStation = this.LinkStation,
+                TargetPosition = this.LinkStation.TestPosition,
             };
             return module;
         }

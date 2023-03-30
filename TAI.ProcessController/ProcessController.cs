@@ -233,7 +233,12 @@ namespace TAI.Manager
         private void UpdateSystemStatus()
         {
             try
-            {              
+            {
+                for (int i = 0; i < this.SystemStatusValues.Length; i++)
+                {
+                    this.SystemStatusValues[i] = 0;
+                }
+                
                 ushort[] datas = this.ReadChannel.ReadModbusItem(this.SystemOperator.SystemStatusMap);
                 if (!this.ReadChannel.HasError)
                 {
@@ -298,7 +303,16 @@ namespace TAI.Manager
         public bool RobotIdle
         {
             get {
-                return this.SystemStatusValues[this.RobotOperator.GetIdleStatus.StartAddress] == (ushort)Status.Valid;
+                //return this.SystemStatusValues[this.RobotOperator.GetIdleStatus.StartAddress] == (ushort)Status.Valid;
+                ushort[] data = this.ReadChannel.ReadModbusItem(this.RobotOperator.GetIdleStatus);
+                if (!this.ReadChannel.HasError)
+                {
+                    return data[0] == (ushort)Status.Valid;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -343,10 +357,15 @@ namespace TAI.Manager
 
         public bool StartStationTest(int stationId)
         {
+            this.DetectOperator.StartStationTest.Datas[0] = 0;  //启动 OK =1  NG=2
+
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.StartStationTest);
+
             ushort station = (ushort)((ushort)stationId + (ushort)(Position.StationBase));
 
             this.RobotOperator.SetTestStationId.Datas[0] = station;
             this.WriteChannel.WriteModbusItem(this.RobotOperator.SetTestStationId);
+
 
             this.DetectOperator.StartStationTest.Datas[0] = 1;  //启动 OK =1  NG=2
 
@@ -361,14 +380,26 @@ namespace TAI.Manager
         {
             get
             {
-                if (this.SystemStatusValues[this.RobotOperator.MoveCompletedStatus.StartAddress] == (ushort)Status.Completed)
+                /*              if (this.SystemStatusValues[this.RobotOperator.MoveCompletedStatus.StartAddress] == (ushort)Status.Completed)
+                                {
+                                    this.SystemStatusValues[this.RobotOperator.MoveCompletedStatus.StartAddress] == 0;
+                                    this.RobotOperator.MoveCompletedStatus.Datas[0] = (ushort)0;
+                                    this.WriteChannel.WriteModbusItem(this.RobotOperator.MoveCompletedStatus);
+                                    return true;
+                                }
+                                return false;*/
+                ushort[] data  =this.ReadChannel.ReadModbusItem(this.RobotOperator.MoveCompletedStatus);
+                if (!this.ReadChannel.HasError)
                 {
-                    this.RobotOperator.MoveCompletedStatus.Datas[0] = (ushort)0;
-                    this.WriteChannel.WriteModbusItem(this.RobotOperator.MoveCompletedStatus);
-                    return true;
+                    return data[0] == (ushort)Status.Completed;
                 }
-                return false;
-            }
+                else
+                {
+                    return false;
+                }
+                    
+
+                }
 
         }
 
@@ -420,9 +451,9 @@ namespace TAI.Manager
         }
 
 
-        public bool SetModuleTestResult(Status result)
+        public bool SetModuleTestResult(bool result)
         {
-            this.DetectOperator.TestResult.Datas[0] = (ushort)result;
+            this.DetectOperator.TestResult.Datas[0] = (ushort)(result?1:2);
             this.WriteChannel.WriteModbusItem(this.DetectOperator.TestResult);
             return (!this.WriteChannel.HasError);
         }

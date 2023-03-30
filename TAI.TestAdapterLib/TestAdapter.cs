@@ -355,7 +355,7 @@ namespace DMTTestAdapter
         public string GetSystemStatus()
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:获取系统状态"));
-            return this.StatusMessageText;
+            return  this.SystemMessageText;
         }
 
 
@@ -462,7 +462,8 @@ namespace DMTTestAdapter
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:通知工位[{0}]测试结果[{1}]", ((StationType)StationId).ToString(), result));
             this.Command = OperateCommand.StopStationTest;
-            if ((StationId > 0) && (StationId < FeedCountMax))
+            this.ProcessController.SetModuleTestResult(result);
+            if ((StationId >=(int)StationType.DI) && (StationId <= (int)StationType.TC))
             {
                 Station station = this.Stations[StationId - 1];
                 if (station.LinkedModule != null)
@@ -508,16 +509,44 @@ namespace DMTTestAdapter
 
         public ModuleType ParseModuleType(string content)
         {
-            //FIXME
+            if (content.Contains("24/48"))
+            {
+                return ModuleType.PI;
+            }
+            else if (content.Contains("24CH"))
+            {
+                return ModuleType.DI;
+            }
+            else if (content.Contains("16CH") && content.Contains("O") && content.Contains("D"))
+            {
+                return ModuleType.DO;
+            }
 
-            return ModuleType.AI;
+            else if (content.Contains("8CH") && content.Contains("A") && content.Contains("O"))
+            {
+                return ModuleType.AO;
+            }
+            else if (content.Contains("16CH") && content.Contains("A") && content.Contains("I"))
+            {
+                return ModuleType.AI;
+            }
+            else if (content.Contains("TC"))
+            {
+                return ModuleType.TC;
+            }
+            else if (content.Contains("RTD"))
+            {
+                return ModuleType.RTD_3L;
+            }
+
+                return ModuleType.None;
         }
 
         public Station GetModuleStation(ModuleType moduleType)
         {
             if (moduleType != ModuleType.None)
             {
-                return this.Stations[(int)moduleType];
+                return this.Stations[(int)moduleType-1];
             }
             else
             {
@@ -909,7 +938,10 @@ namespace DMTTestAdapter
                     }
 
                     this.SendCommandReply(reply);
-                    LogHelper.LogInfoMsg(string.Format("命令返回数据[{0}]", reply));
+                    if (!reply.Contains("GetSystemStatus"))
+                    {
+                        LogHelper.LogInfoMsg(string.Format("命令返回数据[{0}]", reply));
+                    }
                 }
             }
         }

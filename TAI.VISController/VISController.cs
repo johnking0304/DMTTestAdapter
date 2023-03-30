@@ -177,7 +177,10 @@ namespace TAI.Manager
             string content = this.TCPChannel.SendCommandSync(command.PackageString());
             if (content.Contains("T1"))
             {
-                content =  this.TCPChannel.Receive();
+                if (!content.Contains("Channels"))
+                {
+                    content = this.TCPChannel.Receive();
+                }
                 return command.ParseResponse(content);
 
             }
@@ -191,6 +194,7 @@ namespace TAI.Manager
         {
             if (this.StartSwitchProgram(this.ModuleProgramId))
             {
+                this.ProgramId = this.ModuleProgramId;
                 this.ModelType = "";
                 if (this.StartOCRecognize(OCRType.ModelType))
                 {
@@ -227,6 +231,7 @@ namespace TAI.Manager
 
             if (this.StartSwitchProgram(this.ModuleSerialCodeProgramId))
             {
+                this.ProgramId = this.ModuleSerialCodeProgramId;
                 this.ModelSerialCode = "";
                 if (this.StartOCRecognize(OCRType.ModelSerialCode))
                 {

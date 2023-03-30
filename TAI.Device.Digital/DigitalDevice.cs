@@ -123,6 +123,10 @@ namespace TAI.Device
 
         public bool SelectPIChannel(int channelId)
         {
+            this.DigitalOperator.PIChannelSelectId.Datas[0] = 0;
+
+            this.Channel.WriteMultipleRegisters(this.DigitalOperator.PIChannelSelectId.StartAddress, this.DigitalOperator.PIChannelSelectId.Datas);
+
             this.DigitalOperator.PIChannelSelectId.Datas[0] = (ushort)channelId;
 
             this.Channel.WriteMultipleRegisters(this.DigitalOperator.PIChannelSelectId.StartAddress, this.DigitalOperator.PIChannelSelectId.Datas);

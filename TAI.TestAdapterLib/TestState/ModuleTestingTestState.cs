@@ -35,7 +35,7 @@ namespace DMTTestAdapter
             //灯测位置移动，
 
             //如果不在移动状态，
-            if ((!this.RobotMoving) && (!this.PreparedForOCRLighting))
+           /* if ((!this.RobotMoving) && (!this.PreparedForOCRLighting))
             {
                 if (this.Manager.ProcessController.RobotIdle)
                 {
@@ -53,7 +53,7 @@ namespace DMTTestAdapter
                     this.PreparedForOCRLighting = true;
                     LogHelper.LogInfoMsg(string.Format("机械手已到达位置,等待模块测试和灯测驱动"));
                 }
-            }
+            }*/
 
             //灯测完成后需要上端给信号，使能机械手空闲
 

@@ -36,6 +36,7 @@ namespace TestAPPDemo
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button15 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button10 = new System.Windows.Forms.Button();
@@ -92,7 +93,9 @@ namespace TestAPPDemo
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button15 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.button18 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -114,7 +117,7 @@ namespace TestAPPDemo
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(294, 587);
+            this.panel1.Size = new System.Drawing.Size(294, 706);
             this.panel1.TabIndex = 0;
             // 
             // richTextBox1
@@ -123,7 +126,7 @@ namespace TestAPPDemo
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(294, 587);
+            this.richTextBox1.Size = new System.Drawing.Size(294, 706);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -134,7 +137,7 @@ namespace TestAPPDemo
             this.panel2.Location = new System.Drawing.Point(294, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1236, 587);
+            this.panel2.Size = new System.Drawing.Size(1236, 706);
             this.panel2.TabIndex = 1;
             // 
             // tabControl1
@@ -146,7 +149,7 @@ namespace TestAPPDemo
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1236, 587);
+            this.tabControl1.Size = new System.Drawing.Size(1236, 706);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -160,7 +163,7 @@ namespace TestAPPDemo
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(1228, 561);
+            this.tabPage1.Size = new System.Drawing.Size(1228, 680);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "功能单点测试";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -177,6 +180,16 @@ namespace TestAPPDemo
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "数字量";
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(29, 148);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(289, 43);
+            this.button15.TabIndex = 4;
+            this.button15.Text = "选择PI通道输出";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
             // button16
             // 
@@ -575,6 +588,9 @@ namespace TestAPPDemo
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button18);
+            this.groupBox2.Controls.Add(this.comboBox2);
+            this.groupBox2.Controls.Add(this.button17);
             this.groupBox2.Controls.Add(this.listView1);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Location = new System.Drawing.Point(15, 13);
@@ -597,7 +613,7 @@ namespace TestAPPDemo
             this.listView1.Location = new System.Drawing.Point(17, 104);
             this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(228, 511);
+            this.listView1.Size = new System.Drawing.Size(228, 189);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -935,21 +951,50 @@ namespace TestAPPDemo
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button15
+            // button17
             // 
-            this.button15.Location = new System.Drawing.Point(29, 148);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(289, 43);
-            this.button15.TabIndex = 4;
-            this.button15.Text = "选择PI通道输出";
-            this.button15.UseVisualStyleBackColor = true;
-            this.button15.Click += new System.EventHandler(this.button15_Click);
+            this.button17.Location = new System.Drawing.Point(44, 364);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(143, 43);
+            this.button17.TabIndex = 5;
+            this.button17.Text = "开始工位使能信号";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "1-DI\t",
+            "2-DO\t",
+            "3-PI\t",
+            "4-AI\t",
+            "5-AO\t",
+            "6-RTD_3L",
+            "7-RTD_4L",
+            "8-TC"});
+            this.comboBox2.Location = new System.Drawing.Point(44, 325);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(143, 20);
+            this.comboBox2.TabIndex = 20;
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(44, 435);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(143, 43);
+            this.button18.TabIndex = 21;
+            this.button18.Text = "工位OK下料";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1530, 587);
+            this.ClientSize = new System.Drawing.Size(1530, 706);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -1043,6 +1088,9 @@ namespace TestAPPDemo
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button18;
     }
 }
 

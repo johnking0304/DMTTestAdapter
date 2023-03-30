@@ -256,5 +256,15 @@ namespace TestAPPDemo
             int channel = this.comboBox1.SelectedIndex + 1;
             this.TestAdapter.SetAnalogueChannelValue(3, channel, 3, 0);
         }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            this.TestAdapter.ProcessController.StartStationTest(this.comboBox2.SelectedIndex+1);
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            this.TestAdapter.SetTestResult(this.comboBox2.SelectedIndex + 1,true);
+        }
     }
 }
