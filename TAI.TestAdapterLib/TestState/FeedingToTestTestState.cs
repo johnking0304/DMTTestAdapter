@@ -120,7 +120,7 @@ namespace DMTTestAdapter
         {
             if (this.CaptureCompleted && this.TransferCompleted)
             {
-                if (this.Manager.Command == OperateCommand.StartTest)
+                if (this.Manager.Command == OperateCommand.StartStationTest)
                 {
                     this.Manager.Command = OperateCommand.None;
                     this.Manager.StartModuleTest(this.ActiveModule);

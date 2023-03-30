@@ -35,8 +35,9 @@ namespace TAI.Manager
         public int ChannelId { get; set; }
         public string ModelType { get; set; }
         public string ModelSerialCode { get; set; }
+        public string LightingContent { get; set; }
 
-        
+        public int ProgramId { get; set; }
 
         public List<KeyValuePair<string,int>> ProgramIds { get; set; }
 
@@ -52,6 +53,7 @@ namespace TAI.Manager
             this.ChannelResults = new List<KeyValuePair<string, int>>();
             this.ProgramIds = new List<KeyValuePair<string, int>>();
             this.StatusMessage.Name = this.Caption;
+            this.ProgramId = 0;
         }
 
         private bool GetChannelValue(string name ,ref bool value)
@@ -162,6 +164,7 @@ namespace TAI.Manager
         {
             SwitchProgramCommand command = new SwitchProgramCommand(this, ProgramId);
             string content = this.TCPChannel.SendCommandSync(command.PackageString());
+            
             return command.ParseResponse(content);
         }
 
@@ -172,7 +175,14 @@ namespace TAI.Manager
             OCRecognizeCommand command = new OCRecognizeCommand(this, ocrType);
             
             string content = this.TCPChannel.SendCommandSync(command.PackageString());
-            return command.ParseResponse(content);
+            if (content.Contains("T1"))
+            {
+                content =  this.TCPChannel.Receive();
+                return command.ParseResponse(content);
+
+            }
+            return false;
+            
         }
 
 
@@ -193,18 +203,22 @@ namespace TAI.Manager
 
         public bool OCRChannelLighting(ModuleType module,ref string content)
         {
-
-            if (this.StartSwitchProgram(this.GetModuleLightingProgramId(module)))
+            int program = this.GetModuleLightingProgramId(module);
+            if (this.ProgramId != program)
             {
-               
-                this.ChannelResults.Clear();
-                if (this.StartOCRecognize(OCRType.ChannelLighting))
-                {
-                    content = JsonConvert.SerializeObject(this.ChannelResults);
-
-                    return true;
-                }
+                this.StartSwitchProgram(program);
+                this.ProgramId = program;
             }
+              
+            this.ChannelResults.Clear();
+            if (this.StartOCRecognize(OCRType.ChannelLighting))
+            {
+                /* content = JsonConvert.SerializeObject(this.ChannelResults);*/
+                content = this.LightingContent;
+
+                return true;
+            }
+            
             return false;
         }
 

@@ -238,5 +238,23 @@ namespace TestAPPDemo
         {
             this.TestAdapter.ProcessController.SetModuleOCRLightingCompleted();
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            int channel = this.comboBox1.SelectedIndex + 1;
+            this.TestAdapter.SetDigitalChannelValue(0,channel,true);
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            int channel = this.comboBox1.SelectedIndex + 1;
+            this.TestAdapter.SetDigitalChannelValue(0, channel, false);
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            int channel = this.comboBox1.SelectedIndex + 1;
+            this.TestAdapter.SetAnalogueChannelValue(3, channel, 3, 0);
+        }
     }
 }

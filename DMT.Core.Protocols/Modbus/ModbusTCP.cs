@@ -317,11 +317,11 @@ namespace DMT.Core.Protocols
 
                 IPEndPoint localEP = new IPEndPoint(IPAddress.Any, 0);
                 this.TcpClient = new TcpClient(localEP);
-                this.TcpClient.ReceiveTimeout = 5000;
-                this.TcpClient.SendTimeout = 3000;
+/*                this.TcpClient.ReceiveTimeout = 5000;
+                this.TcpClient.SendTimeout = 3000;*/
                 this.ModbusClient = ModbusIpMaster.CreateIp(this.TcpClient);
-                this.ModbusClient.Transport.ReadTimeout = 5000;
-                this.ModbusClient.Transport.WriteTimeout = 5000;
+/*                this.ModbusClient.Transport.ReadTimeout = 5000;
+                this.ModbusClient.Transport.WriteTimeout = 5000;*/
 
                 IAsyncResult connResult= this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
 
@@ -457,16 +457,16 @@ namespace DMT.Core.Protocols
                 this.LastErrorCode = ModbusErrorCode.Ok;
                 this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.Ok.ToString(), "", this.ModbusClient, this.LastMessage + "成功");
             }
-            catch (System.InvalidOperationException)
+            catch (System.InvalidOperationException ex)
             {
                 this.LastErrorCode = ModbusErrorCode.WriteError;
-                this.LastMessage = "无法写入Modbus TCP数据";
+                this.LastMessage = string.Format("无法写入Modbus TCP数据 : {0}", ex.ToString());
                 this.Notify((int)EVENT_MODBUS.MODBUS_TCP_WRITE, ModbusErrorCode.WriteError.ToString(), "", this.ModbusClient, this.LastMessage);
             }
-            catch (Exception)
+            catch (Exception ex )
             {
                 this.LastErrorCode = ModbusErrorCode.WriteError;
-                this.LastMessage = "无法写入Modbus TCP数据";
+                this.LastMessage = string.Format("无法写入Modbus TCP数据 : {0}", ex.ToString());
                 this.Notify((int)EVENT_MODBUS.MODBUS_TCP_READ, ModbusErrorCode.ReadError.ToString(), "", this.ModbusClient, this.LastMessage);
             }
 

@@ -49,6 +49,8 @@ namespace DMT.Core.Utils
     }
 
 
+
+
     public static class ByteUtils
     {
         /// <summary>
@@ -116,6 +118,64 @@ namespace DMT.Core.Utils
 
             return Convert.ToDouble(sb.ToString());
         }
+
+
+        public static ushort[] BytesToUshorts(byte[] src, bool reverse = false)
+        {
+            int len = src.Length;
+
+            byte[] srcPlus = new byte[len + 1];
+            src.CopyTo(srcPlus, 0);
+            int count = len >> 1;
+
+            if (len % 2 != 0)
+            {
+                count += 1;
+            }
+
+            ushort[] dest = new ushort[count];
+            if (reverse)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i] = (ushort)(srcPlus[i * 2] << 8 | srcPlus[2 * i + 1] & 0xff);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i] = (ushort)(srcPlus[i * 2] & 0xff | srcPlus[2 * i + 1] << 8);
+                }
+            }
+
+            return dest;
+        }
+
+        public static byte[] UshortsToBytes(ushort[] src, bool reverse = false)
+        {
+
+            int count = src.Length;
+            byte[] dest = new byte[count << 1];
+            if (reverse)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i * 2] = (byte)(src[i] >> 8);
+                    dest[i * 2 + 1] = (byte)(src[i] >> 0);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    dest[i * 2] = (byte)(src[i] >> 0);
+                    dest[i * 2 + 1] = (byte)(src[i] >> 8);
+                }
+            }
+            return dest;
+        }
+
 
         /// <summary>
         /// BCD 码转换成 <see cref="string"/> 类型。
@@ -203,6 +263,54 @@ namespace DMT.Core.Utils
                 }
             }
             return dest;
+        }
+
+
+
+        public static byte SetBitValue(byte data, byte index, bool value)
+        {
+            byte temp = value ? (byte)1 : (byte)0;
+            data |= (byte)(temp << index);
+            return data;
+
+        }
+
+        public static ushort SetBitValue(ushort data, byte index, bool value)
+        {
+            byte[] bytes = ByteUtils.UshortsToBytes(new ushort[1] { data });
+
+            if (index >= 0 && index <= 7)
+            {
+                byte temp = value ? (byte)1 : (byte)0;
+                bytes[0] |= (byte)(temp << index);
+
+            }
+            else if (index >= 8 && index <= 15)
+            {
+                byte temp = value ? (byte)1 : (byte)0;
+                bytes[1] |= (byte)(temp << (index - 8));
+            }
+            ushort[] ushorts = ByteUtils.BytesToUshorts(bytes);
+
+            return ushorts[0];
+        }
+
+        public static bool GetBitValue(ushort value, byte index)
+        {
+            byte[] bytes = ByteUtils.UshortsToBytes(new ushort[1] { value });
+
+            bool data = false;
+
+
+            if (index >= 0 && index <= 7)
+            {
+                data = (bytes[0] & (byte)Math.Pow(2, index)) > 0 ? true : false;
+            }
+            else if (index >= 8 && index <= 15)
+            {
+                data = (bytes[1] & (byte)Math.Pow(2, index - 8)) > 0 ? true : false;
+            }
+            return data;
         }
 
     }

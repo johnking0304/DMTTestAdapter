@@ -19,12 +19,14 @@ namespace DMTTestAdapter
             this.TestingState = TestingState.Testing;
             this.ActiveModule = module;
             this.PreparedForOCRLighting = false;
+            this.LastMessage = string.Format("进入模块[{0}]测试状态，等待下发测试参数", this.ActiveModule.Description);
+            LogHelper.LogInfoMsg(this.LastMessage);
         }
 
         public override void Initialize()
         {
-            this.LastMessage = string.Format("进入模块[{0}]测试状态，等待下发测试参数", this.ActiveModule.Description);
-            LogHelper.LogInfoMsg(this.LastMessage);
+            
+            
         }
 
         public override void Execute()
@@ -45,15 +47,17 @@ namespace DMTTestAdapter
             }
             else
             {   //判断移动是否结束
-                if (this.Manager.ProcessController.RobotMoveCompleted)
+                if ((this.Manager.ProcessController.RobotMoveCompleted) && (!this.PreparedForOCRLighting))
                 {
                     this.RobotMoving = false;
                     this.PreparedForOCRLighting = true;
-                    LogHelper.LogInfoMsg(string.Format("机械手已到达位置[{0}]等待模块测试和灯测驱动"));
+                    LogHelper.LogInfoMsg(string.Format("机械手已到达位置,等待模块测试和灯测驱动"));
                 }
             }
 
-           //灯测完成后需要上端给信号，使能机械手空闲
+            //灯测完成后需要上端给信号，使能机械手空闲
+
+            this.StateCheck();
         }
         public override void StateCheck()
         {

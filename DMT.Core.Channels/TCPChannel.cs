@@ -381,8 +381,7 @@ namespace DMT.Core.Channels
                     var dataGram = command;
                     
                     NetworkStream ClientStream = this.TCPClient.GetStream();
-                    ClientStream.Write(dataGram, 0, dataGram.Length);
-                    Thread.Sleep(500);
+                    ClientStream.Write(dataGram, 0, dataGram.Length);                   
                     var asyncResult = ClientStream.BeginRead(ReceiveBytes, 0, RECEIVE_BUFFER_SIZE, null, null);
                     asyncResult.AsyncWaitHandle.WaitOne(this.ReadTimeout);
                     if (asyncResult.IsCompleted)

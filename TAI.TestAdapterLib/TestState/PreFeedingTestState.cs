@@ -62,10 +62,14 @@ namespace DMTTestAdapter
                         return;
                     }
                 }
-                else if (this.Manager.ModuleNeedFeed)
-                {                 
+                else 
+                {
+                    module = this.Manager.ModuleNeedFeed;
                     //进入数字量模块上料流程
-                    this.Manager.TestState = new FeedingToTestTestState(this.Manager,module);
+                    if (module != null)
+                    {
+                        this.Manager.TestState = new FeedingToTestTestState(this.Manager, module);
+                    }
                 }
             }                           
         }

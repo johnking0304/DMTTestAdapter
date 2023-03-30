@@ -453,7 +453,7 @@ namespace DMTTestAdapter
             string value = "";
             if (this.VISController.OCRChannelLighting((ModuleType)StationId, ref value))
             {
-                string.Format("Ok,{0}", value);
+                return string.Format("Ok,{0}", value);
             }
             return "Fail";
         }
@@ -599,7 +599,7 @@ namespace DMTTestAdapter
 
         }
 
-        public bool ModuleNeedFeed
+        public Module ModuleNeedFeed
         {
             get
             {
@@ -610,11 +610,11 @@ namespace DMTTestAdapter
                     {
                         if (module.TestStep == TestStep.Idle)
                         {
-                            return true;
+                            return module;
                         }
                     }
                 }
-                return false;
+                return null;
             }
         }
 

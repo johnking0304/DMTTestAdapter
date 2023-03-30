@@ -108,7 +108,9 @@ namespace TAI.Modules
 
 
     public class Module
-    { 
+    {
+
+        public const int PREPARE_TIME = 0;
         public int Id { get; set; }
         public string SerialCode { get; set; }
         public ModuleType ModuleType { get; set; }
@@ -164,6 +166,7 @@ namespace TAI.Modules
             this.PositionIndex =(ushort) index;
             this.Enable = false;
             this.Conclusion = true;
+            this.PrepareMinutes = PREPARE_TIME;
         }
 
 
@@ -175,6 +178,7 @@ namespace TAI.Modules
             this.ChannelCount = 0;
             this.TestStep = TestStep.Idle;
             this.Enable = false;
+            this.PrepareMinutes = PREPARE_TIME;
         }
 
 
@@ -215,6 +219,7 @@ namespace TAI.Modules
                 TestStep = this.TestStep,
                 CurrentPosition = this.CurrentPosition,
                 PositionIndex = this.PositionIndex,
+                LinkStation = this.LinkStation,
             };
             return module;
         }

@@ -141,12 +141,14 @@ namespace TAI.Manager.VIS
                         {
                             try
                             {
-                                ChannelLightingRespone response = JsonConvert.DeserializeObject<ChannelLightingRespone>(content);
+                                this.controller.LightingContent = content;
+                                return true;
+/*                                ChannelLightingRespone response = JsonConvert.DeserializeObject<ChannelLightingRespone>(content);
                                 for (int i = 0; i < response.Channels.Count; i++)
                                 {
-                                    this.controller.ChannelResults[i] = new KeyValuePair<string, int>(response.Channels[i].Key, response.Channels[i].Value);
+                                    this.controller.ChannelResults.Add(new KeyValuePair<string, int>(response.Channels[i].Key, response.Channels[i].Value));
                                     result = true;
-                                }
+                                }*/
 
                             }
                             catch

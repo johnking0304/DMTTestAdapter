@@ -41,7 +41,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = string.Format("进入{0}",this.Caption);
+            this.LastMessage = string.Format("进入上料状态-模块识别步骤");
             LogHelper.LogInfoMsg(this.LastMessage);
             
         }

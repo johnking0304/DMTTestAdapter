@@ -63,18 +63,32 @@ namespace TAI.Device
 
         public bool SetValue(int channelId, bool value)
         {
-
-            if (channelId > 0 && channelId <= 16)
+            byte[] bytes =ByteUtils.UshortsToBytes(new ushort[1] { (ushort)0 });
+            if (channelId >= 1 && channelId <= 8)
             {
-                this.DigitalOperator.OutputChannels.Datas[0] = (ushort)((0 << (channelId - 1)) & (value ? 1 : 0));
+
+
+                byte data = 0;
+                bytes[0] = ByteUtils.SetBitValue(data, (byte)(channelId - 1), value);
+                ushort[] ushorts = ByteUtils.BytesToUshorts(bytes);
+                this.DigitalOperator.OutputChannels.Datas[0] = ushorts[0];
                 this.DigitalOperator.OutputChannels.Datas[1] = 0;
-
-            }
-            else if ((channelId > 16) && (channelId <= 24))
+            }else if (channelId >= 9 && channelId <= 16)
             {
+                byte data = 0;
+                bytes[1] = ByteUtils.SetBitValue(data, (byte)(channelId - 9), value);
+                ushort[] ushorts = ByteUtils.BytesToUshorts(bytes);
+                this.DigitalOperator.OutputChannels.Datas[0] = ushorts[0];
+                this.DigitalOperator.OutputChannels.Datas[1] = 0;
+            }else if (channelId >= 17 && channelId <= 24)
+            {
+                byte data = 0;
+                bytes[0] = ByteUtils.SetBitValue(data, (byte)(channelId - 17), value);
+                ushort[] ushorts = ByteUtils.BytesToUshorts(bytes);
                 this.DigitalOperator.OutputChannels.Datas[0] = 0;
-                this.DigitalOperator.OutputChannels.Datas[1] = (ushort)((0 << (channelId - 17)) & (value ? 1 : 0));
+                this.DigitalOperator.OutputChannels.Datas[1] = ushorts[0];
             }
+          
 
             this.Channel.WriteMultipleRegisters(this.DigitalOperator.OutputChannels.StartAddress, this.DigitalOperator.OutputChannels.Datas);
             return !this.Channel.HasError;
