@@ -178,9 +178,15 @@ namespace TAI.Manager
             }
             if (item != null)
             {
-                return this.SystemStatusValues[item.StartAddress] == (ushort)Status.Busy;
+                ushort[] data = this.ReadChannel.ReadModbusItem(item);
+                if (!this.ReadChannel.HasError)
+                {
+                    return data[0] == (ushort)Status.Busy;
+                }
+                return true;
+                //return this.SystemStatusValues[item.StartAddress] == (ushort)Status.Busy;
             }
-            return false;
+            return true;
         }
 
 

@@ -463,7 +463,7 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(string.Format("接收命令:通知工位[{0}]测试结果[{1}]", ((StationType)StationId).ToString(), result));
             this.Command = OperateCommand.StopStationTest;
             this.ProcessController.SetModuleTestResult(result);
-            if ((StationId >=(int)StationType.DI) && (StationId <= (int)StationType.TC))
+            if ((StationId >=(int)StationType.DI) && (StationId <= (int)StationType.Prepare))
             {
                 Station station = this.Stations[StationId - 1];
                 if (station.LinkedModule != null)

@@ -124,12 +124,7 @@ namespace DMTTestAdapter
 
         string SetTestResult(int StationId ,bool result);
 
-     /// <summary>
-     /// 使能工位测试
-     /// </summary>
-     /// <param name="StationId"></param>
-     /// <returns></returns>
-        string EnableStationTest(int StationId);
+
         
 
 

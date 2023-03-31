@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DMT.Core.Models;
 using DMT.Core.Channels;
+using DMT.Core.Utils;
 
 namespace TAI.Manager.VIS
 {
@@ -115,6 +116,7 @@ namespace TAI.Manager.VIS
                             }
                             catch
                             {
+                                LogHelper.LogErrMsg(string.Format("解析模块类型识别值出错：{0}",content));
                                 result = false;
                             }
 
@@ -133,6 +135,7 @@ namespace TAI.Manager.VIS
                             }
                             catch
                             {
+                                LogHelper.LogErrMsg(string.Format("解析模块二维码识别值出错：{0}", content));
                                 result = false;
                             }
                             break;

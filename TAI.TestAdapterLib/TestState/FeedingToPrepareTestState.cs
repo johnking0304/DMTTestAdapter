@@ -12,12 +12,14 @@ namespace DMTTestAdapter
     {
         public Module ActiveModule { get; set; }
         public bool TransferCompleted { get; set; }
+        public bool CaptureCompleted { get; set; }
         public FeedingToPrepareTestState(TestAdapter manager,Module module) : base(manager)
         {
             this.ActiveModule = module;
             this.Caption = "上料状态-设备预热工位上料步骤";
             this.TestingState = TestingState.FeedingToPrepare;
             this.TransferCompleted = false;
+            this.CaptureCompleted = false;
         }
 
         public override void Initialize()
@@ -40,8 +42,7 @@ namespace DMTTestAdapter
                         if (this.Manager.ProcessController.RobotMoveCompleted)
                         {
                             this.RobotMoving = false;
-                            LogHelper.LogInfoMsg(string.Format("机械手已到达工位[{0}]，预热工位上料完成",
-                                this.ActiveModule.TargetPosition.ToString()));
+                            LogHelper.LogInfoMsg(string.Format("机械手已到达工位[{0}]，预热工位上料完成",this.ActiveModule.TargetPosition.ToString()));
                             this.TransferCompleted = true;
                             this.Manager.StartModulePrepare(this.ActiveModule);  
                         }
@@ -59,7 +60,37 @@ namespace DMTTestAdapter
                         }
                     }
 
-                }         
+                }
+
+                if (!this.CaptureCompleted && this.TransferCompleted)
+                {
+                    this.RobotMoving = false;
+                  
+                    string serialCode = "";
+                    //FIXME 尝试3次
+                    if (this.Manager.VISController.QRModelSerialCode(ref serialCode))
+                    {
+                        this.ActiveModule.SerialCode = serialCode;
+                        LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-二维码信息[{1}]", this.ActiveModule.ModuleType, serialCode));
+
+                    }
+                    else
+                    {
+                        this.ActiveModule.SerialCode = "";
+                        LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别失败", this.ActiveModule.ModuleType));
+                    }
+
+                    //二维码识别完成信号
+                    this.Manager.ProcessController.SetModuleQRCompleted();
+                    LogHelper.LogInfoMsg(string.Format("使能PLC模块二维码识别完成信号"));
+
+                    this.ActiveModule.TestStep = TestStep.Ready;
+                    this.CaptureCompleted = true;
+                    LogHelper.LogInfoMsg(string.Format("待测模块[{0}]上料完成,等待下发预热测试命令", this.ActiveModule.ModuleType));
+
+                }
+
+
             }
             this.StateCheck();
         }
@@ -67,9 +98,30 @@ namespace DMTTestAdapter
 
         public override void StateCheck()
         {
-            if (this.TransferCompleted)
+/*            if (this.TransferCompleted)
             {
                 this.Manager.TestState = new PreFeedingTestState(this.Manager);
+            }*/
+
+            if (this.CaptureCompleted && this.TransferCompleted)
+            {
+                if (this.Manager.Command == OperateCommand.StartStationTest)
+                {
+                    this.Manager.Command = OperateCommand.None;
+
+                    //FIXME   处理
+                    /*                    this.Manager.StartModuleTest(this.ActiveModule);
+                                        this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType); ;
+                                        this.Manager.TestState = new ModuleTestingTestState(this.Manager, this.ActiveModule);*/
+                    this.Manager.TestState = new PreFeedingTestState(this.Manager);
+                }
+                else if (this.Manager.Command == OperateCommand.StopStationTest)
+                {
+                    this.Manager.Command = OperateCommand.None;
+                    this.LastMessage = string.Format("模块[{0}]预热取消，转换到工位下料状态", this.ActiveModule.Description);
+                    LogHelper.LogInfoMsg(this.LastMessage);
+                    this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
+                }
             }
 
         }
