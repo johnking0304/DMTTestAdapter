@@ -84,6 +84,10 @@ namespace DMTTestAdapter
 
         SetTestResult = 113,
 
+        RequestVISLighting =114,
+
+        ReleaseVISLighting =115,
+
         /// <summary>
         /// 事件上报
         /// </summary>

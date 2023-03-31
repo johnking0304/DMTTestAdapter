@@ -475,6 +475,23 @@ namespace DMTTestAdapter
             return "Fail";
             
         }
+
+
+        public string RequestVISLighting(int StationId)
+        {
+            LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]请求灯测服务", ((StationType)StationId).ToString()));
+            return "Ok";
+
+        }
+
+        public string ReleaseVISLighting(int StationId)
+        {
+            LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
+            return "Ok";
+
+        }
+
+
         #endregion
 
 
@@ -927,6 +944,34 @@ namespace DMTTestAdapter
                                         }
                                         break;
                                     }
+
+                                case CommandName.ReleaseVISLighting:
+                                    {
+                                        if (commands.Length >= 2)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            reply = this.ReleaseVISLighting(stationlId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+                                case CommandName.RequestVISLighting:
+                                    {
+                                        if (commands.Length >= 2)
+                                        {
+                                            int stationlId = int.Parse(commands[1]);
+                                            reply = this.RequestVISLighting(stationlId);
+                                        }
+                                        else
+                                        {
+                                            reply = this.Pack(false, "");
+                                        }
+                                        break;
+                                    }
+
                             }
                             reply = this.PackageReply(command.ToString(), reply);
                         }

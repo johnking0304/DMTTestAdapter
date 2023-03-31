@@ -120,12 +120,23 @@ namespace DMTTestAdapter
         /// <param name="StationId"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-
-
         string SetTestResult(int StationId ,bool result);
 
+        /// <summary>
+        /// 请求灯测服务
+        /// </summary>
+        /// <param name="StationId"></param>
+        /// <returns></returns>
+        string RequestVISLighting(int StationId);
+        /// <summary>
+        /// 释放灯测服务
+        /// </summary>
+        /// <param name="StationId"></param>
+        /// <returns></returns>
+        string ReleaseVISLighting(int StationId);
 
-        
+
+
 
 
 

@@ -110,7 +110,7 @@ namespace TAI.Modules
     public class Module
     {
 
-        public const int PREPARE_TIME = 10;
+        public const int PREPARE_TIME = 1;
         public int Id { get; set; }
         public string SerialCode { get; set; }
         public ModuleType ModuleType { get; set; }
