@@ -24,7 +24,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "进入模块上料步骤";
+            this.LastMessage = "进入【模块上料】步骤";
             LogHelper.LogInfoMsg(this.LastMessage);
             
         }
@@ -106,12 +106,13 @@ namespace DMTTestAdapter
                     this.Manager.Command = OperateCommand.None;
                     this.Manager.StartModuleTest(this.ActiveModule);
                     this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType); ;
-                    this.Manager.TestState = new ModuleTestingTestState(this.Manager, this.ActiveModule);
+                    //this.Manager.TestState = new ModuleTestingTestState(this.Manager, this.ActiveModule);
+                    this.Manager.TestState = new PreFeedingTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
                 {
                     this.Manager.Command = OperateCommand.None;
-                    this.LastMessage = string.Format("模块[{0}]测试取消，转换到工位下料状态", this.ActiveModule.Description);
+                    this.LastMessage = string.Format("模块[{0}]测试取消，转换到【工位下料状态】", this.ActiveModule.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
                     this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
                 }

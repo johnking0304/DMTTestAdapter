@@ -118,7 +118,8 @@ namespace DMTTestAdapter
         StopTest =3,
         StartStationTest =4,
         StopStationTest =5,
-        EnableStationTest =6,
+        RequestVISLighting =6,
+        ReleaseVISLighting = 7,
     }
 
 

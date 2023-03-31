@@ -24,7 +24,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "进入工位下料状态";
+            this.LastMessage = "进入【工位下料状态】";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 

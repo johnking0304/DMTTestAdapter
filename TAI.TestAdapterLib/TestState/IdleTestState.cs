@@ -18,7 +18,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "进入空闲状态，等待下发启动测试命令";
+            this.LastMessage = "进入【空闲状态】，等待下发启动测试命令";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 
@@ -27,7 +27,7 @@ namespace DMTTestAdapter
             if (this.Manager.Command == OperateCommand.StartTest)
             {
                 this.Manager.Command = OperateCommand.None;
-                this.LastMessage = "接收到启动测试命令，转换为系统预上料状态";
+                this.LastMessage = "接收到启动测试命令，转换为【系统预上料状态】";
                 LogHelper.LogInfoMsg(this.LastMessage);
                 this.Manager.TestState = new PreFeedingTestState(this.Manager);
             }

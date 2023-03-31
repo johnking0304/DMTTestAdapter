@@ -18,7 +18,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "系统启动，等待初始化";
+            this.LastMessage = "【系统启动状态】，等待初始化";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 

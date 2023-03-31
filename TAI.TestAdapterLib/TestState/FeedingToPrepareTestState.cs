@@ -24,7 +24,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "进入设备预热工位上料步骤";
+            this.LastMessage = "进入【设备预热工位上料】步骤";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 
@@ -84,7 +84,7 @@ namespace DMTTestAdapter
                     this.Manager.ProcessController.SetModuleQRCompleted();
                     LogHelper.LogInfoMsg(string.Format("使能PLC模块二维码识别完成信号"));
 
-                    this.Manager.Stations[(int)StationType.Prepare].TestStep = TestStep.Ready;
+                    this.Manager.PrepareStation.TestStep = TestStep.Ready;
                     this.CaptureCompleted = true;
                     LogHelper.LogInfoMsg(string.Format("待测模块[{0}]上料完成,等待下发预热测试命令", this.ActiveModule.ModuleType));
 
@@ -106,13 +106,14 @@ namespace DMTTestAdapter
                     this.Manager.Command = OperateCommand.None;
                     this.LastMessage = string.Format("模块[{0}]预热开始", this.ActiveModule.Description);
                     this.Manager.StartModulePrepare(this.ActiveModule);
-                    this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType); ;
+                    //工位下压动作
+                    this.Manager.ProcessController.StartStationTest((int)StationType.Prepare); ;
                     this.Manager.TestState = new PreFeedingTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
                 {
                     this.Manager.Command = OperateCommand.None;
-                    this.LastMessage = string.Format("模块[{0}]预热取消，转换到工位下料状态", this.ActiveModule.Description);
+                    this.LastMessage = string.Format("模块[{0}]预热取消，转换到【工位下料状态】", this.ActiveModule.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
                     this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
                 }

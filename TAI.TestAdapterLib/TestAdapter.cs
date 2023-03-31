@@ -42,6 +42,7 @@ namespace DMTTestAdapter
         public SystemMessage SystemMessage { get; set; }
 
         public OperateCommand Command { get; set; }
+        public List<string> Params { get; set; }
 
         //测试模块
         public List<Module> TestingModules { get; set; }
@@ -65,6 +66,7 @@ namespace DMTTestAdapter
             this.TestingModules = new List<Module>();
             this.Stations = new List<Station>();
             this.SystemMessage = new SystemMessage(this.Caption);
+            this.Params = new List<string>();
 
             this.Service = new TCPService();
 
@@ -414,14 +416,8 @@ namespace DMTTestAdapter
             return "Ok";
         }
 
-        public string EnableStationTest(int StationId)
-        {
-            this.Command = OperateCommand.EnableStationTest;
-            LogHelper.LogInfoMsg(string.Format("接收命令:使能工位[{0}]测试", StationId));
-            return "Ok";
-        }
 
-        
+      
 
 
         public string GetVISModuleType(int StationId)
@@ -480,13 +476,25 @@ namespace DMTTestAdapter
         public string RequestVISLighting(int StationId)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]请求灯测服务", ((StationType)StationId).ToString()));
-            return "Ok";
+            if (this.ProcessController.RobotIdle)
+            {
+                this.Command = OperateCommand.RequestVISLighting;
+                this.Params.Clear();
+                this.Params.Add(StationId.ToString());
+                return "Fail";
+            }
+            else
+            {
+                return "Fail";
+            }
+            
 
         }
 
         public string ReleaseVISLighting(int StationId)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
+            this.Command = OperateCommand.RequestVISLighting;
             return "Ok";
 
         }
@@ -985,7 +993,7 @@ namespace DMTTestAdapter
                     }
 
                     this.SendCommandReply(reply);
-                    //if (!reply.Contains("GetSystemStatus"))
+                    if (!reply.Contains("GetSystemStatus"))
                     {
                         LogHelper.LogInfoMsg(string.Format("命令返回数据[{0}]", reply));
                     }

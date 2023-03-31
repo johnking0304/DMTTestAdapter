@@ -41,7 +41,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = string.Format("进入上料状态-模块识别步骤");
+            this.LastMessage = string.Format("进入【上料状态】-模块识别步骤");
             LogHelper.LogInfoMsg(this.LastMessage);
             
         }
@@ -118,7 +118,7 @@ namespace DMTTestAdapter
             if (this.ActiveModule == null)
             {
                 //模块识别完成
-                this.LastMessage = "模块识别完成，转换为系统预上料状态";
+                this.LastMessage = "模块识别完成，转换为【系统预上料状态】";
                 LogHelper.LogInfoMsg(this.LastMessage);
 
                 foreach (Module module in this.Modules)

@@ -18,14 +18,14 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "进入系统故障状态";
+            this.LastMessage = "进入【系统故障状态】";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
         public override void StateCheck()
         {
             if (this.Manager.SystemMessage.LastErrorCode == (int)SystemCode.Ok)
             {
-                this.LastMessage = "系统故障恢复，返回到空闲状态";
+                this.LastMessage = "系统故障恢复，返回到【空闲状态】";
                 LogHelper.LogInfoMsg(this.LastMessage);
                 this.Manager.TestState = new IdleTestState(this.Manager);
             }
