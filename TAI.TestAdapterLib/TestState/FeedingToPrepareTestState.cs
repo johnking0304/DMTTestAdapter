@@ -44,7 +44,7 @@ namespace DMTTestAdapter
                             this.RobotMoving = false;
                             LogHelper.LogInfoMsg(string.Format("机械手已到达工位[{0}]，预热工位上料完成",this.ActiveModule.TargetPosition.ToString()));
                             this.TransferCompleted = true;
-                            this.Manager.StartModulePrepare(this.ActiveModule);  
+                          
                         }
                     }
                     else
@@ -98,21 +98,15 @@ namespace DMTTestAdapter
 
         public override void StateCheck()
         {
-/*            if (this.TransferCompleted)
-            {
-                this.Manager.TestState = new PreFeedingTestState(this.Manager);
-            }*/
 
             if (this.CaptureCompleted && this.TransferCompleted)
             {
                 if (this.Manager.Command == OperateCommand.StartStationTest)
                 {
                     this.Manager.Command = OperateCommand.None;
-
-                    //FIXME   处理
-                    /*                    this.Manager.StartModuleTest(this.ActiveModule);
-                                        this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType); ;
-                                        this.Manager.TestState = new ModuleTestingTestState(this.Manager, this.ActiveModule);*/
+                    this.LastMessage = string.Format("模块[{0}]预热开始", this.ActiveModule.Description);
+                    this.Manager.StartModulePrepare(this.ActiveModule);
+                    this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType); ;
                     this.Manager.TestState = new PreFeedingTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)

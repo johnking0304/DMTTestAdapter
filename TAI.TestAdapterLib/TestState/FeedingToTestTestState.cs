@@ -75,8 +75,6 @@ namespace DMTTestAdapter
                     {
                         this.ActiveModule.SerialCode = serialCode;
                         LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-二维码信息[{1}]", this.ActiveModule.ModuleType, serialCode));
-
-
                     }
                     else
                     {
