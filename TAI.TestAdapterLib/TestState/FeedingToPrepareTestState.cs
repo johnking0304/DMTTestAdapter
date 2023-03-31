@@ -84,7 +84,7 @@ namespace DMTTestAdapter
                     this.Manager.ProcessController.SetModuleQRCompleted();
                     LogHelper.LogInfoMsg(string.Format("使能PLC模块二维码识别完成信号"));
 
-                    this.ActiveModule.TestStep = TestStep.Ready;
+                    this.Manager.Stations[(int)StationType.Prepare].TestStep = TestStep.Ready;
                     this.CaptureCompleted = true;
                     LogHelper.LogInfoMsg(string.Format("待测模块[{0}]上料完成,等待下发预热测试命令", this.ActiveModule.ModuleType));
 
