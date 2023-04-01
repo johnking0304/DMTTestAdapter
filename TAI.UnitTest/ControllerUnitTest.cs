@@ -22,8 +22,8 @@ namespace TAI.UnitTest
 
             Assert.AreEqual("24CHDigitalInput", controller.ModelType);*/
 
-            command.ParseResponse("{\"module\":0,\"type\":\"24CHDigitalInput\"}");
-            Assert.AreEqual("24CHDigitalInput", controller.ModelType);
+            command.ParseResponse("");
+            Assert.AreEqual("AI", controller.ModelType);
 
             command.ParseResponse("{\"module\":1,\"type\":\"\"}");
             Assert.AreEqual("", controller.ModelType);

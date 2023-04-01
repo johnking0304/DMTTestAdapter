@@ -61,7 +61,8 @@ namespace TestAPPDemo
             string[] lines = this.comboBoxAnaChannel.Text.Split('-');
             ushort channel = ushort.Parse(lines[1]);
             int stationId = this.comboBoxStation.SelectedIndex + 4;
-            this.TestAdapter.SwitchChannelOperate(stationId, channel, (SwitchMode)this.comboBoxSwitchMode.SelectedIndex); ;
+            bool result = this.TestAdapter.SwitchChannelOperate(stationId, channel, (SwitchMode)this.comboBoxSwitchMode.SelectedIndex);
+            this.AppendText(string.Format("通道切换:{0}", result?"成功":"失败"));
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -259,7 +260,8 @@ namespace TestAPPDemo
 
         private void button17_Click(object sender, EventArgs e)
         {
-            this.TestAdapter.ProcessController.StartStationTest(this.comboBox2.SelectedIndex+1);
+            bool result = this.TestAdapter.ProcessController.StartStationTest(this.comboBox2.SelectedIndex+1);
+            this.AppendText(string.Format("工位使能:{0}", result ? "成功" : "失败"));
         }
 
         private void button18_Click(object sender, EventArgs e)

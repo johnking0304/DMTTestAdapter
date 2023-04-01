@@ -66,7 +66,6 @@ namespace TAI.Modules
     public class Station
     {
         public Position TestPosition { get; set; }
-
         public Position QRPosition { get; set; }      
         public StationType StationType { get; set; }
         public Module LinkedModule { get; set; }
@@ -86,7 +85,9 @@ namespace TAI.Modules
             this.TestPosition = (Position)((int)Position.StationBase + (int)stationType);
             this.QRPosition = (Position)((int)Position.StationQRBase + (int)stationType);
             this.LinkedModule = null;
-            
+
+
+
         }
 
 
@@ -94,6 +95,7 @@ namespace TAI.Modules
         {
             this.LinkedModule = null;
             this.TestStep = TestStep.Idle;
+ 
         }
 
 

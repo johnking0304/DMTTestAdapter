@@ -45,6 +45,8 @@ namespace DMTTestAdapter
 
         public bool RobotMoving { get; set; }
 
+        public bool PrepareCompleted { get; set; }
+
         public TestingState TestingState { get; set; }
 
         public int WaitMilliseconds { get; set; }
@@ -59,6 +61,7 @@ namespace DMTTestAdapter
         {
             this.Manager = manager;
             this.RobotMoving = false;
+            this.PrepareCompleted = false;
             this.Initialize();
         }
 

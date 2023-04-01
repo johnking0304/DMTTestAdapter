@@ -177,9 +177,33 @@ namespace TAI.Manager
             string content = this.TCPChannel.SendCommandSync(command.PackageString());
             if (content.Contains("T1"))
             {
-                if (!content.Contains("Channels"))
+                switch (ocrType)
                 {
-                    content = this.TCPChannel.Receive();
+                    case OCRType.ChannelLighting:
+                        {
+                            if (!content.Contains("Channels"))
+                            {
+                                content = this.TCPChannel.Receive();
+                            }
+                            break;
+                        }
+                    case OCRType.ModelSerialCode:
+                        {
+                            if (!content.Contains("Code"))
+                            {
+                                content = this.TCPChannel.Receive();
+                            }
+                            break;
+                        }
+                    case OCRType.ModelType:
+                        {
+                            if (!content.Contains("Module"))
+                            {
+                                content = this.TCPChannel.Receive();
+                            }
+                            break;
+                        }
+                       
                 }
                 return command.ParseResponse(content);
 
@@ -217,7 +241,6 @@ namespace TAI.Manager
             this.ChannelResults.Clear();
             if (this.StartOCRecognize(OCRType.ChannelLighting))
             {
-                /* content = JsonConvert.SerializeObject(this.ChannelResults);*/
                 content = this.LightingContent;
 
                 return true;

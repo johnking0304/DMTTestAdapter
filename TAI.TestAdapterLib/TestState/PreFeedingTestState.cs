@@ -19,7 +19,7 @@ namespace DMTTestAdapter
 
         public override void Initialize()
         {
-            this.LastMessage = "进入【系统预上料状态】";
+            this.LastMessage = "进入【系统预上料状态-总调度状态】";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 

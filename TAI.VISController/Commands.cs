@@ -22,10 +22,14 @@ namespace TAI.Manager.VIS
 
     //{"Module":0,"Type":"24CHDigitalInput"}
 
+    //{"Module":0,"Type":[{"Key":"DI","Value":1},{"Key":"DO","Value":1},{"Key":"PI","Value":1},{"Key":"AI","Value":1},
+    //{"Key":"AO","Value":0},{"Key":"RTD","Value":1},{"Key":"RTD","Value":1},{"Key":"TC","Value":1}]}
+
     class ModuleTypeResponse
     {
         public int Module { get; set; }
-        public string Type { get; set; }
+        public List<KeyValuePair<string, int>> Type { get; set; }
+
     }
 
 
@@ -105,8 +109,16 @@ namespace TAI.Manager.VIS
                                 ModuleTypeResponse response = JsonConvert.DeserializeObject<ModuleTypeResponse>(content);
                                 if (response.Module == 0)
                                 {
-                                    this.controller.ModelType = response.Type.Trim();
-                                    result = true;
+                                    this.controller.ModelType = "";
+                                    foreach (KeyValuePair<string, int> pair in response.Type)
+                                    {
+                                        if (pair.Value == 0)
+                                        {
+                                            this.controller.ModelType = pair.Key;
+                                            break;
+                                        }
+                                    }                                  
+                                    result = this.controller.ModelType != "";
                                 }
                                 else
                                 {

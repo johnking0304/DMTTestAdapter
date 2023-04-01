@@ -41,7 +41,7 @@ namespace DMTTestAdapter
                 {
                     this.Manager.ProcessController.SetRobotMoveParams((int)Position.Origin, (int)this.ActiveModule.LinkStation.TestPosition, TAI.Manager.ActionMode.Capture);
                     this.Manager.ProcessController.SetRobotMoveEnable();
-                    LogHelper.LogInfoMsg(string.Format("移动机械手到灯测位置", (int)this.ActiveModule.LinkStation.QRPosition));
+                    LogHelper.LogInfoMsg(string.Format("移动机械手到灯测位置", (int)this.ActiveModule.LinkStation.TestPosition));
                     this.RobotMoving = true;
                 }
             }
@@ -51,9 +51,9 @@ namespace DMTTestAdapter
                 {
                     this.RobotMoving = false;
                     this.PreparedForOCRLighting = true;
+                    this.PrepareCompleted = true;
                     LogHelper.LogInfoMsg(string.Format("机械手已到达位置,等待模块测试和灯测驱动"));
-
-                    //FIXME  告知 对方可以开始实验
+                    this.PrepareCompleted = true;
                 }
             }
 
@@ -69,9 +69,16 @@ namespace DMTTestAdapter
                 this.LastMessage = string.Format("模块[{0}]测试完成，转换到【工位下料状态】", this.ActiveModule.Description);
                 LogHelper.LogInfoMsg(this.LastMessage);
 
-                this.Manager.TestState = new BlankingTestState(this.Manager,this.ActiveModule);
-
+                this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
             }
+/*            else if (this.Manager.Command == OperateCommand.ReleaseVISLighting)
+            {
+                this.Manager.Command = OperateCommand.None;
+                //this.Manager.ProcessController.SetRobotMoveParams((int)Position.Origin, (int)Position.Origin, TAI.Manager.ActionMode.Capture);
+                //this.Manager.ProcessController.SetRobotMoveEnable();
+                LogHelper.LogInfoMsg(string.Format("释放机械手和灯测控制"));
+            }*/
+
         }
     }
 }

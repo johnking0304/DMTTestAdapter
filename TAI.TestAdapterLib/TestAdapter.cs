@@ -476,19 +476,20 @@ namespace DMTTestAdapter
         public string RequestVISLighting(int StationId)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]请求灯测服务", ((StationType)StationId).ToString()));
-            if (this.ProcessController.RobotIdle)
+            if (this.ProcessController.RobotIdle && this.TestState.TestingState == TestingState.PreFeeding)
             {
                 this.Command = OperateCommand.RequestVISLighting;
                 this.Params.Clear();
                 this.Params.Add(StationId.ToString());
                 return "Fail";
             }
-            else
+            else if (this.TestState.TestingState == TestingState.Testing && this.TestState.PrepareCompleted)
             {
-                return "Fail";
+                //当系统状态在测试状态 并且 准备完成（满足VIS到位，机械手到位条件） 返回ok
+                return "Ok";
             }
-            
 
+            return "Fail";
         }
 
         public string ReleaseVISLighting(int StationId)
@@ -536,37 +537,24 @@ namespace DMTTestAdapter
 
         public ModuleType ParseModuleType(string content)
         {
-            if (content.Contains("24/48"))
-            {
-                return ModuleType.PI;
-            }
-            else if (content.Contains("24CH"))
-            {
-                return ModuleType.DI;
-            }
-            else if (content.Contains("16CH") && content.Contains("O") && content.Contains("D"))
-            {
-                return ModuleType.DO;
-            }
 
-            else if (content.Contains("8CH") && content.Contains("A") && content.Contains("O"))
-            {
-                return ModuleType.AO;
-            }
-            else if (content.Contains("16CH") && content.Contains("A") && content.Contains("I"))
-            {
-                return ModuleType.AI;
-            }
-            else if (content.Contains("TC"))
-            {
-                return ModuleType.TC;
-            }
-            else if (content.Contains("RTD"))
+            if (content.Contains("RTD"))
             {
                 return ModuleType.RTD_3L;
             }
-
-                return ModuleType.None;
+            else 
+            {
+                try
+                {
+                    ModuleType type = (ModuleType)System.Enum.Parse(typeof(ModuleType), content);
+                    return type;
+                }
+                catch
+                {
+                    return ModuleType.None;
+                }
+            }
+            
         }
 
         public Station GetModuleStation(ModuleType moduleType)

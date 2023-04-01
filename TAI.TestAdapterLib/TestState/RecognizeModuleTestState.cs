@@ -83,14 +83,22 @@ namespace DMTTestAdapter
                         this.RobotMoving = false;
                         LogHelper.LogInfoMsg(string.Format("机械手已到达位置[{0}]，开始识别模块型号",this.TargetIndex));
                         string moduleType = "";
-                        //FIXME 尝试3次
+
                         if (this.Manager.VISController.OCRModelType(ref moduleType))
                         {
-                            this.ActiveModule.ModuleType = this.Manager.ParseModuleType(moduleType);
-                            this.ActiveModule.LinkStation = this.Manager.GetModuleStation(this.ActiveModule.ModuleType);
-                            this.ActiveModule.Enable = true;
-                            LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-类型[{1}]", moduleType, this.ActiveModule.ModuleType));
-                                                     
+                            ModuleType type = this.Manager.ParseModuleType(moduleType);
+                            if (type != ModuleType.None)
+                            {
+                                this.ActiveModule.ModuleType = type;
+                                this.ActiveModule.LinkStation = this.Manager.GetModuleStation(this.ActiveModule.ModuleType);
+                                this.ActiveModule.Enable = true;
+                                LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-类型[{1}]", moduleType, this.ActiveModule.ModuleType));
+                            }
+                            else
+                            {
+                                LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别失败", moduleType));
+                            }
+
                         }
                         else
                         {
