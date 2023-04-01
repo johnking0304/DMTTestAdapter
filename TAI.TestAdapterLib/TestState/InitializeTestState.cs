@@ -36,7 +36,14 @@ namespace DMTTestAdapter
                 else
                 {
                     this.Manager.TestState = new FaultTestState(this.Manager);
-                }               
+                }
+            }
+            else
+            {
+                this.Manager.InitializeCompleted = this.Manager.ProcessController.InitializeCompleted;
+
+
+
             }
         }
     }

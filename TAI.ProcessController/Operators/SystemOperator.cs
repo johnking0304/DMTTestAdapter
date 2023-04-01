@@ -15,7 +15,7 @@ namespace TAI.Manager
         /// 初始化信号操作 W
         /// </summary>
         public ModbusItem InitializeOperate { get; set; }
-        public readonly ushort DefaultInitializeOperateOffset = 0;
+        public readonly ushort DefaultInitializeOperateOffset = 1;
 
         /// <summary>
         /// 初始化完成反馈 W

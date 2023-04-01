@@ -313,8 +313,7 @@ namespace DMTTestAdapter
             {
                 result &= switchController.Initialize();
             }
-
-            this.InitializeCompleted = true;
+           
             this.TestingModules.Clear();
 
             return  this.SystemMessageText;

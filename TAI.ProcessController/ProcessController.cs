@@ -184,7 +184,6 @@ namespace TAI.Manager
                     return data[0] == (ushort)Status.Busy;
                 }
                 return true;
-                //return this.SystemStatusValues[item.StartAddress] == (ushort)Status.Busy;
             }
             return true;
         }
@@ -219,7 +218,13 @@ namespace TAI.Manager
         {
             get
             {
-                return this.SystemStatusValues[this.SystemOperator.InitializeCompleted.StartAddress] == (ushort)Status.Completed;
+                if (this.SystemStatusValues[this.SystemOperator.InitializeCompleted.StartAddress] == (ushort)Status.Completed)
+                {
+                    this.SystemOperator.NewFeedSignalReset.Datas[0] = (ushort)1;
+                    this.WriteChannel.WriteModbusItem(this.SystemOperator.InitializeCompleted);
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -309,7 +314,6 @@ namespace TAI.Manager
         public bool RobotIdle
         {
             get {
-                //return this.SystemStatusValues[this.RobotOperator.GetIdleStatus.StartAddress] == (ushort)Status.Valid;
                 ushort[] data = this.ReadChannel.ReadModbusItem(this.RobotOperator.GetIdleStatus);
                 if (!this.ReadChannel.HasError)
                 {
