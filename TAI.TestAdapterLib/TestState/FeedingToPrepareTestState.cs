@@ -107,7 +107,8 @@ namespace DMTTestAdapter
                     this.LastMessage = string.Format("模块[{0}]预热开始", this.ActiveModule.Description);
                     this.Manager.StartModulePrepare(this.ActiveModule);
                     //工位下压动作
-                    this.Manager.ProcessController.StartStationTest((int)StationType.Prepare); ;
+                    this.Manager.ProcessController.StartStationTest((int)StationType.Prepare);
+                    this.Delay(500);
                     this.Manager.TestState = new PreFeedingTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)

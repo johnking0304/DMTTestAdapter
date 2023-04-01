@@ -113,12 +113,20 @@ namespace SimulationPlatform
 
         private void button9_Click(object sender, EventArgs e)
         {
-            this.TCPChannel.SendCommand("SetTestResult,4,1\r");
+            int channel = this.comboBox1.SelectedIndex + 1;
+            this.TCPChannel.SendCommand(string.Format("SetTestResult,{0},1\r", channel));
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-            this.TCPChannel.SendCommand("SetTestResult,4,0\r");
+            int channel = this.comboBox1.SelectedIndex + 1;
+            this.TCPChannel.SendCommand(string.Format("SetTestResult,{0},0\r", channel));
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            int channel = this.comboBox1.SelectedIndex + 1;
+            this.TCPChannel.SendCommand(string.Format("RequestVISLighting,{0}\r", channel));
         }
     }
 }

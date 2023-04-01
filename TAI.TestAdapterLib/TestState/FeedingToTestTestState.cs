@@ -13,13 +13,15 @@ namespace DMTTestAdapter
         public bool TransferCompleted { get; set; }
         public bool CaptureCompleted { get; set; }
         public Module ActiveModule { get; set; }
-        public FeedingToTestTestState(TestAdapter manager,Module module) : base(manager)
+        public bool FromPrepare { get; set; }
+        public FeedingToTestTestState(TestAdapter manager,Module module,bool fromPrepare) : base(manager)
         {
             this.Caption = "上料状态-模块上料步骤";
             this.TestingState = TestingState.FeedingToTest;
             this.TransferCompleted = false;
             this.CaptureCompleted = false;
             this.ActiveModule = module;
+            this.FromPrepare = fromPrepare;
         }
 
         public override void Initialize()
@@ -88,6 +90,10 @@ namespace DMTTestAdapter
 
                     this.ActiveModule.TestStep = TestStep.Ready;
                     this.CaptureCompleted = true;
+                    if (this.FromPrepare)
+                    {
+                        this.Manager.PrepareStation.Clear();
+                    }
                     LogHelper.LogInfoMsg(string.Format("待测模块[{0}]上料完成,等待下发测试启动命令", this.ActiveModule.ModuleType));
           
                 }
@@ -105,8 +111,8 @@ namespace DMTTestAdapter
                 {
                     this.Manager.Command = OperateCommand.None;
                     this.Manager.StartModuleTest(this.ActiveModule);
-                    this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType); ;
-                    //this.Manager.TestState = new ModuleTestingTestState(this.Manager, this.ActiveModule);
+                    this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType);
+                    this.Delay(500);
                     this.Manager.TestState = new PreFeedingTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
@@ -114,6 +120,7 @@ namespace DMTTestAdapter
                     this.Manager.Command = OperateCommand.None;
                     this.LastMessage = string.Format("模块[{0}]测试取消，转换到【工位下料状态】", this.ActiveModule.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
+                    this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
                     this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
                 }
             }

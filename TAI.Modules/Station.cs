@@ -69,10 +69,16 @@ namespace TAI.Modules
         public Position QRPosition { get; set; }      
         public StationType StationType { get; set; }
         public Module LinkedModule { get; set; }
-        public TestStep TestStep {  set
+        public TestStep TestStep {  get {
+
+                return this.StationStatus.TestStep;
+            }
+            set
             {
                 this.StationStatus.TestStep = value;
             } }
+
+
 
 
         public StationStatus StationStatus { get; set; }

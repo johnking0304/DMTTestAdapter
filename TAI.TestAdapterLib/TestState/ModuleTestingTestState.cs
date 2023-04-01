@@ -39,7 +39,7 @@ namespace DMTTestAdapter
             {
                 if (this.Manager.ProcessController.RobotIdle)
                 {
-                    this.Manager.ProcessController.SetRobotMoveParams((int)Position.Origin, (int)this.ActiveModule.LinkStation.TestPosition, TAI.Manager.ActionMode.Capture);
+                    this.Manager.ProcessController.SetRobotMoveParams((int)Position.Origin, (int)this.ActiveModule.LinkStation.TestPosition, TAI.Manager.ActionMode.Lighting);
                     this.Manager.ProcessController.SetRobotMoveEnable();
                     LogHelper.LogInfoMsg(string.Format("移动机械手到灯测位置", (int)this.ActiveModule.LinkStation.TestPosition));
                     this.RobotMoving = true;
@@ -68,7 +68,8 @@ namespace DMTTestAdapter
                 this.Manager.Command = OperateCommand.None;
                 this.LastMessage = string.Format("模块[{0}]测试完成，转换到【工位下料状态】", this.ActiveModule.Description);
                 LogHelper.LogInfoMsg(this.LastMessage);
-
+                this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
+                
                 this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
             }
 /*            else if (this.Manager.Command == OperateCommand.ReleaseVISLighting)

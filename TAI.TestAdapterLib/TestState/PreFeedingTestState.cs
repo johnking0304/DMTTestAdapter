@@ -38,7 +38,7 @@ namespace DMTTestAdapter
             {
                 this.LastMessage = "预热工位模块预热已完成，切换到【预热工位搬运到测试工位】步骤";
                 LogHelper.LogInfoMsg(this.LastMessage);
-                this.Manager.TestState = new FeedingToTestTestState(this.Manager,this.Manager.PrepareStation.LinkedModule);
+                this.Manager.TestState = new FeedingToTestTestState(this.Manager,this.Manager.PrepareStation.LinkedModule,true);
                 return;
             }
 
@@ -47,20 +47,20 @@ namespace DMTTestAdapter
             {
                 //查看整体上料产品中是否有需要预热的模块，
                 Module module = this.Manager.ModuleNeedPrepare;
-                if (module!=null)
+                if ((module!=null)  && !this.Manager.ProcessController.StationIsBusy(StationType.Prepare))
                 {
+
+                    //预热工位是否空闲
                     this.LastMessage = "找到需要预热的模块为空闲状态";
                     LogHelper.LogInfoMsg(this.LastMessage);
-                    //预热工位是否空闲
-                    if (!this.Manager.ProcessController.StationIsBusy(StationType.Prepare))
-                    {
-                        this.LastMessage = "预热工位空闲，可以执行预热工位上料动作";
-                        LogHelper.LogInfoMsg(this.LastMessage);
-                        //进入模拟量模块预热工位上料流程
-                        module.TargetPosition = Position.Prepare;
-                        this.Manager.TestState = new FeedingToPrepareTestState(this.Manager,module);
-                        return;
-                    }
+                    
+                    this.LastMessage = "预热工位空闲，可以执行预热工位上料动作";
+                    LogHelper.LogInfoMsg(this.LastMessage);
+                    //进入模拟量模块预热工位上料流程
+                    module.TargetPosition = Position.Prepare;
+                    this.Manager.TestState = new FeedingToPrepareTestState(this.Manager,module);
+                    return;
+                    
                 }
                 else 
                 {
@@ -68,7 +68,7 @@ namespace DMTTestAdapter
                     //进入数字量模块上料流程
                     if (module != null)
                     {
-                        this.Manager.TestState = new FeedingToTestTestState(this.Manager, module);
+                        this.Manager.TestState = new FeedingToTestTestState(this.Manager, module,false);
                     }
                 }
             }

@@ -20,6 +20,7 @@ namespace TAI.Manager
     { 
         Capture =1,  //拍摄模式
         Transport=2,  //运送模式
+        Lighting =4 //灯测模式 
     }
     public class RobotOperator : BaseOperator
     {

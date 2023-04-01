@@ -315,6 +315,7 @@ namespace DMTTestAdapter
             }
            
             this.TestingModules.Clear();
+            this.InitializeCompleted = true;
 
             return  this.SystemMessageText;
         }
@@ -355,7 +356,7 @@ namespace DMTTestAdapter
 
         public string GetSystemStatus()
         {
-            LogHelper.LogInfoMsg(string.Format("接收命令:获取系统状态"));
+            //LogHelper.LogInfoMsg(string.Format("接收命令:获取系统状态"));
             return  this.SystemMessageText;
         }
 
