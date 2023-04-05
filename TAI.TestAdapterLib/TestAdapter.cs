@@ -315,7 +315,13 @@ namespace DMTTestAdapter
             }
            
             this.TestingModules.Clear();
-            //this.InitializeCompleted = true;
+            //工位状态复位
+            foreach (Station station in this.Stations)
+            {
+                station.Reset();
+            }
+            //状态复位
+
 
             return  this.SystemMessageText;
         }

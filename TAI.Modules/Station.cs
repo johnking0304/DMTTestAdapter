@@ -81,6 +81,7 @@ namespace TAI.Modules
 
 
 
+
         public StationStatus StationStatus { get; set; }
 
         public Station(StationType stationType)
@@ -92,11 +93,13 @@ namespace TAI.Modules
             this.QRPosition = (Position)((int)Position.StationQRBase + (int)stationType);
             this.LinkedModule = null;
 
-
-
         }
 
 
+        public void Reset()
+        {
+            this.Clear();
+        }
         public void Clear()
         {
             this.LinkedModule = null;
