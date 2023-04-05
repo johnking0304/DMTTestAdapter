@@ -31,6 +31,8 @@ namespace DMTTestManager
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("系统", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("工位", System.Windows.Forms.HorizontalAlignment.Left);
             this.materialTabControlMain = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageSystem = new System.Windows.Forms.TabPage();
             this.tabPageDevices = new System.Windows.Forms.TabPage();
@@ -92,7 +94,22 @@ namespace DMTTestManager
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.listViewStatus = new System.Windows.Forms.ListView();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.listViewProcessController = new System.Windows.Forms.ListView();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.listViewStations = new System.Windows.Forms.ListView();
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialTabControlMain.SuspendLayout();
+            this.tabPageSystem.SuspendLayout();
             this.tabPageDevices.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageProcessController.SuspendLayout();
@@ -105,6 +122,9 @@ namespace DMTTestManager
             this.tabPage12.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPageLog.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialTabControlMain
@@ -117,21 +137,26 @@ namespace DMTTestManager
             this.materialTabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.materialTabControlMain.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.materialTabControlMain.ImageList = this.imageList;
-            this.materialTabControlMain.Location = new System.Drawing.Point(3, 64);
+            this.materialTabControlMain.Location = new System.Drawing.Point(2, 43);
+            this.materialTabControlMain.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.materialTabControlMain.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabControlMain.Multiline = true;
             this.materialTabControlMain.Name = "materialTabControlMain";
             this.materialTabControlMain.SelectedIndex = 0;
-            this.materialTabControlMain.Size = new System.Drawing.Size(1468, 876);
+            this.materialTabControlMain.Size = new System.Drawing.Size(1044, 584);
             this.materialTabControlMain.TabIndex = 0;
             // 
             // tabPageSystem
             // 
+            this.tabPageSystem.Controls.Add(this.groupBox8);
+            this.tabPageSystem.Controls.Add(this.groupBox7);
+            this.tabPageSystem.Controls.Add(this.groupBox6);
             this.tabPageSystem.ImageKey = "all.png";
             this.tabPageSystem.Location = new System.Drawing.Point(4, 39);
+            this.tabPageSystem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageSystem.Name = "tabPageSystem";
-            this.tabPageSystem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSystem.Size = new System.Drawing.Size(1460, 833);
+            this.tabPageSystem.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageSystem.Size = new System.Drawing.Size(1036, 541);
             this.tabPageSystem.TabIndex = 0;
             this.tabPageSystem.Text = "总览";
             this.tabPageSystem.UseVisualStyleBackColor = true;
@@ -141,9 +166,10 @@ namespace DMTTestManager
             this.tabPageDevices.Controls.Add(this.tabControl1);
             this.tabPageDevices.ImageKey = "DeviceInfo.png";
             this.tabPageDevices.Location = new System.Drawing.Point(4, 39);
+            this.tabPageDevices.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageDevices.Name = "tabPageDevices";
-            this.tabPageDevices.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDevices.Size = new System.Drawing.Size(1460, 833);
+            this.tabPageDevices.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageDevices.Size = new System.Drawing.Size(971, 541);
             this.tabPageDevices.TabIndex = 1;
             this.tabPageDevices.Text = "设备";
             this.tabPageDevices.UseVisualStyleBackColor = true;
@@ -155,20 +181,22 @@ namespace DMTTestManager
             this.tabControl1.Controls.Add(this.tabPage11);
             this.tabControl1.Controls.Add(this.tabPage12);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Location = new System.Drawing.Point(2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1454, 827);
+            this.tabControl1.Size = new System.Drawing.Size(967, 537);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPageProcessController
             // 
             this.tabPageProcessController.Controls.Add(this.groupBox2);
             this.tabPageProcessController.Controls.Add(this.groupBox4);
-            this.tabPageProcessController.Location = new System.Drawing.Point(4, 33);
+            this.tabPageProcessController.Location = new System.Drawing.Point(4, 26);
+            this.tabPageProcessController.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageProcessController.Name = "tabPageProcessController";
-            this.tabPageProcessController.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProcessController.Size = new System.Drawing.Size(1446, 790);
+            this.tabPageProcessController.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageProcessController.Size = new System.Drawing.Size(959, 507);
             this.tabPageProcessController.TabIndex = 0;
             this.tabPageProcessController.Text = "测试流程控制";
             this.tabPageProcessController.UseVisualStyleBackColor = true;
@@ -177,9 +205,11 @@ namespace DMTTestManager
             // 
             this.groupBox2.Controls.Add(this.listView1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Location = new System.Drawing.Point(2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(348, 784);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(232, 503);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "项目信息";
@@ -193,9 +223,10 @@ namespace DMTTestManager
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 27);
+            this.listView1.Location = new System.Drawing.Point(2, 18);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(342, 754);
+            this.listView1.Size = new System.Drawing.Size(228, 483);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -220,18 +251,21 @@ namespace DMTTestManager
             this.groupBox4.Controls.Add(this.comboBoxtarget);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.comboBoxStart);
-            this.groupBox4.Location = new System.Drawing.Point(373, 20);
+            this.groupBox4.Location = new System.Drawing.Point(249, 13);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(538, 374);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Size = new System.Drawing.Size(359, 249);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "机械手移动";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(112, 297);
+            this.button5.Location = new System.Drawing.Point(75, 198);
+            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(398, 45);
+            this.button5.Size = new System.Drawing.Size(265, 30);
             this.button5.TabIndex = 7;
             this.button5.Text = "确认移动使能";
             this.button5.UseVisualStyleBackColor = true;
@@ -243,16 +277,18 @@ namespace DMTTestManager
             this.comboBoxMode.Items.AddRange(new object[] {
             "1-识别",
             "2-搬运"});
-            this.comboBoxMode.Location = new System.Drawing.Point(112, 34);
+            this.comboBoxMode.Location = new System.Drawing.Point(75, 23);
+            this.comboBoxMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxMode.Name = "comboBoxMode";
-            this.comboBoxMode.Size = new System.Drawing.Size(398, 32);
+            this.comboBoxMode.Size = new System.Drawing.Size(267, 24);
             this.comboBoxMode.TabIndex = 6;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(112, 220);
+            this.button4.Location = new System.Drawing.Point(75, 147);
+            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(398, 45);
+            this.button4.Size = new System.Drawing.Size(265, 30);
             this.button4.TabIndex = 5;
             this.button4.Text = "设置移动参数";
             this.button4.UseVisualStyleBackColor = true;
@@ -260,18 +296,20 @@ namespace DMTTestManager
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 44);
+            this.label3.Location = new System.Drawing.Point(18, 29);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 24);
+            this.label3.Size = new System.Drawing.Size(32, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "模式";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 156);
+            this.label2.Location = new System.Drawing.Point(18, 104);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 24);
+            this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "结束位置";
             // 
@@ -307,17 +345,19 @@ namespace DMTTestManager
             "28-预热工位 二维码识别位置X",
             "30-OK下料位置",
             "31-NG下料位置"});
-            this.comboBoxtarget.Location = new System.Drawing.Point(112, 148);
+            this.comboBoxtarget.Location = new System.Drawing.Point(75, 99);
+            this.comboBoxtarget.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxtarget.Name = "comboBoxtarget";
-            this.comboBoxtarget.Size = new System.Drawing.Size(398, 32);
+            this.comboBoxtarget.Size = new System.Drawing.Size(267, 24);
             this.comboBoxtarget.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 100);
+            this.label1.Location = new System.Drawing.Point(18, 67);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 24);
+            this.label1.Size = new System.Drawing.Size(56, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "起始位置";
             // 
@@ -353,18 +393,20 @@ namespace DMTTestManager
             "28-预热工位 二维码识别位置X",
             "30-OK下料位置",
             "31-NG下料位置"});
-            this.comboBoxStart.Location = new System.Drawing.Point(112, 92);
+            this.comboBoxStart.Location = new System.Drawing.Point(75, 61);
+            this.comboBoxStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxStart.Name = "comboBoxStart";
-            this.comboBoxStart.Size = new System.Drawing.Size(398, 32);
+            this.comboBoxStart.Size = new System.Drawing.Size(267, 24);
             this.comboBoxStart.TabIndex = 0;
             // 
             // tabPage10
             // 
             this.tabPage10.Controls.Add(this.groupBox1);
-            this.tabPage10.Location = new System.Drawing.Point(4, 33);
+            this.tabPage10.Location = new System.Drawing.Point(4, 26);
+            this.tabPage10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage10.Size = new System.Drawing.Size(1446, 790);
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage10.Size = new System.Drawing.Size(961, 521);
             this.tabPage10.TabIndex = 1;
             this.tabPage10.Text = "模拟量调测";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -380,9 +422,11 @@ namespace DMTTestManager
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.comboBoxAnaChannel);
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Location = new System.Drawing.Point(17, 17);
+            this.groupBox1.Location = new System.Drawing.Point(11, 11);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(998, 508);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(665, 339);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "调理模块";
@@ -390,9 +434,10 @@ namespace DMTTestManager
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(38, 45);
+            this.label11.Location = new System.Drawing.Point(25, 30);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(46, 24);
+            this.label11.Size = new System.Drawing.Size(32, 17);
             this.label11.TabIndex = 24;
             this.label11.Text = "工位";
             // 
@@ -406,17 +451,19 @@ namespace DMTTestManager
             "6-RTD三线制 测试工位",
             "7-RTD四线制 测试工位",
             "8-TC 测试工位"});
-            this.comboBoxStation.Location = new System.Drawing.Point(88, 37);
+            this.comboBoxStation.Location = new System.Drawing.Point(59, 25);
+            this.comboBoxStation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxStation.Name = "comboBoxStation";
-            this.comboBoxStation.Size = new System.Drawing.Size(233, 32);
+            this.comboBoxStation.Size = new System.Drawing.Size(157, 24);
             this.comboBoxStation.TabIndex = 23;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(508, 43);
+            this.label10.Location = new System.Drawing.Point(339, 29);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(46, 24);
+            this.label10.Size = new System.Drawing.Size(32, 17);
             this.label10.TabIndex = 22;
             this.label10.Text = "模式";
             // 
@@ -429,9 +476,10 @@ namespace DMTTestManager
             "1-TC/AI/AO 电压型",
             "2-RTD 3 4 线",
             "3-AI/AO 电流型"});
-            this.comboBoxSwitchMode.Location = new System.Drawing.Point(581, 40);
+            this.comboBoxSwitchMode.Location = new System.Drawing.Point(387, 27);
+            this.comboBoxSwitchMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxSwitchMode.Name = "comboBoxSwitchMode";
-            this.comboBoxSwitchMode.Size = new System.Drawing.Size(204, 32);
+            this.comboBoxSwitchMode.Size = new System.Drawing.Size(137, 25);
             this.comboBoxSwitchMode.TabIndex = 21;
             // 
             // groupBoxGen
@@ -442,35 +490,40 @@ namespace DMTTestManager
             this.groupBoxGen.Controls.Add(this.comboBoxGtype);
             this.groupBoxGen.Controls.Add(this.buttonGSet);
             this.groupBoxGen.Controls.Add(this.button6);
-            this.groupBoxGen.Location = new System.Drawing.Point(43, 108);
+            this.groupBoxGen.Location = new System.Drawing.Point(29, 72);
+            this.groupBoxGen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBoxGen.Name = "groupBoxGen";
-            this.groupBoxGen.Size = new System.Drawing.Size(925, 176);
+            this.groupBoxGen.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBoxGen.Size = new System.Drawing.Size(617, 117);
             this.groupBoxGen.TabIndex = 8;
             this.groupBoxGen.TabStop = false;
             this.groupBoxGen.Text = "模拟量信号发生器 Fluke7526";
             // 
             // textBoxGValue
             // 
-            this.textBoxGValue.Location = new System.Drawing.Point(304, 110);
+            this.textBoxGValue.Location = new System.Drawing.Point(203, 73);
+            this.textBoxGValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxGValue.Name = "textBoxGValue";
-            this.textBoxGValue.Size = new System.Drawing.Size(162, 31);
+            this.textBoxGValue.Size = new System.Drawing.Size(109, 23);
             this.textBoxGValue.TabIndex = 9;
             // 
             // editValue
             // 
             this.editValue.AutoSize = true;
-            this.editValue.Location = new System.Drawing.Point(220, 120);
+            this.editValue.Location = new System.Drawing.Point(147, 80);
+            this.editValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.editValue.Name = "editValue";
-            this.editValue.Size = new System.Drawing.Size(64, 24);
+            this.editValue.Size = new System.Drawing.Size(44, 17);
             this.editValue.TabIndex = 8;
             this.editValue.Text = "设置值";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(220, 58);
+            this.label6.Location = new System.Drawing.Point(147, 39);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 24);
+            this.label6.Size = new System.Drawing.Size(32, 17);
             this.label6.TabIndex = 7;
             this.label6.Text = "类型";
             // 
@@ -481,25 +534,28 @@ namespace DMTTestManager
             "0-电流",
             "1-电压",
             "2-电阻"});
-            this.comboBoxGtype.Location = new System.Drawing.Point(304, 51);
+            this.comboBoxGtype.Location = new System.Drawing.Point(203, 34);
+            this.comboBoxGtype.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxGtype.Name = "comboBoxGtype";
-            this.comboBoxGtype.Size = new System.Drawing.Size(162, 32);
+            this.comboBoxGtype.Size = new System.Drawing.Size(109, 25);
             this.comboBoxGtype.TabIndex = 3;
             // 
             // buttonGSet
             // 
-            this.buttonGSet.Location = new System.Drawing.Point(532, 51);
+            this.buttonGSet.Location = new System.Drawing.Point(355, 34);
+            this.buttonGSet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonGSet.Name = "buttonGSet";
-            this.buttonGSet.Size = new System.Drawing.Size(158, 94);
+            this.buttonGSet.Size = new System.Drawing.Size(105, 63);
             this.buttonGSet.TabIndex = 2;
             this.buttonGSet.Text = "设置输出";
             this.buttonGSet.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(21, 58);
+            this.button6.Location = new System.Drawing.Point(14, 39);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(160, 80);
+            this.button6.Size = new System.Drawing.Size(107, 53);
             this.button6.TabIndex = 0;
             this.button6.Text = "初始化";
             this.button6.UseVisualStyleBackColor = true;
@@ -512,36 +568,41 @@ namespace DMTTestManager
             this.groupBox5.Controls.Add(this.comboBoxMType);
             this.groupBox5.Controls.Add(this.buttonMGet);
             this.groupBox5.Controls.Add(this.button11);
-            this.groupBox5.Location = new System.Drawing.Point(45, 290);
+            this.groupBox5.Location = new System.Drawing.Point(30, 193);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(923, 198);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Size = new System.Drawing.Size(615, 132);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "模拟量信号测量器 Flue 8846";
             // 
             // textBoxMValue
             // 
-            this.textBoxMValue.Location = new System.Drawing.Point(304, 110);
+            this.textBoxMValue.Location = new System.Drawing.Point(203, 73);
+            this.textBoxMValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxMValue.Name = "textBoxMValue";
             this.textBoxMValue.ReadOnly = true;
-            this.textBoxMValue.Size = new System.Drawing.Size(162, 31);
+            this.textBoxMValue.Size = new System.Drawing.Size(109, 23);
             this.textBoxMValue.TabIndex = 11;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(220, 112);
+            this.label8.Location = new System.Drawing.Point(147, 75);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 24);
+            this.label8.Size = new System.Drawing.Size(44, 17);
             this.label8.TabIndex = 10;
             this.label8.Text = "当前值";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(220, 56);
+            this.label7.Location = new System.Drawing.Point(147, 37);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 24);
+            this.label7.Size = new System.Drawing.Size(32, 17);
             this.label7.TabIndex = 8;
             this.label7.Text = "类型";
             // 
@@ -552,16 +613,18 @@ namespace DMTTestManager
             "0-电流",
             "1-电压",
             "2-电阻"});
-            this.comboBoxMType.Location = new System.Drawing.Point(304, 48);
+            this.comboBoxMType.Location = new System.Drawing.Point(203, 32);
+            this.comboBoxMType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxMType.Name = "comboBoxMType";
-            this.comboBoxMType.Size = new System.Drawing.Size(162, 32);
+            this.comboBoxMType.Size = new System.Drawing.Size(109, 25);
             this.comboBoxMType.TabIndex = 6;
             // 
             // buttonMGet
             // 
-            this.buttonMGet.Location = new System.Drawing.Point(532, 48);
+            this.buttonMGet.Location = new System.Drawing.Point(355, 32);
+            this.buttonMGet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonMGet.Name = "buttonMGet";
-            this.buttonMGet.Size = new System.Drawing.Size(158, 94);
+            this.buttonMGet.Size = new System.Drawing.Size(105, 63);
             this.buttonMGet.TabIndex = 5;
             this.buttonMGet.Text = "读取输入";
             this.buttonMGet.UseVisualStyleBackColor = true;
@@ -569,9 +632,10 @@ namespace DMTTestManager
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(21, 56);
+            this.button11.Location = new System.Drawing.Point(14, 37);
+            this.button11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(160, 74);
+            this.button11.Size = new System.Drawing.Size(107, 49);
             this.button11.TabIndex = 3;
             this.button11.Text = "初始化";
             this.button11.UseVisualStyleBackColor = true;
@@ -579,9 +643,10 @@ namespace DMTTestManager
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(327, 46);
+            this.label5.Location = new System.Drawing.Point(218, 31);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(46, 24);
+            this.label5.Size = new System.Drawing.Size(32, 17);
             this.label5.TabIndex = 6;
             this.label5.Text = "通道";
             // 
@@ -606,26 +671,29 @@ namespace DMTTestManager
             "14",
             "15",
             "16"});
-            this.comboBoxAnaChannel.Location = new System.Drawing.Point(393, 40);
+            this.comboBoxAnaChannel.Location = new System.Drawing.Point(262, 27);
+            this.comboBoxAnaChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxAnaChannel.Name = "comboBoxAnaChannel";
-            this.comboBoxAnaChannel.Size = new System.Drawing.Size(109, 32);
+            this.comboBoxAnaChannel.Size = new System.Drawing.Size(74, 25);
             this.comboBoxAnaChannel.TabIndex = 5;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(791, 35);
+            this.button3.Location = new System.Drawing.Point(527, 23);
+            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(177, 40);
+            this.button3.Size = new System.Drawing.Size(118, 27);
             this.button3.TabIndex = 4;
             this.button3.Text = "切换通道";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // tabPage11
             // 
-            this.tabPage11.Location = new System.Drawing.Point(4, 33);
+            this.tabPage11.Location = new System.Drawing.Point(4, 26);
+            this.tabPage11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(1446, 790);
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage11.Size = new System.Drawing.Size(961, 521);
             this.tabPage11.TabIndex = 2;
             this.tabPage11.Text = "数字量调测";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -633,10 +701,11 @@ namespace DMTTestManager
             // tabPage12
             // 
             this.tabPage12.Controls.Add(this.groupBox3);
-            this.tabPage12.Location = new System.Drawing.Point(4, 33);
+            this.tabPage12.Location = new System.Drawing.Point(4, 26);
+            this.tabPage12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage12.Size = new System.Drawing.Size(1446, 790);
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage12.Size = new System.Drawing.Size(961, 521);
             this.tabPage12.TabIndex = 3;
             this.tabPage12.Text = "视觉识别";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -656,39 +725,38 @@ namespace DMTTestManager
             this.groupBox3.Controls.Add(this.button13);
             this.groupBox3.Controls.Add(this.textBoxModuleType);
             this.groupBox3.Controls.Add(this.button12);
-            this.groupBox3.Location = new System.Drawing.Point(20, 22);
+            this.groupBox3.Location = new System.Drawing.Point(13, 15);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(788, 532);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(525, 355);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "视觉识别";
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(597, 188);
-            this.button9.Margin = new System.Windows.Forms.Padding(4);
+            this.button9.Location = new System.Drawing.Point(398, 125);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(136, 52);
+            this.button9.Size = new System.Drawing.Size(91, 35);
             this.button9.TabIndex = 23;
             this.button9.Text = "OK";
             this.button9.UseVisualStyleBackColor = true;
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(597, 114);
-            this.button8.Margin = new System.Windows.Forms.Padding(4);
+            this.button8.Location = new System.Drawing.Point(398, 76);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(136, 52);
+            this.button8.Size = new System.Drawing.Size(91, 35);
             this.button8.TabIndex = 22;
             this.button8.Text = "OK";
             this.button8.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(597, 42);
-            this.button7.Margin = new System.Windows.Forms.Padding(4);
+            this.button7.Location = new System.Drawing.Point(398, 28);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(136, 52);
+            this.button7.Size = new System.Drawing.Size(91, 35);
             this.button7.TabIndex = 21;
             this.button7.Text = "OK";
             this.button7.UseVisualStyleBackColor = true;
@@ -696,9 +764,10 @@ namespace DMTTestManager
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(198, 190);
+            this.label9.Location = new System.Drawing.Point(132, 127);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 24);
+            this.label9.Size = new System.Drawing.Size(56, 17);
             this.label9.TabIndex = 20;
             this.label9.Text = "模块类型";
             // 
@@ -715,17 +784,19 @@ namespace DMTTestManager
             "6-RTD_3L",
             "7-RTD_4L",
             "8-TC"});
-            this.comboBoxModuleType.Location = new System.Drawing.Point(201, 212);
+            this.comboBoxModuleType.Location = new System.Drawing.Point(134, 141);
+            this.comboBoxModuleType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxModuleType.Name = "comboBoxModuleType";
-            this.comboBoxModuleType.Size = new System.Drawing.Size(186, 32);
+            this.comboBoxModuleType.Size = new System.Drawing.Size(125, 25);
             this.comboBoxModuleType.TabIndex = 19;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(40, 188);
+            this.label4.Location = new System.Drawing.Point(27, 125);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 24);
+            this.label4.Size = new System.Drawing.Size(32, 17);
             this.label4.TabIndex = 18;
             this.label4.Text = "通道";
             // 
@@ -750,59 +821,66 @@ namespace DMTTestManager
             "14",
             "15",
             "16"});
-            this.comboBoxModuleChannel.Location = new System.Drawing.Point(44, 212);
+            this.comboBoxModuleChannel.Location = new System.Drawing.Point(29, 141);
+            this.comboBoxModuleChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxModuleChannel.Name = "comboBoxModuleChannel";
-            this.comboBoxModuleChannel.Size = new System.Drawing.Size(139, 32);
+            this.comboBoxModuleChannel.Size = new System.Drawing.Size(94, 25);
             this.comboBoxModuleChannel.TabIndex = 17;
             // 
             // richTextBoxLighting
             // 
-            this.richTextBoxLighting.Location = new System.Drawing.Point(44, 260);
+            this.richTextBoxLighting.Location = new System.Drawing.Point(29, 173);
+            this.richTextBoxLighting.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richTextBoxLighting.Name = "richTextBoxLighting";
             this.richTextBoxLighting.ReadOnly = true;
-            this.richTextBoxLighting.Size = new System.Drawing.Size(508, 229);
+            this.richTextBoxLighting.Size = new System.Drawing.Size(340, 154);
             this.richTextBoxLighting.TabIndex = 16;
             this.richTextBoxLighting.Text = "";
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(405, 190);
+            this.button14.Location = new System.Drawing.Point(270, 127);
+            this.button14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(147, 50);
+            this.button14.Size = new System.Drawing.Size(98, 33);
             this.button14.TabIndex = 15;
             this.button14.Text = "识别灯测结果";
             this.button14.UseVisualStyleBackColor = true;
             // 
             // textBoxModuleSerialCode
             // 
-            this.textBoxModuleSerialCode.Location = new System.Drawing.Point(44, 126);
+            this.textBoxModuleSerialCode.Location = new System.Drawing.Point(29, 84);
+            this.textBoxModuleSerialCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxModuleSerialCode.Name = "textBoxModuleSerialCode";
             this.textBoxModuleSerialCode.ReadOnly = true;
-            this.textBoxModuleSerialCode.Size = new System.Drawing.Size(342, 31);
+            this.textBoxModuleSerialCode.Size = new System.Drawing.Size(229, 23);
             this.textBoxModuleSerialCode.TabIndex = 14;
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(405, 112);
+            this.button13.Location = new System.Drawing.Point(270, 75);
+            this.button13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(147, 52);
+            this.button13.Size = new System.Drawing.Size(98, 35);
             this.button13.TabIndex = 13;
             this.button13.Text = "识别模块二维码";
             this.button13.UseVisualStyleBackColor = true;
             // 
             // textBoxModuleType
             // 
-            this.textBoxModuleType.Location = new System.Drawing.Point(44, 56);
+            this.textBoxModuleType.Location = new System.Drawing.Point(29, 37);
+            this.textBoxModuleType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxModuleType.Name = "textBoxModuleType";
             this.textBoxModuleType.ReadOnly = true;
-            this.textBoxModuleType.Size = new System.Drawing.Size(342, 31);
+            this.textBoxModuleType.Size = new System.Drawing.Size(229, 23);
             this.textBoxModuleType.TabIndex = 12;
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(405, 42);
+            this.button12.Location = new System.Drawing.Point(270, 28);
+            this.button12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(147, 52);
+            this.button12.Size = new System.Drawing.Size(98, 35);
             this.button12.TabIndex = 0;
             this.button12.Text = "识别模块类型";
             this.button12.UseVisualStyleBackColor = true;
@@ -812,9 +890,10 @@ namespace DMTTestManager
             this.tabPageLog.Controls.Add(this.richTextBoxLog);
             this.tabPageLog.ImageKey = "Log.png";
             this.tabPageLog.Location = new System.Drawing.Point(4, 39);
+            this.tabPageLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageLog.Name = "tabPageLog";
-            this.tabPageLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLog.Size = new System.Drawing.Size(1460, 833);
+            this.tabPageLog.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageLog.Size = new System.Drawing.Size(971, 541);
             this.tabPageLog.TabIndex = 2;
             this.tabPageLog.Text = "日志";
             this.tabPageLog.UseVisualStyleBackColor = true;
@@ -822,9 +901,10 @@ namespace DMTTestManager
             // richTextBoxLog
             // 
             this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxLog.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxLog.Location = new System.Drawing.Point(2, 2);
+            this.richTextBoxLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(1454, 827);
+            this.richTextBoxLog.Size = new System.Drawing.Size(967, 537);
             this.richTextBoxLog.TabIndex = 0;
             this.richTextBoxLog.Text = "";
             // 
@@ -832,9 +912,10 @@ namespace DMTTestManager
             // 
             this.tabPageAbout.ImageKey = "About.png";
             this.tabPageAbout.Location = new System.Drawing.Point(4, 39);
+            this.tabPageAbout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAbout.Size = new System.Drawing.Size(1460, 833);
+            this.tabPageAbout.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageAbout.Size = new System.Drawing.Size(971, 541);
             this.tabPageAbout.TabIndex = 3;
             this.tabPageAbout.Text = "关于";
             this.tabPageAbout.UseVisualStyleBackColor = true;
@@ -848,20 +929,162 @@ namespace DMTTestManager
             this.imageList.Images.SetKeyName(2, "Log.png");
             this.imageList.Images.SetKeyName(3, "About.png");
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.listViewStatus);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox6.Location = new System.Drawing.Point(2, 2);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox6.Size = new System.Drawing.Size(293, 537);
+            this.groupBox6.TabIndex = 11;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "通讯状态";
+            // 
+            // listViewStatus
+            // 
+            this.listViewStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader4});
+            this.listViewStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewStatus.FullRowSelect = true;
+            this.listViewStatus.GridLines = true;
+            this.listViewStatus.HideSelection = false;
+            this.listViewStatus.Location = new System.Drawing.Point(2, 18);
+            this.listViewStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewStatus.Name = "listViewStatus";
+            this.listViewStatus.Size = new System.Drawing.Size(289, 517);
+            this.listViewStatus.TabIndex = 4;
+            this.listViewStatus.UseCompatibleStateImageBehavior = false;
+            this.listViewStatus.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "项目";
+            this.columnHeader3.Width = 110;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "值(状态)";
+            this.columnHeader4.Width = 166;
+            // 
+            // timer
+            // 
+            this.timer.Interval = 500;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.listViewProcessController);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox7.Location = new System.Drawing.Point(295, 2);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox7.Size = new System.Drawing.Size(311, 537);
+            this.groupBox7.TabIndex = 12;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "流程控制PLC";
+            // 
+            // listViewProcessController
+            // 
+            this.listViewProcessController.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
+            this.columnHeader6});
+            this.listViewProcessController.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewProcessController.FullRowSelect = true;
+            this.listViewProcessController.GridLines = true;
+            listViewGroup1.Header = "系统";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "工位";
+            listViewGroup2.Name = "listViewGroup2";
+            this.listViewProcessController.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+            this.listViewProcessController.HideSelection = false;
+            this.listViewProcessController.Location = new System.Drawing.Point(2, 18);
+            this.listViewProcessController.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewProcessController.Name = "listViewProcessController";
+            this.listViewProcessController.Size = new System.Drawing.Size(307, 517);
+            this.listViewProcessController.TabIndex = 4;
+            this.listViewProcessController.UseCompatibleStateImageBehavior = false;
+            this.listViewProcessController.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "项目";
+            this.columnHeader5.Width = 110;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "值(状态)";
+            this.columnHeader6.Width = 166;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.listViewStations);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox8.Location = new System.Drawing.Point(606, 2);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox8.Size = new System.Drawing.Size(400, 537);
+            this.groupBox8.TabIndex = 13;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "测试工位实时信息";
+            // 
+            // listViewStations
+            // 
+            this.listViewStations.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9});
+            this.listViewStations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewStations.FullRowSelect = true;
+            this.listViewStations.GridLines = true;
+            this.listViewStations.HideSelection = false;
+            this.listViewStations.Location = new System.Drawing.Point(2, 18);
+            this.listViewStations.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewStations.Name = "listViewStations";
+            this.listViewStations.Size = new System.Drawing.Size(396, 517);
+            this.listViewStations.TabIndex = 4;
+            this.listViewStations.UseCompatibleStateImageBehavior = false;
+            this.listViewStations.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "测试工位";
+            this.columnHeader7.Width = 110;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "状态";
+            this.columnHeader8.Width = 115;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "关联模块";
+            this.columnHeader9.Width = 84;
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1474, 943);
+            this.ClientSize = new System.Drawing.Size(1048, 629);
             this.Controls.Add(this.materialTabControlMain);
             this.DrawerAutoShow = true;
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.materialTabControlMain;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormMain";
+            this.Padding = new System.Windows.Forms.Padding(2, 43, 2, 2);
             this.Text = "DMT测试调试服务平台";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.materialTabControlMain.ResumeLayout(false);
+            this.tabPageSystem.ResumeLayout(false);
             this.tabPageDevices.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPageProcessController.ResumeLayout(false);
@@ -879,6 +1102,9 @@ namespace DMTTestManager
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabPageLog.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -946,6 +1172,20 @@ namespace DMTTestManager
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.ListView listViewStatus;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.ListView listViewProcessController;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.ListView listViewStations;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }
 

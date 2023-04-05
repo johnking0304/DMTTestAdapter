@@ -36,10 +36,13 @@ namespace DMTTestAdapter
             //查看预热工位中是否已经完成预热
             if (this.Manager.ModulePrepareCompleted())
             {
-                this.LastMessage = "预热工位模块预热已完成，切换到【预热工位搬运到测试工位】步骤";
-                LogHelper.LogInfoMsg(this.LastMessage);
-                this.Manager.TestState = new FeedingToTestTestState(this.Manager,this.Manager.PrepareStation.LinkedModule,true);
-                return;
+                if (!this.Manager.ProcessController.StationIsBusy((StationType)((int)(this.Manager.PrepareStation.LinkedModule.ModuleType))))
+                {
+                    this.LastMessage = string.Format("预热工位模块[{0}]预热已完成,且对应测试工位空闲，切换到【预热工位搬运到测试工位】步骤", this.Manager.PrepareStation.LinkedModule.ModuleType.ToString());
+                    LogHelper.LogInfoMsg(this.LastMessage);
+                    this.Manager.TestState = new FeedingToTestTestState(this.Manager, this.Manager.PrepareStation.LinkedModule, true);
+                    return;
+                }  
             }
 
 

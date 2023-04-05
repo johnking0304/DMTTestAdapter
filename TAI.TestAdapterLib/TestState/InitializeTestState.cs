@@ -40,7 +40,7 @@ namespace DMTTestAdapter
             }
             else
             {
-                //this.Manager.InitializeCompleted = this.Manager.ProcessController.InitializeCompleted;
+                this.Manager.InitializeCompleted = this.Manager.ProcessController.InitializeCompleted;
             }
         }
     }

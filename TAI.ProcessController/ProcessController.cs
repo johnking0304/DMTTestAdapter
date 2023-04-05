@@ -21,7 +21,7 @@ namespace TAI.Manager
 
         public DetectOperator DetectOperator { get; set; }
 
-        private ushort[] SystemStatusValues { get; set; }
+        public  ushort[] SystemStatusValues { get; set; }
 
 
 
@@ -218,13 +218,18 @@ namespace TAI.Manager
         {
             get
             {
-                if (this.SystemStatusValues[this.SystemOperator.InitializeCompleted.StartAddress] == (ushort)Status.Completed)
+                bool result = false;
+                ushort[] data = this.ReadChannel.ReadModbusItem(this.SystemOperator.InitializeCompleted);
+                if (!this.ReadChannel.HasError)
                 {
-                    this.SystemOperator.NewFeedSignalReset.Datas[0] = (ushort)1;
-                    this.WriteChannel.WriteModbusItem(this.SystemOperator.InitializeCompleted);
-                    return true;
+                    result = data[0] == (ushort)Status.Completed;
+                    if (result)
+                    {
+                        this.SystemOperator.InitializeCompleted.Datas[0] = (ushort)0;
+                        this.WriteChannel.WriteModbusItem(this.SystemOperator.InitializeCompleted);
+                    }                   
                 }
-                return false;
+                return result;
             }
         }
 
@@ -244,12 +249,7 @@ namespace TAI.Manager
         private void UpdateSystemStatus()
         {
             try
-            {
-                for (int i = 0; i < this.SystemStatusValues.Length; i++)
-                {
-                    this.SystemStatusValues[i] = 0;
-                }
-                
+            {                
                 ushort[] datas = this.ReadChannel.ReadModbusItem(this.SystemOperator.SystemStatusMap);
                 if (!this.ReadChannel.HasError)
                 {
@@ -277,13 +277,28 @@ namespace TAI.Manager
         {
             get
             {
+
+                bool result = false;
+                ushort[] data = this.ReadChannel.ReadModbusItem(this.SystemOperator.NewFeedSignal);
+                if (!this.ReadChannel.HasError)
+                {
+                    result = data[0] == (ushort)Status.Valid;
+                    if (result)
+                    {
+                        this.SystemOperator.NewFeedSignal.Datas[0] = (ushort)0;
+                        this.WriteChannel.WriteModbusItem(this.SystemOperator.NewFeedSignal);
+                    }
+                }
+                return result;
+
+/*
                 if (this.SystemStatusValues[this.SystemOperator.NewFeedSignal.StartAddress] == (ushort)Status.Valid)
                 {
                     this.SystemOperator.NewFeedSignalReset.Datas[0] = (ushort)1;
                     this.WriteChannel.WriteModbusItem(this.SystemOperator.NewFeedSignalReset);
                     return true;
                 }
-                return false;
+                return false;*/
             }
         }
 

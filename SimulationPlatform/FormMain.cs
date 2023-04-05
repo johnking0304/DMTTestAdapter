@@ -57,9 +57,12 @@ namespace SimulationPlatform
             this.VISController.LoadFromFile(Contant.VIS_CONFIG);
             this.VISController.Open();
             this.VISController.Start();
+
+            this.comboBoxStation.SelectedIndex = 8;
     
 
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -74,11 +77,17 @@ namespace SimulationPlatform
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string command = string.Format("StartStationTest,{0}\r", comboBox1.SelectedIndex + 1);
-            this.TCPChannel.SendCommand(command);
+            int channel = this.GetStationSelect();
+            if (channel > 0)
+            {
+
+                string command = string.Format("StartStationTest,{0}\r", channel);
+                this.TCPChannel.SendCommand(command);
+
+            }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+            private void button4_Click(object sender, EventArgs e)
         {
             this.ProcessController.RobotOperator.GetIdleStatus.Datas[0] = 1;
             ProcessController.WriteChannel.WriteModbusItem(this.ProcessController.RobotOperator.GetIdleStatus);
@@ -113,20 +122,58 @@ namespace SimulationPlatform
 
         private void button9_Click(object sender, EventArgs e)
         {
-            int channel = this.comboBox1.SelectedIndex + 1;
-            this.TCPChannel.SendCommand(string.Format("SetTestResult,{0},1\r", channel));
+            //int channel = this.comboBox1.SelectedIndex + 1;
+            int channel = this.GetStationSelect();
+            if (channel > 0)
+            {
+                this.TCPChannel.SendCommand(string.Format("SetTestResult,{0},1\r", channel));
+            }
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-            int channel = this.comboBox1.SelectedIndex + 1;
-            this.TCPChannel.SendCommand(string.Format("SetTestResult,{0},0\r", channel));
+            int channel = this.GetStationSelect();
+            if (channel > 0)
+            {
+                this.TCPChannel.SendCommand(string.Format("SetTestResult,{0},0\r", channel));
+            }
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            int channel = this.comboBox1.SelectedIndex + 1;
-            this.TCPChannel.SendCommand(string.Format("RequestVISLighting,{0}\r", channel));
+            int channel = this.GetStationSelect();
+            if (channel > 0)
+            {
+                this.TCPChannel.SendCommand(string.Format("RequestVISLighting,{0}\r", channel));
+            }
+        }
+
+        private void radioButton1_Click(object sender, EventArgs e)
+        {
+            this.GetStationSelect();
+        }
+
+        private int GetStationSelect()
+        {
+            int result = -1;
+            foreach (var item in this.groupBoxStations.Controls)
+            {
+                if (item.GetType() == typeof(RadioButton))
+                { 
+                     if (((RadioButton)item).Checked)
+                    {
+                         result = int.Parse(((RadioButton)item).Tag.ToString());
+                        this.comboBoxStation.SelectedIndex = result - 1;
+                    }
+                }
+            }
+            return result;
+       
+        }
+
+        private void radioButton2_Click(object sender, EventArgs e)
+        {
+            GetStationSelect();
         }
     }
 }

@@ -315,7 +315,7 @@ namespace DMTTestAdapter
             }
            
             this.TestingModules.Clear();
-            this.InitializeCompleted = true;
+            //this.InitializeCompleted = true;
 
             return  this.SystemMessageText;
         }
@@ -397,12 +397,19 @@ namespace DMTTestAdapter
 
         public string StartTest()
         {
-            LogHelper.LogInfoMsg(string.Format("接收命令:启动系统测试"));
-            this.Command = OperateCommand.StartTest;
-            return "Ok";
+/*            if (this.InitializeCompleted)
+            {*/
+                LogHelper.LogInfoMsg(string.Format("接收命令:启动系统测试"));
+                this.Command = OperateCommand.StartTest;
+                return "Ok";
+/*            }
+            else
+            {
+                return "Fail";
+            }*/
         }
 
-        public string StopTest()
+            public string StopTest()
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:停止系统测试"));
             this.Command = OperateCommand.StopTest;
