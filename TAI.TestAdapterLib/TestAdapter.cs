@@ -559,6 +559,13 @@ namespace DMTTestAdapter
             this.RemoveModule(module);
         }
 
+
+        public int ModuleCount { get {
+                return TestingModules.Count;
+
+            } }
+
+
         public ModuleType ParseModuleType(string content)
         {
 

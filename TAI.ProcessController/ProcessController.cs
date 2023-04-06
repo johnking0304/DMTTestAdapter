@@ -190,12 +190,6 @@ namespace TAI.Manager
 
 
 
-        public bool FeedLack {
-            get {
-                return this.SystemStatusValues[this.SystemOperator.FeedLackSignal.StartAddress] == (ushort)Status.Valid;
-            }
-        }
-
         public bool BlankingOKFull
         {
             get
@@ -211,6 +205,15 @@ namespace TAI.Manager
             {
                 return this.SystemStatusValues[this.SystemOperator.NGBlankFullSignal.StartAddress] == (ushort)Status.Valid;
             }
+        }
+
+
+        public bool NotifyFeedLackSignal()
+        {
+            this.SystemOperator.FeedLackSignal.Datas[0] = 1;
+            this.WriteChannel.WriteModbusItem(this.SystemOperator.FeedLackSignal);
+            return (!this.WriteChannel.HasError);
+
         }
 
 
@@ -291,14 +294,6 @@ namespace TAI.Manager
                 }
                 return result;
 
-/*
-                if (this.SystemStatusValues[this.SystemOperator.NewFeedSignal.StartAddress] == (ushort)Status.Valid)
-                {
-                    this.SystemOperator.NewFeedSignalReset.Datas[0] = (ushort)1;
-                    this.WriteChannel.WriteModbusItem(this.SystemOperator.NewFeedSignalReset);
-                    return true;
-                }
-                return false;*/
             }
         }
 
