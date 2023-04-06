@@ -57,6 +57,7 @@
     <Compile Include="LogHelper.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleInstance.cs" />
     <Compile Include="TextString.cs" />
   </ItemGroup>
   <ItemGroup>

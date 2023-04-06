@@ -37,7 +37,18 @@ namespace DMTTestAdapter
 
         public VISController VISController { get; set; }
 
-        public TestState TestState { get; set; }
+        public TestState testState;
+        public TestState TestState {
+            get
+            {
+                return testState;
+            }
+            set
+            {
+                this.testState = value;
+                this.SystemMessage.Status = value.TestingState.ToString();
+            } 
+        }
 
         public SystemMessage SystemMessage { get; set; }
 
@@ -490,11 +501,11 @@ namespace DMTTestAdapter
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]请求灯测服务", ((StationType)StationId).ToString()));
             if (this.ProcessController.RobotIdle && this.TestState.TestingState == TestingState.PreFeeding)
-            {
-                this.Command = OperateCommand.RequestVISLighting;
+            {              
                 this.Params.Clear();
                 this.Params.Add(StationId.ToString());
-                return "Fail";
+                this.Command = OperateCommand.RequestVISLighting;
+                return "Fail";//SWait
             }
             else if (this.TestState.TestingState == TestingState.Testing && this.TestState.PrepareCompleted)
             {
@@ -508,7 +519,7 @@ namespace DMTTestAdapter
         public string ReleaseVISLighting(int StationId)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
-            this.Command = OperateCommand.RequestVISLighting;
+            this.Command = OperateCommand.ReleaseVISLighting;
             return "Ok";
 
         }

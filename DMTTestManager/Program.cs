@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMTTestAdapter;
+using DMT.Core.Utils;
 
 namespace DMTTestManager
 {
@@ -17,6 +18,11 @@ namespace DMTTestManager
         [STAThread]
         static void Main()
         {
+            if (SingleInstance.AlreadyRunning())
+            {
+                return;
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);          
             Application.Run(new FormMain());
