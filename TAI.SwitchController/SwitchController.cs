@@ -42,7 +42,7 @@ namespace TAI.Manager
         }
         public bool Active()
         {
-            return this.Channel.HasError;
+            return !this.Channel.HasError;
         }
 
         public bool Close()

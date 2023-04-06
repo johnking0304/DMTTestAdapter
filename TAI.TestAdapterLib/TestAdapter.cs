@@ -164,6 +164,11 @@ namespace DMTTestAdapter
                 this.SystemMessage.Devices.Add(switchController.StatusMessage);
             }
 
+            foreach (SwitchController switchController in this.SwitchControllers)
+            {
+                 switchController.Initialize();
+            }
+
 
             this.StartThread();
             
@@ -534,6 +539,7 @@ namespace DMTTestAdapter
         {
             module.TestStep = TestStep.Prepare;
             this.PrepareStation.LinkedModule = module;
+            this.PrepareStation.TestStep = TestStep.Prepare;
             module.CurrentPosition = Position.Prepare;
             module.StartDateTime = DateTime.Now;
             module.TargetPosition = this.Stations[(int)module.ModuleType - 1].TestPosition;
@@ -1012,7 +1018,7 @@ namespace DMTTestAdapter
                     }
 
                     this.SendCommandReply(reply);
-                    if (!reply.Contains("GetSystemStatus"))
+                    //if (!reply.Contains("GetSystemStatus"))
                     {
                         LogHelper.LogInfoMsg(string.Format("命令返回数据[{0}]", reply));
                     }
