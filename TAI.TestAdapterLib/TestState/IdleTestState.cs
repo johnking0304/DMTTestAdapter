@@ -29,6 +29,7 @@ namespace DMTTestAdapter
                 this.Manager.Command = OperateCommand.None;
                 this.LastMessage = "接收到启动测试命令，转换为【系统预上料状态】";
                 LogHelper.LogInfoMsg(this.LastMessage);
+                this.Manager.ProcessController.NotifyStartTest();
                 this.Manager.TestState = new PreFeedingTestState(this.Manager);
             }
 

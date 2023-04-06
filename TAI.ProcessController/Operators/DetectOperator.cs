@@ -43,6 +43,9 @@ namespace TAI.Manager
         public ModbusItem StartStationTest { get; set; }
         public readonly ushort DefaultStartStationTestOffset = 24;
 
+        public ModbusItem StartTest { get; set; }
+        public readonly ushort DefaultStartTestOffset = 25;
+
         public DetectOperator(short baseIndex) : base(baseIndex)
         {
             this.Caption = "DetectOperator";
@@ -64,6 +67,9 @@ namespace TAI.Manager
 
             this.StartStationTest = new ModbusItem(this.Caption, "设置工位开始测试", "StartStationTest", this.BaseIndex, DefaultStartStationTestOffset, 1, ChannelType.AO);
             this.Items.Add(this.StartStationTest);
+
+            this.StartTest = new ModbusItem(this.Caption, "设置系统开始测试", "StartTest", this.BaseIndex, DefaultStartTestOffset, 1, ChannelType.AO);
+            this.Items.Add(this.StartTest);
 
 
 

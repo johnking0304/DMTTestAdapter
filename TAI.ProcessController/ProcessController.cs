@@ -217,6 +217,15 @@ namespace TAI.Manager
         }
 
 
+        public bool NotifyStartTest()
+        {
+            this.DetectOperator.StartTest.Datas[0] = 1;
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.StartTest);
+            return (!this.WriteChannel.HasError);
+
+        }
+
+
         public bool InitializeCompleted
         {
             get
