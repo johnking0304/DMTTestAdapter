@@ -75,23 +75,19 @@ namespace DMTTestAdapter
                     }
                 }
             }
-
-            if (this.Manager.Command == OperateCommand.RequestVISLighting)
-            {
-                this.Manager.Command = OperateCommand.None;
-                if (this.Manager.Params.Count == 1)
-                {
-                    int stationId = int.Parse(this.Manager.Params[0]);
-                    this.Manager.Params.Clear();
-                    Module module = this.Manager.Stations[stationId - 1].LinkedModule;
-                    if (module != null)
-                    { 
-                        this.LastMessage = string.Format("工位[{0}]灯测请求,进入工位测试状态", module.Description);
-                        LogHelper.LogInfoMsg(this.LastMessage);
-                        this.Manager.TestState = new ModuleTestingTestState(this.Manager, module);
-                    }
-                }
-
+ 
+           // if (this.Manager.Command == OperateCommand.RequestVISLighting)
+            if(this.Manager.RequestCommand==OperateCommand.RequestVISLighting)
+            {              
+                this.Manager.RequestCommand = OperateCommand.None;
+                int stationId = this.Manager.ActiveStation;
+                Module module = this.Manager.Stations[stationId - 1].LinkedModule;
+                if (module != null)
+                { 
+                    this.LastMessage = string.Format("工位[{0}]灯测请求,进入工位测试状态", module.Description);
+                    LogHelper.LogInfoMsg(this.LastMessage);
+                    this.Manager.TestState = new ModuleTestingTestState(this.Manager, module);
+                }              
             }
         }
     }
