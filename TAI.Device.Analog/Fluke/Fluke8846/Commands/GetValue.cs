@@ -15,6 +15,7 @@ namespace TAI.Device.Fluke.D8846
         public GetValueCommand(BaseDevice device, ChannelType type) : base(device)
         {
             this.Device = device;
+            this.Type = type;
         }
 
         public override string Pack()

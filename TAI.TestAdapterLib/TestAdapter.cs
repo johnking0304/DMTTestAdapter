@@ -1041,7 +1041,7 @@ namespace DMTTestAdapter
                     }
 
                     this.SendCommandReply(reply);
-                    //if (!reply.Contains("GetSystemStatus"))
+                    if (!reply.Contains("GetSystemStatus"))
                     {
                         LogHelper.LogInfoMsg(string.Format("命令返回数据[{0}]", reply));
                     }
