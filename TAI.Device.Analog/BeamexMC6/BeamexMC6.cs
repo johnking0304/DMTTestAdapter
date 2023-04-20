@@ -7,34 +7,34 @@ namespace TAI.Device
 {
     public class BeamexMC6 : DeviceMaster,IAnalogDevice
     {
-        public bool Active()
+        public override  bool Active()
         {
             throw new NotImplementedException();
         }
 
-        public bool Close()
+        public override bool Close()
         {
             throw new NotImplementedException();
         }
 
-        public bool GetValue( ChannelType channelType, ref float value)
+        public override bool GetValue( ChannelType channelType, ref float value)
         {
             throw new NotImplementedException();
         }
 
 
 
-        public bool Initialize()
+        public override bool Initialize()
         {
             return true;
         }
 
-        public bool Open()
+        public override bool Open()
         {
             throw new NotImplementedException();
         }
 
-        public bool SetValue( ChannelType channelType, float value)
+        public override bool SetValue( ChannelType channelType, float value)
         {
             throw new NotImplementedException();
         }
