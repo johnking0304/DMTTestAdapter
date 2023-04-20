@@ -39,6 +39,11 @@ namespace TAI.Manager
 
         public int ProgramId { get; set; }
 
+        public int ProgramDeviceType { get; set; }
+
+
+        public int TryCountMax { get; set; }
+
         public List<KeyValuePair<string,int>> ProgramIds { get; set; }
 
         public TCPClientChannel TCPChannel {
@@ -54,6 +59,8 @@ namespace TAI.Manager
             this.ProgramIds = new List<KeyValuePair<string, int>>();
             this.StatusMessage.Name = this.Caption;
             this.ProgramId = 0;
+            this.ProgramDeviceType = 0;
+            this.TryCountMax = 3;
         }
 
         private bool GetChannelValue(string name ,ref bool value)
@@ -103,7 +110,7 @@ namespace TAI.Manager
             {
                 if (item.Key == program.ToString())
                 {
-                    return item.Value;
+                    return item.Value + this.ProgramDeviceType;
                 }              
             }
             return -1;
@@ -160,11 +167,10 @@ namespace TAI.Manager
         }
 
 
-        private bool StartSwitchProgram(int ProgramId)
+        public bool StartSwitchProgram(int ProgramId)
         {
             SwitchProgramCommand command = new SwitchProgramCommand(this, ProgramId);
-            string content = this.TCPChannel.SendCommandSync(command.PackageString());
-            
+            string content = this.TCPChannel.SendCommandSync(command.PackageString());            
             return command.ParseResponse(content);
         }
 
@@ -213,12 +219,44 @@ namespace TAI.Manager
         }
 
 
-
-        public bool OCRModelType(ref string modelType)
+        public bool SwitchProgramToOCRModelType()
         {
-            if (this.StartSwitchProgram(this.ModuleProgramId))
+            
+            if (this.ProgramId != this.ModuleProgramId)
             {
                 this.ProgramId = this.ModuleProgramId;
+                return this.StartSwitchProgram(this.ModuleProgramId);
+            }
+            return true;            
+        }
+
+
+        public bool TryOCRModelType(ref string modelType)
+        {
+            bool result = OCRModelType(ref modelType);
+            int tryCount = 1;
+            while (!result)
+            {
+                if (tryCount <= this.TryCountMax)
+                {
+                    result = OCRModelType(ref modelType);
+                    tryCount += 1;
+                    LogHelper.LogInfoMsg(string.Format("重试[模块类型]识别，次数[{0}]", tryCount));                    
+                }
+                else
+                {
+                    LogHelper.LogInfoMsg(string.Format("[模块类型]识别次数[{0}]已经超出最大重试次数[{1}]", tryCount,this.TryCountMax));
+                    break;
+                }
+            }
+            return result;
+        }
+
+
+        public bool OCRModelType(ref string modelType)
+        {            
+            if (this.SwitchProgramToOCRModelType())
+            {
                 this.ModelType = "";
                 if (this.StartOCRecognize(OCRType.ModelType))
                 {
@@ -228,6 +266,31 @@ namespace TAI.Manager
             }
             return false;
         }
+
+
+
+        public bool TryOCRChannelLighting(ModuleType module, ref string content)
+        {
+            bool result = OCRChannelLighting(module,ref content);
+            int tryCount = 1;
+            while (!result)
+            {
+                if (tryCount <= this.TryCountMax)
+                {
+                    result = OCRChannelLighting(module, ref content);
+                    tryCount += 1;
+                    LogHelper.LogInfoMsg(string.Format("[{0}]重试[灯测]识别，次数[{1}]", module.Description(), tryCount));
+                }
+                else
+                {
+                    LogHelper.LogInfoMsg(string.Format("[{0}][灯测]识别次数[{1}]已经超出最大重试次数[{2}]", module.Description(),tryCount, this.TryCountMax));
+                    break;
+                }
+            }
+            return result;
+        }
+
+
 
         public bool OCRChannelLighting(ModuleType module,ref string content)
         {
@@ -242,19 +305,53 @@ namespace TAI.Manager
             if (this.StartOCRecognize(OCRType.ChannelLighting))
             {
                 content = this.LightingContent;
-
                 return true;
             }
             
             return false;
         }
 
+
+
+        public bool SwitchProgramToQRModelSerialCode()
+        {
+            
+            if (this.ProgramId != this.ModuleSerialCodeProgramId)
+            {
+                this.ProgramId = this.ModuleSerialCodeProgramId;
+
+                return this.StartSwitchProgram(this.ModuleSerialCodeProgramId);
+            }
+            return true;
+        }
+
+        public bool TryQRModelSerialCode(ref string serialCode)
+        {
+            bool result = QRModelSerialCode(ref serialCode);
+            int tryCount = 1;
+            while (!result)
+            {
+                if (tryCount <= this.TryCountMax)
+                {
+                    result = QRModelSerialCode(ref serialCode);
+                    tryCount += 1;
+                    LogHelper.LogInfoMsg(string.Format("重试[模块二维码]识别，次数[{0}]", tryCount));
+                }
+                else
+                {
+                    LogHelper.LogInfoMsg(string.Format("[模块二维码]识别次数[{0}]已经超出最大重试次数[{1}]", tryCount, this.TryCountMax));
+                    break;
+                }
+            }
+            return result;
+        }
+
+
         public bool QRModelSerialCode(ref string serialCode)
         {
 
-            if (this.StartSwitchProgram(this.ModuleSerialCodeProgramId))
+            if (this.SwitchProgramToQRModelSerialCode())
             {
-                this.ProgramId = this.ModuleSerialCodeProgramId;
                 this.ModelSerialCode = "";
                 if (this.StartOCRecognize(OCRType.ModelSerialCode))
                 {

@@ -388,7 +388,6 @@ namespace DMT.Core.Channels
                     {
                         try
                         {
- 
                             int numberOfReadBytes = ClientStream.EndRead(asyncResult);
                             byte[] realReceiveBytes = new byte[numberOfReadBytes];
                             Array.Copy(ReceiveBytes, 0, realReceiveBytes, 0, numberOfReadBytes);

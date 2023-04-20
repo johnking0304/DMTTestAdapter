@@ -41,6 +41,11 @@ namespace TAI.Manager
         public ModbusItem SystemStop { get; set; }
         public readonly ushort DefaultSystemStopOffset = 5;
 
+
+        /// </summary>
+        public ModbusItem TestDeviceType { get; set; }
+        public readonly ushort DefaultTestDeviceTypeOffset = 6;
+
         /// <summary>
         /// 状态表
         /// </summary>
@@ -100,6 +105,9 @@ namespace TAI.Manager
 
             this.SystemStop = new ModbusItem(this.Caption, "系统急停", "SystemStop", this.BaseIndex, DefaultSystemStopOffset, 1, ChannelType.AI);
             this.Items.Add(this.SystemStop);
+
+            this.TestDeviceType = new ModbusItem(this.Caption, "测试产品类型", "TestDeviceType", this.BaseIndex, DefaultTestDeviceTypeOffset, 1, ChannelType.AI);
+            this.Items.Add(this.TestDeviceType);
 
             this.SystemStatusMap = new ModbusItem(this.Caption, "系统状态", "SystemStatusMap", this.BaseIndex, DefaultSystemStatusMapOffset, SystemStatusMapLength, ChannelType.AI);
             this.Items.Add(this.SystemStatusMap);

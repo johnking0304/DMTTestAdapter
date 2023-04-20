@@ -57,6 +57,9 @@ namespace DMTTestAdapter
                             LogHelper.LogInfoMsg(string.Format("开始上料到预热工位动作"));
                             this.ActiveModule.TestStep = TestStep.Feeding;
                             this.RobotMoving = true;
+
+                            this.Manager.VISController.SwitchProgramToQRModelSerialCode();
+                            LogHelper.LogInfoMsg(string.Format("开始切换到[模块二维码识别]程序块[{0}]",this.Manager.VISController.ProgramId));
                         }
                     }
 
@@ -67,8 +70,8 @@ namespace DMTTestAdapter
                     this.RobotMoving = false;
                   
                     string serialCode = "";
-                    //FIXME 尝试3次
-                    if (this.Manager.VISController.QRModelSerialCode(ref serialCode))
+                    //尝试3次
+                    if (this.Manager.VISController.TryQRModelSerialCode(ref serialCode))
                     {
                         this.ActiveModule.SerialCode = serialCode;
                         LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-二维码信息[{1}]", this.ActiveModule.ModuleType, serialCode));

@@ -100,14 +100,16 @@ namespace TestAPPDemo
         private void button13_Click(object sender, EventArgs e)
         {
             string content = "";
-            bool result = this.TestAdapter.VISController.QRModelSerialCode(ref content);
+            this.textBoxModuleSerialCode.Text = "";
+            bool result = this.TestAdapter.VISController.TryQRModelSerialCode(ref content);
             this.textBoxModuleSerialCode.Text = string.Format("{0}:{1}", result ? "OK" : "Error", content);
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
             string content = "";
-            bool result = this.TestAdapter.VISController.OCRModelType(ref content);
+            this.textBoxModuleType.Text = "";
+            bool result = this.TestAdapter.VISController.TryOCRModelType(ref content);
             this.textBoxModuleType.Text = string.Format("{0}:{1}",result?"OK":"Error",content);
 
         }
@@ -115,9 +117,10 @@ namespace TestAPPDemo
         private void button14_Click(object sender, EventArgs e)
         {
             string content = "";
-            int channel = comboBoxModuleChannel.SelectedIndex + 1;
+            this.richTextBoxLighting.Text = "";
+           int channel = comboBoxModuleChannel.SelectedIndex + 1;
             ModuleType moduleType = (ModuleType)(comboBoxModuleType.SelectedIndex + 1);
-            bool result = this.TestAdapter.VISController.OCRChannelLighting( moduleType, ref content);
+            bool result = this.TestAdapter.VISController.TryOCRChannelLighting( moduleType, ref content);
             this.richTextBoxLighting.Text = string.Format("{0}:{1}", result ? "OK" : "Error", content);
         }
 

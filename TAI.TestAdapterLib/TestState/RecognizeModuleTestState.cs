@@ -25,6 +25,11 @@ namespace DMTTestAdapter
                 module.CurrentPosition = Position.FeedBase;
                 this.Modules.Add(module);
             }
+            this.Manager.UpdateDeviceType();
+            LogHelper.LogInfoMsg(string.Format("获取当前测试产品类型[{0}]",this.Manager.DeviceType.Description()));
+            this.Manager.VISController.SwitchProgramToOCRModelType();
+            LogHelper.LogInfoMsg(string.Format("切换VIS识别模式为[型号识别],[{0}]", this.Manager.VISController.ProgramId));
+
         }
 
         private Module ActiveModule
@@ -84,7 +89,7 @@ namespace DMTTestAdapter
                         LogHelper.LogInfoMsg(string.Format("机械手已到达位置[{0}]，开始识别模块型号",this.TargetIndex));
                         string moduleType = "";
 
-                        if (this.Manager.VISController.OCRModelType(ref moduleType))
+                        if (this.Manager.VISController.TryOCRModelType(ref moduleType))
                         {
                             ModuleType type = this.Manager.ParseModuleType(moduleType);
                             if (type != ModuleType.None)

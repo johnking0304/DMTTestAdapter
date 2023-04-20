@@ -9,6 +9,13 @@ using DMT.Core.Utils;
 
 namespace TAI.Modules
 {
+    public enum DeviceType
+    {
+        [Description("N200")]
+        N200 = 0,
+        [Description("Z200")]
+        Z200 = 100,
+    }
 
     public enum StationType
     {

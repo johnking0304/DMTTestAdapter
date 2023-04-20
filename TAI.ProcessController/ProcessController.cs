@@ -285,6 +285,15 @@ namespace TAI.Manager
             }
         }
 
+
+
+        public DeviceType TestDeviceType
+        {
+            get
+            {
+                return (DeviceType)this.SystemStatusValues[this.SystemOperator.TestDeviceType.StartAddress];
+            }
+        }
         public bool NewFeedSignal
         {
             get

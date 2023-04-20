@@ -64,6 +64,8 @@ namespace DMTTestAdapter
 
         public TCPService Service { get; set; }
 
+        public DeviceType DeviceType { get; set; }
+
         /// <summary>
         /// 初始化完成
         /// </summary>
@@ -227,6 +229,12 @@ namespace DMTTestAdapter
 
         }
 
+
+        public void UpdateDeviceType()
+        {
+            this.VISController.ProgramDeviceType = (int)this.ProcessController.TestDeviceType;
+            this.DeviceType = this.ProcessController.TestDeviceType; 
+        }
 
         private bool SendCommandReply(string reply)
         {
@@ -479,7 +487,7 @@ namespace DMTTestAdapter
         {
             LogHelper.LogInfoMsg(string.Format("获取工位[{0}]模块灯测视觉识别结果[{0}]", ((StationType)StationId).ToString()));
             string value = "";
-            if (this.VISController.OCRChannelLighting((ModuleType)StationId, ref value))
+            if (this.VISController.TryOCRChannelLighting((ModuleType)StationId, ref value))
             {
                 return string.Format("Ok,{0}", value);
             }
