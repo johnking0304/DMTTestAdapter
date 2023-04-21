@@ -290,7 +290,18 @@ namespace TAI.Manager
         {
             get
             {
-                return this.SystemStatusValues[this.SystemOperator.SystemStart.StartAddress] == (ushort)Status.Enable;
+                bool result = false;
+                ushort[] data = this.ReadChannel.ReadModbusItem(this.SystemOperator.SystemStart);
+                if (!this.ReadChannel.HasError)
+                {
+                    result = data[0] == (ushort)Status.Valid;
+                    if (result)
+                    {
+                        this.SystemOperator.SystemStart.Datas[0] = (ushort)0;
+                        this.WriteChannel.WriteModbusItem(this.SystemOperator.SystemStart);
+                    }
+                }
+                return result;
             }
         }
 
