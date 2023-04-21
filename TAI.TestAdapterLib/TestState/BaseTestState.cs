@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DMT.Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -49,9 +50,21 @@ namespace DMTTestAdapter
 
         public bool PrepareCompleted { get; set; }
 
-        public TestingState TestingState { get; set; }
+
+        public TestingState testingState { get; set; }
+        public TestingState TestingState { get
+            {
+                return this.testingState;
+            }set
+            {
+                LogHelper.LogInfoMsg(string.Format("系统状态发生变化[{0}->{1}]，发送Notify事件", this.testingState.Description(), value.Description()));
+                this.testingState = value;
+                this.Manager.NotifyTestingStateChanged();           
+            } }
 
         public int WaitMilliseconds { get; set; }
+
+        private DateTime StartDateTime; 
 
         public string Caption { get; set; }
 
@@ -64,6 +77,7 @@ namespace DMTTestAdapter
             this.Manager = manager;
             this.RobotMoving = false;
             this.PrepareCompleted = false;
+            this.StartDateTime = DateTime.Now;
             this.Initialize();
         }
 
@@ -80,7 +94,7 @@ namespace DMTTestAdapter
         }
 
 
-        public bool TimeOut(DateTime datetime)
+        public bool TimeOut(ref DateTime datetime)
         {
             TimeSpan span = DateTime.Now - datetime;
             if (span.TotalMilliseconds >= this.WaitMilliseconds)
@@ -89,6 +103,11 @@ namespace DMTTestAdapter
                 return true;
             }
             return false;
+        }
+
+        public bool TimeOut()
+        {
+            return this.TimeOut(ref this.StartDateTime);
         }
 
         public override void Initialize()

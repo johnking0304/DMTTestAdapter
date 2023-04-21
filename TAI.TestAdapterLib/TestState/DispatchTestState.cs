@@ -8,18 +8,19 @@ using TAI.Modules;
 
 namespace DMTTestAdapter
 {
-    public class PreFeedingTestState: TestState
+    
+    public class DispatchTestState : TestState
     {
         
-        public PreFeedingTestState(TestAdapter manager) : base(manager)
+        public DispatchTestState(TestAdapter manager) : base(manager)
         {
-            this.Caption = "系统预上料状态";
+            this.Caption = "系统总调度状态";
             this.TestingState = TestingState.PreFeeding;
         }
 
         public override void Initialize()
         {
-            this.LastMessage = "进入【系统预上料状态-总调度状态】";
+            this.LastMessage = "进入【系统总调度状态】";
             LogHelper.LogInfoMsg(this.LastMessage);
         }
 
@@ -76,7 +77,6 @@ namespace DMTTestAdapter
                 }
             }
  
-           // if (this.Manager.Command == OperateCommand.RequestVISLighting)
             if(this.Manager.RequestCommand==OperateCommand.RequestVISLighting)
             {              
                 this.Manager.RequestCommand = OperateCommand.None;
@@ -88,6 +88,19 @@ namespace DMTTestAdapter
                     LogHelper.LogInfoMsg(this.LastMessage);
                     this.Manager.TestState = new ModuleTestingTestState(this.Manager, module);
                 }              
+            }
+
+
+            if (this.Manager.ProcessController.RobotIdle)
+            {
+                Station station = this.Manager.StationWaitToBlanking;
+                if (station != null)
+                {
+                    this.LastMessage = string.Format("模块[{0}]测试完成，等待下料，转换到【工位下料状态】", station.LinkedModule.Description);
+                    LogHelper.LogInfoMsg(this.LastMessage);
+                    station.LinkedModule.CurrentPosition = station.TestPosition;
+                    this.Manager.TestState = new BlankingTestState(this.Manager, station.LinkedModule);
+                }
             }
         }
     }

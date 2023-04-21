@@ -46,19 +46,6 @@ namespace DMTTestManager
 
         public void SelectTableControlPage(int index)
         {
-            /*            for (int i = 0; i < this.materialTabControlMain.TabCount; i++)
-                        {
-                            *//*                if (index == i)
-                                            {
-                                                materialTabControlMain.TabPages[i].Parent = this.materialTabControlMain;
-                                            }
-                                            else
-                                            {
-                                                materialTabControlMain.TabPages[i].Parent = null;
-                                            }*//*
-
-
-                        }*/
             tabPageAbout.Parent = null;
             tabPageDevices.Parent = null;
             tabPageSystem.Parent = materialTabControlMain;
@@ -208,10 +195,18 @@ namespace DMTTestManager
             this.listViewProcessController.BeginUpdate();
             try
             {
-                this.listViewProcessController.Items.Clear();
+                //this.listViewProcessController.Items.Clear();
 
-                ListViewItem item =this.AddNewItemTolistViewProcess("系统整体状态", Program.DMTTestAdapter.TestState.TestingState.Description());
-                item.Group = this.listViewProcessController.Groups[0];
+                ListViewItem listitem = this.FindItem("系统整体状态");
+                if (listitem == null)
+                {
+                    listitem = this.AddNewItemTolistViewProcess("系统整体状态", Program.DMTTestAdapter.TestState.TestingState.Description());
+                    listitem.Group = this.listViewProcessController.Groups[0];
+                }
+                else
+                {
+                    listitem.SubItems[1].Text = Program.DMTTestAdapter.TestState.TestingState.Description();
+                }
 
 
                 this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.InitializeCompleted,0);

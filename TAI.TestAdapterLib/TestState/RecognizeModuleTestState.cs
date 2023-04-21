@@ -142,7 +142,7 @@ namespace DMTTestAdapter
                     }
                 }
                 this.Modules.Clear();
-                this.Manager.TestState = new PreFeedingTestState(this.Manager);
+                this.Manager.TestState = new DispatchTestState(this.Manager);
             }
         }
     }

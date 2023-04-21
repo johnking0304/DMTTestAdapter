@@ -23,14 +23,14 @@ namespace DMTTestAdapter
         }
 
         public override void StateCheck()
-        {
-            if (this.Manager.Command == OperateCommand.StartTest)
+        {             
+            if (this.Manager.Command == OperateCommand.StartTest || this.Manager.ProcessController.SystemStarted)
             {
                 this.Manager.Command = OperateCommand.None;
-                this.LastMessage = "接收到启动测试命令，转换为【系统预上料状态】";
+                this.LastMessage = "接收到启动测试命令，转换为【系统总调度状态】";
                 LogHelper.LogInfoMsg(this.LastMessage);
                 this.Manager.ProcessController.NotifyStartTest();
-                this.Manager.TestState = new PreFeedingTestState(this.Manager);
+                this.Manager.TestState = new DispatchTestState(this.Manager);
             }
 
             if (this.Manager.SystemMessage.LastErrorCode == (int)SystemCode.Fault)

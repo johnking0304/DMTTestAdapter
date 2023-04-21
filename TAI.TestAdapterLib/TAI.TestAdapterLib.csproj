@@ -38,7 +38,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>dmt.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -63,7 +64,7 @@
     <Compile Include="TestState\FaultTestState.cs" />
     <Compile Include="TestState\ModuleTestingTestState.cs" />
     <Compile Include="TestState\BlankingTestState.cs" />
-    <Compile Include="TestState\PreFeedingTestState.cs" />
+    <Compile Include="TestState\DispatchTestState.cs" />
     <Compile Include="TestState\FeedingToTestTestState.cs" />
     <Compile Include="TestState\RecognizeModuleTestState.cs" />
     <Compile Include="TestState\InitializeTestState.cs" />
@@ -116,7 +117,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="dmt.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

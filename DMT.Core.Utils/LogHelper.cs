@@ -27,6 +27,15 @@ namespace DMT.Core.Utils
             loginfo.Info(msg);
             logudp.Info(msg);
         }
+
+        public static void LogInfoMsg(string msg1, string msg2)
+        {
+            LogInfoMsg(string.Format("{0}{1}", msg1, msg2));
+        }
+        public static void LogInfoMsg(string msg1,string msg2,string msg3)
+        {
+            LogInfoMsg(string.Format("{0}{1}{2}", msg1, msg2,msg3));
+        }
         /// <summary>
         /// 输出错误日志
         /// </summary>

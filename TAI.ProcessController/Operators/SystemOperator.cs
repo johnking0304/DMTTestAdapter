@@ -23,17 +23,21 @@ namespace TAI.Manager
         public ModbusItem InitializeCompleted { get; set; }
         public readonly ushort DefaultInitializeCompletedOffset = 2;
 
-        /// <summary>
-        /// 复位
-        /// </summary>
-        public ModbusItem ResetOperate { get; set; }
-        public readonly ushort DefaultResetOperateOffset = 3;
-        
+
         /// <summary>
         /// 暂停按钮 W
         /// </summary>
         public ModbusItem SystemPause { get; set; }
-        public readonly ushort DefaultSystemPauseOffset = 4;
+        public readonly ushort DefaultSystemPauseOffset = 3;
+
+
+        /// <summary>
+        /// 复位
+        /// </summary>
+        public ModbusItem SystemStart { get; set; }
+        public readonly ushort DefaultSystemStartOffset = 4;
+        
+
 
         /// <summary>
         /// 系统急停
@@ -99,8 +103,8 @@ namespace TAI.Manager
             this.InitializeCompleted = new ModbusItem(this.Caption, "初始化状态", "InitializeCompleted", this.BaseIndex, DefaultInitializeCompletedOffset, 1, ChannelType.AI);
             this.Items.Add(this.InitializeCompleted);
 
-            this.ResetOperate = new ModbusItem(this.Caption, "复位", "ResetOperate", this.BaseIndex, DefaultResetOperateOffset, 1, ChannelType.AO);
-            this.Items.Add(this.ResetOperate);
+            this.SystemStart = new ModbusItem(this.Caption, "系统开始", "SystemStart", this.BaseIndex, DefaultSystemStartOffset, 1, ChannelType.AO);
+            this.Items.Add(this.SystemStart);
 
             this.SystemPause = new ModbusItem(this.Caption, "系统暂停", "SystemPause", this.BaseIndex, DefaultSystemPauseOffset, 1, ChannelType.AO);
             this.Items.Add(this.SystemPause);

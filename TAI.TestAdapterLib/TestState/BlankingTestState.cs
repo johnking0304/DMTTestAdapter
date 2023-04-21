@@ -70,7 +70,7 @@ namespace DMTTestAdapter
                     this.Manager.ProcessController.NotifyFeedLackSignal();
                     LogHelper.LogInfoMsg(string.Format("下料完成,上料盘已空，下发上料盘已空信号"));
                 }
-                this.Manager.TestState = new PreFeedingTestState(this.Manager);
+                this.Manager.TestState = new DispatchTestState(this.Manager);
             }
         }
     }

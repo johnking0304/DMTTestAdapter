@@ -83,7 +83,9 @@ namespace TAI.Modules
             set
             {
                 this.StationStatus.TestStep = value;
-            } }
+            } 
+        }
+        public bool WaitToBlanking { get; set; }
 
 
 
@@ -99,6 +101,7 @@ namespace TAI.Modules
             this.TestPosition = (Position)((int)Position.StationBase + (int)stationType);
             this.QRPosition = (Position)((int)Position.StationQRBase + (int)stationType);
             this.LinkedModule = null;
+            this.WaitToBlanking = false;
 
         }
 
@@ -111,6 +114,7 @@ namespace TAI.Modules
         {
             this.LinkedModule = null;
             this.TestStep = TestStep.Idle;
+            this.WaitToBlanking = false;           
  
         }
 

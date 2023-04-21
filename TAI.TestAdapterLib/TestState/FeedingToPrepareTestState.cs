@@ -112,7 +112,7 @@ namespace DMTTestAdapter
                     //工位下压动作
                     this.Manager.ProcessController.StartStationTest((int)StationType.Prepare);
                     this.Delay(500);
-                    this.Manager.TestState = new PreFeedingTestState(this.Manager);
+                    this.Manager.TestState = new DispatchTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
                 {

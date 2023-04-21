@@ -30,7 +30,6 @@ namespace DMTTestAdapter
         public DeviceMaster MeasureDevice { get; set; }
         public DeviceMaster GeneratorDevice { get; set; }
         public ProcessController ProcessController { get; set; }
-        //public SwitchController SwitchController { get; set; }
         public List<SwitchController> SwitchControllers { get; set; }
 
         
@@ -52,8 +51,7 @@ namespace DMTTestAdapter
 
         public SystemMessage SystemMessage { get; set; }
 
-        public OperateCommand Command { get; set; }
-        public List<string> Params { get; set; }
+        public OperateCommand Command { get; set; }      
         public int ActiveStation { get; set; }
         public OperateCommand RequestCommand { get; set; }
 
@@ -81,7 +79,6 @@ namespace DMTTestAdapter
             this.TestingModules = new List<Module>();
             this.Stations = new List<Station>();
             this.SystemMessage = new SystemMessage(this.Caption);
-            this.Params = new List<string>();
             this.ActiveStation = 0;
 
             this.Service = new TCPService();
@@ -225,6 +222,8 @@ namespace DMTTestAdapter
             {
                 this.TestState.Execute();
             }
+
+            
 
 
         }
@@ -393,6 +392,14 @@ namespace DMTTestAdapter
             return  this.SystemMessageText;
         }
 
+        public void NotifyTestingStateChanged()
+        {
+            string command = string.Format("Notify,{0}",this.SystemMessageText);
+            this.Service.SendCommand(command);
+
+            
+
+        }
 
 
 
@@ -430,16 +437,9 @@ namespace DMTTestAdapter
 
         public string StartTest()
         {
-/*            if (this.InitializeCompleted)
-            {*/
-                LogHelper.LogInfoMsg(string.Format("接收命令:启动系统测试"));
-                this.Command = OperateCommand.StartTest;
-                return "Ok";
-/*            }
-            else
-            {
-                return "Fail";
-            }*/
+            LogHelper.LogInfoMsg(string.Format("接收命令:启动系统测试"));
+            this.Command = OperateCommand.StartTest;
+            return "Ok";
         }
 
             public string StopTest()
@@ -505,6 +505,7 @@ namespace DMTTestAdapter
                 if (station.LinkedModule != null)
                 {
                     station.LinkedModule.Conclusion = result;
+                    station.WaitToBlanking = true;
                 }
                 return "Ok";
             }
@@ -519,7 +520,6 @@ namespace DMTTestAdapter
             if (this.ProcessController.RobotIdle && this.TestState.TestingState == TestingState.PreFeeding)
             {
                 this.ActiveStation = StationId;
-                this.Command = OperateCommand.RequestVISLighting;
                 this.RequestCommand = OperateCommand.RequestVISLighting;
                 return string.Format("Fail,{0}", this.ActiveStation);//SWait
             }
@@ -537,13 +537,30 @@ namespace DMTTestAdapter
         public string ReleaseVISLighting(int StationId)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
-            this.Command = OperateCommand.ReleaseVISLighting;
-            return "Ok";
+            //this.Command = OperateCommand.ReleaseVISLighting;
+            return string.Format("Ok,{0}", StationId);
 
         }
 
 
         #endregion
+
+
+        public Station StationWaitToBlanking 
+        {
+            get {
+                foreach (Station station in this.Stations)
+                {
+                    if (station.WaitToBlanking)
+                    {
+                        return station;
+                    }
+                
+                }
+                return null;
+            }
+        
+        }
 
 
 

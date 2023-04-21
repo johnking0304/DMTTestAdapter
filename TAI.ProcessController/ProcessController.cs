@@ -253,6 +253,7 @@ namespace TAI.Manager
 
         public bool InitializeSystem()
         {
+           
             this.SystemOperator.InitializeOperate.Datas[0] = 1;
             this.WriteChannel.WriteModbusItem(this.SystemOperator.InitializeOperate);
             return (!this.WriteChannel.HasError);
@@ -285,6 +286,13 @@ namespace TAI.Manager
             }
         }
 
+        public bool SystemStarted
+        {
+            get
+            {
+                return this.SystemStatusValues[this.SystemOperator.SystemStart.StartAddress] == (ushort)Status.Enable;
+            }
+        }
 
 
         public DeviceType TestDeviceType

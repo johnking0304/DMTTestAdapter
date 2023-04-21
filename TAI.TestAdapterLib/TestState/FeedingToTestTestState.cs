@@ -113,7 +113,7 @@ namespace DMTTestAdapter
                     this.Manager.StartModuleTest(this.ActiveModule);
                     this.Manager.ProcessController.StartStationTest((int)this.ActiveModule.LinkStation.StationType);
                     this.Delay(500);
-                    this.Manager.TestState = new PreFeedingTestState(this.Manager);
+                    this.Manager.TestState = new DispatchTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
                 {
