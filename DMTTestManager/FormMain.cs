@@ -14,6 +14,7 @@ using DMT.Core.Utils;
 using DMTTestAdapter;
 using TAI.Modules;
 using TAI.Manager;
+using DMT.Core.Protocols;
 
 namespace DMTTestManager
 {
@@ -159,15 +160,48 @@ namespace DMTTestManager
 
         }
 
+       
+
 
         private ListViewItem AddNewItemTolistViewProcess(string text, string value)
         {
             ListViewItem item = new ListViewItem();
             item.Text = text;
-            item.SubItems.Add(value);
+            item.SubItems.Add(value);          
             this.listViewProcessController.Items.Add(item);
             return item;
         }
+
+
+        private ListViewItem AddNewItemTolistViewProcess(ModbusItem item,int groupId)
+        {
+            ListViewItem listitem = this.FindItem(item.Caption);
+            if (listitem == null)
+            {
+                listitem = this.AddNewItemTolistViewProcess(item.Caption, Program.DMTTestAdapter.ProcessController.SystemStatusValues[item.StartAddress].ToString());
+                listitem.Group = this.listViewProcessController.Groups[groupId];
+                listitem.Tag = item;
+            }
+            else
+            {
+                listitem.SubItems[1].Text = Program.DMTTestAdapter.ProcessController.SystemStatusValues[item.StartAddress].ToString();
+            }
+            return listitem;
+        }
+
+        private ListViewItem FindItem(string caption)
+        {
+            foreach (ListViewItem item in this.listViewProcessController.Items)
+            {
+                if (item.Text == caption)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+
 
         private void RefreshProcessControllerStatus()
         {
@@ -178,50 +212,24 @@ namespace DMTTestManager
 
                 ListViewItem item =this.AddNewItemTolistViewProcess("系统整体状态", Program.DMTTestAdapter.TestState.TestingState.Description());
                 item.Group = this.listViewProcessController.Groups[0];
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.InitializeCompleted.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.InitializeCompleted.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[0];
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.NewFeedSignal.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.NewFeedSignal.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[0];
 
 
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.DIStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.DIStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.InitializeCompleted,0);
 
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.DOStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.DOStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.NewFeedSignal, 0);
 
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.PIStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.PIStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.TestDeviceType, 0);
 
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.AIStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.AIStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
 
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.AOStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.AOStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
-
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.RTD3StationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.RTD3StationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
-
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.RTD4StationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.RTD4StationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
-
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.TCStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.TCStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
-
-                item = this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.PrepareStationBusy.Caption,
-                    Program.DMTTestAdapter.ProcessController.SystemStatusValues[Program.DMTTestAdapter.ProcessController.SystemOperator.PrepareStationBusy.StartAddress].ToString());
-                item.Group = this.listViewProcessController.Groups[1];
-
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.DIStationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.DOStationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.PIStationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.AIStationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.AOStationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.RTD3StationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.RTD4StationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.TCStationBusy, 1);
+                this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.PrepareStationBusy, 1);
 
 
             }

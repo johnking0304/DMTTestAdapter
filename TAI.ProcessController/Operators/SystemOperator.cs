@@ -42,6 +42,8 @@ namespace TAI.Manager
         public readonly ushort DefaultSystemStopOffset = 5;
 
 
+        /// <summary>
+        /// 测试模块类型
         /// </summary>
         public ModbusItem TestDeviceType { get; set; }
         public readonly ushort DefaultTestDeviceTypeOffset = 6;
