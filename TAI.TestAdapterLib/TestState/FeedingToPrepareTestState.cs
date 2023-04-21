@@ -111,7 +111,7 @@ namespace DMTTestAdapter
                     this.Manager.StartModulePrepare(this.ActiveModule);
                     //工位下压动作
                     this.Manager.ProcessController.StartStationTest((int)StationType.Prepare);
-                    this.Delay(500);
+                    this.Delay(1000);
                     this.Manager.TestState = new DispatchTestState(this.Manager);
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)

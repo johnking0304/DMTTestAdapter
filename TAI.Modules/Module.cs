@@ -131,8 +131,13 @@ namespace TAI.Modules
             } 
         }
         public bool Enable { get; set; }
-        public bool Conclusion {  set
+
+        private bool conclusion;
+        public bool Conclusion {
+            get => this.conclusion;
+            set
             {
+                this.conclusion = value;
                 this.CurrentPosition = this.TargetPosition;
                 this.TargetPosition = value ? Position.Out_OK : Position.Out_NG;
             } 
