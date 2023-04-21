@@ -99,7 +99,12 @@ namespace TestAPPDemo
 
         private void button13_Click(object sender, EventArgs e)
         {
-            string content = "";
+            string content = this.comboBoxDeviceType.Text;
+            string[] list = content.Split('-');
+            int value = int.Parse(list[0]);
+            this.TestAdapter.VISController.ProgramDeviceType = value;
+            content = "";
+ 
             this.textBoxModuleSerialCode.Text = "";
             bool result = this.TestAdapter.VISController.TryQRModelSerialCode(ref content);
             this.textBoxModuleSerialCode.Text = string.Format("{0}:{1}", result ? "OK" : "Error", content);
@@ -107,7 +112,11 @@ namespace TestAPPDemo
 
         private void button12_Click(object sender, EventArgs e)
         {
-            string content = "";
+            string content = this.comboBoxDeviceType.Text;
+            string[] list = content.Split('-');
+            int value = int.Parse(list[0]);
+            this.TestAdapter.VISController.ProgramDeviceType = value;
+            content = "";
             this.textBoxModuleType.Text = "";
             bool result = this.TestAdapter.VISController.TryOCRModelType(ref content);
             this.textBoxModuleType.Text = string.Format("{0}:{1}",result?"OK":"Error",content);
@@ -116,7 +125,13 @@ namespace TestAPPDemo
 
         private void button14_Click(object sender, EventArgs e)
         {
-            string content = "";
+            string content = this.comboBoxDeviceType.Text;
+            string[] list = content.Split('-');
+            int value = int.Parse(list[0]);
+            this.TestAdapter.VISController.ProgramDeviceType = value;
+            content = "";
+
+
             this.richTextBoxLighting.Text = "";
            int channel = comboBoxModuleChannel.SelectedIndex + 1;
             ModuleType moduleType = (ModuleType)(comboBoxModuleType.SelectedIndex + 1);

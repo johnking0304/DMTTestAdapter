@@ -518,20 +518,20 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]请求灯测服务", ((StationType)StationId).ToString()));
             if (this.ProcessController.RobotIdle && this.TestState.TestingState == TestingState.PreFeeding)
             {
-                //this.Params.Clear();
-                //this.Params.Add(StationId.ToString());
                 this.ActiveStation = StationId;
                 this.Command = OperateCommand.RequestVISLighting;
                 this.RequestCommand = OperateCommand.RequestVISLighting;
-                return "Fail";//SWait
+                return string.Format("Fail,{0}", this.ActiveStation);//SWait
             }
             else if (this.TestState.TestingState == TestingState.Testing && this.TestState.PrepareCompleted)
             {
-                //当系统状态在测试状态 并且 准备完成（满足VIS到位，机械手到位条件） 返回ok
-                return "Ok";
-            }
-            this.ActiveStation = StationId;
-            return "Fail";
+                //当系统状态在测试状态 并且 准备完成（满足VIS到位，机械手到位条件） ,且请求的StationId 和灯测准备id一致  则 返回ok
+                if (StationId == this.ActiveStation)
+                {
+                    return string.Format("Ok,{0}", this.ActiveStation);
+                }
+            }            
+            return string.Format("Fail,{0}", StationId); ;
         }
 
         public string ReleaseVISLighting(int StationId)

@@ -58,7 +58,7 @@ namespace TAI.Manager
             this.ChannelResults = new List<KeyValuePair<string, int>>();
             this.ProgramIds = new List<KeyValuePair<string, int>>();
             this.StatusMessage.Name = this.Caption;
-            this.ProgramId = 0;
+            this.ProgramId = -1;
             this.ProgramDeviceType = 0;
             this.TryCountMax = 3;
         }

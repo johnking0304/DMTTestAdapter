@@ -96,6 +96,8 @@ namespace TestAPPDemo
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label12 = new System.Windows.Forms.Label();
+            this.comboBoxDeviceType = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -115,16 +117,18 @@ namespace TestAPPDemo
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(441, 1059);
+            this.panel1.Size = new System.Drawing.Size(294, 879);
             this.panel1.TabIndex = 0;
             // 
             // richTextBox1
             // 
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(441, 1059);
+            this.richTextBox1.Size = new System.Drawing.Size(294, 879);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -132,9 +136,10 @@ namespace TestAPPDemo
             // 
             this.panel2.Controls.Add(this.tabControl1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(441, 0);
+            this.panel2.Location = new System.Drawing.Point(294, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1854, 1059);
+            this.panel2.Size = new System.Drawing.Size(1234, 879);
             this.panel2.TabIndex = 1;
             // 
             // tabControl1
@@ -143,9 +148,10 @@ namespace TestAPPDemo
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1854, 1059);
+            this.tabControl1.Size = new System.Drawing.Size(1234, 879);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -155,10 +161,11 @@ namespace TestAPPDemo
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage1.Size = new System.Drawing.Size(1846, 1027);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Size = new System.Drawing.Size(1226, 853);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "功能单点测试";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -169,21 +176,18 @@ namespace TestAPPDemo
             this.groupBox6.Controls.Add(this.button16);
             this.groupBox6.Controls.Add(this.comboBox1);
             this.groupBox6.Controls.Add(this.button10);
-            this.groupBox6.Location = new System.Drawing.Point(1270, 30);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Location = new System.Drawing.Point(847, 20);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox6.Size = new System.Drawing.Size(506, 507);
+            this.groupBox6.Size = new System.Drawing.Size(337, 338);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "数字量";
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(44, 222);
-            this.button15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button15.Location = new System.Drawing.Point(29, 148);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(434, 64);
+            this.button15.Size = new System.Drawing.Size(289, 43);
             this.button15.TabIndex = 4;
             this.button15.Text = "选择PI通道输出";
             this.button15.UseVisualStyleBackColor = true;
@@ -191,10 +195,9 @@ namespace TestAPPDemo
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(264, 123);
-            this.button16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button16.Location = new System.Drawing.Point(176, 82);
             this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(213, 63);
+            this.button16.Size = new System.Drawing.Size(142, 42);
             this.button16.TabIndex = 3;
             this.button16.Text = "关";
             this.button16.UseVisualStyleBackColor = true;
@@ -228,18 +231,16 @@ namespace TestAPPDemo
             "22",
             "23",
             "24"});
-            this.comboBox1.Location = new System.Drawing.Point(44, 74);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Location = new System.Drawing.Point(29, 49);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(180, 26);
+            this.comboBox1.Size = new System.Drawing.Size(121, 20);
             this.comboBox1.TabIndex = 1;
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(42, 123);
-            this.button10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button10.Location = new System.Drawing.Point(28, 82);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(213, 64);
+            this.button10.Size = new System.Drawing.Size(142, 43);
             this.button10.TabIndex = 0;
             this.button10.Text = "开";
             this.button10.UseVisualStyleBackColor = true;
@@ -255,18 +256,21 @@ namespace TestAPPDemo
             this.groupBox4.Controls.Add(this.comboBoxtarget);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.comboBoxStart);
-            this.groupBox4.Location = new System.Drawing.Point(1238, 552);
+            this.groupBox4.Location = new System.Drawing.Point(825, 368);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(538, 470);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Size = new System.Drawing.Size(359, 313);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "机械手移动";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(112, 297);
+            this.button5.Location = new System.Drawing.Point(75, 198);
+            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(398, 45);
+            this.button5.Size = new System.Drawing.Size(265, 30);
             this.button5.TabIndex = 7;
             this.button5.Text = "确认移动使能";
             this.button5.UseVisualStyleBackColor = true;
@@ -279,16 +283,18 @@ namespace TestAPPDemo
             this.comboBoxMode.Items.AddRange(new object[] {
             "1-识别",
             "2-搬运"});
-            this.comboBoxMode.Location = new System.Drawing.Point(112, 34);
+            this.comboBoxMode.Location = new System.Drawing.Point(75, 23);
+            this.comboBoxMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxMode.Name = "comboBoxMode";
-            this.comboBoxMode.Size = new System.Drawing.Size(398, 32);
+            this.comboBoxMode.Size = new System.Drawing.Size(267, 24);
             this.comboBoxMode.TabIndex = 6;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(112, 220);
+            this.button4.Location = new System.Drawing.Point(75, 147);
+            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(398, 45);
+            this.button4.Size = new System.Drawing.Size(265, 30);
             this.button4.TabIndex = 5;
             this.button4.Text = "设置移动参数";
             this.button4.UseVisualStyleBackColor = true;
@@ -297,18 +303,20 @@ namespace TestAPPDemo
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 44);
+            this.label3.Location = new System.Drawing.Point(18, 29);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 18);
+            this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 4;
             this.label3.Text = "模式";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 156);
+            this.label2.Location = new System.Drawing.Point(18, 104);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 18);
+            this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "结束位置";
             // 
@@ -344,17 +352,19 @@ namespace TestAPPDemo
             "28-预热工位 二维码识别位置X",
             "30-OK下料位置",
             "31-NG下料位置"});
-            this.comboBoxtarget.Location = new System.Drawing.Point(112, 148);
+            this.comboBoxtarget.Location = new System.Drawing.Point(75, 99);
+            this.comboBoxtarget.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxtarget.Name = "comboBoxtarget";
-            this.comboBoxtarget.Size = new System.Drawing.Size(398, 32);
+            this.comboBoxtarget.Size = new System.Drawing.Size(267, 24);
             this.comboBoxtarget.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 100);
+            this.label1.Location = new System.Drawing.Point(18, 67);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 18);
+            this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "起始位置";
             // 
@@ -390,14 +400,17 @@ namespace TestAPPDemo
             "28-预热工位 二维码识别位置X",
             "30-OK下料位置",
             "31-NG下料位置"});
-            this.comboBoxStart.Location = new System.Drawing.Point(112, 92);
+            this.comboBoxStart.Location = new System.Drawing.Point(75, 61);
+            this.comboBoxStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxStart.Name = "comboBoxStart";
-            this.comboBoxStart.Size = new System.Drawing.Size(398, 32);
+            this.comboBoxStart.Size = new System.Drawing.Size(267, 24);
             this.comboBoxStart.TabIndex = 0;
             this.comboBoxStart.SelectedIndexChanged += new System.EventHandler(this.comboBoxStart_SelectedIndexChanged);
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.comboBoxDeviceType);
             this.groupBox3.Controls.Add(this.button9);
             this.groupBox3.Controls.Add(this.button8);
             this.groupBox3.Controls.Add(this.button7);
@@ -411,19 +424,20 @@ namespace TestAPPDemo
             this.groupBox3.Controls.Add(this.button13);
             this.groupBox3.Controls.Add(this.textBoxModuleType);
             this.groupBox3.Controls.Add(this.button12);
-            this.groupBox3.Location = new System.Drawing.Point(434, 543);
+            this.groupBox3.Location = new System.Drawing.Point(289, 368);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(788, 532);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(525, 400);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "视觉识别";
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(597, 188);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button9.Location = new System.Drawing.Point(397, 156);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(136, 52);
+            this.button9.Size = new System.Drawing.Size(91, 35);
             this.button9.TabIndex = 23;
             this.button9.Text = "OK";
             this.button9.UseVisualStyleBackColor = true;
@@ -431,10 +445,9 @@ namespace TestAPPDemo
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(597, 114);
-            this.button8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button8.Location = new System.Drawing.Point(397, 107);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(136, 52);
+            this.button8.Size = new System.Drawing.Size(91, 35);
             this.button8.TabIndex = 22;
             this.button8.Text = "OK";
             this.button8.UseVisualStyleBackColor = true;
@@ -442,10 +455,9 @@ namespace TestAPPDemo
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(597, 42);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button7.Location = new System.Drawing.Point(397, 59);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(136, 52);
+            this.button7.Size = new System.Drawing.Size(91, 35);
             this.button7.TabIndex = 21;
             this.button7.Text = "OK";
             this.button7.UseVisualStyleBackColor = true;
@@ -454,9 +466,10 @@ namespace TestAPPDemo
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(198, 190);
+            this.label9.Location = new System.Drawing.Point(131, 158);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 18);
+            this.label9.Size = new System.Drawing.Size(53, 12);
             this.label9.TabIndex = 20;
             this.label9.Text = "模块类型";
             // 
@@ -473,17 +486,19 @@ namespace TestAPPDemo
             "6-RTD_3L",
             "7-RTD_4L",
             "8-TC"});
-            this.comboBoxModuleType.Location = new System.Drawing.Point(201, 212);
+            this.comboBoxModuleType.Location = new System.Drawing.Point(133, 172);
+            this.comboBoxModuleType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxModuleType.Name = "comboBoxModuleType";
-            this.comboBoxModuleType.Size = new System.Drawing.Size(186, 26);
+            this.comboBoxModuleType.Size = new System.Drawing.Size(125, 20);
             this.comboBoxModuleType.TabIndex = 19;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(40, 188);
+            this.label4.Location = new System.Drawing.Point(26, 156);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 18);
+            this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 18;
             this.label4.Text = "通道";
             // 
@@ -508,25 +523,28 @@ namespace TestAPPDemo
             "14",
             "15",
             "16"});
-            this.comboBoxModuleChannel.Location = new System.Drawing.Point(44, 212);
+            this.comboBoxModuleChannel.Location = new System.Drawing.Point(28, 172);
+            this.comboBoxModuleChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxModuleChannel.Name = "comboBoxModuleChannel";
-            this.comboBoxModuleChannel.Size = new System.Drawing.Size(139, 26);
+            this.comboBoxModuleChannel.Size = new System.Drawing.Size(94, 20);
             this.comboBoxModuleChannel.TabIndex = 17;
             // 
             // richTextBoxLighting
             // 
-            this.richTextBoxLighting.Location = new System.Drawing.Point(44, 260);
+            this.richTextBoxLighting.Location = new System.Drawing.Point(28, 204);
+            this.richTextBoxLighting.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richTextBoxLighting.Name = "richTextBoxLighting";
             this.richTextBoxLighting.ReadOnly = true;
-            this.richTextBoxLighting.Size = new System.Drawing.Size(508, 229);
+            this.richTextBoxLighting.Size = new System.Drawing.Size(340, 154);
             this.richTextBoxLighting.TabIndex = 16;
             this.richTextBoxLighting.Text = "";
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(405, 190);
+            this.button14.Location = new System.Drawing.Point(269, 158);
+            this.button14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(147, 50);
+            this.button14.Size = new System.Drawing.Size(98, 33);
             this.button14.TabIndex = 15;
             this.button14.Text = "识别灯测结果";
             this.button14.UseVisualStyleBackColor = true;
@@ -534,17 +552,19 @@ namespace TestAPPDemo
             // 
             // textBoxModuleSerialCode
             // 
-            this.textBoxModuleSerialCode.Location = new System.Drawing.Point(44, 126);
+            this.textBoxModuleSerialCode.Location = new System.Drawing.Point(28, 115);
+            this.textBoxModuleSerialCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxModuleSerialCode.Name = "textBoxModuleSerialCode";
             this.textBoxModuleSerialCode.ReadOnly = true;
-            this.textBoxModuleSerialCode.Size = new System.Drawing.Size(342, 28);
+            this.textBoxModuleSerialCode.Size = new System.Drawing.Size(229, 21);
             this.textBoxModuleSerialCode.TabIndex = 14;
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(405, 112);
+            this.button13.Location = new System.Drawing.Point(269, 106);
+            this.button13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(147, 52);
+            this.button13.Size = new System.Drawing.Size(98, 35);
             this.button13.TabIndex = 13;
             this.button13.Text = "识别模块二维码";
             this.button13.UseVisualStyleBackColor = true;
@@ -552,17 +572,19 @@ namespace TestAPPDemo
             // 
             // textBoxModuleType
             // 
-            this.textBoxModuleType.Location = new System.Drawing.Point(44, 56);
+            this.textBoxModuleType.Location = new System.Drawing.Point(28, 68);
+            this.textBoxModuleType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxModuleType.Name = "textBoxModuleType";
             this.textBoxModuleType.ReadOnly = true;
-            this.textBoxModuleType.Size = new System.Drawing.Size(342, 28);
+            this.textBoxModuleType.Size = new System.Drawing.Size(229, 21);
             this.textBoxModuleType.TabIndex = 12;
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(405, 42);
+            this.button12.Location = new System.Drawing.Point(269, 59);
+            this.button12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(147, 52);
+            this.button12.Size = new System.Drawing.Size(98, 35);
             this.button12.TabIndex = 0;
             this.button12.Text = "识别模块类型";
             this.button12.UseVisualStyleBackColor = true;
@@ -575,19 +597,20 @@ namespace TestAPPDemo
             this.groupBox2.Controls.Add(this.button17);
             this.groupBox2.Controls.Add(this.listView1);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Location = new System.Drawing.Point(22, 20);
+            this.groupBox2.Location = new System.Drawing.Point(15, 13);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(390, 950);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(260, 633);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "流程控制PLC";
             // 
             // button18
             // 
-            this.button18.Location = new System.Drawing.Point(66, 652);
-            this.button18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button18.Location = new System.Drawing.Point(44, 435);
             this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(214, 64);
+            this.button18.Size = new System.Drawing.Size(143, 43);
             this.button18.TabIndex = 21;
             this.button18.Text = "工位OK下料";
             this.button18.UseVisualStyleBackColor = true;
@@ -606,17 +629,17 @@ namespace TestAPPDemo
             "6-RTD_3L",
             "7-RTD_4L",
             "8-TC"});
-            this.comboBox2.Location = new System.Drawing.Point(66, 488);
+            this.comboBox2.Location = new System.Drawing.Point(44, 325);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(212, 26);
+            this.comboBox2.Size = new System.Drawing.Size(143, 20);
             this.comboBox2.TabIndex = 20;
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(66, 546);
-            this.button17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button17.Location = new System.Drawing.Point(44, 364);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(214, 64);
+            this.button17.Size = new System.Drawing.Size(143, 43);
             this.button17.TabIndex = 5;
             this.button17.Text = "开始工位使能信号";
             this.button17.UseVisualStyleBackColor = true;
@@ -630,9 +653,10 @@ namespace TestAPPDemo
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(26, 156);
+            this.listView1.Location = new System.Drawing.Point(17, 104);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(340, 282);
+            this.listView1.Size = new System.Drawing.Size(228, 189);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -649,9 +673,10 @@ namespace TestAPPDemo
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(26, 40);
+            this.button1.Location = new System.Drawing.Point(17, 27);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(340, 40);
+            this.button1.Size = new System.Drawing.Size(227, 27);
             this.button1.TabIndex = 1;
             this.button1.Text = " ";
             this.button1.UseVisualStyleBackColor = true;
@@ -668,9 +693,11 @@ namespace TestAPPDemo
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.comboBoxAnaChannel);
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Location = new System.Drawing.Point(434, 28);
+            this.groupBox1.Location = new System.Drawing.Point(289, 19);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(830, 508);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(553, 339);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "调理模块";
@@ -679,9 +706,10 @@ namespace TestAPPDemo
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(38, 45);
+            this.label11.Location = new System.Drawing.Point(25, 30);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 18);
+            this.label11.Size = new System.Drawing.Size(29, 12);
             this.label11.TabIndex = 24;
             this.label11.Text = "工位";
             // 
@@ -695,17 +723,19 @@ namespace TestAPPDemo
             "6-RTD三线制 测试工位",
             "7-RTD四线制 测试工位",
             "8-TC 测试工位"});
-            this.comboBoxStation.Location = new System.Drawing.Point(88, 38);
+            this.comboBoxStation.Location = new System.Drawing.Point(59, 25);
+            this.comboBoxStation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxStation.Name = "comboBoxStation";
-            this.comboBoxStation.Size = new System.Drawing.Size(234, 32);
+            this.comboBoxStation.Size = new System.Drawing.Size(157, 24);
             this.comboBoxStation.TabIndex = 23;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(508, 44);
+            this.label10.Location = new System.Drawing.Point(339, 29);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(44, 18);
+            this.label10.Size = new System.Drawing.Size(29, 12);
             this.label10.TabIndex = 22;
             this.label10.Text = "模式";
             // 
@@ -718,9 +748,10 @@ namespace TestAPPDemo
             "1-TC/AI/AO 电压型",
             "2-RTD 3 4 线",
             "3-AI/AO 电流型"});
-            this.comboBoxSwitchMode.Location = new System.Drawing.Point(580, 40);
+            this.comboBoxSwitchMode.Location = new System.Drawing.Point(387, 27);
+            this.comboBoxSwitchMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxSwitchMode.Name = "comboBoxSwitchMode";
-            this.comboBoxSwitchMode.Size = new System.Drawing.Size(204, 26);
+            this.comboBoxSwitchMode.Size = new System.Drawing.Size(137, 20);
             this.comboBoxSwitchMode.TabIndex = 21;
             // 
             // groupBoxGen
@@ -731,35 +762,40 @@ namespace TestAPPDemo
             this.groupBoxGen.Controls.Add(this.comboBoxGtype);
             this.groupBoxGen.Controls.Add(this.buttonGSet);
             this.groupBoxGen.Controls.Add(this.button6);
-            this.groupBoxGen.Location = new System.Drawing.Point(44, 148);
+            this.groupBoxGen.Location = new System.Drawing.Point(29, 99);
+            this.groupBoxGen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBoxGen.Name = "groupBoxGen";
-            this.groupBoxGen.Size = new System.Drawing.Size(711, 162);
+            this.groupBoxGen.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBoxGen.Size = new System.Drawing.Size(474, 108);
             this.groupBoxGen.TabIndex = 8;
             this.groupBoxGen.TabStop = false;
             this.groupBoxGen.Text = "模拟量信号发生器 Fluke7526";
             // 
             // textBoxGValue
             // 
-            this.textBoxGValue.Location = new System.Drawing.Point(304, 110);
+            this.textBoxGValue.Location = new System.Drawing.Point(203, 73);
+            this.textBoxGValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxGValue.Name = "textBoxGValue";
-            this.textBoxGValue.Size = new System.Drawing.Size(162, 28);
+            this.textBoxGValue.Size = new System.Drawing.Size(109, 21);
             this.textBoxGValue.TabIndex = 9;
             // 
             // editValue
             // 
             this.editValue.AutoSize = true;
-            this.editValue.Location = new System.Drawing.Point(220, 120);
+            this.editValue.Location = new System.Drawing.Point(147, 80);
+            this.editValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.editValue.Name = "editValue";
-            this.editValue.Size = new System.Drawing.Size(62, 18);
+            this.editValue.Size = new System.Drawing.Size(41, 12);
             this.editValue.TabIndex = 8;
             this.editValue.Text = "设置值";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(220, 58);
+            this.label6.Location = new System.Drawing.Point(147, 39);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 18);
+            this.label6.Size = new System.Drawing.Size(29, 12);
             this.label6.TabIndex = 7;
             this.label6.Text = "类型";
             // 
@@ -770,17 +806,19 @@ namespace TestAPPDemo
             "0-电流",
             "1-电压",
             "2-电阻"});
-            this.comboBoxGtype.Location = new System.Drawing.Point(304, 51);
+            this.comboBoxGtype.Location = new System.Drawing.Point(203, 34);
+            this.comboBoxGtype.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxGtype.Name = "comboBoxGtype";
-            this.comboBoxGtype.Size = new System.Drawing.Size(162, 26);
+            this.comboBoxGtype.Size = new System.Drawing.Size(109, 20);
             this.comboBoxGtype.TabIndex = 3;
             this.comboBoxGtype.SelectedIndexChanged += new System.EventHandler(this.comboBoxGtype_SelectedIndexChanged);
             // 
             // buttonGSet
             // 
-            this.buttonGSet.Location = new System.Drawing.Point(532, 51);
+            this.buttonGSet.Location = new System.Drawing.Point(355, 34);
+            this.buttonGSet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonGSet.Name = "buttonGSet";
-            this.buttonGSet.Size = new System.Drawing.Size(158, 94);
+            this.buttonGSet.Size = new System.Drawing.Size(105, 63);
             this.buttonGSet.TabIndex = 2;
             this.buttonGSet.Text = "设置输出";
             this.buttonGSet.UseVisualStyleBackColor = true;
@@ -789,9 +827,10 @@ namespace TestAPPDemo
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(21, 58);
+            this.button6.Location = new System.Drawing.Point(14, 39);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(160, 80);
+            this.button6.Size = new System.Drawing.Size(107, 53);
             this.button6.TabIndex = 0;
             this.button6.Text = "初始化";
             this.button6.UseVisualStyleBackColor = true;
@@ -805,36 +844,41 @@ namespace TestAPPDemo
             this.groupBox5.Controls.Add(this.comboBoxMType);
             this.groupBox5.Controls.Add(this.buttonMGet);
             this.groupBox5.Controls.Add(this.button11);
-            this.groupBox5.Location = new System.Drawing.Point(45, 317);
+            this.groupBox5.Location = new System.Drawing.Point(30, 211);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(710, 171);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Size = new System.Drawing.Size(473, 114);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "模拟量信号测量器 Flue 8846";
             // 
             // textBoxMValue
             // 
-            this.textBoxMValue.Location = new System.Drawing.Point(304, 110);
+            this.textBoxMValue.Location = new System.Drawing.Point(203, 73);
+            this.textBoxMValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxMValue.Name = "textBoxMValue";
             this.textBoxMValue.ReadOnly = true;
-            this.textBoxMValue.Size = new System.Drawing.Size(162, 28);
+            this.textBoxMValue.Size = new System.Drawing.Size(109, 21);
             this.textBoxMValue.TabIndex = 11;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(220, 112);
+            this.label8.Location = new System.Drawing.Point(147, 75);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 18);
+            this.label8.Size = new System.Drawing.Size(41, 12);
             this.label8.TabIndex = 10;
             this.label8.Text = "当前值";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(220, 56);
+            this.label7.Location = new System.Drawing.Point(147, 37);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 18);
+            this.label7.Size = new System.Drawing.Size(29, 12);
             this.label7.TabIndex = 8;
             this.label7.Text = "类型";
             // 
@@ -845,16 +889,18 @@ namespace TestAPPDemo
             "0-电流",
             "1-电压",
             "2-电阻"});
-            this.comboBoxMType.Location = new System.Drawing.Point(304, 48);
+            this.comboBoxMType.Location = new System.Drawing.Point(203, 32);
+            this.comboBoxMType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxMType.Name = "comboBoxMType";
-            this.comboBoxMType.Size = new System.Drawing.Size(162, 26);
+            this.comboBoxMType.Size = new System.Drawing.Size(109, 20);
             this.comboBoxMType.TabIndex = 6;
             // 
             // buttonMGet
             // 
-            this.buttonMGet.Location = new System.Drawing.Point(532, 48);
+            this.buttonMGet.Location = new System.Drawing.Point(355, 32);
+            this.buttonMGet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonMGet.Name = "buttonMGet";
-            this.buttonMGet.Size = new System.Drawing.Size(158, 94);
+            this.buttonMGet.Size = new System.Drawing.Size(105, 63);
             this.buttonMGet.TabIndex = 5;
             this.buttonMGet.Text = "读取输入";
             this.buttonMGet.UseVisualStyleBackColor = true;
@@ -863,9 +909,10 @@ namespace TestAPPDemo
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(21, 56);
+            this.button11.Location = new System.Drawing.Point(14, 37);
+            this.button11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(160, 74);
+            this.button11.Size = new System.Drawing.Size(107, 49);
             this.button11.TabIndex = 3;
             this.button11.Text = "初始化";
             this.button11.UseVisualStyleBackColor = true;
@@ -874,9 +921,10 @@ namespace TestAPPDemo
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(327, 46);
+            this.label5.Location = new System.Drawing.Point(218, 31);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 18);
+            this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 6;
             this.label5.Text = "通道";
             // 
@@ -901,16 +949,18 @@ namespace TestAPPDemo
             "14-15",
             "15-8",
             "16-16"});
-            this.comboBoxAnaChannel.Location = new System.Drawing.Point(393, 40);
+            this.comboBoxAnaChannel.Location = new System.Drawing.Point(262, 27);
+            this.comboBoxAnaChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBoxAnaChannel.Name = "comboBoxAnaChannel";
-            this.comboBoxAnaChannel.Size = new System.Drawing.Size(109, 26);
+            this.comboBoxAnaChannel.Size = new System.Drawing.Size(74, 20);
             this.comboBoxAnaChannel.TabIndex = 5;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(393, 92);
+            this.button3.Location = new System.Drawing.Point(262, 61);
+            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(391, 40);
+            this.button3.Size = new System.Drawing.Size(261, 27);
             this.button3.TabIndex = 4;
             this.button3.Text = "切换通道";
             this.button3.UseVisualStyleBackColor = true;
@@ -919,19 +969,21 @@ namespace TestAPPDemo
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.button2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 28);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage3.Size = new System.Drawing.Size(1846, 1027);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Size = new System.Drawing.Size(1228, 680);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "接口";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(27, 28);
+            this.button2.Location = new System.Drawing.Point(18, 19);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(158, 56);
+            this.button2.Size = new System.Drawing.Size(105, 37);
             this.button2.TabIndex = 0;
             this.button2.Text = "初始化";
             this.button2.UseVisualStyleBackColor = true;
@@ -943,13 +995,36 @@ namespace TestAPPDemo
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(30, 31);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 12);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "类型";
+            // 
+            // comboBoxDeviceType
+            // 
+            this.comboBoxDeviceType.FormattingEnabled = true;
+            this.comboBoxDeviceType.Items.AddRange(new object[] {
+            "0-Z200",
+            "100-N200"});
+            this.comboBoxDeviceType.Location = new System.Drawing.Point(86, 26);
+            this.comboBoxDeviceType.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBoxDeviceType.Name = "comboBoxDeviceType";
+            this.comboBoxDeviceType.Size = new System.Drawing.Size(171, 20);
+            this.comboBoxDeviceType.TabIndex = 24;
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2295, 1059);
+            this.ClientSize = new System.Drawing.Size(1528, 879);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormMain";
             this.Text = "调试Demo";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -1043,6 +1118,8 @@ namespace TestAPPDemo
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox comboBoxDeviceType;
     }
 }
 

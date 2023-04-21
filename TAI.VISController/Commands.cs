@@ -39,6 +39,10 @@ namespace TAI.Manager.VIS
     class ModuleSerialCodeResponse
     {
         public string Code { get; set; }
+        public ModuleSerialCodeResponse()
+        {
+            this.Code = "";
+        }
     }
 
 
@@ -139,7 +143,7 @@ namespace TAI.Manager.VIS
                             try
                             {
                                 ModuleSerialCodeResponse response = JsonConvert.DeserializeObject<ModuleSerialCodeResponse>(content);
-                                if (response.Code != "")
+                                if (response.Code!=null  && response.Code != "")
                                 {
                                     this.controller.ModelSerialCode = response.Code.Trim();
                                     result = true;
