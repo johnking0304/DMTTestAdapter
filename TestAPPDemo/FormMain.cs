@@ -215,16 +215,23 @@ namespace TestAPPDemo
             float value = 0;
             ChannelType type = (ChannelType)comboBoxGtype.SelectedIndex;
             if (float.TryParse(this.textBoxGValue.Text, out value))
-            {              
-                this.TestAdapter.GeneratorDevice.SetValue(type, value);
+            {
+                bool result = this.TestAdapter.GeneratorDevice.SetValue(type, value);
+                this.AppendText(string.Format("设置{0}[{1}]{2}",type.Description(),value,result?"成功":"失败"));
             }
             
         }
 
         private void comboBoxGtype_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           // this.textBoxGValue.Clear();
+        {          
             this.textBoxGValue.Text = "0";
+            string[] values = this.comboBoxGtype.Text.Split('-');
+            if (values.Length==3)
+            {
+                this.labelUnit.Text = values[2];
+            }
+
+
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -234,10 +241,12 @@ namespace TestAPPDemo
             if (this.TestAdapter.MeasureDevice.GetValue(type, ref value))
             {
                 this.textBoxMValue.Text = value.ToString();
+                this.AppendText(string.Format("读取{0}[{1}]成功", type.Description(), value));
             }
             else
             {
                 this.textBoxMValue.Text = "Error";
+                this.AppendText(string.Format("读取{0}失败", type.Description()));
             }
 
 

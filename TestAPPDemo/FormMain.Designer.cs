@@ -50,6 +50,8 @@ namespace TestAPPDemo
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxStart = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.comboBoxDeviceType = new System.Windows.Forms.ComboBox();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -96,8 +98,7 @@ namespace TestAPPDemo
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label12 = new System.Windows.Forms.Label();
-            this.comboBoxDeviceType = new System.Windows.Forms.ComboBox();
+            this.labelUnit = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -117,18 +118,18 @@ namespace TestAPPDemo
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(294, 879);
+            this.panel1.Size = new System.Drawing.Size(294, 845);
             this.panel1.TabIndex = 0;
             // 
             // richTextBox1
             // 
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(294, 879);
+            this.richTextBox1.Size = new System.Drawing.Size(294, 845);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -137,9 +138,9 @@ namespace TestAPPDemo
             this.panel2.Controls.Add(this.tabControl1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(294, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1234, 879);
+            this.panel2.Size = new System.Drawing.Size(965, 845);
             this.panel2.TabIndex = 1;
             // 
             // tabControl1
@@ -148,10 +149,10 @@ namespace TestAPPDemo
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1234, 879);
+            this.tabControl1.Size = new System.Drawing.Size(965, 845);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -162,10 +163,10 @@ namespace TestAPPDemo
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage1.Size = new System.Drawing.Size(1226, 853);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Size = new System.Drawing.Size(957, 819);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "功能单点测试";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -176,9 +177,9 @@ namespace TestAPPDemo
             this.groupBox6.Controls.Add(this.button16);
             this.groupBox6.Controls.Add(this.comboBox1);
             this.groupBox6.Controls.Add(this.button10);
-            this.groupBox6.Location = new System.Drawing.Point(847, 20);
+            this.groupBox6.Location = new System.Drawing.Point(583, 20);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(337, 338);
+            this.groupBox6.Size = new System.Drawing.Size(359, 338);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "数字量";
@@ -256,11 +257,11 @@ namespace TestAPPDemo
             this.groupBox4.Controls.Add(this.comboBoxtarget);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.comboBoxStart);
-            this.groupBox4.Location = new System.Drawing.Point(825, 368);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Location = new System.Drawing.Point(583, 368);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox4.Size = new System.Drawing.Size(359, 313);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Size = new System.Drawing.Size(359, 335);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "机械手移动";
@@ -268,7 +269,7 @@ namespace TestAPPDemo
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(75, 198);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(265, 30);
             this.button5.TabIndex = 7;
@@ -284,7 +285,7 @@ namespace TestAPPDemo
             "1-识别",
             "2-搬运"});
             this.comboBoxMode.Location = new System.Drawing.Point(75, 23);
-            this.comboBoxMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxMode.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxMode.Name = "comboBoxMode";
             this.comboBoxMode.Size = new System.Drawing.Size(267, 24);
             this.comboBoxMode.TabIndex = 6;
@@ -292,7 +293,7 @@ namespace TestAPPDemo
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(75, 147);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(265, 30);
             this.button4.TabIndex = 5;
@@ -353,7 +354,7 @@ namespace TestAPPDemo
             "30-OK下料位置",
             "31-NG下料位置"});
             this.comboBoxtarget.Location = new System.Drawing.Point(75, 99);
-            this.comboBoxtarget.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxtarget.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxtarget.Name = "comboBoxtarget";
             this.comboBoxtarget.Size = new System.Drawing.Size(267, 24);
             this.comboBoxtarget.TabIndex = 2;
@@ -401,7 +402,7 @@ namespace TestAPPDemo
             "30-OK下料位置",
             "31-NG下料位置"});
             this.comboBoxStart.Location = new System.Drawing.Point(75, 61);
-            this.comboBoxStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxStart.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxStart.Name = "comboBoxStart";
             this.comboBoxStart.Size = new System.Drawing.Size(267, 24);
             this.comboBoxStart.TabIndex = 0;
@@ -424,14 +425,36 @@ namespace TestAPPDemo
             this.groupBox3.Controls.Add(this.button13);
             this.groupBox3.Controls.Add(this.textBoxModuleType);
             this.groupBox3.Controls.Add(this.button12);
-            this.groupBox3.Location = new System.Drawing.Point(289, 368);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Location = new System.Drawing.Point(14, 368);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox3.Size = new System.Drawing.Size(525, 400);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(553, 400);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "视觉识别";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(30, 31);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 12);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "类型";
+            // 
+            // comboBoxDeviceType
+            // 
+            this.comboBoxDeviceType.FormattingEnabled = true;
+            this.comboBoxDeviceType.Items.AddRange(new object[] {
+            "0-Z200",
+            "100-N200"});
+            this.comboBoxDeviceType.Location = new System.Drawing.Point(86, 26);
+            this.comboBoxDeviceType.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBoxDeviceType.Name = "comboBoxDeviceType";
+            this.comboBoxDeviceType.Size = new System.Drawing.Size(171, 20);
+            this.comboBoxDeviceType.TabIndex = 24;
             // 
             // button9
             // 
@@ -487,7 +510,7 @@ namespace TestAPPDemo
             "7-RTD_4L",
             "8-TC"});
             this.comboBoxModuleType.Location = new System.Drawing.Point(133, 172);
-            this.comboBoxModuleType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxModuleType.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxModuleType.Name = "comboBoxModuleType";
             this.comboBoxModuleType.Size = new System.Drawing.Size(125, 20);
             this.comboBoxModuleType.TabIndex = 19;
@@ -524,7 +547,7 @@ namespace TestAPPDemo
             "15",
             "16"});
             this.comboBoxModuleChannel.Location = new System.Drawing.Point(28, 172);
-            this.comboBoxModuleChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxModuleChannel.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxModuleChannel.Name = "comboBoxModuleChannel";
             this.comboBoxModuleChannel.Size = new System.Drawing.Size(94, 20);
             this.comboBoxModuleChannel.TabIndex = 17;
@@ -532,7 +555,7 @@ namespace TestAPPDemo
             // richTextBoxLighting
             // 
             this.richTextBoxLighting.Location = new System.Drawing.Point(28, 204);
-            this.richTextBoxLighting.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBoxLighting.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBoxLighting.Name = "richTextBoxLighting";
             this.richTextBoxLighting.ReadOnly = true;
             this.richTextBoxLighting.Size = new System.Drawing.Size(340, 154);
@@ -542,7 +565,7 @@ namespace TestAPPDemo
             // button14
             // 
             this.button14.Location = new System.Drawing.Point(269, 158);
-            this.button14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button14.Margin = new System.Windows.Forms.Padding(2);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(98, 33);
             this.button14.TabIndex = 15;
@@ -553,7 +576,7 @@ namespace TestAPPDemo
             // textBoxModuleSerialCode
             // 
             this.textBoxModuleSerialCode.Location = new System.Drawing.Point(28, 115);
-            this.textBoxModuleSerialCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxModuleSerialCode.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxModuleSerialCode.Name = "textBoxModuleSerialCode";
             this.textBoxModuleSerialCode.ReadOnly = true;
             this.textBoxModuleSerialCode.Size = new System.Drawing.Size(229, 21);
@@ -562,7 +585,7 @@ namespace TestAPPDemo
             // button13
             // 
             this.button13.Location = new System.Drawing.Point(269, 106);
-            this.button13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button13.Margin = new System.Windows.Forms.Padding(2);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(98, 35);
             this.button13.TabIndex = 13;
@@ -573,7 +596,7 @@ namespace TestAPPDemo
             // textBoxModuleType
             // 
             this.textBoxModuleType.Location = new System.Drawing.Point(28, 68);
-            this.textBoxModuleType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxModuleType.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxModuleType.Name = "textBoxModuleType";
             this.textBoxModuleType.ReadOnly = true;
             this.textBoxModuleType.Size = new System.Drawing.Size(229, 21);
@@ -582,7 +605,7 @@ namespace TestAPPDemo
             // button12
             // 
             this.button12.Location = new System.Drawing.Point(269, 59);
-            this.button12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button12.Margin = new System.Windows.Forms.Padding(2);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(98, 35);
             this.button12.TabIndex = 0;
@@ -597,14 +620,15 @@ namespace TestAPPDemo
             this.groupBox2.Controls.Add(this.button17);
             this.groupBox2.Controls.Add(this.listView1);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Location = new System.Drawing.Point(15, 13);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Location = new System.Drawing.Point(583, 368);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox2.Size = new System.Drawing.Size(260, 633);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(260, 325);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "流程控制PLC";
+            this.groupBox2.Visible = false;
             // 
             // button18
             // 
@@ -630,7 +654,7 @@ namespace TestAPPDemo
             "7-RTD_4L",
             "8-TC"});
             this.comboBox2.Location = new System.Drawing.Point(44, 325);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(143, 20);
             this.comboBox2.TabIndex = 20;
@@ -654,7 +678,7 @@ namespace TestAPPDemo
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(17, 104);
-            this.listView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(228, 189);
             this.listView1.TabIndex = 2;
@@ -674,7 +698,7 @@ namespace TestAPPDemo
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(17, 27);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(227, 27);
             this.button1.TabIndex = 1;
@@ -693,10 +717,10 @@ namespace TestAPPDemo
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.comboBoxAnaChannel);
             this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Location = new System.Drawing.Point(289, 19);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(14, 19);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(553, 339);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
@@ -724,7 +748,7 @@ namespace TestAPPDemo
             "7-RTD四线制 测试工位",
             "8-TC 测试工位"});
             this.comboBoxStation.Location = new System.Drawing.Point(59, 25);
-            this.comboBoxStation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxStation.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxStation.Name = "comboBoxStation";
             this.comboBoxStation.Size = new System.Drawing.Size(157, 24);
             this.comboBoxStation.TabIndex = 23;
@@ -749,13 +773,14 @@ namespace TestAPPDemo
             "2-RTD 3 4 线",
             "3-AI/AO 电流型"});
             this.comboBoxSwitchMode.Location = new System.Drawing.Point(387, 27);
-            this.comboBoxSwitchMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxSwitchMode.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxSwitchMode.Name = "comboBoxSwitchMode";
             this.comboBoxSwitchMode.Size = new System.Drawing.Size(137, 20);
             this.comboBoxSwitchMode.TabIndex = 21;
             // 
             // groupBoxGen
             // 
+            this.groupBoxGen.Controls.Add(this.labelUnit);
             this.groupBoxGen.Controls.Add(this.textBoxGValue);
             this.groupBoxGen.Controls.Add(this.editValue);
             this.groupBoxGen.Controls.Add(this.label6);
@@ -763,9 +788,9 @@ namespace TestAPPDemo
             this.groupBoxGen.Controls.Add(this.buttonGSet);
             this.groupBoxGen.Controls.Add(this.button6);
             this.groupBoxGen.Location = new System.Drawing.Point(29, 99);
-            this.groupBoxGen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBoxGen.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxGen.Name = "groupBoxGen";
-            this.groupBoxGen.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBoxGen.Padding = new System.Windows.Forms.Padding(2);
             this.groupBoxGen.Size = new System.Drawing.Size(474, 108);
             this.groupBoxGen.TabIndex = 8;
             this.groupBoxGen.TabStop = false;
@@ -774,9 +799,9 @@ namespace TestAPPDemo
             // textBoxGValue
             // 
             this.textBoxGValue.Location = new System.Drawing.Point(203, 73);
-            this.textBoxGValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxGValue.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxGValue.Name = "textBoxGValue";
-            this.textBoxGValue.Size = new System.Drawing.Size(109, 21);
+            this.textBoxGValue.Size = new System.Drawing.Size(85, 21);
             this.textBoxGValue.TabIndex = 9;
             // 
             // editValue
@@ -803,20 +828,20 @@ namespace TestAPPDemo
             // 
             this.comboBoxGtype.FormattingEnabled = true;
             this.comboBoxGtype.Items.AddRange(new object[] {
-            "0-电流",
-            "1-电压",
-            "2-电阻"});
+            "0-电流-mA",
+            "1-电压-V",
+            "2-温度-℃"});
             this.comboBoxGtype.Location = new System.Drawing.Point(203, 34);
-            this.comboBoxGtype.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxGtype.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxGtype.Name = "comboBoxGtype";
-            this.comboBoxGtype.Size = new System.Drawing.Size(109, 20);
+            this.comboBoxGtype.Size = new System.Drawing.Size(123, 20);
             this.comboBoxGtype.TabIndex = 3;
             this.comboBoxGtype.SelectedIndexChanged += new System.EventHandler(this.comboBoxGtype_SelectedIndexChanged);
             // 
             // buttonGSet
             // 
             this.buttonGSet.Location = new System.Drawing.Point(355, 34);
-            this.buttonGSet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonGSet.Margin = new System.Windows.Forms.Padding(2);
             this.buttonGSet.Name = "buttonGSet";
             this.buttonGSet.Size = new System.Drawing.Size(105, 63);
             this.buttonGSet.TabIndex = 2;
@@ -828,7 +853,7 @@ namespace TestAPPDemo
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(14, 39);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(107, 53);
             this.button6.TabIndex = 0;
@@ -845,9 +870,9 @@ namespace TestAPPDemo
             this.groupBox5.Controls.Add(this.buttonMGet);
             this.groupBox5.Controls.Add(this.button11);
             this.groupBox5.Location = new System.Drawing.Point(30, 211);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox5.Size = new System.Drawing.Size(473, 114);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
@@ -856,10 +881,10 @@ namespace TestAPPDemo
             // textBoxMValue
             // 
             this.textBoxMValue.Location = new System.Drawing.Point(203, 73);
-            this.textBoxMValue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxMValue.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxMValue.Name = "textBoxMValue";
             this.textBoxMValue.ReadOnly = true;
-            this.textBoxMValue.Size = new System.Drawing.Size(109, 21);
+            this.textBoxMValue.Size = new System.Drawing.Size(122, 21);
             this.textBoxMValue.TabIndex = 11;
             // 
             // label8
@@ -890,15 +915,15 @@ namespace TestAPPDemo
             "1-电压",
             "2-电阻"});
             this.comboBoxMType.Location = new System.Drawing.Point(203, 32);
-            this.comboBoxMType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxMType.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxMType.Name = "comboBoxMType";
-            this.comboBoxMType.Size = new System.Drawing.Size(109, 20);
+            this.comboBoxMType.Size = new System.Drawing.Size(122, 20);
             this.comboBoxMType.TabIndex = 6;
             // 
             // buttonMGet
             // 
             this.buttonMGet.Location = new System.Drawing.Point(355, 32);
-            this.buttonMGet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonMGet.Margin = new System.Windows.Forms.Padding(2);
             this.buttonMGet.Name = "buttonMGet";
             this.buttonMGet.Size = new System.Drawing.Size(105, 63);
             this.buttonMGet.TabIndex = 5;
@@ -910,7 +935,7 @@ namespace TestAPPDemo
             // button11
             // 
             this.button11.Location = new System.Drawing.Point(14, 37);
-            this.button11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button11.Margin = new System.Windows.Forms.Padding(2);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(107, 49);
             this.button11.TabIndex = 3;
@@ -950,7 +975,7 @@ namespace TestAPPDemo
             "15-8",
             "16-16"});
             this.comboBoxAnaChannel.Location = new System.Drawing.Point(262, 27);
-            this.comboBoxAnaChannel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxAnaChannel.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxAnaChannel.Name = "comboBoxAnaChannel";
             this.comboBoxAnaChannel.Size = new System.Drawing.Size(74, 20);
             this.comboBoxAnaChannel.TabIndex = 5;
@@ -958,7 +983,7 @@ namespace TestAPPDemo
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(262, 61);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(261, 27);
             this.button3.TabIndex = 4;
@@ -970,10 +995,10 @@ namespace TestAPPDemo
             // 
             this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage3.Size = new System.Drawing.Size(1228, 680);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage3.Size = new System.Drawing.Size(1226, 853);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "接口";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -981,7 +1006,7 @@ namespace TestAPPDemo
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(18, 19);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(105, 37);
             this.button2.TabIndex = 0;
@@ -995,36 +1020,22 @@ namespace TestAPPDemo
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label12
+            // labelUnit
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(30, 31);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(29, 12);
-            this.label12.TabIndex = 25;
-            this.label12.Text = "类型";
-            // 
-            // comboBoxDeviceType
-            // 
-            this.comboBoxDeviceType.FormattingEnabled = true;
-            this.comboBoxDeviceType.Items.AddRange(new object[] {
-            "0-Z200",
-            "100-N200"});
-            this.comboBoxDeviceType.Location = new System.Drawing.Point(86, 26);
-            this.comboBoxDeviceType.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBoxDeviceType.Name = "comboBoxDeviceType";
-            this.comboBoxDeviceType.Size = new System.Drawing.Size(171, 20);
-            this.comboBoxDeviceType.TabIndex = 24;
+            this.labelUnit.AutoSize = true;
+            this.labelUnit.Location = new System.Drawing.Point(293, 80);
+            this.labelUnit.Name = "labelUnit";
+            this.labelUnit.Size = new System.Drawing.Size(0, 12);
+            this.labelUnit.TabIndex = 10;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1528, 879);
+            this.ClientSize = new System.Drawing.Size(1259, 845);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormMain";
             this.Text = "调试Demo";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -1120,6 +1131,7 @@ namespace TestAPPDemo
         private System.Windows.Forms.Button button18;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBoxDeviceType;
+        private System.Windows.Forms.Label labelUnit;
     }
 }
 
