@@ -200,22 +200,30 @@ namespace TestAPPDemo
         {
             if (this.TestAdapter.MeasureDevice.Initialize())
             {
-                this.groupBoxGen.Text = string.Format("模拟量信号测量器-{0}", this.TestAdapter.MeasureDevice.Identify);
+                this.groupBox5.Text = string.Format("模拟量信号测量器-{0}", this.TestAdapter.MeasureDevice.Identify);
                 this.buttonMGet.Visible = true;
                 this.checkBox1.Visible = true;
             }
             else
             {
-                this.groupBoxGen.Text = string.Format("模拟量信号测量器-Error");
+                this.groupBox5.Text = string.Format("模拟量信号测量器-Error");
             }
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
+            Station station = this.TestAdapter.Stations[this.comboBoxStation.SelectedIndex + 3];
+
+            int channelId = this.comboBoxAnaChannel.SelectedIndex + 1;
+
             float value = 0;
             ChannelType type = (ChannelType)comboBoxGtype.SelectedIndex;
             if (float.TryParse(this.textBoxGValue.Text, out value))
             {
+                if( (this.checkBoxCompensate.Checked) && (type == ChannelType.Resistance))
+                {
+                    value = station.CompensateValue(channelId, value);
+                }
                 bool result = this.TestAdapter.GeneratorDevice.SetValue(type, value);
                 this.AppendText(string.Format("设置{0}[{1}]{2}",type.Description(),value,result?"成功":"失败"));
             }
@@ -299,6 +307,11 @@ namespace TestAPPDemo
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             this.timer.Enabled = this.checkBox1.Checked;
+        }
+
+        private void comboBoxStation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.checkBoxCompensate.Visible = this.comboBoxStation.SelectedIndex == 2 || this.comboBoxStation.SelectedIndex == 3;
         }
     }
 }

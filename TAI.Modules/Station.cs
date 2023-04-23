@@ -128,7 +128,7 @@ namespace TAI.Modules
         {
             if (this.Compensates.ContainsKey(channelId))
             {
-                float temp = value + this.Compensates[channelId];
+                float temp = value - this.Compensates[channelId];
                 LogHelper.LogInfoMsg(string.Format("物理通道[{0}]执行补偿：原始值[{1}],补偿[{2}],输出值[{3}]", channelId, value, this.Compensates[channelId], temp));
                 return temp;
             }

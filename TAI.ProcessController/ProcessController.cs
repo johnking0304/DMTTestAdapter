@@ -55,7 +55,7 @@ namespace TAI.Manager
 
         public bool Initialize()
         {
-            this.InitializeSystem();
+            //this.InitializeSystem();
             return this.Active();
         }
 
@@ -253,6 +253,8 @@ namespace TAI.Manager
 
         public bool InitializeSystem()
         {
+
+            LogHelper.LogInfoMsg("初始化系统");
            
             this.SystemOperator.InitializeOperate.Datas[0] = 1;
             this.WriteChannel.WriteModbusItem(this.SystemOperator.InitializeOperate);

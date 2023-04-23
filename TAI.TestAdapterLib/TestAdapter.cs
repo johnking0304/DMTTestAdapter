@@ -473,7 +473,10 @@ namespace DMTTestAdapter
 
                     Station station = this.Stations[stationId - 1];
 
-                    value = station.CompensateValue(linkChannelId,value);
+                    //if ((ChannelType)type == ChannelType.Resistance)
+                    {
+                        value = station.CompensateValue(linkChannelId, value);
+                    }
 
                     result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
                 }

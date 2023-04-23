@@ -32,7 +32,7 @@ namespace TAI.Manager
 
 
         /// <summary>
-        /// 复位
+        /// 开始测试
         /// </summary>
         public ModbusItem SystemStart { get; set; }
         public readonly ushort DefaultSystemStartOffset = 4;
@@ -40,7 +40,7 @@ namespace TAI.Manager
 
 
         /// <summary>
-        /// 系统急停
+        /// 系统终止
         /// </summary>
         public ModbusItem SystemStop { get; set; }
         public readonly ushort DefaultSystemStopOffset = 5;
