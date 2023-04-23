@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.ComponentModel;
+using System.IO;
 
 namespace DMT.Core.Utils
 {
@@ -29,6 +30,45 @@ namespace DMT.Core.Utils
         #endregion
     }
 
+
+    public static class Files
+    {
+
+        /// <summary>
+        /// 读取文件中所有字符
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string LoadFromFile(string filename)
+        {
+            string content = "";
+            if (System.IO.File.Exists(filename))
+            {
+                StreamReader reader = new StreamReader(filename, Encoding.UTF8);
+                content = reader.ReadToEnd();
+                reader.Close();
+            }
+            return content;
+        }
+
+        public static string[] GetAllFiles(string path, string pattern = "*")
+        {
+            string[] filedir = Directory.GetFiles(path, pattern, SearchOption.AllDirectories);
+            return filedir;
+
+        }
+
+
+        public static string InitializePath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
+    }
     public static class TextString
     {
 

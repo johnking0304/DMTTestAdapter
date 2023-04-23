@@ -77,6 +77,7 @@ namespace TAI.Device
         {
             GetValueCommand command = new GetValueCommand(this, channelType);
             this.SendCommand(command.PackageString());
+            Delay(200);
             string content = this.Channel.Receive();
             if (this.Channel.LastErrorCode == ChannelResult.OK)
             {

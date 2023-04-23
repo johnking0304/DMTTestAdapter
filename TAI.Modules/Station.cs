@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DMT.Core.Utils;
+using System.IO;
 
 namespace TAI.Modules
 {
@@ -72,10 +73,15 @@ namespace TAI.Modules
 
     public class Station
     {
+        public string Caption { get; set; }
         public Position TestPosition { get; set; }
         public Position QRPosition { get; set; }      
         public StationType StationType { get; set; }
         public Module LinkedModule { get; set; }
+
+
+        public Dictionary<int, float> Compensates { get; set; }
+        
         public TestStep TestStep {  get {
 
                 return this.StationStatus.TestStep;
@@ -95,6 +101,7 @@ namespace TAI.Modules
 
         public Station(StationType stationType)
         {
+            this.Caption = stationType.ToString();
             this.StationType = stationType;
             this.StationStatus = new StationStatus(this.StationType);
             this.TestStep = TestStep.Idle;
@@ -102,7 +109,7 @@ namespace TAI.Modules
             this.QRPosition = (Position)((int)Position.StationQRBase + (int)stationType);
             this.LinkedModule = null;
             this.WaitToBlanking = false;
-
+            this.Compensates = new Dictionary<int, float>();
         }
 
 
@@ -115,8 +122,44 @@ namespace TAI.Modules
             this.LinkedModule = null;
             this.TestStep = TestStep.Idle;
             this.WaitToBlanking = false;           
- 
         }
+
+        public float CompensateValue(int channelId,float value)
+        {
+            if (this.Compensates.ContainsKey(channelId))
+            {
+                float temp = value + this.Compensates[channelId];
+                LogHelper.LogInfoMsg(string.Format("物理通道[{0}]执行补偿：原始值[{1}],补偿[{2}],输出值[{3}]", channelId, value, this.Compensates[channelId], temp));
+                return temp;
+            }
+            LogHelper.LogInfoMsg(string.Format("物理通道[{0}]无补偿",channelId));
+            return value;
+        
+        }
+
+        public void LoadCompensates(string path)
+        {
+            string filename = Path.Combine(path, string.Format("{0}.cfg", this.Caption));
+            if (File.Exists(filename))
+            {
+                string content = Files.LoadFromFile(filename);
+                string[] lines = content.Split(new char[2] { '\r','\n' });
+                foreach (string line in lines)
+                {
+                    if (line.Contains("="))
+                    {
+                        string[] values = line.Split('=');
+                        int key = int.Parse(values[0]);
+                        float value = float.Parse(values[1]);
+                        this.Compensates.Add(key, value);
+                    }             
+                }
+
+             }
+           
+        }
+
+
 
 
     }

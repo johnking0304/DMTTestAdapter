@@ -13,6 +13,41 @@ using DMT.Core.Channels;
 namespace DMTTestAdapter
 {
 
+    public class ChannelIdLink
+    {
+        static Dictionary<int, int> IdLinks = new Dictionary<int, int>() {
+        { 1, 1 },
+        { 2, 9 },
+        { 3, 2 },
+        { 4, 10 },
+        { 5, 3 },
+        { 6, 11 },
+        { 7, 4 },
+        { 8, 12 },
+        { 9, 5 },
+        { 10, 13 },
+        { 11, 6 },
+        { 12, 14 },
+        { 13, 7 },
+        { 14, 15 },
+        { 15, 8 },
+        { 16, 16 }
+    };
+
+        public static int GetOutput(int input)
+        {
+            if (IdLinks.ContainsKey(input))
+            {
+                return IdLinks[input];
+            }
+            else
+            {
+                return input;
+            }
+        }
+    }
+
+
     /// <summary>
     /// 测试接口
     /// </summary>
@@ -91,6 +126,7 @@ namespace DMTTestAdapter
                 Station station = new Station(type);
                 this.Stations.Add(station);
                 this.SystemMessage.Stations.Add(station.StationStatus);
+                station.LoadCompensates(Contant.STATIONS);
             }
             this.LoadConfig();
 
@@ -352,14 +388,32 @@ namespace DMTTestAdapter
             return  this.SystemMessageText;
         }
 
-
+        public int ConvertChannelId(int stationId, int sourceId)
+        {
+            switch ((StationType)stationId)
+            {
+                case StationType.AI:
+                case StationType.AO:
+                    {
+                        return ChannelIdLink.GetOutput(sourceId);
+                    }
+                case StationType.RTD_3L:
+                case StationType.RTD_4L:
+                case StationType.TC:
+                    {
+                        return sourceId;
+                    }
+            }
+            return sourceId;
+        }
 
         public string GetAnalogueChannelValue(int stationId,int channelId, int type)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:获取模拟量通道数据[工位={0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channelId, ((ChannelType)type).ToString()));
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
-                this.SwitchChannelOperate(stationId, (ushort)channelId, type);
+                int linkChannelId = ConvertChannelId(stationId, channelId);
+                this.SwitchChannelOperate(stationId, (ushort)linkChannelId, type);
                 float value = 0;
                 bool result = this.MeasureDevice.GetValue((ChannelType)type, ref value);
                 return string.Format("{0},{1}", result ? "Ok" : "Fail", value);
@@ -395,9 +449,7 @@ namespace DMTTestAdapter
         public void NotifyTestingStateChanged()
         {
             string command = string.Format("Notify,{0}",this.SystemMessageText);
-            this.Service.SendCommand(command);
-
-            
+            this.Service.SendCommand(command);         
 
         }
 
@@ -416,7 +468,13 @@ namespace DMTTestAdapter
                 }
                 else
                 {
-                    result = this.SwitchChannelOperate(stationId, (ushort)channelId, type);
+                    int linkChannelId = ConvertChannelId(stationId,channelId);
+                    result = this.SwitchChannelOperate(stationId, (ushort)linkChannelId, type);
+
+                    Station station = this.Stations[stationId - 1];
+
+                    value = station.CompensateValue(linkChannelId,value);
+
                     result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
                 }
                 return result?"Ok":"Fail";

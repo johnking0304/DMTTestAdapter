@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DMT.Core.Utils;
 
 namespace TAI.Constants
 {
@@ -24,6 +25,11 @@ namespace TAI.Constants
         public static readonly string ANALOG_CONFIG = Path.Combine(HOME, "analogdevice.ini");
 
         public static readonly string PROCESS_CONFIG = Path.Combine(HOME, "processcontroller.ini");
+
+        public static string STATIONS
+        {
+            get => Files.InitializePath(Path.Combine(HOME, "stations"));
+        }
 
     }
 }

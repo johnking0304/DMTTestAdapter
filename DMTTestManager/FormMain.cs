@@ -108,16 +108,48 @@ namespace DMTTestManager
             this.RefreshCommStatus();
             this.RefreshProcessControllerStatus();
             this.RefreshStationStatus();
+            this.RefreshModulesStatus();
         }
 
         private void AddNewItemTolistViewStatus(string text, string value)
         {
+            
             ListViewItem item = new ListViewItem();
             item.Text = text;
             item.SubItems.Add(value);
             this.listViewStatus.Items.Add(item);
         }
 
+
+        private void AddNewItemTolistViewModule(string text, string value,string step)
+        {
+            ListViewItem item = new ListViewItem();
+            item.Text = text;
+            item.SubItems.Add(value);
+            item.SubItems.Add(step);
+            this.listViewModules.Items.Add(item);
+        }
+
+
+
+        private void RefreshModulesStatus()
+        {
+            this.listViewModules.BeginUpdate();
+            try
+            {
+                this.listViewModules.Items.Clear();
+
+                foreach (Module module in Program.DMTTestAdapter.TestingModules)
+                {
+                    this.AddNewItemTolistViewModule(module.PositionIndex.ToString(),module.ModuleType.Description(), module.TestStep.Description());
+                }
+            }
+            finally
+            {
+                this.listViewModules.EndUpdate();
+            }
+
+        }
 
         private void RefreshCommStatus()
         {
@@ -210,11 +242,8 @@ namespace DMTTestManager
 
 
                 this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.InitializeCompleted,0);
-
                 this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.NewFeedSignal, 0);
-
                 this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.TestDeviceType, 0);
-
 
                 this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.DIStationBusy, 1);
                 this.AddNewItemTolistViewProcess(Program.DMTTestAdapter.ProcessController.SystemOperator.DOStationBusy, 1);

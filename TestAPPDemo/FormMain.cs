@@ -57,11 +57,16 @@ namespace TestAPPDemo
 
         private void button3_Click(object sender, EventArgs e)
         {
+            /*            string[] lines = this.comboBoxAnaChannel.Text.Split('-');
+                        ushort channel = ushort.Parse(lines[1]);
+                        int stationId = this.comboBoxStation.SelectedIndex + 4;*/
 
-            string[] lines = this.comboBoxAnaChannel.Text.Split('-');
-            ushort channel = ushort.Parse(lines[1]);
+            int channelId = this.comboBoxAnaChannel.SelectedIndex + 1;
             int stationId = this.comboBoxStation.SelectedIndex + 4;
-            bool result = this.TestAdapter.SwitchChannelOperate(stationId, channel, (SwitchMode)this.comboBoxSwitchMode.SelectedIndex);
+            int linkChannelId = TestAdapter.ConvertChannelId(stationId, channelId);
+            this.AppendText(string.Format("通道切换:{0}:{1}", channelId, linkChannelId));
+
+            bool result = this.TestAdapter.SwitchChannelOperate(stationId, (ushort)linkChannelId, (SwitchMode)this.comboBoxSwitchMode.SelectedIndex);
             this.AppendText(string.Format("通道切换:{0}", result?"成功":"失败"));
         }
 
@@ -162,7 +167,9 @@ namespace TestAPPDemo
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (this.TestAdapter.ProcessController.Active())
+            this.button9_Click(null,null);
+
+/*            if (this.TestAdapter.ProcessController.Active())
             {
 
 
@@ -172,16 +179,8 @@ namespace TestAPPDemo
 
                 this.AddItem("机械手到达位置", this.TestAdapter.ProcessController.RobotMoveCompleted);
                 this.AddItem("机械手空闲状态", this.TestAdapter.ProcessController.RobotIdle);
-
-
-
-
-
-
-
-
                 this.listView1.EndUpdate();
-            }
+            }*/
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -203,6 +202,7 @@ namespace TestAPPDemo
             {
                 this.groupBoxGen.Text = string.Format("模拟量信号测量器-{0}", this.TestAdapter.MeasureDevice.Identify);
                 this.buttonMGet.Visible = true;
+                this.checkBox1.Visible = true;
             }
             else
             {
@@ -294,6 +294,11 @@ namespace TestAPPDemo
         private void button18_Click(object sender, EventArgs e)
         {
             this.TestAdapter.SetTestResult(this.comboBox2.SelectedIndex + 1,true);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.timer.Enabled = this.checkBox1.Checked;
         }
     }
 }
