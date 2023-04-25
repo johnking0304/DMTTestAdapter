@@ -63,7 +63,7 @@ namespace DMTTestAdapter
         }
         public override void StateCheck()
         {
-            if (this.Manager.Command == OperateCommand.StopStationTest)
+            if (this.Manager.Command == OperateCommand.StopStationTest  && this.ActiveModule.LinkStation.WaitToBlanking)
             {
                 this.Manager.Command = OperateCommand.None;
                 this.LastMessage = string.Format("模块[{0}]测试完成，转换到【工位下料状态】", this.ActiveModule.Description);
@@ -72,13 +72,6 @@ namespace DMTTestAdapter
                 
                 this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
             }
-/*            else if (this.Manager.Command == OperateCommand.ReleaseVISLighting)
-            {
-                this.Manager.Command = OperateCommand.None;
-                //this.Manager.ProcessController.SetRobotMoveParams((int)Position.Origin, (int)Position.Origin, TAI.Manager.ActionMode.Capture);
-                //this.Manager.ProcessController.SetRobotMoveEnable();
-                LogHelper.LogInfoMsg(string.Format("释放机械手和灯测控制"));
-            }*/
 
         }
     }

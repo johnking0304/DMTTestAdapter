@@ -26,6 +26,8 @@ namespace DMTTestAdapter
         {
             this.LastMessage = "进入【设备预热工位上料】步骤";
             LogHelper.LogInfoMsg(this.LastMessage);
+
+            // 
         }
 
 

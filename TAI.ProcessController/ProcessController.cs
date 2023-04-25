@@ -210,6 +210,8 @@ namespace TAI.Manager
 
         public bool NotifyFeedLackSignal()
         {
+            LogHelper.LogInfoMsg(string.Format("下料完成,上料盘已空，下发上料盘已空信号"));
+
             this.SystemOperator.FeedLackSignal.Datas[0] = 1;
             this.WriteChannel.WriteModbusItem(this.SystemOperator.FeedLackSignal);
             return (!this.WriteChannel.HasError);

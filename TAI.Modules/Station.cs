@@ -143,18 +143,25 @@ namespace TAI.Modules
             string filename = Path.Combine(path, string.Format("{0}.cfg", this.Caption));
             if (File.Exists(filename))
             {
-                string content = Files.LoadFromFile(filename);
-                string[] lines = content.Split(new char[2] { '\r', '\n' });
-                foreach (string line in lines)
+                try
                 {
-                    if (!string.IsNullOrEmpty(line))
+                    string content = Files.LoadFromFile(filename);
+                    string[] lines = content.Split(new char[2] { '\r', '\n' });
+                    foreach (string line in lines)
                     {
-                        string[] values = line.Split(',');
-                        int key = int.Parse(values[0]);
-                        float bvalue = float.Parse(values[1]);
-                        float kvalue = float.Parse(values[2]);
-                        this.Compensates.Add(key, new KeyValuePair<float, float>(kvalue, bvalue));
+                        if (!string.IsNullOrEmpty(line))
+                        {
+                            string[] values = line.Split(',');
+                            int key = int.Parse(values[0]);
+                            float bvalue = float.Parse(values[1]);
+                            float kvalue = float.Parse(values[2]);
+                            this.Compensates.Add(key, new KeyValuePair<float, float>(kvalue, bvalue));
+                        }
                     }
+                }
+                catch
+                {
+                    this.Compensates.Clear();
                 }
 
             }

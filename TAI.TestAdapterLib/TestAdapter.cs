@@ -17,20 +17,20 @@ namespace DMTTestAdapter
     {
         static Dictionary<int, int> IdLinks = new Dictionary<int, int>() {
         { 1, 1 },
-        { 2, 9 },
-        { 3, 2 },
-        { 4, 10 },
-        { 5, 3 },
+        { 2, 3 },
+        { 3, 5 },
+        { 4, 7 },
+        { 5, 9 },
         { 6, 11 },
-        { 7, 4 },
-        { 8, 12 },
-        { 9, 5 },
-        { 10, 13 },
+        { 7, 13 },
+        { 8, 15 },
+        { 9, 2 },
+        { 10, 4 },
         { 11, 6 },
-        { 12, 14 },
-        { 13, 7 },
-        { 14, 15 },
-        { 15, 8 },
+        { 12, 8 },
+        { 13, 10},
+        { 14, 12 },
+        { 15, 14 },
         { 16, 16 }
     };
 
@@ -104,7 +104,15 @@ namespace DMTTestAdapter
         /// </summary>
         public bool InitializeCompleted { get; set; }
 
-
+        public bool IsFeedingBoxEmpty { get
+            {
+                bool result = true;
+                foreach (Module module in this.TestingModules)
+                {
+                    result = result && module.TestStep != TestStep.Idle;               
+                }
+                return result;            
+            } }
 
         public TestAdapter()
         {

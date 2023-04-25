@@ -63,7 +63,7 @@ namespace TAI.Device
             {
                 if (this.RTDType != RTDType.PT385_100)
                 {
-                    FlukeCommand switchMode = new SwitchModeCommand(this);
+                    FlukeCommand switchMode = new SwitchModeCommand(this, this.RTDType);
                     this.SendCommand(switchMode.PackageString());
                     this.RTDType = RTDType.PT385_100;
                 }
