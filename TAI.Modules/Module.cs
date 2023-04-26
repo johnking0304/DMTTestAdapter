@@ -98,10 +98,18 @@ namespace TAI.Modules
         [JsonProperty(propertyName: "stations")]
         public List<StationStatus> Stations { get; set; }
 
+        [JsonProperty(propertyName: "temperature")]
+        public float Temperature { get; set; }
+
+        [JsonProperty(propertyName: "humidity")]
+        public float Humidity { get; set; }
+
         public SystemMessage(string name) : base(name)
         {
             this.Devices = new List<StatusMessage>();
             this.Stations = new List<StationStatus>();
+            this.Temperature = 26.5f;
+            this.Humidity = 40.0f;
         }
     }
 

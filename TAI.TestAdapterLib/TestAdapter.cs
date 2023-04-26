@@ -57,7 +57,7 @@ namespace DMTTestAdapter
     {
 
         public static readonly int FeedCountMax = 6;
-
+        
         private DeviceModel MeasureDeviceModel { get; set; }
         private DeviceModel GeneratorDeviceModel { get; set; }
 
@@ -123,6 +123,8 @@ namespace DMTTestAdapter
             this.Stations = new List<Station>();
             this.SystemMessage = new SystemMessage(this.Caption);
             this.ActiveStation = 0;
+
+            this.WaitMilliseconds = 1000;
 
             this.Service = new TCPService();
 
@@ -274,8 +276,12 @@ namespace DMTTestAdapter
                 this.TestState.Execute();
             }
 
-            
-
+            if (this.WaitTimeOut())
+            {
+                this.NotifyFeedingBoxMapValue();
+                this.UpdateEnvironmentData();
+            }
+           
 
         }
 
@@ -1231,6 +1237,26 @@ namespace DMTTestAdapter
             return string.Format("{0},{1}", command, reply);
         }
 
+        public void UpdateEnvironmentData()
+        { 
+            
+        
+        
+        }
+        public void NotifyFeedingBoxMapValue()
+        {
+            byte value = 0;
+            for (int i = 0; i < this.TestingModules.Count; i++)
+            {
+                Module module = this.TestingModules[i];
+                if (module != null)
+                {
+                    bool result = module.TestStep == TestStep.Idle;
+                    value = ByteUtils.SetBitValue(value, (byte)(module.PositionIndex - 1), result);
+                }               
+            }
+            this.ProcessController.NotifyFeedingBoxMapValue((ushort)value);
+        }
         public override void ProcessResponse(int notifyEvent, string flag, string content, object result, string message, object sender)
         {           
             switch(notifyEvent)

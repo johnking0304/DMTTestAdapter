@@ -224,9 +224,16 @@ namespace TAI.Manager
             this.DetectOperator.StartTest.Datas[0] = 1;
             this.WriteChannel.WriteModbusItem(this.DetectOperator.StartTest);
             return (!this.WriteChannel.HasError);
-
         }
 
+
+        public bool NotifyFeedingBoxMapValue(ushort value)
+        {
+            this.DetectOperator.FeedingBoxMapValue.Datas[0] = value;
+            this.WriteChannel.WriteModbusItem(this.DetectOperator.FeedingBoxMapValue);
+            return (!this.WriteChannel.HasError);
+
+        }
 
         public bool InitializeCompleted
         {
