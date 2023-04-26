@@ -1267,7 +1267,7 @@ namespace DMTTestAdapter
                 Module module = this.TestingModules[i];
                 if (module != null)
                 {
-                    bool result = module.TestStep == TestStep.Idle;
+                    bool result = (int)module.TestStep >= (int)TestStep.Ready;
                     value = ByteUtils.SetBitValue(value, (byte)(module.PositionIndex - 1), result);
                 }               
             }
