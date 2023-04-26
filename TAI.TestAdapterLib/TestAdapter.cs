@@ -62,6 +62,8 @@ namespace DMTTestAdapter
         private DeviceModel GeneratorDeviceModel { get; set; }
 
         public DigitalDevice DigitalDevice { get; set; }
+
+        public EnvironmentDevice EnvironmentDevice { get; set; }
         public DeviceMaster MeasureDevice { get; set; }
         public DeviceMaster GeneratorDevice { get; set; }
         public ProcessController ProcessController { get; set; }
@@ -172,7 +174,13 @@ namespace DMTTestAdapter
             this.DigitalDevice.Start();
             this.SystemMessage.Devices.Add(this.DigitalDevice.StatusMessage);
 
-            
+
+            this.EnvironmentDevice = new EnvironmentDevice();
+            this.EnvironmentDevice.LoadFromFile(Contant.ENVIRONMENT_CONFIG);
+            this.EnvironmentDevice.Open();
+            this.EnvironmentDevice.Start();
+            //this.SystemMessage.Devices.Add(this.EnvironmentDevice.StatusMessage);
+
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
             this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
             this.MeasureDevice.Open();
@@ -230,6 +238,8 @@ namespace DMTTestAdapter
             this.Service.Close();
 
             this.DigitalDevice.Close();
+
+            this.EnvironmentDevice.Close();
 
             this.MeasureDevice.Close();
 
@@ -391,6 +401,8 @@ namespace DMTTestAdapter
             result &= this.ProcessController.Initialize();
 
             result &= this.VISController.Initialize();
+
+            result &= this.EnvironmentDevice.Initialize();
 
             foreach (SwitchController switchController in this.SwitchControllers)
             {
@@ -1238,10 +1250,14 @@ namespace DMTTestAdapter
         }
 
         public void UpdateEnvironmentData()
-        { 
-            
-        
-        
+        {
+            float temperature = 0;
+            float humidity = 0;
+            if (this.EnvironmentDevice.GetEnvironmentData(ref temperature, ref humidity))
+            {
+                this.SystemMessage.Temperature = temperature;
+                this.SystemMessage.Humidity = humidity;
+            }
         }
         public void NotifyFeedingBoxMapValue()
         {

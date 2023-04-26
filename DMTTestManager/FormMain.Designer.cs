@@ -30,17 +30,22 @@ namespace DMTTestManager
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("系统", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("工位", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("系统", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("工位", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.materialTabControlMain = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageSystem = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.listViewModules = new System.Windows.Forms.ListView();
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listViewStations = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBoxSystem = new System.Windows.Forms.GroupBox();
             this.listViewProcessController = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -108,15 +113,11 @@ namespace DMTTestManager
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.listViewModules = new System.Windows.Forms.ListView();
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialTabControlMain.SuspendLayout();
             this.tabPageSystem.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.groupBox7.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBoxSystem.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tabPageDevices.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -130,7 +131,6 @@ namespace DMTTestManager
             this.tabPage12.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPageLog.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // materialTabControlMain
@@ -154,12 +154,12 @@ namespace DMTTestManager
             // tabPageSystem
             // 
             this.tabPageSystem.Controls.Add(this.groupBox8);
-            this.tabPageSystem.Controls.Add(this.groupBox7);
+            this.tabPageSystem.Controls.Add(this.groupBoxSystem);
             this.tabPageSystem.Controls.Add(this.groupBox6);
             this.tabPageSystem.ImageKey = "all.png";
             this.tabPageSystem.Location = new System.Drawing.Point(4, 39);
             this.tabPageSystem.Name = "tabPageSystem";
-            this.tabPageSystem.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageSystem.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSystem.Size = new System.Drawing.Size(1558, 834);
             this.tabPageSystem.TabIndex = 0;
             this.tabPageSystem.Text = "总览";
@@ -176,6 +176,49 @@ namespace DMTTestManager
             this.groupBox8.TabIndex = 13;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "测试工位实时信息";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.listViewModules);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox9.Location = new System.Drawing.Point(3, 454);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(594, 371);
+            this.groupBox9.TabIndex = 6;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "上料模块扫描结果";
+            // 
+            // listViewModules
+            // 
+            this.listViewModules.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader10,
+            this.columnHeader11,
+            this.columnHeader12});
+            this.listViewModules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewModules.FullRowSelect = true;
+            this.listViewModules.GridLines = true;
+            this.listViewModules.HideSelection = false;
+            this.listViewModules.Location = new System.Drawing.Point(3, 27);
+            this.listViewModules.Name = "listViewModules";
+            this.listViewModules.Size = new System.Drawing.Size(588, 341);
+            this.listViewModules.TabIndex = 6;
+            this.listViewModules.UseCompatibleStateImageBehavior = false;
+            this.listViewModules.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "序号";
+            this.columnHeader10.Width = 78;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "模块类型";
+            this.columnHeader11.Width = 166;
+            // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "状态";
+            this.columnHeader12.Width = 174;
             // 
             // listViewStations
             // 
@@ -209,16 +252,16 @@ namespace DMTTestManager
             this.columnHeader9.Text = "关联模块";
             this.columnHeader9.Width = 84;
             // 
-            // groupBox7
+            // groupBoxSystem
             // 
-            this.groupBox7.Controls.Add(this.listViewProcessController);
-            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox7.Location = new System.Drawing.Point(443, 3);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(466, 828);
-            this.groupBox7.TabIndex = 12;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "流程控制PLC";
+            this.groupBoxSystem.Controls.Add(this.listViewProcessController);
+            this.groupBoxSystem.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBoxSystem.Location = new System.Drawing.Point(443, 3);
+            this.groupBoxSystem.Name = "groupBoxSystem";
+            this.groupBoxSystem.Size = new System.Drawing.Size(466, 828);
+            this.groupBoxSystem.TabIndex = 12;
+            this.groupBoxSystem.TabStop = false;
+            this.groupBoxSystem.Text = "系统状态";
             // 
             // listViewProcessController
             // 
@@ -228,13 +271,13 @@ namespace DMTTestManager
             this.listViewProcessController.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewProcessController.FullRowSelect = true;
             this.listViewProcessController.GridLines = true;
-            listViewGroup3.Header = "系统";
-            listViewGroup3.Name = "listViewGroup1";
-            listViewGroup4.Header = "工位";
-            listViewGroup4.Name = "listViewGroup2";
+            listViewGroup1.Header = "系统";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "工位";
+            listViewGroup2.Name = "listViewGroup2";
             this.listViewProcessController.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
             this.listViewProcessController.HideSelection = false;
             this.listViewProcessController.Location = new System.Drawing.Point(3, 27);
             this.listViewProcessController.Name = "listViewProcessController";
@@ -296,8 +339,8 @@ namespace DMTTestManager
             this.tabPageDevices.ImageKey = "DeviceInfo.png";
             this.tabPageDevices.Location = new System.Drawing.Point(4, 39);
             this.tabPageDevices.Name = "tabPageDevices";
-            this.tabPageDevices.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageDevices.Size = new System.Drawing.Size(1558, 833);
+            this.tabPageDevices.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDevices.Size = new System.Drawing.Size(1558, 834);
             this.tabPageDevices.TabIndex = 1;
             this.tabPageDevices.Text = "设备";
             this.tabPageDevices.UseVisualStyleBackColor = true;
@@ -312,7 +355,7 @@ namespace DMTTestManager
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1552, 827);
+            this.tabControl1.Size = new System.Drawing.Size(1552, 828);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPageProcessController
@@ -321,8 +364,8 @@ namespace DMTTestManager
             this.tabPageProcessController.Controls.Add(this.groupBox4);
             this.tabPageProcessController.Location = new System.Drawing.Point(4, 33);
             this.tabPageProcessController.Name = "tabPageProcessController";
-            this.tabPageProcessController.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageProcessController.Size = new System.Drawing.Size(1544, 790);
+            this.tabPageProcessController.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageProcessController.Size = new System.Drawing.Size(1544, 791);
             this.tabPageProcessController.TabIndex = 0;
             this.tabPageProcessController.Text = "测试流程控制";
             this.tabPageProcessController.UseVisualStyleBackColor = true;
@@ -333,7 +376,7 @@ namespace DMTTestManager
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(348, 784);
+            this.groupBox2.Size = new System.Drawing.Size(348, 785);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "项目信息";
@@ -349,7 +392,7 @@ namespace DMTTestManager
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 27);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(342, 754);
+            this.listView1.Size = new System.Drawing.Size(342, 755);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -517,8 +560,8 @@ namespace DMTTestManager
             this.tabPage10.Controls.Add(this.groupBox1);
             this.tabPage10.Location = new System.Drawing.Point(4, 33);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage10.Size = new System.Drawing.Size(1442, 769);
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(1544, 790);
             this.tabPage10.TabIndex = 1;
             this.tabPage10.Text = "模拟量调测";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -778,8 +821,8 @@ namespace DMTTestManager
             // 
             this.tabPage11.Location = new System.Drawing.Point(4, 33);
             this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage11.Size = new System.Drawing.Size(1442, 769);
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(1544, 790);
             this.tabPage11.TabIndex = 2;
             this.tabPage11.Text = "数字量调测";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -789,8 +832,8 @@ namespace DMTTestManager
             this.tabPage12.Controls.Add(this.groupBox3);
             this.tabPage12.Location = new System.Drawing.Point(4, 33);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage12.Size = new System.Drawing.Size(1442, 769);
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage12.Size = new System.Drawing.Size(1544, 790);
             this.tabPage12.TabIndex = 3;
             this.tabPage12.Text = "视觉识别";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -820,7 +863,7 @@ namespace DMTTestManager
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(597, 188);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button9.Margin = new System.Windows.Forms.Padding(4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(136, 52);
             this.button9.TabIndex = 23;
@@ -830,7 +873,7 @@ namespace DMTTestManager
             // button8
             // 
             this.button8.Location = new System.Drawing.Point(597, 114);
-            this.button8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(136, 52);
             this.button8.TabIndex = 22;
@@ -840,7 +883,7 @@ namespace DMTTestManager
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(597, 42);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(136, 52);
             this.button7.TabIndex = 21;
@@ -967,8 +1010,8 @@ namespace DMTTestManager
             this.tabPageLog.ImageKey = "Log.png";
             this.tabPageLog.Location = new System.Drawing.Point(4, 39);
             this.tabPageLog.Name = "tabPageLog";
-            this.tabPageLog.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageLog.Size = new System.Drawing.Size(1558, 833);
+            this.tabPageLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLog.Size = new System.Drawing.Size(1558, 834);
             this.tabPageLog.TabIndex = 2;
             this.tabPageLog.Text = "日志";
             this.tabPageLog.UseVisualStyleBackColor = true;
@@ -978,7 +1021,7 @@ namespace DMTTestManager
             this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxLog.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.Size = new System.Drawing.Size(1552, 827);
+            this.richTextBoxLog.Size = new System.Drawing.Size(1552, 828);
             this.richTextBoxLog.TabIndex = 0;
             this.richTextBoxLog.Text = "";
             // 
@@ -987,8 +1030,8 @@ namespace DMTTestManager
             this.tabPageAbout.ImageKey = "About.png";
             this.tabPageAbout.Location = new System.Drawing.Point(4, 39);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPageAbout.Size = new System.Drawing.Size(1558, 833);
+            this.tabPageAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAbout.Size = new System.Drawing.Size(1558, 834);
             this.tabPageAbout.TabIndex = 3;
             this.tabPageAbout.Text = "关于";
             this.tabPageAbout.UseVisualStyleBackColor = true;
@@ -1007,49 +1050,6 @@ namespace DMTTestManager
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.listViewModules);
-            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox9.Location = new System.Drawing.Point(3, 454);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(594, 371);
-            this.groupBox9.TabIndex = 6;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "上料模块扫描结果";
-            // 
-            // listViewModules
-            // 
-            this.listViewModules.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader10,
-            this.columnHeader11,
-            this.columnHeader12});
-            this.listViewModules.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewModules.FullRowSelect = true;
-            this.listViewModules.GridLines = true;
-            this.listViewModules.HideSelection = false;
-            this.listViewModules.Location = new System.Drawing.Point(3, 27);
-            this.listViewModules.Name = "listViewModules";
-            this.listViewModules.Size = new System.Drawing.Size(588, 341);
-            this.listViewModules.TabIndex = 6;
-            this.listViewModules.UseCompatibleStateImageBehavior = false;
-            this.listViewModules.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.Text = "序号";
-            this.columnHeader10.Width = 78;
-            // 
-            // columnHeader11
-            // 
-            this.columnHeader11.Text = "模块类型";
-            this.columnHeader11.Width = 166;
-            // 
-            // columnHeader12
-            // 
-            this.columnHeader12.Text = "状态";
-            this.columnHeader12.Width = 174;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -1067,7 +1067,8 @@ namespace DMTTestManager
             this.materialTabControlMain.ResumeLayout(false);
             this.tabPageSystem.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBoxSystem.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.tabPageDevices.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -1086,7 +1087,6 @@ namespace DMTTestManager
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabPageLog.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1159,7 +1159,7 @@ namespace DMTTestManager
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBoxSystem;
         private System.Windows.Forms.ListView listViewProcessController;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;

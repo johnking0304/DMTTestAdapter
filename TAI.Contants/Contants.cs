@@ -18,6 +18,8 @@ namespace TAI.Constants
 
         public static readonly string DIGITAL_CONFIG = Path.Combine(HOME, "digitaldevice.ini");
 
+        public static readonly string ENVIRONMENT_CONFIG = Path.Combine(HOME, "environment.ini"); 
+
         public static readonly string VIS_CONFIG = Path.Combine(HOME, "viscontroller.ini");
 
         public static readonly string SWITCH_CONFIG = Path.Combine(HOME, "switchcontroller.ini");

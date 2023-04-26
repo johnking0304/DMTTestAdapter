@@ -103,12 +103,22 @@ namespace DMTTestManager
             Program.DMTTestAdapter.Dispose();
         }
 
+
+        private void RefreshEvnStatus()
+        {
+            this.groupBoxSystem.Text = string.Format("系统状态[{0} ℃   {1} %]",
+                Program.DMTTestAdapter.SystemMessage.Temperature,
+                Program.DMTTestAdapter.SystemMessage.Humidity);
+
+
+        }
         private void timer_Tick(object sender, EventArgs e)
         {
             this.RefreshCommStatus();
             this.RefreshProcessControllerStatus();
             this.RefreshStationStatus();
             this.RefreshModulesStatus();
+            this.RefreshEvnStatus();
         }
 
         private void AddNewItemTolistViewStatus(string text, string value)

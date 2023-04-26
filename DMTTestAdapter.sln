@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMTTestManager", "DMTTestMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationPlatform", "SimulationPlatform\SimulationPlatform.csproj", "{9AA4FBD8-9013-4DAF-AA4F-2577BE7639F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.Device.Environment", "TAI.Device.Environment\TAI.Device.Environment.csproj", "{F4EEC268-6411-4424-82ED-E1EE3B6652FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{9AA4FBD8-9013-4DAF-AA4F-2577BE7639F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AA4FBD8-9013-4DAF-AA4F-2577BE7639F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AA4FBD8-9013-4DAF-AA4F-2577BE7639F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4EEC268-6411-4424-82ED-E1EE3B6652FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4EEC268-6411-4424-82ED-E1EE3B6652FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4EEC268-6411-4424-82ED-E1EE3B6652FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4EEC268-6411-4424-82ED-E1EE3B6652FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

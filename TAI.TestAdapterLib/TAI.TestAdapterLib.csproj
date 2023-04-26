@@ -99,6 +99,10 @@
       <Project>{bf0b6502-a3c6-4c51-9942-23860005700f}</Project>
       <Name>TAI.Device.Digital</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TAI.Device.Environment\TAI.Device.Environment.csproj">
+      <Project>{f4eec268-6411-4424-82ed-e1ee3b6652fa}</Project>
+      <Name>TAI.Device.Environment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
       <Project>{c69632f0-7bcd-4d05-bc99-0d01c334c354}</Project>
       <Name>TAI.Modules</Name>
