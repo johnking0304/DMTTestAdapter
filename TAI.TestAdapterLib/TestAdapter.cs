@@ -16,22 +16,22 @@ namespace DMTTestAdapter
     public class ChannelIdLink
     {
         static Dictionary<int, int> IdLinks = new Dictionary<int, int>() {
-        { 1, 1 },
-        { 2, 3 },
-        { 3, 5 },
-        { 4, 7 },
-        { 5, 9 },
-        { 6, 11 },
-        { 7, 13 },
-        { 8, 15 },
-        { 9, 2 },
-        { 10, 4 },
-        { 11, 6 },
-        { 12, 8 },
-        { 13, 10},
-        { 14, 12 },
-        { 15, 14 },
-        { 16, 16 }
+        {1 , 1 },
+        {3 , 2 },
+        {5 , 3 },
+        {7 , 4 },
+        {9 , 5 },
+        {11, 6 },
+        {13, 7 },
+        {15, 8 },
+        {2 , 9 },
+        {4 , 10 },
+        {6 , 11 },
+        {8 , 12 },
+        {10, 13 },
+        {12, 14 },
+        {14, 15 },
+        {16, 16 }
     };
 
         public static int GetOutput(int input)
@@ -126,7 +126,7 @@ namespace DMTTestAdapter
             this.SystemMessage = new SystemMessage(this.Caption);
             this.ActiveStation = 0;
 
-            this.WaitMilliseconds = 1000;
+            this.WaitMilliseconds = 5000;
 
             this.Service = new TCPService();
 
@@ -275,10 +275,9 @@ namespace DMTTestAdapter
         public override void ProcessEvent()
         {
             //任意时刻，如果系统复位，就把状态切换到 初始化状态
-            if (this.ProcessController.SystemTerminated && this.InitializeCompleted)
+            if (this.ProcessController.SystemTerminated)
             {
                 this.TestState = new InitializeTestState(this,false);
-                this.InitializeCompleted = false;
             }
 
             if (this.TestState != null)
@@ -1267,7 +1266,7 @@ namespace DMTTestAdapter
                 Module module = this.TestingModules[i];
                 if (module != null)
                 {
-                    bool result = (int)module.TestStep >= (int)TestStep.Ready;
+                    bool result = !((int)module.TestStep >= (int)TestStep.Ready);
                     value = ByteUtils.SetBitValue(value, (byte)(module.PositionIndex - 1), result);
                 }               
             }

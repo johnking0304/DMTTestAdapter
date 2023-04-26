@@ -229,6 +229,7 @@ namespace TAI.Manager
 
         public bool NotifyFeedingBoxMapValue(ushort value)
         {
+            LogHelper.LogInfoMsg(string.Format("下发上料盘状态[{0}]",value));
             this.DetectOperator.FeedingBoxMapValue.Datas[0] = value;
             this.WriteChannel.WriteModbusItem(this.DetectOperator.FeedingBoxMapValue);
             return (!this.WriteChannel.HasError);
@@ -293,7 +294,21 @@ namespace TAI.Manager
         {
             get
             {
-                return this.SystemStatusValues[this.SystemOperator.SystemStop.StartAddress] == (ushort)Status.Valid;
+
+                bool result = false;
+                ushort[] data = this.ReadChannel.ReadModbusItem(this.SystemOperator.SystemStop);
+                if (!this.ReadChannel.HasError)
+                {
+                    result = data[0] == (ushort)Status.Valid;
+                    if (result)
+                    {
+                        this.SystemOperator.SystemStop.Datas[0] = (ushort)0;
+                        this.WriteChannel.WriteModbusItem(this.SystemOperator.SystemStop);
+                    }
+                }
+                return result;
+
+
             }
         }
 
