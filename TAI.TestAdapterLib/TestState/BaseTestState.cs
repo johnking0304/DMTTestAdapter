@@ -59,7 +59,7 @@ namespace DMTTestAdapter
             {
                 LogHelper.LogInfoMsg(string.Format("系统状态发生变化[{0}->{1}]，发送Notify事件", this.testingState.Description(), value.Description()));
                 this.testingState = value;
-                this.Manager.NotifyTestingStateChanged();           
+                this.Manager.NotifyTestingStateChanged(value);           
             } }
 
         public int WaitMilliseconds { get; set; }

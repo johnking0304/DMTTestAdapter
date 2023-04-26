@@ -88,16 +88,17 @@ namespace DMTTestAdapter
                         this.RobotMoving = false;
                         LogHelper.LogInfoMsg(string.Format("机械手已到达位置[{0}]，开始识别模块型号",this.TargetIndex));
                         string moduleType = "";
-
+                        int channelCount = 0;
                         if (this.Manager.VISController.TryOCRModelType(ref moduleType))
                         {
-                            ModuleType type = this.Manager.ParseModuleType(moduleType);
+                            ModuleType type = this.Manager.ParseModuleType(moduleType,ref channelCount);
                             if (type != ModuleType.None)
                             {
                                 this.ActiveModule.ModuleType = type;
+                                this.ActiveModule.ChannelCount = channelCount;
                                 this.ActiveModule.LinkStation = this.Manager.GetModuleStation(this.ActiveModule.ModuleType);
                                 this.ActiveModule.Enable = true;
-                                LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-类型[{1}]", moduleType, this.ActiveModule.ModuleType));
+                                LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-类型[{1}],CH[{2}]", moduleType, this.ActiveModule.ModuleType,this.ActiveModule.ChannelCount));
                             }
                             else
                             {

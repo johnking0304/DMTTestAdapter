@@ -262,6 +262,13 @@ namespace DMTTestAdapter
         }
         public override void ProcessEvent()
         {
+            //任意时刻，如果系统复位，就把状态切换到 初始化状态
+            if (this.ProcessController.SystemTerminated && this.InitializeCompleted)
+            {
+                this.TestState = new InitializeTestState(this,false);
+                this.InitializeCompleted = false;
+            }
+
             if (this.TestState != null)
             {
                 this.TestState.Execute();
@@ -439,8 +446,6 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(string.Format("接收命令:获取数字量通道数据[通道={0}]", channelId));
             bool result = this.DigitalDevice.GetValue(channelId, ref value);
             return string.Format("{0},{1}", result ? "Ok" : "Fail", value ? "1" : "0");
-
-
         }
 
         public string GetLastErrorCode()
@@ -454,11 +459,10 @@ namespace DMTTestAdapter
             return  this.SystemMessageText;
         }
 
-        public void NotifyTestingStateChanged()
+        public void NotifyTestingStateChanged(TestingState state)
         {
-            string command = string.Format("Notify,{0}",this.SystemMessageText);
-            this.Service.SendCommand(command);         
-
+            string command = string.Format("Notify,{0},{1}", (int)state,state.Description());
+            this.Service.SendCommand(command);
         }
 
 
@@ -484,6 +488,16 @@ namespace DMTTestAdapter
                     //if ((ChannelType)type == ChannelType.Resistance)
                     {
                         value = station.CompensateValue(linkChannelId, value);
+                    }
+
+                    /// 如果温度设置值 大于800 则按800 设置
+                    if ((ChannelType)type == ChannelType.Resistance)
+                    {
+                        if (value > 800)
+                        {
+                            LogHelper.LogInfoMsg(string.Format("[{0}]设置值[{1}]大于800，按800设置", type.ToString(),value));
+                            value = 800;
+                        }
                     }
 
                     result &= this.GeneratorDevice.SetValue((ChannelType)type, value);
@@ -556,7 +570,14 @@ namespace DMTTestAdapter
         {
             LogHelper.LogInfoMsg(string.Format("获取工位[{0}]模块灯测视觉识别结果[{0}]", ((StationType)StationId).ToString()));
             string value = "";
-            if (this.VISController.TryOCRChannelLighting((ModuleType)StationId, ref value))
+            int channelCount = 0;
+            Station station =this.Stations[StationId - 1];
+            if (station.LinkedModule != null)
+            {
+                channelCount = station.LinkedModule.ChannelCount;
+            }
+
+            if (this.VISController.TryOCRChannelLighting((ModuleType)StationId, channelCount, ref value))
             {
                 return string.Format("Ok,{0}", value);
             }
@@ -693,18 +714,76 @@ namespace DMTTestAdapter
         }
 
 
-        public ModuleType ParseModuleType(string content)
+        public ModuleType ParseModuleType(string content,ref int channelCount)
         {
 
             if (content.Contains("RTD"))
             {
                 return ModuleType.RTD_3L;
             }
-            else 
+            else if (content.Contains("AI"))
+            {
+                if (content.Equals("8CHAI"))
+                {
+                    channelCount = 8;
+                }
+                else if (content.Equals("16CHAI"))
+                {
+                    channelCount = 16;
+                }
+                else
+                {
+                    channelCount = 8;
+                }
+
+                return ModuleType.AI;
+            }
+            else if (content.Contains("TC"))
+            {
+                if (content.Equals("8CHTC"))
+                {
+                    channelCount = 8;
+                }
+                else if (content.Equals("16CHTC"))
+                {
+                    channelCount = 16;
+                }
+                else
+                {
+                    channelCount = 16;
+                }
+
+                return ModuleType.TC;
+
+            }
+            else
             {
                 try
                 {
                     ModuleType type = (ModuleType)System.Enum.Parse(typeof(ModuleType), content);
+
+                    switch (type)
+                    {
+                        case ModuleType.DI:
+                            {
+                                channelCount = 24;
+                                break;
+                            }
+                        case ModuleType.DO:
+                            {
+                                channelCount = 16;
+                                break;
+                            }
+                        case ModuleType.AO:
+                        case ModuleType.RTD_3L:
+                        case ModuleType.RTD_4L:
+                        case ModuleType.PI:
+                            {
+                                channelCount = 8;
+                                break;
+                            }
+                    }
+
                     return type;
                 }
                 catch

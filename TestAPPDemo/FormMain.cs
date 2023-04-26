@@ -37,6 +37,10 @@ namespace TestAPPDemo
             this.comboBoxMType.SelectedIndex = 0;
             this.comboBoxSwitchMode.SelectedIndex = 0;
             this.comboBoxStation.SelectedIndex = 0;
+            this.comboBoxChannelCount.SelectedIndex = 0;
+            this.comboBoxDeviceType.SelectedIndex = 0;
+
+
         }
 
 
@@ -140,7 +144,9 @@ namespace TestAPPDemo
             this.richTextBoxLighting.Text = "";
            int channel = comboBoxModuleChannel.SelectedIndex + 1;
             ModuleType moduleType = (ModuleType)(comboBoxModuleType.SelectedIndex + 1);
-            bool result = this.TestAdapter.VISController.TryOCRChannelLighting( moduleType, ref content);
+
+            int channelcount = (this.comboBoxChannelCount.SelectedIndex + 1) * 8;
+            bool result = this.TestAdapter.VISController.TryOCRChannelLighting( moduleType, channelcount, ref content);
             this.richTextBoxLighting.Text = string.Format("{0}:{1}", result ? "OK" : "Error", content);
         }
 

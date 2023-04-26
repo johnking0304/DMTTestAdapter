@@ -34,6 +34,7 @@ namespace TAI.Manager
         public List<KeyValuePair<string, int>> ChannelResults { get; set; }
         public int ChannelId { get; set; }
         public string ModelType { get; set; }
+        public int ChannelCount { get; set; }
         public string ModelSerialCode { get; set; }
         public string LightingContent { get; set; }
 
@@ -132,10 +133,21 @@ namespace TAI.Manager
             }
         }
 
-        public int GetModuleLightingProgramId(ModuleType type)
+        public int GetModuleLightingProgramId(ModuleType type,int channelCount)
         {
             VISProgram item = (VISProgram)Enum.Parse(typeof(VISProgram), type.ToString());
-            return this.GetProgramId(item);
+            int pid = this.GetProgramId(item);
+            switch (type)
+            {
+                case ModuleType.AI:
+                case ModuleType.TC:
+                    {
+                        pid = pid + 10;
+                        break;
+                    }
+            }
+            return pid;
+
         }
 
 
@@ -269,15 +281,16 @@ namespace TAI.Manager
 
 
 
-        public bool TryOCRChannelLighting(ModuleType module, ref string content)
+        public bool TryOCRChannelLighting(ModuleType module,int channelCount, ref string content)
         {
-            bool result = OCRChannelLighting(module,ref content);
+             
+            bool result = OCRChannelLighting(module, channelCount, ref content);
             int tryCount = 1;
             while (!result)
             {
                 if (tryCount <= this.TryCountMax)
                 {
-                    result = OCRChannelLighting(module, ref content);
+                    result = OCRChannelLighting(module, channelCount, ref content);
                     tryCount += 1;
                     LogHelper.LogInfoMsg(string.Format("[{0}]重试[灯测]识别，次数[{1}]", module.Description(), tryCount));
                 }
@@ -292,9 +305,9 @@ namespace TAI.Manager
 
 
 
-        public bool OCRChannelLighting(ModuleType module,ref string content)
+        public bool OCRChannelLighting(ModuleType module,int channelCount,ref string content)
         {
-            int program = this.GetModuleLightingProgramId(module);
+            int program = this.GetModuleLightingProgramId(module,channelCount);
             if (this.ProgramId != program)
             {
                 this.StartSwitchProgram(program);

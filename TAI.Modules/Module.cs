@@ -113,7 +113,10 @@ namespace TAI.Modules
         public const int PREPARE_TIME = 1;
         public int Id { get; set; }
         public string SerialCode { get; set; }
+
+     
         public ModuleType ModuleType { get; set; }
+
         public int ChannelCount { get; set; }
         private TestStep testStep { get; set; }
         public TestStep TestStep { 

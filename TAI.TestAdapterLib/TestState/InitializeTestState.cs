@@ -11,26 +11,29 @@ namespace DMTTestAdapter
     {      
         public bool SendInitialize { get; set; }
         private int SendCount { get; set; }
-        public InitializeTestState(TestAdapter manager) : base(manager)
+        private bool Auto { get; set; }
+        public InitializeTestState(TestAdapter manager,bool auto=true) : base(manager)
         {
             this.Caption = "系统启动状态";
             this.TestingState = TestingState.Initial;
             this.WaitMilliseconds = 5000;
             this.SendCount = 0;
             this.SendInitialize = false;
+            this.Auto = auto;
         }
 
         public override void Initialize()
         {
-            this.LastMessage = "【系统启动状态】，等待初始化";
+            this.LastMessage = string.Format("【系统启动状态】，初始化系统[{0}]",this.Auto?"自动":"手动");
             LogHelper.LogInfoMsg(this.LastMessage);
+
+            this.Manager.Initialize();
         }
 
         public override void Execute()
         {
             if (!this.SendInitialize && this.TimeOut() && !this.Manager.InitializeCompleted) 
-            {
-                
+            {               
                 this.SendInitialize = this.Manager.ProcessController.InitializeSystem();
                 this.SendCount += 1;
                 LogHelper.LogInfoMsg(string.Format("[流程控制PLC]发送系统初始化命令[{0}],发送次数[{1}]", this.SendInitialize?"成功":"失败",this.SendCount));
