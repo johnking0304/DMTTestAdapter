@@ -65,10 +65,10 @@ namespace DMTTestAdapter
                 LogHelper.LogInfoMsg(string.Format("模块已到达位置[{0}]，下料完成", this.ActiveModule.TargetPosition.ToString()));
 
 
-                if (this.Manager.ModuleCount == 0)
+/*                if (this.Manager.ModuleCount == 0)
                 {
                     this.Manager.ProcessController.NotifyFeedLackSignal();
-                }
+                }*/
 
                 this.Manager.TestState = new DispatchTestState(this.Manager);
             }
