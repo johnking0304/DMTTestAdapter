@@ -150,7 +150,7 @@ namespace TAI.Manager
             this.RTD4StationBusy = new ModbusItem(this.Caption, "RTD4工位有料", "RTD4StationBusy", this.BaseIndex, DefaultRTD4StationBusyOffset, 1, ChannelType.AI);
             this.Items.Add(this.RTD4StationBusy);
 
-            this.TCStationBusy = new ModbusItem(this.Caption, "TC工位有料", "DIStationBusy", this.BaseIndex, DefaultTCStationBusyOffset, 1, ChannelType.AI);
+            this.TCStationBusy = new ModbusItem(this.Caption, "TC工位有料", "TCStationBusy", this.BaseIndex, DefaultTCStationBusyOffset, 1, ChannelType.AI);
             this.Items.Add(this.TCStationBusy);
 
             this.PrepareStationBusy = new ModbusItem(this.Caption, "预热工位有料", "PrepareStationBusy", this.BaseIndex, DefaultPrepareStationBusyOffset, 1, ChannelType.AI);

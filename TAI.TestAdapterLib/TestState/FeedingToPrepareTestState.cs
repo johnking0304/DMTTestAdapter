@@ -89,6 +89,12 @@ namespace DMTTestAdapter
                     this.Manager.ProcessController.SetModuleQRCompleted();
                     LogHelper.LogInfoMsg(string.Format("使能PLC模块二维码识别完成信号"));
 
+                    //关联预热工位  模块
+
+                    LogHelper.LogInfoMsg(string.Format("设置工位[{0}]关联模块[{1}]",
+                                                        StationType.Prepare.Description(),
+                                                        this.ActiveModule.ModuleType.Description()));
+                    this.Manager.PrepareStation.LinkedModule = this.ActiveModule;
                     this.Manager.PrepareStation.TestStep = TestStep.Ready;
                     this.CaptureCompleted = true;
                     LogHelper.LogInfoMsg(string.Format("待测模块[{0}]上料完成,等待下发预热测试命令", this.ActiveModule.ModuleType));
@@ -123,6 +129,7 @@ namespace DMTTestAdapter
                     LogHelper.LogInfoMsg(this.LastMessage);
                     this.ActiveModule.CurrentPosition = Position.Prepare;
                     this.ActiveModule.TargetPosition = Position.Out_NG;
+                    this.Manager.PrepareStation.LinkedModule = null;
                     this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
                 }
             }

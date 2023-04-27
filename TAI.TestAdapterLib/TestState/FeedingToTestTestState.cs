@@ -89,6 +89,13 @@ namespace DMTTestAdapter
                     this.Manager.ProcessController.SetModuleQRCompleted();
                     LogHelper.LogInfoMsg(string.Format("使能PLC模块二维码识别完成信号"));
 
+
+                    LogHelper.LogInfoMsg(string.Format("设置工位[{0}]关联模块[{1}]",
+                                                        ((StationType)this.ActiveModule.StationId).Description(),
+                                                        this.ActiveModule.ModuleType.Description()));
+
+                    this.Manager.Stations[this.ActiveModule.StationId - 1].LinkedModule = this.ActiveModule;
+
                     this.ActiveModule.TestStep = TestStep.Ready;
                     this.CaptureCompleted = true;
                     if (this.FromPrepare)
@@ -121,6 +128,9 @@ namespace DMTTestAdapter
                     this.Manager.Command = OperateCommand.None;
                     this.LastMessage = string.Format("模块[{0}]测试取消，转换到【工位下料状态】", this.ActiveModule.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
+
+                    this.Manager.Stations[this.ActiveModule.StationId - 1].LinkedModule = null;
+
                     this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
                     this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
                 }

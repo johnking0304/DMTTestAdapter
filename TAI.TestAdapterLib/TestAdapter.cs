@@ -658,10 +658,10 @@ namespace DMTTestAdapter
             get {
                 foreach (Station station in this.Stations)
                 {
-                    if (station.StationType == StationType.Prepare)
+/*                    if (station.StationType == StationType.Prepare)
                     {
                         continue;
-                    }
+                    }*/
                     if (station.WaitToBlanking)
                     {
                         return station;
@@ -683,9 +683,7 @@ namespace DMTTestAdapter
             this.PrepareStation.TestStep = TestStep.Prepare;
             module.CurrentPosition = Position.Prepare;
             module.StartDateTime = DateTime.Now;
-            module.TargetPosition = this.Stations[(int)module.ModuleType - 1].TestPosition;
-            
-            
+            module.TargetPosition = this.Stations[(int)module.ModuleType - 1].TestPosition;           
         }
 
 

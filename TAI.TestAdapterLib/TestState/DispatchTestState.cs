@@ -70,7 +70,7 @@ namespace DMTTestAdapter
                 {
                     module = this.Manager.ModuleNeedFeed;
                     //进入数字量模块上料流程
-                    if (module != null)
+                    if (module != null  && !this.Manager.ProcessController.StationIsBusy((StationType)module.StationId))
                     {
                         this.Manager.TestState = new FeedingToTestTestState(this.Manager, module,false);
                     }
@@ -94,12 +94,12 @@ namespace DMTTestAdapter
             if (this.Manager.ProcessController.RobotIdle)
             {
                 Station station = this.Manager.StationWaitToBlanking;
-                if (station != null)
+                if (station != null  && station.LinkedModule!=null)
                 {
                     this.LastMessage = string.Format("模块[{0}]测试取消，等待下料，转换到【工位下料状态】", station.LinkedModule.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
                     station.LinkedModule.CurrentPosition = station.TestPosition;
-                    this.Manager.ProcessController.SetModuleTestResult(station.LinkedModule.Conclusion);
+                    this.Manager.ProcessController.SetModuleTestResult(station.LinkedModule.Conclusion);                    
                     this.Manager.TestState = new BlankingTestState(this.Manager, station.LinkedModule);
                 }
             }
