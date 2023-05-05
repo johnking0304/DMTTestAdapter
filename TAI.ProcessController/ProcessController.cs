@@ -229,7 +229,7 @@ namespace TAI.Manager
 
         public bool NotifyFeedingBoxMapValue(ushort value)
         {
-            LogHelper.LogInfoMsg(string.Format("下发上料盘状态[{0}]",value));
+            //LogHelper.LogInfoMsg(string.Format("下发上料盘状态[{0}]",value));
             this.DetectOperator.FeedingBoxMapValue.Datas[0] = value;
             this.WriteChannel.WriteModbusItem(this.DetectOperator.FeedingBoxMapValue);
             return (!this.WriteChannel.HasError);

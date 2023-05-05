@@ -75,6 +75,7 @@ namespace DMTTestAdapter
                     //尝试3次
                     if (this.Manager.VISController.TryQRModelSerialCode(ref serialCode))
                     {
+                        serialCode = serialCode.Replace(',', '|');
                         this.ActiveModule.SerialCode = serialCode;
                         LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-二维码信息[{1}]", this.ActiveModule.ModuleType, serialCode));
 

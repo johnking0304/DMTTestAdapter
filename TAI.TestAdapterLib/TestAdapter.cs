@@ -1258,17 +1258,20 @@ namespace DMTTestAdapter
         }
         public void NotifyFeedingBoxMapValue()
         {
-            byte value = 0;
-            for (int i = 0; i < this.TestingModules.Count; i++)
+            if (this.testState.testingState != TestingState.Recognize)
             {
-                Module module = this.TestingModules[i];
-                if (module != null)
+                byte value = 0;
+                for (int i = 0; i < this.TestingModules.Count; i++)
                 {
-                    bool result = !((int)module.TestStep >= (int)TestStep.Ready);
-                    value = ByteUtils.SetBitValue(value, (byte)(module.PositionIndex - 1), result);
-                }               
+                    Module module = this.TestingModules[i];
+                    if (module != null)
+                    {
+                        bool result = !((int)module.TestStep >= (int)TestStep.Ready);
+                        value = ByteUtils.SetBitValue(value, (byte)(module.PositionIndex - 1), result);
+                    }
+                }
+                this.ProcessController.NotifyFeedingBoxMapValue((ushort)value);
             }
-            this.ProcessController.NotifyFeedingBoxMapValue((ushort)value);
         }
         public override void ProcessResponse(int notifyEvent, string flag, string content, object result, string message, object sender)
         {           

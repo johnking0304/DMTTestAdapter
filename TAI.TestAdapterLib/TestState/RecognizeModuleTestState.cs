@@ -48,7 +48,9 @@ namespace DMTTestAdapter
         {
             this.LastMessage = string.Format("进入【上料状态】-模块识别步骤");
             LogHelper.LogInfoMsg(this.LastMessage);
-            
+
+            this.Manager.ProcessController.NotifyFeedingBoxMapValue((ushort)63);
+
         }
         private int TargetIndex {
             get  =>this.ActiveModule.CurrentPositionValue;              }
