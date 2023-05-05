@@ -187,7 +187,10 @@ namespace DMT.Core.Channels
 					this.listeningThread = null;
 				}
 				//Stop incoming connections
-				this.mainsocket.Close();
+				if (this.mainsocket != null)
+				{
+					this.mainsocket.Close();
+				}
 				this.DisconnectAll();
                 this.LastMessage = "TCP服务关闭成功!";
                 this.Notify(EVENT_TYPE, ChannelControl.Close.ToString(), "", ChannelResult.OK, this.LastMessage);

@@ -35,7 +35,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>dmt.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NModbus4">
@@ -54,9 +55,6 @@
     <Compile Include="Modbus\ModbusTCP.cs" />
     <Compile Include="Modbus\ModbusUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dmt.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">

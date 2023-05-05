@@ -445,6 +445,8 @@ namespace DMTTestAdapter
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
                 int linkChannelId = ConvertChannelId(stationId, channelId);
+                LogHelper.LogInfoMsg(string.Format("实际切换通道:{0}->{1}", channelId, linkChannelId));
+
                 this.SwitchChannelOperate(stationId, (ushort)linkChannelId, type);
                 float value = 0;
                 bool result = this.MeasureDevice.GetValue((ChannelType)type, ref value);
@@ -498,6 +500,9 @@ namespace DMTTestAdapter
                 else
                 {
                     int linkChannelId = ConvertChannelId(stationId,channelId);
+
+                    LogHelper.LogInfoMsg(string.Format("实际切换通道:{0}->{1}", channelId, linkChannelId));
+
                     result = this.SwitchChannelOperate(stationId, (ushort)linkChannelId, type);
 
                     Station station = this.Stations[stationId - 1];
@@ -1258,7 +1263,7 @@ namespace DMTTestAdapter
         }
         public void NotifyFeedingBoxMapValue()
         {
-            if (this.testState.testingState != TestingState.Recognize)
+            if (this.testState != null && this.testState.testingState != TestingState.Recognize)
             {
                 byte value = 0;
                 for (int i = 0; i < this.TestingModules.Count; i++)
