@@ -125,14 +125,18 @@ namespace DMTTestAdapter
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
                 {
-                    this.Manager.Command = OperateCommand.None;
-                    this.LastMessage = string.Format("模块[{0}]测试取消，转换到【工位下料状态】", this.ActiveModule.Description);
-                    LogHelper.LogInfoMsg(this.LastMessage);
+                    Station station = this.Manager.Stations[this.ActiveModule.StationId - 1];
+                    if (station.WaitToBlanking)
+                    {
+                        this.Manager.Command = OperateCommand.None;
+                        this.LastMessage = string.Format("模块[{0}]测试取消，转换到【工位下料状态】", this.ActiveModule.Description);
+                        LogHelper.LogInfoMsg(this.LastMessage);
 
-                    this.Manager.Stations[this.ActiveModule.StationId - 1].LinkedModule = null;
+                        station.LinkedModule = null;
 
-                    this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
-                    this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
+                        this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
+                        this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
+                    }
                 }
             }
 

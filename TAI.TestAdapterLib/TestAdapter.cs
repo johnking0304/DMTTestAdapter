@@ -663,10 +663,6 @@ namespace DMTTestAdapter
             get {
                 foreach (Station station in this.Stations)
                 {
-/*                    if (station.StationType == StationType.Prepare)
-                    {
-                        continue;
-                    }*/
                     if (station.WaitToBlanking)
                     {
                         return station;
