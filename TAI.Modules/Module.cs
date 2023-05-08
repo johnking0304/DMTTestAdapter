@@ -118,7 +118,7 @@ namespace TAI.Modules
     public class Module
     {
 
-        public const int PREPARE_TIME = 1;
+        public const int PREPARE_TIME = 15;
         public int Id { get; set; }
         public string SerialCode { get; set; }
 
@@ -237,6 +237,7 @@ namespace TAI.Modules
                 PositionIndex = this.PositionIndex,
                 LinkStation = this.LinkStation,
                 TargetPosition = this.LinkStation.TestPosition,
+                PrepareMinutes = this.PrepareMinutes,
             };
             return module;
         }

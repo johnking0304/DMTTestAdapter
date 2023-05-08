@@ -101,6 +101,8 @@ namespace DMTTestAdapter
 
         public DeviceType DeviceType { get; set; }
 
+        public  Dictionary<string, int> PrepareMinutes { get; set; }
+
         /// <summary>
         /// 初始化完成
         /// </summary>
@@ -125,6 +127,8 @@ namespace DMTTestAdapter
             this.Stations = new List<Station>();
             this.SystemMessage = new SystemMessage(this.Caption);
             this.ActiveStation = 0;
+
+            this.PrepareMinutes = new Dictionary<string,int>();
 
             this.WaitMilliseconds = 5000;
 
@@ -166,6 +170,8 @@ namespace DMTTestAdapter
 
             this.Service.LoadFromFile(Contant.CONFIG);
             this.Service.Open();
+
+            this.LoadModuleConfig(Contant.MODULE_CONFIG);
                       
             this.LoadFromFile(Contant.CONFIG);
             this.DigitalDevice = new DigitalDevice();
@@ -255,16 +261,50 @@ namespace DMTTestAdapter
             }
 
         }
+        public void SaveModuleConfig(string fileName)
+        {
+            foreach(string key in this.PrepareMinutes.Keys)
+            {               
+                IniFiles.WriteIntValue(fileName, "PrepareMinutes", key, this.PrepareMinutes[key]);
+            }
+        }
 
+        public void LoadModuleConfig(string fileName)
+        {
+            this.PrepareMinutes.Clear();
+            string caption = "PrepareMinutes";
+            for (int i = (int)ModuleType.AI; i <= (int)ModuleType.TC; i++)
+            {
+                string key = ((ModuleType)i).ToString();
+                int value = IniFiles.GetIntValue(fileName, caption, key , 15);
+                this.PrepareMinutes.Add(key, value);
+            }
+
+            string[] list = IniFiles.GetAllSectionNames(fileName);
+
+            if (!((System.Collections.IList)list).Contains(caption))
+            {
+                this.SaveModuleConfig(fileName);
+            }
+        }
 
         public override void LoadFromFile(string fileName)
         {
             string value = IniFiles.GetStringValue(fileName, this.Caption, "MeasureDeviceModel", "Fluke8846");
             this.MeasureDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);
             value =  IniFiles.GetStringValue(fileName, this.Caption, "GeneratorDeviceModel", "Fluke7526");
-            this.GeneratorDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);
-
+            this.GeneratorDeviceModel = (DeviceModel)Enum.Parse(typeof(DeviceModel), value);         
             base.LoadFromFile(fileName);
+            
+        }
+
+        public int GetPrepareMinutes(ModuleType moduleType)
+        {
+            if (this.PrepareMinutes.ContainsKey(moduleType.ToString()))
+            {
+                return this.PrepareMinutes[moduleType.ToString()];
+            }
+            return 0;
         }
 
         public override void SaveToFile(string fileName)

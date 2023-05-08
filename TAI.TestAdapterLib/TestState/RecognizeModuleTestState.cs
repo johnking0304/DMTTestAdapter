@@ -100,6 +100,7 @@ namespace DMTTestAdapter
                                 this.ActiveModule.ChannelCount = channelCount;
                                 this.ActiveModule.LinkStation = this.Manager.GetModuleStation(this.ActiveModule.ModuleType);
                                 this.ActiveModule.Enable = true;
+                                this.ActiveModule.PrepareMinutes = this.Manager.GetPrepareMinutes(type);
                                 LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别完成-类型[{1}],CH[{2}]", moduleType, this.ActiveModule.ModuleType,this.ActiveModule.ChannelCount));
                             }
                             else

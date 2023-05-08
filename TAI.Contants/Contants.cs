@@ -28,6 +28,8 @@ namespace TAI.Constants
 
         public static readonly string PROCESS_CONFIG = Path.Combine(HOME, "processcontroller.ini");
 
+        public static readonly string MODULE_CONFIG = Path.Combine(HOME, "module.ini");
+
         public static string STATIONS
         {
             get => Files.InitializePath(Path.Combine(HOME, "stations"));
