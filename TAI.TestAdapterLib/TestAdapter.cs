@@ -464,6 +464,7 @@ namespace DMTTestAdapter
         {
             switch ((StationType)stationId)
             {
+                case StationType.TC:
                 case StationType.AI:
                 case StationType.AO:
                     {
@@ -471,7 +472,7 @@ namespace DMTTestAdapter
                     }
                 case StationType.RTD_3L:
                 case StationType.RTD_4L:
-                case StationType.TC:
+               
                     {
                         return sourceId;
                     }
