@@ -96,7 +96,7 @@ namespace DMTTestAdapter
                 Station station = this.Manager.StationWaitToBlanking;
                 if (station != null  && station.LinkedModule!=null)
                 {
-                    this.LastMessage = string.Format("模块[{0}]测试取消，等待下料，转换到【工位下料状态】", station.LinkedModule.Description);
+                    this.LastMessage = string.Format("模块[{0}]测试等待下料，转换到【工位下料状态】", station.LinkedModule.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
                     station.LinkedModule.CurrentPosition = station.TestPosition;
                     this.Manager.ProcessController.SetModuleTestResult(station.LinkedModule.Conclusion);                    

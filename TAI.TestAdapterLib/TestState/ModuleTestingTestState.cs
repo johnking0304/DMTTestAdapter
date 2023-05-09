@@ -51,7 +51,6 @@ namespace DMTTestAdapter
                 {
                     this.RobotMoving = false;
                     this.PreparedForOCRLighting = true;
-                    this.PrepareCompleted = true;
                     LogHelper.LogInfoMsg(string.Format("机械手已到达位置,等待模块测试和灯测驱动"));
                     this.PrepareCompleted = true;
                 }
@@ -71,6 +70,14 @@ namespace DMTTestAdapter
                 this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
                 
                 this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
+            }
+
+            if (this.Manager.ReleaseCommand == OperateCommand.ReleaseVISLighting && this.PreparedForOCRLighting)
+            {
+                this.Manager.ReleaseCommand = OperateCommand.None;
+                this.LastMessage = string.Format("模块[{0}]测试工位释放灯测，转换到【总调度状态】", this.ActiveModule.Description);
+                LogHelper.LogInfoMsg(this.LastMessage);
+                this.Manager.TestState = new DispatchTestState(this.Manager);
             }
 
         }

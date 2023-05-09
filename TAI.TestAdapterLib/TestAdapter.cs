@@ -92,6 +92,9 @@ namespace DMTTestAdapter
         public int ActiveStation { get; set; }
         public OperateCommand RequestCommand { get; set; }
 
+        public OperateCommand ReleaseCommand { get; set; }
+
+
         //测试模块
         public List<Module> TestingModules { get; set; }
 
@@ -123,6 +126,8 @@ namespace DMTTestAdapter
             this.Caption = "TestAdapter";
             
             this.Command = OperateCommand.None;
+            this.ReleaseCommand = OperateCommand.None;
+            
             this.TestingModules = new List<Module>();
             this.Stations = new List<Station>();
             this.SystemMessage = new SystemMessage(this.Caption);
@@ -690,8 +695,16 @@ namespace DMTTestAdapter
         public string ReleaseVISLighting(int StationId)
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
-            //this.Command = OperateCommand.ReleaseVISLighting;
-            return string.Format("Ok,{0}", StationId);
+            if (this.TestState.TestingState == TestingState.Testing)
+            {
+                this.ReleaseCommand = OperateCommand.ReleaseVISLighting;
+                return string.Format("Ok,{0}", StationId);
+            }
+            else
+            {
+                return string.Format("Fail,{0}", this.ActiveStation);
+            }
+           
 
         }
 
