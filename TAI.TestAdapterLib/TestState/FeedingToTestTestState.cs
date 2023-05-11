@@ -49,6 +49,9 @@ namespace DMTTestAdapter
                             this.TransferCompleted = true;
                             this.ActiveModule.LinkStation.LinkedModule = this.ActiveModule;
 
+                            this.Delay(1000);
+                            LogHelper.LogInfoMsg(string.Format("P延迟1秒"));
+
                         }
                     }
                     else
@@ -71,6 +74,8 @@ namespace DMTTestAdapter
                     this.RobotMoving = false;
                     LogHelper.LogInfoMsg(string.Format("机械手已到达工位[{0}]，开始识别模块二维码", this.ActiveModule.TargetPosition.ToString()));
 
+
+
                     string serialCode = "";
                     //FIXME 尝试3次
                     if (this.Manager.VISController.TryQRModelSerialCode(ref serialCode))
@@ -84,6 +89,11 @@ namespace DMTTestAdapter
                         this.ActiveModule.SerialCode = "";
                         LogHelper.LogInfoMsg(string.Format("待测模块型号[{0}]识别失败", this.ActiveModule.ModuleType));
                     }
+
+
+                    this.Delay(1000);
+
+                    LogHelper.LogInfoMsg(string.Format("E延迟1秒"));
 
                     //二维码识别完成信号
                     this.Manager.ProcessController.SetModuleQRCompleted();

@@ -273,6 +273,7 @@ namespace TAI.Manager
                 if (this.StartOCRecognize(OCRType.ModelType))
                 {
                     modelType = this.ModelType;
+
                     return true;
                 }
             }
@@ -344,6 +345,7 @@ namespace TAI.Manager
             int tryCount = 1;
             while (!result)
             {
+                
                 if (tryCount <= this.TryCountMax)
                 {
                     result = QRModelSerialCode(ref serialCode);
@@ -369,7 +371,7 @@ namespace TAI.Manager
                 if (this.StartOCRecognize(OCRType.ModelSerialCode))
                 {
                     serialCode = this.ModelSerialCode;
-                    return true;
+                    return serialCode!="";
                 }
             }
             return false;
