@@ -191,42 +191,60 @@ namespace TAI.Manager
         private bool StartOCRecognize(OCRType ocrType)
         {
             OCRecognizeCommand command = new OCRecognizeCommand(this, ocrType);
-            
-            string content = this.TCPChannel.SendCommandSync(command.PackageString());
-            if (content.Contains("T1"))
-            {
-                switch (ocrType)
-                {
-                    case OCRType.ChannelLighting:
-                        {
-                            if (!content.Contains("Channels"))
-                            {
-                                content = this.TCPChannel.Receive();
-                            }
-                            break;
-                        }
-                    case OCRType.ModelSerialCode:
-                        {
-                            if (!content.Contains("Code"))
-                            {
-                                content = this.TCPChannel.Receive();
-                            }
-                            break;
-                        }
-                    case OCRType.ModelType:
-                        {
-                            if (!content.Contains("Module"))
-                            {
-                                content = this.TCPChannel.Receive();
-                            }
-                            break;
-                        }
-                       
-                }
-                return command.ParseResponse(content);
 
+            DateTime start = DateTime.Now;
+            string content = this.TCPChannel.SendCommandSync(command.PackageString());
+
+            bool Responsed = content.Contains("T1");
+
+            while (!Responsed)
+            {
+                Delay(100);
+                content = this.TCPChannel.Receive();
+
+                Responsed = content.Contains("T1");
+
+                TimeSpan span = (DateTime.Now - start);
+                if (span.TotalMilliseconds >= 500)
+                {
+                    LogHelper.LogInfoMsg(string.Format("重试获取识别返回数据T1，时间超时[{0}ms]", 500));
+                    break;
+                }
             }
-            return false;
+
+            LogHelper.LogInfoMsg(string.Format("获取识别返回数据为[{0}]", content));
+
+            switch (ocrType)
+            {
+                case OCRType.ChannelLighting:
+                    {
+                        if (!content.Contains("Channels"))
+                        {
+                            content = this.TCPChannel.Receive();
+                        }
+                        break;
+                    }
+                case OCRType.ModelSerialCode:
+                    {
+                        if (!content.Contains("Code"))
+                        {
+                            content = this.TCPChannel.Receive();
+                        }
+                        break;
+                    }
+                case OCRType.ModelType:
+                    {
+                        if (!content.Contains("Module"))
+                        {
+                            content = this.TCPChannel.Receive();
+                        }
+                        break;
+                    }
+                       
+            }
+            return command.ParseResponse(content);
+
+
             
         }
 
