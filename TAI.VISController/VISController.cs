@@ -339,12 +339,28 @@ namespace TAI.Manager
             return true;
         }
 
+
+        public void Delay(int milliseconds)
+        {
+            DateTime now = DateTime.Now;
+            Boolean inTime = true;
+            while (inTime)
+            {
+                TimeSpan value = DateTime.Now - now;
+                inTime = value.TotalMilliseconds < milliseconds;
+            }
+            return;
+        }
+
         public bool TryQRModelSerialCode(ref string serialCode)
         {
             bool result = QRModelSerialCode(ref serialCode);
             int tryCount = 1;
             while (!result)
             {
+                LogHelper.LogInfoMsg(string.Format("重试[模块二维码]识别,间隔{0}ms", 500));
+
+                this.Delay(500);
                 
                 if (tryCount <= this.TryCountMax)
                 {

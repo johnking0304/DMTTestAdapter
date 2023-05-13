@@ -49,6 +49,7 @@ namespace DMTTestAdapter
                         this.Manager.ProcessController.SetRobotMoveParams(this.ActiveModule.CurrentPositionValue, this.ActiveModule.TargetPositionValue, TAI.Manager.ActionMode.Blanking);
                         this.Manager.ProcessController.SetRobotMoveEnable();
                         LogHelper.LogInfoMsg(string.Format("开始模块[{0}]下料步骤", this.ActiveModule.Description));
+                        Delay(1000);
                         this.RobotMoving = true;
                     }
                 }

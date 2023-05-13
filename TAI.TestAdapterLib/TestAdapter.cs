@@ -697,7 +697,8 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
             if (this.TestState.TestingState == TestingState.Testing)
             {
-                this.ReleaseCommand = OperateCommand.ReleaseVISLighting;
+                //释放灯测 关闭
+                //this.ReleaseCommand = OperateCommand.ReleaseVISLighting;
                 return string.Format("Ok,{0}", StationId);
             }
             else
@@ -959,7 +960,8 @@ namespace DMTTestAdapter
                 {
                     if (module.ModuleType >= ModuleType.DI && module.ModuleType <= ModuleType.PI)
                     {
-                        if (module.TestStep == TestStep.Idle)
+                        // 数字量模块上料条件，模块空闲 && 数字量模块工位空闲
+                        if (module.TestStep == TestStep.Idle && !this.ProcessController.StationIsBusy((StationType)module.StationId))
                         {
                             return module;
                         }

@@ -71,15 +71,15 @@ namespace DMTTestAdapter
                 
                 this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
             }
-
-            if (this.Manager.ReleaseCommand == OperateCommand.ReleaseVISLighting && this.PreparedForOCRLighting)
+            //暂时关闭 响应释放灯测
+/*            if (this.Manager.ReleaseCommand == OperateCommand.ReleaseVISLighting && this.PreparedForOCRLighting)
             {
                 this.Manager.ReleaseCommand = OperateCommand.None;
                 this.Manager.ProcessController.SetModuleOCRLightingCompleted();
                 this.LastMessage = string.Format("模块[{0}]测试工位释放灯测，转换到【总调度状态】", this.ActiveModule.Description);
                 LogHelper.LogInfoMsg(this.LastMessage);
                 this.Manager.TestState = new DispatchTestState(this.Manager);
-            }
+            }*/
 
         }
     }
