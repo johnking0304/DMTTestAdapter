@@ -49,9 +49,6 @@ namespace DMTTestAdapter
                             this.TransferCompleted = true;
                             this.ActiveModule.LinkStation.LinkedModule = this.ActiveModule;
 
-                            this.Delay(1000);
-                            LogHelper.LogInfoMsg(string.Format("P延迟1秒"));
-
                         }
                     }
                     else
@@ -93,7 +90,7 @@ namespace DMTTestAdapter
 
                     this.Delay(1000);
 
-                    LogHelper.LogInfoMsg(string.Format("E延迟1秒"));
+                    LogHelper.LogInfoMsg(string.Format("延迟1秒"));
 
                     //二维码识别完成信号
                     this.Manager.ProcessController.SetModuleQRCompleted();

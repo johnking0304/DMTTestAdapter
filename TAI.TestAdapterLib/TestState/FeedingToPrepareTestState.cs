@@ -47,10 +47,6 @@ namespace DMTTestAdapter
                             LogHelper.LogInfoMsg(string.Format("机械手已到达工位[{0}]，预热工位上料完成",this.ActiveModule.TargetPosition.ToString()));
                             this.TransferCompleted = true;
 
-
-                            this.Delay(1000);
-                            LogHelper.LogInfoMsg(string.Format("P延迟1秒"));
-
                         }
                     }
                     else
@@ -75,8 +71,6 @@ namespace DMTTestAdapter
                 {
                     this.RobotMoving = false;
 
-
-
                     string serialCode = "";
                     //尝试3次
                     if (this.Manager.VISController.TryQRModelSerialCode(ref serialCode))
@@ -94,7 +88,7 @@ namespace DMTTestAdapter
 
                     //二维码识别完成信号
                     this.Delay(1000);
-                    LogHelper.LogInfoMsg(string.Format("E延迟1秒"));
+                    LogHelper.LogInfoMsg(string.Format("延迟1秒"));
 
                     this.Manager.ProcessController.SetModuleQRCompleted();
                     LogHelper.LogInfoMsg(string.Format("使能PLC模块二维码识别完成信号"));
