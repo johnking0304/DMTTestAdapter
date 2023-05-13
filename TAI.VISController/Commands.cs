@@ -143,11 +143,16 @@ namespace TAI.Manager.VIS
                             try
                             {
                                 ModuleSerialCodeResponse response = JsonConvert.DeserializeObject<ModuleSerialCodeResponse>(content);
-                                if (response.Code!=null  && response.Code != "")
+                                if (response.Code != null && response.Code != "")
                                 {
                                     this.controller.ModelSerialCode = response.Code.Trim();
-                                    result = true;
+                                    result = this.controller.ModelSerialCode != "";
                                 }
+                                else
+                                { 
+                                    result =false;
+                                }
+
                             }
                             catch
                             {

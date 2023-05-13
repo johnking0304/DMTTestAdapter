@@ -387,8 +387,12 @@ namespace TAI.Manager
                 if (this.StartOCRecognize(OCRType.ModelSerialCode))
                 {
                     serialCode = this.ModelSerialCode;
-                    return serialCode!="";
+                    return serialCode != "";
                 }
+            }
+            else
+            {
+                LogHelper.LogInfoMsg(string.Format("切换二维码识别程序失败！"));
             }
             return false;
         }
