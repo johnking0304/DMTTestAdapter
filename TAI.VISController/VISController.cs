@@ -205,9 +205,9 @@ namespace TAI.Manager
                 Responsed = content.Contains("T1");
 
                 TimeSpan span = (DateTime.Now - start);
-                if (span.TotalMilliseconds >= 500)
+                if (span.TotalMilliseconds >= 200)
                 {
-                    LogHelper.LogInfoMsg(string.Format("重试获取识别返回数据T1，时间超时[{0}ms]", 500));
+                    LogHelper.LogInfoMsg(string.Format("重试获取识别返回数据T1，时间超时[{0}ms]", 200));
                     break;
                 }
             }
@@ -378,7 +378,7 @@ namespace TAI.Manager
             {
                 LogHelper.LogInfoMsg(string.Format("重试[模块二维码]识别,间隔{0}ms", 500));
 
-                this.Delay(500);
+                this.Delay(200);
                 
                 if (tryCount <= this.TryCountMax)
                 {

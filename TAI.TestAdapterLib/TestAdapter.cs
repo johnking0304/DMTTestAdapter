@@ -697,8 +697,8 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(string.Format("接收命令:工位[{0}]释放灯测服务", ((StationType)StationId).ToString()));
             if (this.TestState.TestingState == TestingState.Testing)
             {
-                //释放灯测 关闭
-                //this.ReleaseCommand = OperateCommand.ReleaseVISLighting;
+                //释放灯测
+                this.ReleaseCommand = OperateCommand.ReleaseVISLighting;
                 return string.Format("Ok,{0}", StationId);
             }
             else
