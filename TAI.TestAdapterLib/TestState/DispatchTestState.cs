@@ -26,6 +26,25 @@ namespace DMTTestAdapter
 
         public override void StateCheck()
         {
+
+            //第一步响应下料请求
+            if (this.Manager.ProcessController.RobotIdle)
+            {
+                Station station = this.Manager.StationWaitToBlanking;
+                if (station != null && station.LinkedModule != null)
+                {
+                    this.LastMessage = string.Format("模块[{0}]测试等待下料，转换到【工位下料状态】", station.LinkedModule.Description);
+                    LogHelper.LogInfoMsg(this.LastMessage);
+                    station.LinkedModule.CurrentPosition = station.TestPosition;
+                    this.Manager.ProcessController.SetModuleTestResult(station.LinkedModule.Conclusion);
+                    this.Manager.TestState = new BlankingTestState(this.Manager, station.LinkedModule);
+                    return;
+                }
+            }
+
+
+
+
             //如果有重新上料 进入上料识别状态  Module   
             if (this.Manager.ProcessController.NewFeedSignal)
             {
@@ -73,23 +92,12 @@ namespace DMTTestAdapter
                     if (module != null  && !this.Manager.ProcessController.StationIsBusy((StationType)module.StationId))
                     {
                         this.Manager.TestState = new FeedingToTestTestState(this.Manager, module,false);
+                        return;
                     }
                 }
             }
  
-            //先响应下料请求
-            if (this.Manager.ProcessController.RobotIdle)
-            {
-                Station station = this.Manager.StationWaitToBlanking;
-                if (station != null  && station.LinkedModule!=null)
-                {
-                    this.LastMessage = string.Format("模块[{0}]测试等待下料，转换到【工位下料状态】", station.LinkedModule.Description);
-                    LogHelper.LogInfoMsg(this.LastMessage);
-                    station.LinkedModule.CurrentPosition = station.TestPosition;
-                    this.Manager.ProcessController.SetModuleTestResult(station.LinkedModule.Conclusion);                    
-                    this.Manager.TestState = new BlankingTestState(this.Manager, station.LinkedModule);
-                }
-            }
+
 
             //响应灯测
             if (this.Manager.RequestCommand == OperateCommand.RequestVISLighting)
@@ -102,6 +110,7 @@ namespace DMTTestAdapter
                     this.LastMessage = string.Format("工位[{0}]灯测请求,进入工位测试状态", module.Description);
                     LogHelper.LogInfoMsg(this.LastMessage);
                     this.Manager.TestState = new ModuleTestingTestState(this.Manager, module);
+                    return;
                 }
             }
         }
