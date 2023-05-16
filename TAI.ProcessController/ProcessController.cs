@@ -436,6 +436,26 @@ namespace TAI.Manager
         }
 
 
+        public bool StationInTesting
+        {
+            get {
+
+                bool result = false;
+                ushort[] data = this.ReadChannel.ReadModbusItem(this.DetectOperator.StationInTesting);
+                if (!this.ReadChannel.HasError)
+                {
+                    result = data[0] == (ushort)Status.Valid;
+                    if (result)
+                    {
+                        this.DetectOperator.StationInTesting.Datas[0] = (ushort)0;
+                        this.WriteChannel.WriteModbusItem(this.DetectOperator.StationInTesting);
+                    }
+                }
+                return result;
+
+
+            }
+        }
 
 
         public bool StartStationTest(int stationId)
@@ -454,7 +474,7 @@ namespace TAI.Manager
 
             this.WriteChannel.WriteModbusItem(this.DetectOperator.StartStationTest);
 
-            LogHelper.LogInfoMsg(string.Format("启动工位[{0}]测试", stationId));
+            LogHelper.LogInfoMsg(string.Format("已发送PLC设置，启动工位[{0}]测试", stationId));
             return (!this.WriteChannel.HasError);
         }
 

@@ -11,6 +11,8 @@ namespace DMTTestAdapter
     public class FeedingToPrepareTestState : TestState
     {
         public Module ActiveModule { get; set; }
+
+        public bool WaitForStationStarted { get; set; }
         public bool TransferCompleted { get; set; }
         public bool CaptureCompleted { get; set; }
         public FeedingToPrepareTestState(TestAdapter manager,Module module) : base(manager)
@@ -124,7 +126,9 @@ namespace DMTTestAdapter
                     //工位下压动作
                     this.Manager.ProcessController.StartStationTest((int)StationType.Prepare);
                     this.Delay(1000);
-                    this.Manager.TestState = new DispatchTestState(this.Manager);
+
+                    this.WaitForStationStarted = true;
+
                 }
                 else if (this.Manager.Command == OperateCommand.StopStationTest)
                 {
@@ -137,6 +141,21 @@ namespace DMTTestAdapter
                         this.ActiveModule.TargetPosition = Position.Out_NG;
                         this.Manager.PrepareStation.LinkedModule = null;
                         this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
+                        return;
+                    }
+                }
+
+
+                if (this.WaitForStationStarted)
+                {
+                    if (this.Manager.ProcessController.StationInTesting)
+                    {
+                        this.WaitForStationStarted = false;
+                        this.LastMessage = string.Format("模块[{0}]预热已开始，转换到【总调度状态】", this.ActiveModule.Description);
+                        LogHelper.LogInfoMsg(this.LastMessage);
+
+                        this.Manager.TestState = new DispatchTestState(this.Manager);
+                        return;
                     }
                 }
             }

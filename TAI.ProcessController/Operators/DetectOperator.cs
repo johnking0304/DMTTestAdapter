@@ -49,6 +49,9 @@ namespace TAI.Manager
         public ModbusItem FeedingBoxMapValue { get; set; }
         public readonly ushort DefaultFeedingBoxMapValueOffset = 26;
 
+        public ModbusItem StationInTesting { get; set; }
+        public readonly ushort DefaultStationInTestingOffset = 27;
+
         public DetectOperator(short baseIndex) : base(baseIndex)
         {
             this.Caption = "DetectOperator";
@@ -76,6 +79,9 @@ namespace TAI.Manager
 
             this.FeedingBoxMapValue = new ModbusItem(this.Caption, "上料工位点位状态", "FeedingBoxMapValue", this.BaseIndex, DefaultFeedingBoxMapValueOffset, 1, ChannelType.AO);
             this.Items.Add(this.FeedingBoxMapValue);
+
+            this.StationInTesting = new ModbusItem(this.Caption, "工位进入测试状态", "StationInTesting", this.BaseIndex, DefaultStationInTestingOffset, 1, ChannelType.AO);
+            this.Items.Add(this.StationInTesting);
 
 
 
