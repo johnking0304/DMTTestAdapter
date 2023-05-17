@@ -140,6 +140,8 @@ namespace DMTTestAdapter
                         this.ActiveModule.CurrentPosition = Position.Prepare;
                         this.ActiveModule.TargetPosition = Position.Out_NG;
                         this.Manager.PrepareStation.LinkedModule = null;
+
+                        this.Manager.ProcessController.SetModuleTestResult(false);
                         this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
                         return;
                     }

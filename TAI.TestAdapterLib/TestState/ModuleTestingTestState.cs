@@ -68,7 +68,8 @@ namespace DMTTestAdapter
                 this.LastMessage = string.Format("模块[{0}]测试完成，转换到【工位下料状态】", this.ActiveModule.Description);
                 LogHelper.LogInfoMsg(this.LastMessage);
                 this.ActiveModule.CurrentPosition = this.ActiveModule.LinkStation.TestPosition;
-                
+
+                this.Manager.ProcessController.SetModuleTestResult(this.ActiveModule.Conclusion);
                 this.Manager.TestState = new BlankingTestState(this.Manager, this.ActiveModule);
             }
             //响应释放灯测
