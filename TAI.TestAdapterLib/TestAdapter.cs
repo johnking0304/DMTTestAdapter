@@ -465,12 +465,24 @@ namespace DMTTestAdapter
             return  this.SystemMessageText;
         }
 
-        public int ConvertChannelId(int stationId, int sourceId)
+        public int ConvertChannelId(int stationId, int sourceId,int channelCount)
         {
             switch ((StationType)stationId)
             {
                 case StationType.TC:
                 case StationType.AI:
+                    {
+                        if (channelCount == 16)
+                        {
+                            return ChannelIdLink.GetOutput(sourceId);
+                        } 
+                        else if (channelCount == 8)
+                        {
+                            return sourceId;
+                        }
+                        break;
+
+                    }
                 case StationType.AO:
                     {
                         return ChannelIdLink.GetOutput(sourceId);
@@ -490,7 +502,17 @@ namespace DMTTestAdapter
             LogHelper.LogInfoMsg(string.Format("接收命令:获取模拟量通道数据[工位={0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channelId, ((ChannelType)type).ToString()));
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
-                int linkChannelId = ConvertChannelId(stationId, channelId);
+                int channelCount = 16;
+                if (stationId == (int)StationType.AI || stationId == (int)StationType.TC)
+                {
+                    Module module = this.Stations[stationId - 1].LinkedModule;
+                    if (module != null)
+                    {
+                        channelCount = module.ChannelCount;
+                    }
+                }
+
+                int linkChannelId = ConvertChannelId(stationId, channelId, channelCount);
                 LogHelper.LogInfoMsg(string.Format("实际切换通道:{0}->{1}", channelId, linkChannelId));
 
                 this.SwitchChannelOperate(stationId, (ushort)linkChannelId, type);
@@ -545,7 +567,17 @@ namespace DMTTestAdapter
                 }
                 else
                 {
-                    int linkChannelId = ConvertChannelId(stationId,channelId);
+                    int channelCount = 16;
+                    if (stationId == (int)StationType.AI || stationId == (int)StationType.TC)
+                    {
+                        Module module = this.Stations[stationId - 1].LinkedModule;
+                        if (module != null)
+                        {
+                            channelCount = module.ChannelCount;
+                        }
+                    }
+
+                    int linkChannelId = ConvertChannelId(stationId,channelId, channelCount);
 
                     LogHelper.LogInfoMsg(string.Format("实际切换通道:{0}->{1}", channelId, linkChannelId));
 

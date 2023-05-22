@@ -39,6 +39,7 @@ namespace TestAPPDemo
             this.comboBoxStation.SelectedIndex = 0;
             this.comboBoxChannelCount.SelectedIndex = 0;
             this.comboBoxDeviceType.SelectedIndex = 0;
+            this.comboBoxCHCount.SelectedIndex = 1;
 
 
         }
@@ -67,7 +68,8 @@ namespace TestAPPDemo
 
             int channelId = this.comboBoxAnaChannel.SelectedIndex + 1;
             int stationId = this.comboBoxStation.SelectedIndex + 4;
-            int linkChannelId = TestAdapter.ConvertChannelId(stationId, channelId);
+            int channelCount = (this.comboBoxCHCount.SelectedIndex + 1) * 8;
+            int linkChannelId = TestAdapter.ConvertChannelId(stationId, channelId, channelCount);
             this.AppendText(string.Format("通道切换:{0}:{1}", channelId, linkChannelId));
 
             bool result = this.TestAdapter.SwitchChannelOperate(stationId, (ushort)linkChannelId, (SwitchMode)this.comboBoxSwitchMode.SelectedIndex);
