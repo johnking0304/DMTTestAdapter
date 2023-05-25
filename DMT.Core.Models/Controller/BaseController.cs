@@ -46,6 +46,8 @@ namespace DMT.Core.Models
         public int ReadIntervalMilliseconds { get; set; }
         public DateTime StartReadDateTime { get; set; }
 
+        public bool Enable { get; set; }
+
         public StatusMessage StatusMessage { get; set; }
 
         public string StatusMessageText { 
@@ -63,14 +65,17 @@ namespace DMT.Core.Models
             this.WaitMilliseconds = 5000;
             this.ReadIntervalMilliseconds = 20;
             this.StatusMessage = new StatusMessage(this.Caption);
+            this.Enable = true;
         }
 
         public virtual void LoadFromFile(string fileName)
         {
             this.ConfigFileName = fileName;
+
+            this.Enable = IniFiles.GetBoolValue(fileName, this.Caption, "Enable",true);
+
             string[] list = IniFiles.GetAllSectionNames(fileName);
             
-
             if (!((System.Collections.IList)list).Contains(this.Caption))
             {
                 this.SaveToFile(fileName);
@@ -80,6 +85,7 @@ namespace DMT.Core.Models
         public virtual void SaveToFile(string fileName)
         {
             this.ConfigFileName = fileName;
+            IniFiles.WriteBoolValue(fileName, this.Caption, "Enable", this.Enable);
         }
 
         public virtual void SaveToFile()
@@ -148,6 +154,19 @@ namespace DMT.Core.Models
             this.Terminated = true;
         }
 
+
+        public void Delay(int milliseconds)
+        {
+            LogHelper.LogInfoMsg(string.Format("等待[{0}]ms", milliseconds));
+            DateTime now = DateTime.Now;
+            Boolean inTime = true;
+            while (inTime)
+            {
+                TimeSpan value = DateTime.Now - now;
+                inTime = value.TotalMilliseconds < milliseconds;
+            }
+            return;
+        }
 
 
 

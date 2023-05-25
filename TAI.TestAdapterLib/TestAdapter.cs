@@ -13,40 +13,6 @@ using DMT.Core.Channels;
 namespace DMTTestAdapter
 {
 
-    public class ChannelIdLink
-    {
-        static Dictionary<int, int> IdLinks = new Dictionary<int, int>() {
-        {1 , 1 },
-        {3 , 2 },
-        {5 , 3 },
-        {7 , 4 },
-        {9 , 5 },
-        {11, 6 },
-        {13, 7 },
-        {15, 8 },
-        {2 , 9 },
-        {4 , 10 },
-        {6 , 11 },
-        {8 , 12 },
-        {10, 13 },
-        {12, 14 },
-        {14, 15 },
-        {16, 16 }
-    };
-
-        public static int GetOutput(int input)
-        {
-            if (IdLinks.ContainsKey(input))
-            {
-                return IdLinks[input];
-            }
-            else
-            {
-                return input;
-            }
-        }
-    }
-
 
     /// <summary>
     /// 测试接口
@@ -390,8 +356,8 @@ namespace DMTTestAdapter
                     {
                         switch ((StationType)stationId)
                         {
-                            case StationType.RTD_3L:
-                            case StationType.RTD_4L:
+                            case StationType.RTD3:
+                            case StationType.RTD4:
                                 {
                                     mode = SwitchMode.RTD;
                                     break;
@@ -475,8 +441,8 @@ namespace DMTTestAdapter
                     {
                         return ChannelIdLink.GetOutput(sourceId);
                     }
-                case StationType.RTD_3L:
-                case StationType.RTD_4L:
+                case StationType.RTD3:
+                case StationType.RTD4:
                
                     {
                         return sourceId;
@@ -656,7 +622,6 @@ namespace DMTTestAdapter
         {
             LogHelper.LogInfoMsg(string.Format("接收命令:通知工位[{0}]测试结果[{1}]", ((StationType)StationId).ToString(), result));
             this.Command = OperateCommand.StopStationTest;
-            //this.ProcessController.SetModuleTestResult(result);
             if ((StationId >=(int)StationType.DI) && (StationId <= (int)StationType.Prepare))
             {
                 Station station = this.Stations[StationId - 1];
@@ -790,7 +755,7 @@ namespace DMTTestAdapter
 
             if (content.Contains("RTD"))
             {
-                return ModuleType.RTD_3L;
+                return ModuleType.RTD3;
             }
             else if (content.Contains("AI"))
             {
@@ -846,8 +811,8 @@ namespace DMTTestAdapter
                                 break;
                             }
                         case ModuleType.AO:
-                        case ModuleType.RTD_3L:
-                        case ModuleType.RTD_4L:
+                        case ModuleType.RTD3:
+                        case ModuleType.RTD4:
                         case ModuleType.PI:
                             {
                                 channelCount = 8;

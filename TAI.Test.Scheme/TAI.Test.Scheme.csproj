@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TAI.Test.Scheme</RootNamespace>
     <AssemblyName>TAI.Test.Scheme</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,22 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SqlSugar, Version=5.1.4.73, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SqlSugar.5.1.4.73\lib\SqlSugar.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models.cs" />
-    <Compile Include="MysqlSugarContext.cs" />
-    <Compile Include="MysqlSugarHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables\Card.cs" />
     <Compile Include="Tables\Criteria.cs" />
@@ -60,9 +56,34 @@
     <Compile Include="Tables\User.cs" />
     <Compile Include="Tables\UserRole.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">
+      <Project>{898A164E-86AA-4D2F-A096-D9AB030AE9C0}</Project>
+      <Name>DMT.Core.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMT.DatabaseAdapter\DMT.DatabaseAdapter.csproj">
+      <Project>{0a2c8c10-39cb-4b64-ae7c-c522f701bab3}</Project>
+      <Name>DMT.DatabaseAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TAI.Device.Analog\TAI.Device.Analog.csproj">
+      <Project>{7D0218DE-A6EB-405B-8BA2-95E258E70A8D}</Project>
+      <Name>TAI.Device.Analog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
+      <Project>{c69632f0-7bcd-4d05-bc99-0d01c334c354}</Project>
+      <Name>TAI.Modules</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MySql.Data">
+      <Version>8.0.33</Version>
+    </PackageReference>
+    <PackageReference Include="SqlSugar">
+      <Version>5.1.4.76</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

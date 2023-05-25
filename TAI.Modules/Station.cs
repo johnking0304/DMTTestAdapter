@@ -31,9 +31,9 @@ namespace TAI.Modules
         [Description("AO测试工位")]
         AO = 5,     //模拟量输出模块（AO）	        nAO080，8通道       
         [Description("RTD三线测试工位")]
-        RTD_3L = 6,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
+        RTD3 = 6,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
         [Description("RTD四线测试工位")]
-        RTD_4L = 7,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
+        RTD4 = 7,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
         [Description("TC测试工位")]
         TC = 8,    //热电偶温度采集模块（TC）	                    8路通道 
         [Description("预热工位")]

@@ -154,12 +154,12 @@ namespace TAI.Manager
                         item = this.SystemOperator.PIStationBusy;
                         break;
                     }
-                case StationType.RTD_3L:
+                case StationType.RTD3:
                     {
                         item = this.SystemOperator.RTD3StationBusy;
                         break;
                     }
-                case StationType.RTD_4L:
+                case StationType.RTD4:
                     {
                         item = this.SystemOperator.RTD4StationBusy;
                         break;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SqlSugar;
-namespace Test.Scheme
+namespace TAI.Test.Scheme
 {
     /// <summary>
     /// 
@@ -14,36 +14,41 @@ namespace Test.Scheme
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signalid" ,IsPrimaryKey = true ,IsIdentity = true  )]
-         public int Signalid { get; set; }
+         public int SignalId { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signalname"    )]
-         public string Signalname { get; set; }
+         public string SignalName { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="namezh"    )]
-         public string Namezh { get; set; }
+         public string AliasName { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signalfrom"    )]
-         public string Signalfrom { get; set; }
+         public string SignalFrom { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signalfromport"    )]
-         public string Signalfromport { get; set; }
+         public string SignalFromPort { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signalto"    )]
-         public string Signalto { get; set; }
+         public string SignalTo { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signaltoport"    )]
-         public string Signaltoport { get; set; }
+         public string SignalToPort { get; set; }
+
+
+
+        [Navigate(typeof(ItemSignal), nameof(ItemSignal.Signalid), nameof(ItemSignal.Itemid))]
+        public List<TestItem> TestItems { get; set; }
     }
 }

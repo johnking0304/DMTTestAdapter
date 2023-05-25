@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TAI.Test.Scheme
+namespace DMT.DatabaseAdapter
 {
     public class MysqlSugarHelper
     {
@@ -39,7 +39,18 @@ namespace TAI.Test.Scheme
             return MysqlSugarContext.MysqlSugarDB.Queryable<T>().InSingle(id);
         }
 
+        /// <summary>
+        /// 根据name查询记录
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T Get<T>(string name)
+        {
 
+            var items = MysqlSugarContext.MysqlSugarDB.Queryable<T>().Where("Name=" + name).ToList();
+            return items.Count > 0 ? items[0] : default(T);
+        }
 
         public static T QueryByKV<T>(string key,string value)
         {

@@ -39,6 +39,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.Device.Environment", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.Test.Scheme", "TAI.Test.Scheme\TAI.Test.Scheme.csproj", "{8EFA5950-1F78-4816-BC7B-5731C705E5AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMTTestStation", "DMTTestStation\DMTTestStation.csproj", "{6AE2398C-EDC3-4D44-AF5B-EA6FC794D98C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMT.DatabaseAdapter", "DMT.DatabaseAdapter\DMT.DatabaseAdapter.csproj", "{0A2C8C10-39CB-4B64-AE7C-C522F701BAB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.TestDispatcher", "TAI.TestDispatcher\TAI.TestDispatcher.csproj", "{02161547-496E-43A5-A408-923539A29DF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.StationManager", "TAI.StationManager\TAI.StationManager.csproj", "{FB4DAD36-8699-4F69-9CD1-AF4FC1BDD6C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAI.NuCONController", "TAI.NuCONController\TAI.NuCONController.csproj", "{DBDE246D-2081-49A3-B8E7-76A25DA14D64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +127,26 @@ Global
 		{8EFA5950-1F78-4816-BC7B-5731C705E5AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EFA5950-1F78-4816-BC7B-5731C705E5AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EFA5950-1F78-4816-BC7B-5731C705E5AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AE2398C-EDC3-4D44-AF5B-EA6FC794D98C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE2398C-EDC3-4D44-AF5B-EA6FC794D98C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE2398C-EDC3-4D44-AF5B-EA6FC794D98C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE2398C-EDC3-4D44-AF5B-EA6FC794D98C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A2C8C10-39CB-4B64-AE7C-C522F701BAB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A2C8C10-39CB-4B64-AE7C-C522F701BAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A2C8C10-39CB-4B64-AE7C-C522F701BAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A2C8C10-39CB-4B64-AE7C-C522F701BAB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02161547-496E-43A5-A408-923539A29DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02161547-496E-43A5-A408-923539A29DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02161547-496E-43A5-A408-923539A29DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02161547-496E-43A5-A408-923539A29DF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB4DAD36-8699-4F69-9CD1-AF4FC1BDD6C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB4DAD36-8699-4F69-9CD1-AF4FC1BDD6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB4DAD36-8699-4F69-9CD1-AF4FC1BDD6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB4DAD36-8699-4F69-9CD1-AF4FC1BDD6C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBDE246D-2081-49A3-B8E7-76A25DA14D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBDE246D-2081-49A3-B8E7-76A25DA14D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBDE246D-2081-49A3-B8E7-76A25DA14D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBDE246D-2081-49A3-B8E7-76A25DA14D64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace TAI.Test.Scheme
+namespace DMT.DatabaseAdapter
 {
     public class MysqlSugarContext
     {
@@ -58,8 +57,6 @@ namespace TAI.Test.Scheme
                     //单例参数配置，所有上下文生效
                     db.Aop.OnLogExecuting = (s, p) =>
                     {
-                        //Console.WriteLine(s);
-                        //Utils.LogHelper.LogSqlMsg(s);
                     };
                 });
                 connStr = connection;

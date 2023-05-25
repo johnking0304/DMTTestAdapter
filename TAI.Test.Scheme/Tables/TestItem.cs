@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SqlSugar;
-namespace Test.Scheme
+namespace TAI.Test.Scheme
 {
     /// <summary>
     /// 
@@ -19,7 +19,7 @@ namespace Test.Scheme
         ///  
         ///</summary>
          [SugarColumn(ColumnName="productid"    )]
-         public string Productid { get; set; }
+         public string ProductId { get; set; }
         /// <summary>
         ///  
         ///</summary>
@@ -29,37 +29,33 @@ namespace Test.Scheme
         ///  
         ///</summary>
          [SugarColumn(ColumnName="namezh"    )]
-         public string Namezh { get; set; }
-        /// <summary>
-        ///  
-        ///</summary>
-        [SugarColumn(ColumnName = "channelnum")]
-        public int ChannelNum { get; set; }
+         public string AliasName { get; set; }
+
         /// <summary>
         ///  
         ///</summary>
         [SugarColumn(ColumnName="level"    )]
-         public int? Level { get; set; }
+         public int Level { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="signalvalue"    )]
-         public decimal? Signalvalue { get; set; }
+         public float Signalvalue { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="criteriatype"    )]
-         public int? Criteriatype { get; set; }
+         public int Criteriatype { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="criteriavalue"    )]
-         public decimal? Criteriavalue { get; set; }
+         public float Criteriavalue { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="criteriatolerance"    )]
-         public decimal? Criteriatolerance { get; set; }
+         public float Criteriatolerance { get; set; }
         /// <summary>
         ///  
         ///</summary>

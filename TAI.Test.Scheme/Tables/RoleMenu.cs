@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SqlSugar;
-namespace Test.Scheme
+namespace TAI.Test.Scheme
 {
     /// <summary>
     /// 

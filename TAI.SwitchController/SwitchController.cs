@@ -33,9 +33,8 @@ namespace TAI.Manager
 
         public override void LoadFromFile(string fileName)
         {
-            this.Channel.LoadFromFile(fileName);
-            
 
+            this.Channel.LoadFromFile(fileName); 
             this.Operator = new SwitchOperator(this.Channel.BaseIndex);
             this.Operator.LoadFromFile(fileName);
 

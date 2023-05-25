@@ -35,5 +35,10 @@ namespace TAI.Constants
             get => Files.InitializePath(Path.Combine(HOME, "stations"));
         }
 
+        public static string CARD_MODULES
+        {
+            get => Files.InitializePath(Path.Combine(HOME, "modules"));
+        }
+
     }
 }

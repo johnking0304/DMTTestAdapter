@@ -11,7 +11,7 @@ namespace TAI.Device
         Initialize = 100,
         Identify   =101,
         GetValue  =201,
-        SetValue  =201, 
+        SetValue  =202, 
 
     }
 

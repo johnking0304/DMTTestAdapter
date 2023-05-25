@@ -10,18 +10,61 @@ using System.ComponentModel;
 namespace TAI.Modules
 {
 
+    public class ChannelIdLink
+    {
+        static Dictionary<int, int> IdLinks = new Dictionary<int, int>() {
+        {1 , 1 },
+        {3 , 2 },
+        {5 , 3 },
+        {7 , 4 },
+        {9 , 5 },
+        {11, 6 },
+        {13, 7 },
+        {15, 8 },
+        {2 , 9 },
+        {4 , 10 },
+        {6 , 11 },
+        {8 , 12 },
+        {10, 13 },
+        {12, 14 },
+        {14, 15 },
+        {16, 16 }
+    };
+
+        public static int GetOutput(int input)
+        {
+            if (IdLinks.ContainsKey(input))
+            {
+                return IdLinks[input];
+            }
+            else
+            {
+                return input;
+            }
+        }
+    }
+
 
 
     public enum ModuleType
     {
+        [Description("未知")]
         None = -1,
+        [Description("数字量输入模块-DI")]
         DI = 1,     //数字量输入模块（DI）	        pDI240，24通道
+        [Description("数字量输出模块-DO")]
         DO = 2,     //数字量输出模块（DO）	        pDO160，16通道
+        [Description("脉冲量输入模块-PI")]
         PI = 3,     //脉冲量输入模块（PI）	        pPI080，8通道，24V/48V 、5V两种类型
+        [Description("脉冲量输入模块-AI")]
         AI = 4,     //模拟量输入模块（AI）	        nAI160，16通道
-        AO = 5,     //模拟量输出模块（AO）	        nAO080，8通道       
-        RTD_3L =6,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
-        RTD_4L = 7,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
+        [Description("模拟量输出模块-AO")]
+        AO = 5,     //模拟量输出模块（AO）	        nAO080，8通道
+        [Description("热电阻温度采集模块-RTD3")]
+        RTD3 = 6,  //热电阻温度采集模块（RTD）	nTD160_3Wire，16通道三线制
+        [Description("热电阻温度采集模块-RTD4")]
+        RTD4 = 7,  //热电阻温度采集模块（RTD）	nTD120_4Wire，12通道四线制
+        [Description("热电偶温度采集模块-TC")]
         TC = 8,    //热电偶温度采集模块（TC）	                    8路通道 
       
     }
