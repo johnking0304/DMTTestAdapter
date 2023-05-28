@@ -12,7 +12,8 @@ namespace TAI.Device
         public Fluke8846() : base()
         {
             this.Caption = "Fluke8846";
-            this.Channel = new SerialChannel(this.Caption);
+            //this.Channel = new SerialChannel(this.Caption);
+            this.Channel = new TCPClientChannel(this.Caption);
             this.Channel.AttachObserver(this.subjectObserver.Update);
             this.StatusMessage.Name = this.Caption;
         }
@@ -40,7 +41,7 @@ namespace TAI.Device
 
         public override bool Open()
         {
-            this.Channel.Open();
+            this.Channel.OpenSync();
             return this.Channel.Active();
         }
 

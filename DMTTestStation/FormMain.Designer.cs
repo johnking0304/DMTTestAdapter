@@ -30,10 +30,9 @@ namespace DMTTestStation
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("控制器信息");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("控制器信息");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -50,9 +49,6 @@ namespace DMTTestStation
             this.imageListTreeView = new System.Windows.Forms.ImageList(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.toolStripTestOperate = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonStartTest = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonPauseTest = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonStopTest = new System.Windows.Forms.ToolStripButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.richTextBoxLogs = new System.Windows.Forms.RichTextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -62,11 +58,17 @@ namespace DMTTestStation
             this.treeViewCUInfo = new System.Windows.Forms.TreeView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.toolStripCU = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonLoadCUInfo = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogCU = new System.Windows.Forms.OpenFileDialog();
             this.imageListListView = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDeleteAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonStartTest = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPauseTest = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonStopTest = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonLoadCUInfo = new System.Windows.Forms.ToolStripButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,6 +83,7 @@ namespace DMTTestStation
             this.groupBoxCU.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolStripCU.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
@@ -94,16 +97,6 @@ namespace DMTTestStation
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(1689, 80);
             this.panelMain.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::DMTTestStation.Properties.Resources.logoWithSnpas_360;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(471, 60);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // panel2
             // 
@@ -250,6 +243,9 @@ namespace DMTTestStation
             this.toolStripTestOperate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripTestOperate.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStripTestOperate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonDelete,
+            this.toolStripButtonDeleteAll,
+            this.toolStripSeparator1,
             this.toolStripButtonStartTest,
             this.toolStripButtonPauseTest,
             this.toolStripButtonStopTest});
@@ -259,33 +255,6 @@ namespace DMTTestStation
             this.toolStripTestOperate.Size = new System.Drawing.Size(1283, 80);
             this.toolStripTestOperate.TabIndex = 0;
             this.toolStripTestOperate.Text = "toolStrip2";
-            // 
-            // toolStripButtonStartTest
-            // 
-            this.toolStripButtonStartTest.Image = global::DMTTestStation.Properties.Resources.Start;
-            this.toolStripButtonStartTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStartTest.Name = "toolStripButtonStartTest";
-            this.toolStripButtonStartTest.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonStartTest.Text = "全部开始";
-            this.toolStripButtonStartTest.Click += new System.EventHandler(this.toolStripButtonStartTest_Click);
-            // 
-            // toolStripButtonPauseTest
-            // 
-            this.toolStripButtonPauseTest.Image = global::DMTTestStation.Properties.Resources.Pause;
-            this.toolStripButtonPauseTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonPauseTest.Name = "toolStripButtonPauseTest";
-            this.toolStripButtonPauseTest.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonPauseTest.Text = "全部暂停";
-            this.toolStripButtonPauseTest.Click += new System.EventHandler(this.toolStripButtonPauseTest_Click);
-            // 
-            // toolStripButtonStopTest
-            // 
-            this.toolStripButtonStopTest.Image = global::DMTTestStation.Properties.Resources.Stop;
-            this.toolStripButtonStopTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStopTest.Name = "toolStripButtonStopTest";
-            this.toolStripButtonStopTest.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonStopTest.Text = "全部停止";
-            this.toolStripButtonStopTest.Click += new System.EventHandler(this.toolStripButtonStopTest_Click);
             // 
             // groupBox2
             // 
@@ -361,10 +330,10 @@ namespace DMTTestStation
             this.treeViewCUInfo.Location = new System.Drawing.Point(5, 97);
             this.treeViewCUInfo.Margin = new System.Windows.Forms.Padding(5);
             this.treeViewCUInfo.Name = "treeViewCUInfo";
-            treeNode1.Name = "节点0";
-            treeNode1.Text = "控制器信息";
+            treeNode2.Name = "节点0";
+            treeNode2.Text = "控制器信息";
             this.treeViewCUInfo.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewCUInfo.SelectedImageKey = "module.png";
             this.treeViewCUInfo.Size = new System.Drawing.Size(391, 770);
             this.treeViewCUInfo.TabIndex = 1;
@@ -393,15 +362,6 @@ namespace DMTTestStation
             this.toolStripCU.TabIndex = 0;
             this.toolStripCU.Text = "toolStrip1";
             // 
-            // toolStripButtonLoadCUInfo
-            // 
-            this.toolStripButtonLoadCUInfo.Image = global::DMTTestStation.Properties.Resources.Open;
-            this.toolStripButtonLoadCUInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonLoadCUInfo.Name = "toolStripButtonLoadCUInfo";
-            this.toolStripButtonLoadCUInfo.Size = new System.Drawing.Size(74, 55);
-            this.toolStripButtonLoadCUInfo.Text = "载入";
-            this.toolStripButtonLoadCUInfo.Click += new System.EventHandler(this.toolStripButtonLoadCUInfo_Click);
-            // 
             // openFileDialogCU
             // 
             this.openFileDialogCU.Filter = "控制器配置文件(*.txt)|*.txt";
@@ -414,6 +374,75 @@ namespace DMTTestStation
             this.imageListListView.Images.SetKeyName(1, "Testing.png");
             this.imageListListView.Images.SetKeyName(2, "Finish.png");
             this.imageListListView.Images.SetKeyName(3, "Error.png");
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripButtonDelete
+            // 
+            this.toolStripButtonDelete.Image = global::DMTTestStation.Properties.Resources.Delete;
+            this.toolStripButtonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDelete.Name = "toolStripButtonDelete";
+            this.toolStripButtonDelete.Size = new System.Drawing.Size(74, 75);
+            this.toolStripButtonDelete.Text = "删除";
+            this.toolStripButtonDelete.Click += new System.EventHandler(this.toolStripButtonDelete_Click);
+            // 
+            // toolStripButtonDeleteAll
+            // 
+            this.toolStripButtonDeleteAll.Image = global::DMTTestStation.Properties.Resources.DeleteAll;
+            this.toolStripButtonDeleteAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDeleteAll.Name = "toolStripButtonDeleteAll";
+            this.toolStripButtonDeleteAll.Size = new System.Drawing.Size(110, 75);
+            this.toolStripButtonDeleteAll.Text = "全部删除";
+            this.toolStripButtonDeleteAll.Click += new System.EventHandler(this.toolStripButtonDeleteAll_Click);
+            // 
+            // toolStripButtonStartTest
+            // 
+            this.toolStripButtonStartTest.Image = global::DMTTestStation.Properties.Resources.Start;
+            this.toolStripButtonStartTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStartTest.Name = "toolStripButtonStartTest";
+            this.toolStripButtonStartTest.Size = new System.Drawing.Size(110, 75);
+            this.toolStripButtonStartTest.Text = "全部开始";
+            this.toolStripButtonStartTest.Click += new System.EventHandler(this.toolStripButtonStartTest_Click);
+            // 
+            // toolStripButtonPauseTest
+            // 
+            this.toolStripButtonPauseTest.Image = global::DMTTestStation.Properties.Resources.Pause;
+            this.toolStripButtonPauseTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPauseTest.Name = "toolStripButtonPauseTest";
+            this.toolStripButtonPauseTest.Size = new System.Drawing.Size(110, 75);
+            this.toolStripButtonPauseTest.Text = "全部暂停";
+            this.toolStripButtonPauseTest.Click += new System.EventHandler(this.toolStripButtonPauseTest_Click);
+            // 
+            // toolStripButtonStopTest
+            // 
+            this.toolStripButtonStopTest.Image = global::DMTTestStation.Properties.Resources.Stop;
+            this.toolStripButtonStopTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStopTest.Name = "toolStripButtonStopTest";
+            this.toolStripButtonStopTest.Size = new System.Drawing.Size(110, 75);
+            this.toolStripButtonStopTest.Text = "全部停止";
+            this.toolStripButtonStopTest.Click += new System.EventHandler(this.toolStripButtonStopTest_Click);
+            // 
+            // toolStripButtonLoadCUInfo
+            // 
+            this.toolStripButtonLoadCUInfo.Image = global::DMTTestStation.Properties.Resources.Open;
+            this.toolStripButtonLoadCUInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadCUInfo.Name = "toolStripButtonLoadCUInfo";
+            this.toolStripButtonLoadCUInfo.Size = new System.Drawing.Size(74, 55);
+            this.toolStripButtonLoadCUInfo.Text = "载入";
+            this.toolStripButtonLoadCUInfo.Click += new System.EventHandler(this.toolStripButtonLoadCUInfo_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DMTTestStation.Properties.Resources.logoWithSnpas_360;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(471, 60);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // FormMain
             // 
@@ -433,7 +462,6 @@ namespace DMTTestStation
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.panelMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -454,6 +482,7 @@ namespace DMTTestStation
             this.panel3.PerformLayout();
             this.toolStripCU.ResumeLayout(false);
             this.toolStripCU.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -493,6 +522,9 @@ namespace DMTTestStation
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialogCU;
         private System.Windows.Forms.ImageList imageListListView;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDelete;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDeleteAll;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

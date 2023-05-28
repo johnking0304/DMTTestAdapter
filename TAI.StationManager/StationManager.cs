@@ -71,10 +71,14 @@ namespace TAI.StationManager
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
             this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
             this.MeasureDevice.Open();
+            this.MeasureDevice.Start();
+
 
             this.GeneratorDevice = AnalogDeviceFactory.CreateDevice(this.GeneratorDeviceModel);
             this.GeneratorDevice.LoadFromFile(Contant.ANALOG_CONFIG);
             this.GeneratorDevice.Open();
+            this.GeneratorDevice.Start();
+
             this.SwitchControllers = new List<SwitchController>();
 
             for (int i = (int)StationType.AI; i <= (int)StationType.TC; i++)
@@ -92,6 +96,11 @@ namespace TAI.StationManager
 
         }
 
+       
+        public override void ProcessEvent()
+        {
+            this.Notify((int)NotifyEvents.Update, "Status", "", null, "");
+        }
 
 
         public bool Initialize()
@@ -216,9 +225,12 @@ namespace TAI.StationManager
             module.TestDispatcher.AttachObserver(this.subjectObserver.Update);
         }
 
-        public void StopModuleTest(CardModule module)
+        public void RemoveModuleTest(CardModule module)
         {            
             module.TestDispatcher.DetachObserver(this.subjectObserver.Update);
+            module.TestDispatcher.Dispose();
+            module.TestDispatcher = null;
+            module.Operator = null;
         }
 
 

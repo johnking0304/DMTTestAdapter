@@ -85,15 +85,16 @@ namespace TAI.TestDispatcher
 
 
         
+        public bool IsTesting {
 
+            get {
+                return this.TestDispatcher ==null|| this.TestDispatcher.TestState.TestingState == TestingState.Testing || this.TestDispatcher.TestState.TestingState == TestingState.Pause;
+            }
+        }
         public bool Initialize()
         {
-            if (this.TestDispatcher == null)
-            {
-                this.TestDispatcher = new TestDispatcher(this);
-                this.TestDispatcher.Initialize();
-            }
-            this.TestDispatcher.Clear();
+            this.TestDispatcher = new TestDispatcher(this);
+            this.TestDispatcher.Initialize();           
             return true;             
         }
 

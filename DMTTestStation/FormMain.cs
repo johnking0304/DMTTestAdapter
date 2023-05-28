@@ -104,7 +104,6 @@ namespace DMTTestStation
 
         private void InsertCardModule(CardModule card)
         {
-
             ListViewItem item = new ListViewItem();
             item.Text = (listViewCardTest.Items.Count+1).ToString();
             item.SubItems.Add(card.Description);
@@ -142,18 +141,19 @@ namespace DMTTestStation
             }
         }
 
-        private void listViewCardTest_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        private void RefreshCardModuleItemList()
         {
             try
             {
                 this.listViewCardTest.BeginUpdate();
-                
-                for(int i=0;i<this.listViewCardTest.Items.Count;i++)
+
+                for (int i = 0; i < this.listViewCardTest.Items.Count; i++)
                 {
                     ListViewItem item = this.listViewCardTest.Items[i];
+                    item.Text = (i + 1).ToString();
                     CardModuleItem cardItem = (CardModuleItem)item.Tag;
                     int rowIndex = i;
-                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.ProgressBar, 3, rowIndex, 1, 0.8f);
+                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.ProgressBar, 3, rowIndex);
                     Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StartButton, 5, rowIndex);
                     Windows.UpdateControlToListView(this.listViewCardTest, cardItem.PauseButton, 6, rowIndex);
                     Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StopButton, 7, rowIndex);
@@ -163,6 +163,10 @@ namespace DMTTestStation
             {
                 this.listViewCardTest.EndUpdate();
             }
+        }
+        private void listViewCardTest_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            this.RefreshCardModuleItemList();
         }
 
         public void Update(int notifyEvent, string flag, string content, object result, string message, object sender)
@@ -182,6 +186,11 @@ namespace DMTTestStation
             }
         }
 
+        private void RefreshDeviceStatus()
+        { 
+                 
+        }
+
         private void RefreshTestData(CardModule card)
         {
             CardModuleItem moduleItem = this.FindCardModuleItem(card);
@@ -199,6 +208,14 @@ namespace DMTTestStation
                 NotifyEvents notifyEvent = (NotifyEvents)Event;
                 switch (notifyEvent)
                 {
+                    case NotifyEvents.Update:
+                        {
+                            if (flag == "Stauts")
+                            {
+                                this.RefreshDeviceStatus();
+                            }
+                            break;
+                        }
                     case NotifyEvents.Message:
                         {
                             if (result is CardModule)
@@ -278,6 +295,62 @@ namespace DMTTestStation
                 }
             }
         }
+
+        private void toolStripButtonDelete_Click(object sender, EventArgs e)
+        {
+            if (this.listViewCardTest.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem item in this.listViewCardTest.SelectedItems)
+                {
+                    CardModuleItem cardItem = (CardModuleItem)(item.Tag);
+                    if (cardItem.CardModule.IsTesting)
+                    {
+                        Windows.MessageBoxWarning("请先停止测试！");
+                        return;
+                    }
+                }
+
+                foreach (ListViewItem item in this.listViewCardTest.SelectedItems)
+                {
+                    CardModuleItem cardItem = (CardModuleItem)(item.Tag);
+                    Program.StationManager.RemoveModuleTest(cardItem.CardModule);
+                    cardItem.Dispose();
+                    
+                }
+
+                for (int i = this.listViewCardTest.SelectedItems.Count-1; i >= 0; i--)
+                {
+                    this.listViewCardTest.Items.RemoveAt(this.listViewCardTest.SelectedItems[i].Index);
+                }
+
+                this.RefreshCardModuleItemList();
+            }
+        }
+
+        private void toolStripButtonDeleteAll_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.listViewCardTest.Items)
+            {
+                CardModuleItem cardItem = (CardModuleItem)(item.Tag);
+                if (cardItem.CardModule.IsTesting)
+                {
+                    Windows.MessageBoxWarning("请先停止测试！");
+                    return;
+                }
+            }
+
+            foreach (ListViewItem item in this.listViewCardTest.Items)
+            {
+                CardModuleItem cardItem = (CardModuleItem)(item.Tag);
+                Program.StationManager.RemoveModuleTest(cardItem.CardModule);
+                cardItem.Dispose();
+            }
+
+            this.listViewCardTest.Items.Clear();
+
+           
+
+        }
     }
 
 
@@ -317,6 +390,19 @@ namespace DMTTestStation
             this.ProgressBar.Minimum = 0;
             this.ProgressBar.Maximum = 100;
         }
+
+        public void Dispose()
+        {
+            this.StopButton.Visible = false; 
+            this.StartButton.Visible = false;
+            this.ProgressBar.Visible = false;
+            this.PauseButton.Visible = false;
+            this.StopButton.Dispose();
+            this.StartButton.Dispose();
+            this.ProgressBar.Dispose();
+            this.PauseButton.Dispose();
+        }
+
 
         public void StartTest()
         {

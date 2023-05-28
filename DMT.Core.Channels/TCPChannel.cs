@@ -316,12 +316,17 @@ namespace DMT.Core.Channels
         public override string Receive()
         {
 
-
+            if (!this.Active())
+            {
+                this.LastErrorCode = ChannelResult.ReceiveError;
+                this.LastMessage = string.Format("通道未建立，接收返回数据失败!");
+                return "";
+            }
             ResponseResult resResult = ResponseResult.Unknown;
             string ReceiveString = "";
 
             byte[] ReceiveBytes = new byte[RECEIVE_BUFFER_SIZE];
-
+           
             NetworkStream ClientStream = this.TCPClient.GetStream();
             var asyncResult = ClientStream.BeginRead(ReceiveBytes, 0, RECEIVE_BUFFER_SIZE, null, null);
             asyncResult.AsyncWaitHandle.WaitOne(this.ReadTimeout);

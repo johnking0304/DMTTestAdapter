@@ -1,4 +1,5 @@
 ﻿using System;
+using DMT.Core.Channels;
 using DMT.Core.Models;
 
 
@@ -20,6 +21,12 @@ namespace TAI.Device
     public class DeviceMaster : BaseDevice
     {
         public string Identify { get; set; }
+
+        public TCPClientChannel TCPChannel {
+            get {
+                return (TCPClientChannel)this.Channel;
+            }
+        }
 
         public DeviceMaster() : base()
         {
@@ -62,18 +69,23 @@ namespace TAI.Device
         }
 
 
-        public void Delay(int milliseconds)
+        public override bool SendCommand(string command)
         {
-            DateTime now = DateTime.Now;
-            Boolean inTime = true;
-            while (inTime)
-            {
-                TimeSpan value = DateTime.Now - now;
-                inTime = value.TotalMilliseconds < milliseconds;
-            }
-            return;
+            return this.Channel.SendCommandNoReply(command);
         }
 
+        public void Start()
+        {
+            this.StartThread();
+        }
+
+        public override void ProcessEvent()
+        {
+            if (!this.Active())
+            {
+                this.TCPChannel.ReConnect();
+            }
+        }
 
     }
 

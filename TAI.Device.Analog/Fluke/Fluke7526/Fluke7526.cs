@@ -22,7 +22,8 @@ namespace TAI.Device
         public Fluke7526() : base()
         {
             this.Caption = "Fluke7526";
-            this.Channel = new SerialChannel(this.Caption);
+            //this.Channel = new SerialChannel(this.Caption);
+            this.Channel = new TCPClientChannel(this.Caption);
             this.Channel.AttachObserver(this.subjectObserver.Update);
             this.StatusMessage.Name = this.Caption;
             this.RTDType = RTDType.None;
@@ -44,7 +45,6 @@ namespace TAI.Device
         }
 
 
-
         public override void LoadFromFile(string fileName)
         {
             
@@ -53,7 +53,7 @@ namespace TAI.Device
 
         public override bool Open()
         {
-            this.Channel.Open();
+            this.Channel.OpenSync();
             return this.Channel.Active();
         }
 

@@ -133,6 +133,8 @@
     <None Include="Resources\Open.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\DeleteAll.png" />
+    <None Include="Resources\Delete.png" />
     <Content Include="Test.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

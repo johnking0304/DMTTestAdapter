@@ -39,7 +39,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>dmt.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,9 +81,6 @@
     <Compile Include="Fluke\Fluke8846\Fluke8846.cs" />
     <Compile Include="IAnalogDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dmt.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj">

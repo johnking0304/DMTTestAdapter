@@ -52,6 +52,11 @@ namespace TAI.TestDispatcher
             this.TestScheme= new TestScheme(this.CardModule.CardType);           
         }
 
+        public void Dispose()
+        {
+            this.Clear();
+        }
+
         public bool Initialize()
         { 
             return this.TestScheme.LoadSchemeFromDatabase();
