@@ -9,16 +9,59 @@ using Newtonsoft.Json;
 
 namespace TAI.TestDispatcher
 {
+    public enum CardType
+    {
+        gNone =-1,
+        gDIA =1,
+        gDOA =2,
+        gPIA=3,
+        gAIB=4,
+        gAOB=5,
+        gTDA=6,
+        gTCB=8,
+    }
 
-    public class CardModule
+
+
+    public class BaseCardModule
+    {
+        [JsonProperty(propertyName: "index")]
+        public int Index { get; set; }
+
+        public string cardTypeText { get; set; }
+
+        [JsonProperty(propertyName: "cardType")]
+        public string CardTypeText
+        {
+            get
+            {
+                return cardTypeText;
+            }
+            set
+            {
+                this.cardTypeText = value;
+                try
+                {
+                    CardType cardType = (CardType)Enum.Parse(typeof(CardType), value);
+                    this.CardType = (ModuleType)cardType;
+                }
+                catch
+                {
+                    this.CardType = ModuleType.None;
+                }
+
+
+            }
+        }
+
+        public ModuleType CardType { get; set; }
+    }
+
+    public class CardModule:BaseCardModule
     {
         [JsonProperty(propertyName: "cageNum")]
         public string CageNum { get; set; }
-
-        [JsonProperty(propertyName: "index")]
-        public int Index { get; set; }
-        public string cardType { get; set; }
-        public ModuleType CardType { get; set; }
+      
 
         [JsonProperty(propertyName: "cardNo")]
         public int CardNo { get; set; }
@@ -33,11 +76,15 @@ namespace TAI.TestDispatcher
 
         public TestDispatcher TestDispatcher{get;set;}
 
+        public object Operator { get; set; }
+
         public string Description
         {
-            get => CardType.Description();
+            get => string.Format("{0}-{1}:{2}",this.CardNo,this.CageNum,CardType.Description());
         }
 
+
+        
 
         public bool Initialize()
         {
@@ -52,7 +99,7 @@ namespace TAI.TestDispatcher
 
     }
 
-    public class CardModuleGroup
+    public class CardModuleGroup: BaseCardModule
     {
         [JsonProperty(propertyName: "cards")]
         public List<CardModule> Cards { get; set; }
@@ -60,9 +107,12 @@ namespace TAI.TestDispatcher
         [JsonProperty(propertyName: "caption")]
         public string Caption { get; set; }
 
-        public string cardType { get; set; }
 
-        public ModuleType CardType { get; set; }
+        public string Description
+        {
+            get => CardType.Description();
+        }
+
     }
 
     public class ControlUnit
@@ -72,6 +122,8 @@ namespace TAI.TestDispatcher
         [JsonProperty(propertyName: "cu")]
         public string Caption { get; set; }
 
+        public string Name { get; set; }
+
 
         [JsonProperty(propertyName: "cardGroups")]
         public List<CardModuleGroup> CardGroups { get; set; }
@@ -79,7 +131,7 @@ namespace TAI.TestDispatcher
         public ControlUnit()
         {
             this.Index = 0;
-            this.Caption = "";
+            this.Name = "控制器";
             this.CardGroups = new List<CardModuleGroup>();
         }
     }

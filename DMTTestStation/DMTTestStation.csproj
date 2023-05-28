@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Test.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,14 +85,55 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DMT.Core.Models\DMT.Core.Models.csproj">
+      <Project>{4ED54FD6-18E8-406E-8EBA-BE3AF8983C15}</Project>
+      <Name>DMT.Core.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMT.Core.Utils\DMT.Core.Utils.csproj">
+      <Project>{898a164e-86aa-4d2f-a096-d9ab030ae9c0}</Project>
+      <Name>DMT.Core.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DMT.DatabaseAdapter\DMT.DatabaseAdapter.csproj">
       <Project>{0a2c8c10-39cb-4b64-ae7c-c522f701bab3}</Project>
       <Name>DMT.DatabaseAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
+      <Project>{C69632F0-7BCD-4D05-BC99-0D01C334C354}</Project>
+      <Name>TAI.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TAI.StationManager\TAI.StationManager.csproj">
+      <Project>{fb4dad36-8699-4f69-9cd1-af4fc1bdd6c3}</Project>
+      <Name>TAI.StationManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TAI.Test.Scheme\TAI.Test.Scheme.csproj">
       <Project>{8efa5950-1f78-4816-bc7b-5731c705e5ac}</Project>
       <Name>TAI.Test.Scheme</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TAI.TestDispatcher\TAI.TestDispatcher.csproj">
+      <Project>{02161547-496E-43A5-A408-923539A29DF8}</Project>
+      <Name>TAI.TestDispatcher</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logoWithSnpas-360.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

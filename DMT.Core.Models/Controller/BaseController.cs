@@ -33,8 +33,22 @@ namespace DMT.Core.Models
     }
 
 
+    public enum NotifyEvents
+    {
+        Initialize = 100,
+        Reset = 101,
+        Update = 102,
+        Insert = 103,
+        Delete = 104,
+        Show = 105,
+        
+        Message = 200,
+        Progress = 201,
+    }
 
-     public class BaseController : SuperSubject 
+
+
+    public class BaseController : SuperSubject 
     {
         public string Caption { get; set; }
         public string ConfigFileName { get; set; }

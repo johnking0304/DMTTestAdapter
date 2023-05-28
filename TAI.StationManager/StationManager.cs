@@ -14,6 +14,7 @@ using System.IO;
 using Newtonsoft.Json;
 using TAI.TestDispatcher;
 using TAI.Test.Scheme;
+using DMT.DatabaseAdapter;
 
 namespace TAI.StationManager
 {
@@ -26,6 +27,8 @@ namespace TAI.StationManager
         public DeviceMaster GeneratorDevice { get; set; }
         public List<SwitchController> SwitchControllers { get; set; }
 
+        public MysqlConfig MysqlConfig { get; set; }
+
         public DeviceType DeviceType { get; set; }
         public List<Station> Stations { get; set; }
         public ControlUnit ControlUnit { get; set; }
@@ -37,12 +40,8 @@ namespace TAI.StationManager
             this.Caption = "StationManager";
             this.Stations = new List<Station>();
             this.WaitMilliseconds = 5000;
-            foreach (StationType type in Enum.GetValues(typeof(StationType)))
-            {
-                Station station = new Station(type);
-                this.Stations.Add(station);
-                station.LoadCompensates(Contant.STATIONS);
-            }
+
+            
             this.LoadConfig();
         }
 
@@ -51,6 +50,19 @@ namespace TAI.StationManager
         private void LoadConfig()
         {
             this.LoadFromFile(Contant.CONFIG);
+
+            this.MysqlConfig = new MysqlConfig("SchemeDatabase");
+
+            this.MysqlConfig.LoadFromFile(Contant.CONFIG);
+
+            foreach (StationType type in Enum.GetValues(typeof(StationType)))
+            {
+                Station station = new Station(type);
+                this.Stations.Add(station);
+                station.LoadCompensates(Contant.STATIONS);
+            }
+
+
             this.DigitalDevice = new DigitalDevice();
             this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
             this.DigitalDevice.Open();
@@ -87,6 +99,8 @@ namespace TAI.StationManager
             bool result = this.DigitalDevice.Initialize();
             result &= this.MeasureDevice.Initialize();
             result &= this.GeneratorDevice.Initialize();
+            result &= MysqlSugarContext.SetupMysql(this.MysqlConfig.Address, this.MysqlConfig.Port, this.MysqlConfig.DatabaseName, this.MysqlConfig.UserName, this.MysqlConfig.Password) =="";
+
 
             foreach (SwitchController switchController in this.SwitchControllers)
             {
@@ -194,11 +208,17 @@ namespace TAI.StationManager
 
 
 
-        public void  StartModuleTest(CardModule module)
+        public void InitializeModuleTest(CardModule module)
         {
             module.Initialize();
             this.RegisterDeviceFunction(module);
-            module.TestDispatcher.StartWorking();
+            module.TestDispatcher.InitializeWorking();
+            module.TestDispatcher.AttachObserver(this.subjectObserver.Update);
+        }
+
+        public void StopModuleTest(CardModule module)
+        {            
+            module.TestDispatcher.DetachObserver(this.subjectObserver.Update);
         }
 
 
@@ -316,11 +336,11 @@ namespace TAI.StationManager
             return sourceId;
         }
 
-        public bool GetAnalogueChannelValue(int stationId, string channel, int channelDataType, ref float dataVale)
+        public bool GetAnalogueChannelValue(int stationId, string channel, int channelDataType, ref float dataVale ,ref string message)
         {
             int channelId = int.Parse(channel);
-
-            LogHelper.LogInfoMsg(string.Format("获取模拟量通道数据[工位={0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString()));
+            message = string.Format("获取模拟量通道数据[{0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString());
+            LogHelper.LogInfoMsg(message);
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
                 int linkChannelId = ConvertChannelId(stationId, channelId);
@@ -337,22 +357,24 @@ namespace TAI.StationManager
             }
         }
 
-        public bool GetDigitalChannelValue(int stationId, string channel, int channelDataType, ref float dataVale)
+        public bool GetDigitalChannelValue(int stationId, string channel, int channelDataType, ref float dataVale, ref string message)
         {
             int channelId = int.Parse(channel);
             bool value = false;
-            LogHelper.LogInfoMsg(string.Format("获取数字量通道数据[通道={0}]", channelId));
+            message = string.Format("获取数字量通道数据[通道={0}]", channelId);
+            LogHelper.LogInfoMsg(message);
             bool result = this.DigitalDevice.GetValue(channelId, ref value);
             return result;
         }
 
 
-        public bool SetAnalogueChannelValue(int stationId, string channel, int channelDataType, float value)
+        public bool SetAnalogueChannelValue(int stationId, string channel, int channelDataType, float value,ref string message)
         {
             int channelId = int.Parse(channel);
             if (stationId >= (int)StationType.PI && stationId <= (int)StationType.TC)
             {
-                LogHelper.LogInfoMsg(string.Format("设置模拟量通道数据[类型={0},通道={1},类型={2},值={3}]", ((ModuleType)stationId).Description(), channelId, ((ChannelType)channelDataType).Description(), value));
+                message = string.Format("设置模拟量通道数据[类型={0},通道={1},类型={2},值={3}]", ((ModuleType)stationId).Description(), channelId, ((ChannelType)channelDataType).Description(), value);
+                LogHelper.LogInfoMsg(message);
                 bool result = true;
                 if (stationId == (int)StationType.PI)
                 {
@@ -393,26 +415,31 @@ namespace TAI.StationManager
             }
         }
 
-        public bool SetDigitalChannelValue(int stationId, string channel, int channelDataType, float value)
+        public bool SetDigitalChannelValue(int stationId, string channel, int channelDataType, float value , ref string message )
         {
             int channelId = int.Parse(channel);
-            LogHelper.LogInfoMsg(string.Format("设置数量通道数据[通道={0},值={1}]", channelId, value));
+            message = string.Format("设置数量通道数据[通道={0},值={1}]", channelId, value);
+            LogHelper.LogInfoMsg(message);
             bool setValue = DoubleUtils.AreEqual(value, 1);
             bool result = this.DigitalDevice.SetValue(channelId, setValue);
             return result;
         }
 
 
-        public bool SetNuCONChannelValue(int stationId, string channel, int channelDataType, float value)
+        public bool SetNuCONChannelValue(int stationId, string channel, int channelDataType, float value ,ref string message)
         {
-
+            message = string.Format("设置NuCON通道数据[类型={0},通道={1},类型={2},值={3}]", ((ModuleType)stationId).Description(), channel, ((ChannelType)channelDataType).Description(), value);
             return true;
 
         }
 
-        public bool GetNuCONChannelValue(int stationId, string channel, int channelDataType, ref float dataVale)
+        public bool GetNuCONChannelValue(int stationId, string channel, int channelDataType, ref float dataVale,ref string message)
         {
+
+            message = string.Format("获取NuCON通道数据[{0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channel, ((ChannelType)channelDataType).ToString());
+
             return true;
         }
+
     }
 }

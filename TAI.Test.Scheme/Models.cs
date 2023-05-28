@@ -12,9 +12,9 @@ using DMT.Core.Utils;
 namespace TAI.Test.Scheme
 {
 
-    public delegate bool SetChannelValueDelegate(int stationId, string channelId, int dataType, float value);
+    public delegate bool SetChannelValueDelegate(int stationId, string channelId, int dataType, float value,ref string message);
 
-    public delegate bool GetChannelValueDelegate(int stationId, string channelId, int dataType, ref float value);
+    public delegate bool GetChannelValueDelegate(int stationId, string channelId, int dataType, ref float value,ref string message);
 
 
     public enum SignalType 
@@ -123,7 +123,7 @@ namespace TAI.Test.Scheme
             return DoubleUtils.GreaterThan(value, this.CriteriaValue);
         }
 
-        public void ProcessConclusion(float data)
+        public bool ProcessConclusion(float data)
         {
             this.SimpleData = data;
             switch (this.CriteriaType)
@@ -156,8 +156,9 @@ namespace TAI.Test.Scheme
             }
 
             this.StopDateTime = DateTime.Now;
-
+            return this.Conclusion;
         }
+        
 
     }
 
@@ -261,7 +262,9 @@ namespace TAI.Test.Scheme
             this.SignalItems = new List<SignalItem>();
 
             this.TestItems = new List<TestItemNode>();
-    }
+
+            this.ProcessIntervalMillisecond = 0;
+        }
         public bool LoadSchemeFromDatabase()
         {
             this.SignalItems.Clear();

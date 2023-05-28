@@ -31,6 +31,17 @@ namespace TAI.TestDispatcher
 
         public int ActiveTestItemIndex { get; set; }
 
+        public int ProgressValue { get
+
+            {
+                if (this.TestScheme.TestItems.Count > 0)
+                {
+                    double percent = ((this.ActiveTestItemIndex + 1.0) / this.TestScheme.TestItems.Count )* 100.0f; 
+                    return (int)Math.Round(percent);
+                }
+                return 100;
+            } }
+
         public bool TestCompleted { get; set; }
 
         public TestState TestState { get; set; }
@@ -64,11 +75,14 @@ namespace TAI.TestDispatcher
         {
             if (this.ActiveTestItem != null)
             {
-                this.ActiveTestItem.SetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalFromPort, (int)this.TestScheme.ChannelDataType, this.ActiveTestItem.SignalValue);
+                string message = "";
+                bool result = this.ActiveTestItem.SetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalFromPort, (int)this.TestScheme.ChannelDataType, this.ActiveTestItem.SignalValue,ref message);
+                this.NotifyMessage(message);
                 this.Delay(this.TestScheme.ProcessIntervalMillisecond);
+                this.NotifyMessage(string.Format("等待[{0}]ms", this.TestScheme.ProcessIntervalMillisecond));
                 float dataValue = 0;
-                this.ActiveTestItem.GetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalToPort, (int)this.TestScheme.ChannelDataType, ref dataValue);
-
+                this.ActiveTestItem.GetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalToPort, (int)this.TestScheme.ChannelDataType, ref dataValue,ref message);
+                this.NotifyMessage(message);
                 this.ActiveTestItem.ProcessConclusion(dataValue);
                 this.ActiveTestItemIndex += 1;
             }
@@ -87,24 +101,32 @@ namespace TAI.TestDispatcher
             }
         }
 
+        public void NotifyMessage(string message)
+        {
+            this.Notify((int)NotifyEvents.Message,this.CardModule.Description,"",this.CardModule,message);
+        }
+
 
         public void Clear()
         {
+            
             this.Terminated = false;
             this.ActiveTestItemIndex = 0;
+            this.TestCompleted = false;
             foreach (var item in this.TestScheme.TestItems)
             {
                 item.Clear();
             }
+            this.NotifyMessage("测试板卡数据初始化完成");
         
         }
 
-        public void StartWorking()
+        public void InitializeWorking()
         {
             this.Clear();
             this.TestState = new IdleTestState(this);
             this.StartThread();
-            this.StartTest();
+
         }
 
 
@@ -112,6 +134,14 @@ namespace TAI.TestDispatcher
         {
             if (this.TestState != null)
             {
+                switch (this.TestState.TestingState)
+                {
+                    case TestingState.Finish:
+                        {
+                            this.InitializeWorking();
+                            break;
+                        }
+                }
                 this.TestState.ActiveCommand = OperateCommand.StartTest;
             }
         }

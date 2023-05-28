@@ -1,15 +1,67 @@
-﻿using SqlSugar;
+﻿using DMT.Core.Utils;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DMT.DatabaseAdapter
 {
+    public class MysqlConfig
+    {
+        public string Section { get; set; }
+        public string Address { get; set; }
+        public string Port { get; set; }
+        public string DatabaseName { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+
+        public MysqlConfig(string section)
+        {
+            this.Section = section;
+            this.Address = "127.0.0.1";
+            this.Port = "3306";
+            this.DatabaseName = "DataBaseName";
+            this.UserName = "root";
+            this.Password = "123456";
+        }
+
+        public void LoadFromFile(string fileName)
+        {
+
+            this.Address = IniFiles.GetStringValue(fileName, Section, "Address", "127.0.0.1");
+            this.Port = IniFiles.GetStringValue(fileName, Section, "Port", "3306");
+            this.DatabaseName = IniFiles.GetStringValue(fileName, Section, "DatabaseName", "DataBaseName");
+            this.UserName = IniFiles.GetStringValue(fileName, Section, "UserName", "root");
+            this.Password = IniFiles.GetStringValue(fileName, Section, "Password", "123456");
+
+            string[] list = IniFiles.GetAllSectionNames(fileName);
+            if (!list.Contains(Section))
+            {
+                this.SaveToFile(fileName);
+            }
+        }
+        public void SaveToFile(string fileName)
+        {
+            IniFiles.WriteStringValue(fileName, Section, "Address", this.Address);
+            IniFiles.WriteStringValue(fileName, Section, "Port", this.Port);
+            IniFiles.WriteStringValue(fileName, Section, "DatabaseName", this.DatabaseName);
+            IniFiles.WriteStringValue(fileName, Section, "UserName", this.UserName);
+            IniFiles.WriteStringValue(fileName, Section, "Password", this.Password);
+        }
+
+
+
+    }
+
+
+
     public class MysqlSugarContext
     {
         private static string connStr { get; set; }
+
         private static SqlSugar.SqlSugarScope mysqlSugarDB { get; set; }
 
         public static SqlSugar.SqlSugarScope MysqlSugarDB
@@ -35,6 +87,9 @@ namespace DMT.DatabaseAdapter
             string connect = string.Format("server={0};Port={1};Database={2};Uid={3};Pwd={4}", address, port, dbName, userName, pwd);
             return SetupMysql(connect);
         }
+
+
+
 
         /// <summary>
         /// 配置连接数据库
@@ -65,9 +120,10 @@ namespace DMT.DatabaseAdapter
             {
                 msg = ex.Message;
                 ReleaseMysqlScope();
+                return msg;
             }
 
-            return msg;
+            return "";
         }
 
         /// <summary>

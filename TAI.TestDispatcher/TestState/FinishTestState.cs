@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DMT.Core.Models;
 using DMT.Core.Utils;
 
 namespace TAI.TestDispatcher
@@ -16,25 +17,31 @@ namespace TAI.TestDispatcher
             this.Caption = "结束状态";
             this.TestingState = TestingState.Finish;
             this.Operated = false;
+            this.Dispatcher.Notify((int)NotifyEvents.Progress, this.TestingState.ToString(), "", this.Dispatcher.CardModule, this.LastMessage);
         }
 
         public override void Initialize()
         {
             this.LastMessage = "进入【结束状态】";
             LogHelper.LogInfoMsg(this.LastMessage);
+            this.Dispatcher.NotifyMessage(this.LastMessage);
         }
 
         public override void Execute()
         {
             //处理报告
+            this.Operated = true;
 
-
+            this.LastMessage = "测试报告处理完成";
+            LogHelper.LogInfoMsg(this.LastMessage);
             this.StateCheck();
         }
         public override void StateCheck()
         {
             if (this.Operated)
-            {
+            {               
+                this.LastMessage = "======测试结束=====";
+                this.Dispatcher.NotifyMessage(this.LastMessage);
                 this.Dispatcher.StopThread();
             }
         }
