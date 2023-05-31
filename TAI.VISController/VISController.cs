@@ -137,15 +137,19 @@ namespace TAI.Manager
         {
             VISProgram item = (VISProgram)Enum.Parse(typeof(VISProgram), type.ToString());
             int pid = this.GetProgramId(item);
-            switch (type)
+            if (channelCount == 16)
             {
-                case ModuleType.AI:
-                case ModuleType.TC:
-                    {
-                        pid = pid + 10;
-                        break;
-                    }
+                switch (type)
+                {
+                    case ModuleType.AI:
+                    case ModuleType.TC:
+                        {
+                            pid = pid + 10;
+                            break;
+                        }
+                }
             }
+            LogHelper.LogInfoMsg(string.Format("当前视觉程序编号[{0}]", pid));
             return pid;
 
         }
