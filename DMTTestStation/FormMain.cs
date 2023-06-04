@@ -13,18 +13,22 @@ using TAI.StationManager;
 using TAI.TestDispatcher;
 using DMT.Core.Utils;
 using DMT.Core.Models;
+using TAI.Modules;
 
 namespace DMTTestStation
 {
 
-
     public partial class FormMain : Form
     {
+        public const int DescriptionColumnIndex = 1;
+        public const int ProgressColumnIndex = 3;
+        public const int ConclusionColumnIndex = 4;
+        public const int StartButtonColumnIndex = 5;
+        public const int PauseButtonColumnIndex = 6;
+        public const int StopButtonColumnIndex = 7;
 
-        public const int ImageIdleIndex = 0;
-        public const int ImageTestingIndex = 1;
-        public const int ImageFinishIndex = 2;
-        public const int ImageErrorIndex = 3;
+        public FormLogs FormMainLogs { get; set; }
+
 
         public FormMain()
         {
@@ -36,8 +40,18 @@ namespace DMTTestStation
             Program.StationManager = new StationManager();
             Program.StationManager.Initialize();
             Program.StationManager.AttachObserver(this.Update);
+            this.InitializeFormViewer();
         }
 
+
+        private void InitializeFormViewer()
+        {
+            this.FormMainLogs = new FormLogs("ALL");
+            Windows.AddFormToContainer(this.FormMainLogs,this.tabPageMain);
+            Program.StationManager.AttachObserver(this.FormMainLogs.Update);
+        }
+
+        
         private void RefreshControlUnitTreeViewer()
         {
             this.treeViewCUInfo.BeginUpdate();
@@ -46,18 +60,26 @@ namespace DMTTestStation
                 this.treeViewCUInfo.Nodes.Clear();
                 ControlUnit CU = Program.StationManager.ControlUnit;
                 TreeNode mainNode = this.treeViewCUInfo.Nodes.Add("ControlUnit", Program.StationManager.ControlUnit.Name);
+                mainNode.ImageIndex = 0;
+                mainNode.SelectedImageIndex = 0;
                 foreach (var cardGroup in CU.CardGroups)
                 {
                     TreeNode cardGroupNode = mainNode.Nodes.Add("CardGroup", cardGroup.Description);
                     cardGroupNode.Tag = cardGroup;
+                    cardGroupNode.ImageIndex = 2;
+                    cardGroupNode.SelectedImageIndex = 2;
                     foreach (var card in cardGroup.Cards)
                     {
                         TreeNode cardNode = cardGroupNode.Nodes.Add("Card", card.Description);
                         cardNode.Tag = card;
                         cardNode.Checked = false;
+                        cardNode.ImageIndex = 3;
+                        cardNode.SelectedImageIndex = 1;
+                        card.Node = cardNode;
                     }
                 }
                 this.treeViewCUInfo.ExpandAll();
+                
             }
             finally
             {
@@ -69,11 +91,18 @@ namespace DMTTestStation
 
         private void toolStripButtonLoadCUInfo_Click(object sender, EventArgs e)
         {
+
+            if (this.Testing())
+            {
+                return;
+            }
+             
             if (this.openFileDialogCU.ShowDialog() == DialogResult.OK)
             {
                 bool result = Program.StationManager.LoadControlUnit(this.openFileDialogCU.FileName);
                 if (result)
                 {
+                    this.DeleteAllCardModule();
                     this.RefreshControlUnitTreeViewer();
                 }
                 else
@@ -83,10 +112,7 @@ namespace DMTTestStation
             }
         }
 
-        private void DeleteCardModule(CardModule card)
-        { 
-            
-        }
+        
 
         private CardModuleItem FindCardModuleItem(CardModule card)
         {
@@ -102,6 +128,15 @@ namespace DMTTestStation
             return null;
         }
 
+        private void UpdateOperateButtonStatus()
+        {
+            this.toolStripButtonDeleteAll.Enabled = this.listViewCardTest.Items.Count > 0;
+            this.toolStripButtonDelete.Enabled = this.listViewCardTest.SelectedItems.Count > 0;
+            this.toolStripButtonPauseTest.Enabled = this.listViewCardTest.Items.Count > 0;
+            this.toolStripButtonStartTest.Enabled = this.listViewCardTest.Items.Count > 0;
+            this.toolStripButtonStopTest.Enabled = this.listViewCardTest.Items.Count > 0;
+            this.toolStripButtonScan.Enabled = this.listViewCardTest.Items.Count > 0;
+        }
         private void InsertCardModule(CardModule card)
         {
             ListViewItem item = new ListViewItem();
@@ -113,34 +148,85 @@ namespace DMTTestStation
             item.SubItems.Add("");
             item.SubItems.Add("");
             item.SubItems.Add("");
-            item.StateImageIndex = ImageIdleIndex;
-            CardModuleItem cardItem = new CardModuleItem(card);
+            item.StateImageIndex = CardModuleItem.ImageIdleIndex;
+            CardModuleItem cardItem = new CardModuleItem(card,item);
+            cardItem.CanStartTest += this.CanStartTest;
             item.Tag = cardItem;
             this.listViewCardTest.Items.Add(item);
 
             int rowIndex = listViewCardTest.Items.Count - 1;
-            Windows.AddControlToListView(this.listViewCardTest, cardItem.ProgressBar, 3, rowIndex, 1, 0.8f);
-            Windows.AddControlToListView(this.listViewCardTest, cardItem.StartButton, 5, rowIndex);
-            Windows.AddControlToListView(this.listViewCardTest, cardItem.PauseButton, 6, rowIndex);
-            Windows.AddControlToListView(this.listViewCardTest, cardItem.StopButton, 7, rowIndex);
+            Windows.AddControlToListView(this.listViewCardTest, cardItem.ProgressBar, ProgressColumnIndex, rowIndex);
+            Windows.AddControlToListView(this.listViewCardTest, cardItem.StartButton, StartButtonColumnIndex, rowIndex);
+            Windows.AddControlToListView(this.listViewCardTest, cardItem.PauseButton, PauseButtonColumnIndex, rowIndex);
+            Windows.AddControlToListView(this.listViewCardTest, cardItem.StopButton, StopButtonColumnIndex, rowIndex);
             card.Operator = cardItem;
 
+            cardItem.TabPageLogs.Parent = this.tabControlLogs;
         }
 
-        private void treeViewCUInfo_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void InsertCardModuleToListView()
         {
-            if (treeViewCUInfo.SelectedNode.Tag is CardModule)
+            if (treeViewCUInfo.SelectedNode != null)
             {
-                CardModule card = (CardModule)treeViewCUInfo.SelectedNode.Tag;
-                if (card.Operator == null)
+                if (treeViewCUInfo.SelectedNode.Tag is CardModule)
                 {
-                    this.InsertCardModule(card);
-                    Program.StationManager.InitializeModuleTest(card);
+                    CardModule card = (CardModule)treeViewCUInfo.SelectedNode.Tag;
+                    if (card.Operator == null)
+                    {                       
+                        Program.StationManager.InitializeModuleTest(card);
+                        this.InsertCardModule(card);
+                        this.UpdateOperateButtonStatus();
 
+                    }
                 }
             }
+
+        }
+        private void treeViewCUInfo_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.InsertCardModuleToListView();
         }
 
+
+        public bool CanStartTest(CardModule module)
+        {
+            switch (module.CardType)
+            {
+                case ModuleType.DI:
+                case ModuleType.DO:
+                case ModuleType.PI:
+                case ModuleType.AO:
+                    {
+                        foreach (ListViewItem item in this.listViewCardTest.Items)
+                        {
+                            CardModuleItem cardItem = (CardModuleItem)(item.Tag);
+                            if (!module.Equals(cardItem.CardModule) && module.CardType == cardItem.CardModule.CardType && cardItem.InTesting)
+                            {
+                                return false;
+                            }
+                        }
+                        break;
+                    }              
+                case ModuleType.AI:
+                case ModuleType.RTD3:
+                case ModuleType.RTD4:
+                case ModuleType.TC:
+                    {
+                        foreach (ListViewItem item in this.listViewCardTest.Items)
+                        {
+                            CardModuleItem cardItem = (CardModuleItem)(item.Tag);
+
+                            ModuleType[] types = new ModuleType[4] { ModuleType.AI, ModuleType.RTD3,ModuleType.RTD4,ModuleType.TC };
+                            if (!module.Equals(cardItem.CardModule) && types.Contains(cardItem.CardModule.CardType) &&  cardItem.InTesting)
+                            {
+                                return false;
+                            }
+                        }
+                        break;
+                    }
+            }
+            return true;
+        }
         private void RefreshCardModuleItemList()
         {
             try
@@ -153,10 +239,12 @@ namespace DMTTestStation
                     item.Text = (i + 1).ToString();
                     CardModuleItem cardItem = (CardModuleItem)item.Tag;
                     int rowIndex = i;
-                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.ProgressBar, 3, rowIndex);
-                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StartButton, 5, rowIndex);
-                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.PauseButton, 6, rowIndex);
-                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StopButton, 7, rowIndex);
+
+                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.ProgressBar, ProgressColumnIndex, rowIndex);
+                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StartButton, StartButtonColumnIndex, rowIndex);
+                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.PauseButton, PauseButtonColumnIndex, rowIndex);
+                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StopButton, StopButtonColumnIndex, rowIndex);
+
                 }
             }
             finally
@@ -187,8 +275,8 @@ namespace DMTTestStation
         }
 
         private void RefreshDeviceStatus()
-        { 
-                 
+        {
+            this.toolStripStatusLabelDeviceStatus.Image = Program.StationManager.DeviceStatus ? global::DMTTestStation.Properties.Resources.Connected : global::DMTTestStation.Properties.Resources.Disconnected;
         }
 
         private void RefreshTestData(CardModule card)
@@ -197,7 +285,7 @@ namespace DMTTestStation
             if (moduleItem !=null)
             {
                 moduleItem.ProgressBar.Value = card.TestDispatcher.ProgressValue;
-
+                moduleItem.ViewItem.SubItems[ConclusionColumnIndex].Text = card.TestDispatcher.ProgressValueContent;
             }
         }
 
@@ -210,7 +298,7 @@ namespace DMTTestStation
                 {
                     case NotifyEvents.Update:
                         {
-                            if (flag == "Stauts")
+                            if (flag == "Status")
                             {
                                 this.RefreshDeviceStatus();
                             }
@@ -221,34 +309,47 @@ namespace DMTTestStation
                             if (result is CardModule)
                             {
                                 this.RefreshTestData((CardModule)result);
-                                this.richTextBoxLogs.AppendText(string.Format("{0}:{1}-{2}\r", DateTime.Now.ToString(), flag,message));
-                            }
+                           }
                             break;
                         }
                     case NotifyEvents.Progress:
                         {
                             try
                             {
-                                TestingState state = (TestingState)Enum.Parse(typeof(TestingState), flag);
-                                if (state == TestingState.Finish) 
+                                if (result is CardModule)
                                 {
-                                    if (result is CardModule)
+                                    CardModule cardModule = (CardModule)result;
+                                    CardModuleItem moduleItem = this.FindCardModuleItem(cardModule);
+                                    if (moduleItem != null)
                                     {
-                                        CardModule cardModule = (CardModule)result;
-                                        CardModuleItem moduleItem = this.FindCardModuleItem(cardModule);
-                                        if (moduleItem != null)
-                                        {                                            
-                                            moduleItem.StopTest(true);
+                                        TestingState state = (TestingState)Enum.Parse(typeof(TestingState), flag);
+                                        switch (state)
+                                        {
+                                            case TestingState.Finish:
+                                                {
+                                                    moduleItem.StopTest(true);
+                                                    break;
+                                                }                                          
+                                        }
+                                        if (cardModule.TestDispatcher.TestCompleted)
+                                        {
+                                            moduleItem.ViewItem.StateImageIndex = cardModule.TestDispatcher.TestScheme.Conclusion ? CardModuleItem.ImageFinishPassIndex : CardModuleItem.ImageFinishNGIndex;
+                                            moduleItem.ViewItem.SubItems[ConclusionColumnIndex].Text = cardModule.TestDispatcher.TestScheme.Conclusion ? "PASS" : "NG";
+                                            
+                                        }
+                                        else
+                                        {
+                                            moduleItem.ViewItem.SubItems[ConclusionColumnIndex].Text = "--";
                                         }
                                     }
-                               }
-                            }
+                                }
+
+                             }
                             catch
                             { 
                                 
                             }
                                                      
-                            this.richTextBoxLogs.AppendText(string.Format("{0}:{1}-{2}\r", DateTime.Now.ToString(), flag, message));
                             break;
                         }
                 }
@@ -296,6 +397,7 @@ namespace DMTTestStation
             }
         }
 
+
         private void toolStripButtonDelete_Click(object sender, EventArgs e)
         {
             if (this.listViewCardTest.SelectedItems.Count > 0)
@@ -305,7 +407,7 @@ namespace DMTTestStation
                     CardModuleItem cardItem = (CardModuleItem)(item.Tag);
                     if (cardItem.CardModule.IsTesting)
                     {
-                        Windows.MessageBoxWarning("请先停止测试！");
+                        Windows.MessageBoxWarning("请先停止板卡测试！");
                         return;
                     }
                 }
@@ -313,9 +415,9 @@ namespace DMTTestStation
                 foreach (ListViewItem item in this.listViewCardTest.SelectedItems)
                 {
                     CardModuleItem cardItem = (CardModuleItem)(item.Tag);
-                    Program.StationManager.RemoveModuleTest(cardItem.CardModule);
                     cardItem.Dispose();
-                    
+                    Program.StationManager.RemoveModuleTest(cardItem.CardModule);
+                                       
                 }
 
                 for (int i = this.listViewCardTest.SelectedItems.Count-1; i >= 0; i--)
@@ -325,131 +427,104 @@ namespace DMTTestStation
 
                 this.RefreshCardModuleItemList();
             }
+            this.UpdateOperateButtonStatus();
         }
 
-        private void toolStripButtonDeleteAll_Click(object sender, EventArgs e)
+        private bool Testing()
         {
             foreach (ListViewItem item in this.listViewCardTest.Items)
             {
                 CardModuleItem cardItem = (CardModuleItem)(item.Tag);
                 if (cardItem.CardModule.IsTesting)
                 {
-                    Windows.MessageBoxWarning("请先停止测试！");
-                    return;
+                    Windows.MessageBoxWarning("请先停止板卡测试！");
+                    return true;
                 }
             }
+            return false;
+        }
+        private void DeleteAllCardModule()
+        {
+
+            if (this.Testing())
+            {
+                return;           
+            }
+
 
             foreach (ListViewItem item in this.listViewCardTest.Items)
             {
                 CardModuleItem cardItem = (CardModuleItem)(item.Tag);
-                Program.StationManager.RemoveModuleTest(cardItem.CardModule);
                 cardItem.Dispose();
+                Program.StationManager.RemoveModuleTest(cardItem.CardModule);
+                
             }
 
             this.listViewCardTest.Items.Clear();
 
-           
+        }
+        private void toolStripButtonDeleteAll_Click(object sender, EventArgs e)
+        {
+
+            this.DeleteAllCardModule();
+            this.UpdateOperateButtonStatus();
 
         }
-    }
 
-
-
-    public class CardModuleItem:SubjectObserver
-    {
-        public Button StartButton { get; set; }
-        public Button PauseButton { get; set; }
-        public Button StopButton { get; set; }
-        public ProgressBar ProgressBar { get; set; }
-
-        public CardModule CardModule { get; set; }
-
-        public CardModuleItem(CardModule card)
+        private void listViewCardTest_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.CardModule = card;
-            this.StartButton = new Button();
-            this.StartButton.Text = "开始";
-            this.StartButton.Enabled = true;           
-            this.StartButton.Click += (EventHandler)this.OnStartClick;
-            //this.StartButton.Image = global::DMTTestStation.Properties.Resources.Start;
-
-            this.PauseButton = new Button();
-            this.PauseButton.Text = "暂停";
-            this.PauseButton.Enabled = false;
-            this.PauseButton.Click += (EventHandler)this.OnPauseClick;
-            //this.PauseButton.Image = global::DMTTestStation.Properties.Resources.Pause;
-
-            this.StopButton = new Button();
-            this.StopButton.Text = "停止";
-            this.StopButton.Enabled = false;
-            this.StopButton.Click += (EventHandler)this.OnStopClick;
-            //this.StopButton.Image = global::DMTTestStation.Properties.Resources.Stop;
-
-            this.ProgressBar = new ProgressBar();
-            this.ProgressBar.Value = 0;
-            this.ProgressBar.Minimum = 0;
-            this.ProgressBar.Maximum = 100;
+            this.UpdateOperateButtonStatus();
         }
 
-        public void Dispose()
+        private void timer_Tick(object sender, EventArgs e)
         {
-            this.StopButton.Visible = false; 
-            this.StartButton.Visible = false;
-            this.ProgressBar.Visible = false;
-            this.PauseButton.Visible = false;
-            this.StopButton.Dispose();
-            this.StartButton.Dispose();
-            this.ProgressBar.Dispose();
-            this.PauseButton.Dispose();
+            this.toolStripStatusLabelTime.Text = DateTime.Now.ToString("yyyy-M-d HH:mm:ss");
         }
 
-
-        public void StartTest()
+        private void ToolStripMenuItemInsertToList_Click(object sender, EventArgs e)
         {
-            this.CardModule.TestDispatcher.StartTest();
-            this.StartButton.Enabled = false;
-            this.PauseButton.Enabled = true;
-            this.StopButton.Enabled = true;
+            this.InsertCardModuleToListView();
         }
 
-        protected void OnStartClick(object sender,EventArgs e)
+        private void treeViewCUInfo_MouseUp(object sender, MouseEventArgs e)
         {
-            this.StartTest();
-        }
-
-        public void PauseTest()
-        {
-            this.CardModule.TestDispatcher.PauseTest();
-            this.StartButton.Enabled = true;
-            this.PauseButton.Enabled = false;
-            this.StopButton.Enabled = true;
-        }
-        protected void OnPauseClick(object sender,EventArgs e)
-        {
-            this.PauseTest();
-        }
-
-        public void StopTest(bool normal=false)
-        {
-            if (!normal)
+            if (e.Button == MouseButtons.Right)
             {
-                this.CardModule.TestDispatcher.StopTest();
+                this.contextMenuStripTreeView.Enabled = treeViewCUInfo.SelectedNode != null && treeViewCUInfo.SelectedNode.Tag is CardModule;
             }
-            this.StartButton.Enabled = true;
-            this.PauseButton.Enabled = false;
-            this.StopButton.Enabled = false;
         }
-        protected void OnStopClick(object sender,EventArgs e)
+
+        private void toolStripButtonExpand_Click(object sender, EventArgs e)
         {
-            this.StopTest();
+            this.treeViewCUInfo.ExpandAll();
         }
 
+        private void toolStripButtonCollapse_Click(object sender, EventArgs e)
+        {
+            this.treeViewCUInfo.CollapseAll();
+        }
 
-
-        
-
-
+        private void toolStripButtonScan_Click(object sender, EventArgs e)
+        {
+            if (this.listViewCardTest.SelectedItems.Count == 1)
+            {
+                CardModuleItem cardModuleItem = (CardModuleItem)(this.listViewCardTest.SelectedItems[0].Tag);
+                CardModule card = cardModuleItem.CardModule;
+                FormInput formInput = new FormInput();
+                formInput.ShowDialog();
+                if (formInput.DialogResult == DialogResult.OK)
+                {
+                    card.SerialCode = formInput.SerialCode;
+                    this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;
+                    cardModuleItem.StartButton.Enabled = true;
+                    ((TreeNode)card.Node).Text = card.Description;
+                }
+            }
+        }
     }
+
+
+
 
 
 

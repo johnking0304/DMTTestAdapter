@@ -36,6 +36,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +85,10 @@
     <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
       <Project>{c69632f0-7bcd-4d05-bc99-0d01c334c354}</Project>
       <Name>TAI.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TAI.NuCONController\TAI.NuCONController.csproj">
+      <Project>{dbde246d-2081-49a3-b8e7-76a25da14d64}</Project>
+      <Name>TAI.NuCONController</Name>
     </ProjectReference>
     <ProjectReference Include="..\TAI.SwitchController\TAI.SwitchController.csproj">
       <Project>{cb2405df-1b9c-4122-adce-c18922249963}</Project>

@@ -61,6 +61,8 @@ namespace TAI.TestDispatcher
     {
         [JsonProperty(propertyName: "cageNum")]
         public string CageNum { get; set; }
+
+        public string SerialCode { get; set; }
       
 
         [JsonProperty(propertyName: "cardNo")]
@@ -78,9 +80,24 @@ namespace TAI.TestDispatcher
 
         public object Operator { get; set; }
 
+        public object Node { get; set; }
+
         public string Description
         {
-            get => string.Format("{0}-{1}:{2}",this.CardNo,this.CageNum,CardType.Description());
+            get
+            {
+                string content = "";
+                if (string.IsNullOrEmpty(this.SerialCode))
+                {
+                   content = string.Format("[----]{0}", CardType.Description());
+                }
+                else
+                {
+                    content = string.Format("[{0}]{1}",this.SerialCode ,CardType.Description());
+                }
+                return content;
+
+            }
         }
 
 
@@ -88,7 +105,7 @@ namespace TAI.TestDispatcher
         public bool IsTesting {
 
             get {
-                return this.TestDispatcher ==null|| this.TestDispatcher.TestState.TestingState == TestingState.Testing || this.TestDispatcher.TestState.TestingState == TestingState.Pause;
+                return  this.TestDispatcher.TestState.TestingState == TestingState.Testing || this.TestDispatcher.TestState.TestingState == TestingState.Pause;
             }
         }
         public bool Initialize()

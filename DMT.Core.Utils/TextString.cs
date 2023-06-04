@@ -106,6 +106,40 @@ namespace DMT.Core.Utils
             return path;
         }
 
+
+        public static string ReadFile(string folder)
+        {
+            string content = "";//返回的结果字符串
+            using (StreamReader sr = new StreamReader(folder))
+            {
+                content = sr.ReadToEnd();//一次性把文本内容读完
+            }
+            return content;
+        }
+        public static bool WriteFile(string folder, string content)
+        {
+            bool flag = true;
+            StreamWriter sw = null;
+            try
+            {
+                sw = new StreamWriter(folder);//创建StreamWriter对象
+                sw.WriteLine(content);
+
+
+            }
+            catch (Exception)
+            {
+                
+                flag = false;
+            }
+            finally
+            {
+                sw.Close();//确保最后总会关闭流
+
+            }
+            return flag;
+        }
+
     }
     public static class TextString
     {

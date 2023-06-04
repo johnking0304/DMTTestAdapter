@@ -37,6 +37,7 @@ namespace TAI.Manager
             this.Channel.LoadFromFile(fileName); 
             this.Operator = new SwitchOperator(this.Channel.BaseIndex);
             this.Operator.LoadFromFile(fileName);
+            base.LoadFromFile(fileName);
 
         }
         public bool Active()

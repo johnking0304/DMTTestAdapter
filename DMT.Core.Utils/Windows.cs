@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -91,6 +92,72 @@ namespace DMT.Core.Utils
                 return MessageBox.Show(message, "询问", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK;
             }
             return false;
+        }
+
+
+        public static bool StartProcess(string filename, string[] args)
+        {
+            Process process = new Process();
+            try
+            {
+                string argsContent = "";
+                foreach (string arg in args)
+                {
+                    argsContent += string.Format("{0} ", arg);
+                }
+                argsContent = argsContent.Trim();
+                
+                ProcessStartInfo startInfo = new ProcessStartInfo(filename, argsContent);
+                process.StartInfo = startInfo;
+                process.StartInfo.UseShellExecute = false;
+                //不显示程序窗口
+                process.StartInfo.CreateNoWindow = false;
+                //启动程序            
+                process.Start();
+                process.WaitForExit();
+                return true;
+            }
+            finally 
+            {
+                process.Close();
+            }
+            
+        }
+
+
+        /// <summary>
+        /// 执行脚本
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="startFlag"></param>
+        public static void runScript(string fileName, string arguments)
+        {
+            Process process = new Process();
+            try
+            {
+                //设置要启动的应用程序
+                process.StartInfo.FileName = fileName;
+
+                process.StartInfo.Arguments = arguments;
+                //是否使用操作系统shell启动
+                process.StartInfo.UseShellExecute = false;
+                // 接受来自调用程序的输入信息
+                process.StartInfo.RedirectStandardInput = false;
+                //输出信息
+                process.StartInfo.RedirectStandardOutput = false;
+                // 输出错误
+                process.StartInfo.RedirectStandardError = true;
+                //不显示程序窗口
+                process.StartInfo.CreateNoWindow = false;
+                //启动程序
+                process.Start();
+
+                process.WaitForExit();
+            }
+            finally
+            {
+                process.Close();
+            }
         }
     }
 }

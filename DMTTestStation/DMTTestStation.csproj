@@ -37,8 +37,11 @@
     <ApplicationIcon>Test.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,8 +51,23 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardModuleItem.cs" />
+    <Compile Include="FormInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInput.Designer.cs">
+      <DependentUpon>FormInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogs.Designer.cs">
+      <DependentUpon>FormLogs.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +76,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormInput.resx">
+      <DependentUpon>FormInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogs.resx">
+      <DependentUpon>FormLogs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,6 +157,17 @@
     <None Include="Resources\Open.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\calibrate.png" />
+    <None Include="Resources\upgrade.png" />
+    <None Include="Resources\barcode.png" />
+    <None Include="Resources\Expand.png" />
+    <None Include="Resources\Collapse.png" />
+    <None Include="Resources\User.png" />
+    <None Include="Resources\StopTest.png" />
+    <None Include="Resources\PauseTest.png" />
+    <None Include="Resources\StartTest.png" />
+    <None Include="Resources\Disconnected.png" />
+    <None Include="Resources\Connected.png" />
     <None Include="Resources\DeleteAll.png" />
     <None Include="Resources\Delete.png" />
     <Content Include="Test.ico" />

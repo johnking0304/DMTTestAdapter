@@ -109,6 +109,11 @@ namespace DMT.Core.Channels
                 this.LastMessage = "连接错误！";
                 this.LastErrorCode = ChannelResult.CanNotOpen;
             }
+            catch (Exception)
+            {
+                this.LastMessage = "连接错误！";
+                this.LastErrorCode = ChannelResult.CanNotOpen;
+            }
             this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(),"", ChannelResult.Fail, this.LastMessage); 
         }
         public override void OpenSync()

@@ -65,6 +65,10 @@
       <Project>{0a2c8c10-39cb-4b64-ae7c-c522f701bab3}</Project>
       <Name>DMT.DatabaseAdapter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TAI.Contants\TAI.Contants.csproj">
+      <Project>{7cf01fb2-2256-43e0-b9c6-ec15ca7dc03c}</Project>
+      <Name>TAI.Contants</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TAI.Device.Analog\TAI.Device.Analog.csproj">
       <Project>{7D0218DE-A6EB-405B-8BA2-95E258E70A8D}</Project>
       <Name>TAI.Device.Analog</Name>

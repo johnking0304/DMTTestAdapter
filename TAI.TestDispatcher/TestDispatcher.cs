@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using TAI.Test.Scheme;
 using DMT.Core.Models;
+using TAI.Constants;
+using System.IO;
 
 namespace TAI.TestDispatcher
 {
@@ -31,16 +28,27 @@ namespace TAI.TestDispatcher
 
         public int ActiveTestItemIndex { get; set; }
 
-        public int ProgressValue { get
+        public int ProgressValue
+        {
+            get
 
             {
                 if (this.TestScheme.TestItems.Count > 0)
                 {
-                    double percent = ((this.ActiveTestItemIndex + 1.0) / this.TestScheme.TestItems.Count )* 100.0f; 
+                    double percent = ((this.ActiveTestItemIndex + 1.0) / this.TestScheme.TestItems.Count) * 100.0f;
                     return (int)Math.Round(percent);
                 }
                 return 100;
-            } }
+            }
+        }
+
+        public string ProgressValueContent
+        {
+            get
+            {
+                return string.Format("{0}/{1}", this.ActiveTestItemIndex + 1, this.TestScheme.TestItems.Count);
+            }
+        }
 
         public bool TestCompleted { get; set; }
 
@@ -58,8 +66,10 @@ namespace TAI.TestDispatcher
         }
 
         public bool Initialize()
-        { 
-            return this.TestScheme.LoadSchemeFromDatabase();
+        {   bool reuslt = this.TestScheme.LoadSchemeFromDatabase();
+            string fileName = string.Format("{0}.ini", this.CardModule.CardType.ToString());
+            this.TestScheme.LoadFromFile(Path.Combine(Constants.Contant.CARD_MODULES, fileName));
+            return reuslt;
         }
 
         public TestItemNode ActiveTestItem
@@ -89,6 +99,8 @@ namespace TAI.TestDispatcher
                 this.ActiveTestItem.GetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalToPort, (int)this.TestScheme.ChannelDataType, ref dataValue,ref message);
                 this.NotifyMessage(message);
                 this.ActiveTestItem.ProcessConclusion(dataValue);
+                message = string.Format("比对结果[{0}]", this.ActiveTestItem.Conclusion ? "PASS" : "NG");
+                this.NotifyMessage(message);
                 this.ActiveTestItemIndex += 1;
             }
             else
@@ -145,6 +157,10 @@ namespace TAI.TestDispatcher
                         {
                             this.InitializeWorking();
                             break;
+                        }
+                    case TestingState.Testing:
+                        {
+                            return;
                         }
                 }
                 this.TestState.ActiveCommand = OperateCommand.StartTest;

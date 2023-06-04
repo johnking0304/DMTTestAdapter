@@ -265,6 +265,19 @@ namespace TAI.Test.Scheme
 
             this.ProcessIntervalMillisecond = 0;
         }
+
+
+        public bool Conclusion
+        {
+            get {
+                bool result = true;
+                foreach (TestItemNode node in this.TestItems)
+                {
+                    result &= node.Conclusion;              
+                }
+                return result;
+            }
+        }
         public bool LoadSchemeFromDatabase()
         {
             this.SignalItems.Clear();

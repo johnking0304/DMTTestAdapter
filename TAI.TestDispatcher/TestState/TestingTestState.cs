@@ -23,12 +23,6 @@ namespace TAI.TestDispatcher
 
         }
 
-        public override void Initialize()
-        {
-            
-            
-        }
-
         public override void Execute()
         {
             this.Dispatcher.ProcessAction();                                                  

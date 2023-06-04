@@ -35,6 +35,9 @@ namespace TAI.Constants
             get => Files.InitializePath(Path.Combine(HOME, "stations"));
         }
 
+        public static readonly string ControlUnitParseTool = Path.Combine(HOME, "CUParseTool.exe");
+
+        public static readonly string ControlUnitInfoFile = Path.Combine(HOME, "ControlUnitInfo.txt");
         public static string CARD_MODULES
         {
             get => Files.InitializePath(Path.Combine(HOME, "modules"));

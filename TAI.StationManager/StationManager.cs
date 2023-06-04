@@ -27,21 +27,35 @@ namespace TAI.StationManager
         public DeviceMaster GeneratorDevice { get; set; }
         public List<SwitchController> SwitchControllers { get; set; }
 
+        public NuCONController.NuCONController NuCONController { get; set; }
+
         public MysqlConfig MysqlConfig { get; set; }
 
         public DeviceType DeviceType { get; set; }
         public List<Station> Stations { get; set; }
         public ControlUnit ControlUnit { get; set; }
 
+        public bool DeviceStatus {
+
+            get {
+
+                bool result = this.GeneratorDevice.Active() &&
+                    this.MeasureDevice.Active() &&
+                    this.DigitalDevice.Active();
+                foreach (var controller in this.SwitchControllers)
+                {
+                   result &= controller.Active();
+                }
+                return result;
+            }
+        }
 
 
         public StationManager()
         {
             this.Caption = "StationManager";
             this.Stations = new List<Station>();
-            this.WaitMilliseconds = 5000;
-
-            
+            this.WaitMilliseconds = 5000;          
             this.LoadConfig();
         }
 
@@ -92,6 +106,8 @@ namespace TAI.StationManager
                 }
                 this.SwitchControllers.Add(switchController);
             }
+
+            this.NuCONController = new NuCONController.NuCONController();            
             this.StartThread();
 
         }
@@ -99,7 +115,10 @@ namespace TAI.StationManager
        
         public override void ProcessEvent()
         {
-            this.Notify((int)NotifyEvents.Update, "Status", "", null, "");
+            if (this.WaitTimeOut())
+            {
+                this.Notify((int)NotifyEvents.Update, "Status", "", null, "");
+            }
         }
 
 
@@ -122,15 +141,58 @@ namespace TAI.StationManager
             return result;
         }
 
+
+        public bool ParseControlUnit(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                if (File.Exists(Contant.ControlUnitParseTool))
+                {
+                    var parse = new Task(() => Windows.StartProcess(Contant.ControlUnitParseTool, new string[1] { Contant.ControlUnitInfoFile }));
+                    parse.Start();
+                    Task.WaitAll(parse);//等待所有任务结束
+                    return true;
+                }
+                else
+                {
+                    Windows.MessageBoxError(string.Format("转换工具[{0}]不存在！",Contant.ControlUnitParseTool));
+                    return false;
+                }           
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool LoadControlUnit(string fileName)
         {
             if (File.Exists(fileName))
             {
                 try
                 {
-                    string content = Files.LoadFromFile(fileName);
-                    this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
-                    return true;
+                    bool result = this.ParseControlUnit(fileName);
+                    if (result)
+                    {
+                        string content = Files.LoadFromFile(Contant.ControlUnitInfoFile);
+                        content = content.Trim();
+                        if (!string.IsNullOrEmpty(content))
+                        {
+                            this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
+                            return true;
+                        }
+                    }
+                    return false;
+
+                    /*                        string content = Files.LoadFromFile(fileName);
+                                            content = content.Trim();
+                                            if (!string.IsNullOrEmpty(content))
+                                            {
+                                                this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
+                                                return true;
+                                            }
+                                        return false;*/
+
                 }
                 catch
                 {
@@ -227,7 +289,7 @@ namespace TAI.StationManager
 
         public void RemoveModuleTest(CardModule module)
         {            
-            module.TestDispatcher.DetachObserver(this.subjectObserver.Update);
+            module.TestDispatcher.DetachObserver(this.subjectObserver.Update);           
             module.TestDispatcher.Dispose();
             module.TestDispatcher = null;
             module.Operator = null;

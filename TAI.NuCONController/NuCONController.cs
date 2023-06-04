@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TAI.NuCONController
 {
+
     public class NuCONController
     {
-        public bool SetChannelValue(int stationId, string channel, int dataType, float value)
+        [DllImport(@"NuCONAPI.dll", EntryPoint = "_ZN8NuCONAPI8getValueEPcdi")]
+        public static extern double GetValue(IntPtr pointName, double value, int cardtype);
+
+
+        [DllImport(@"NuCONAPI.dll", EntryPoint = "_ZN8NuCONAPI8setValueEdPc")]
+        public static extern int SetValue(double value, StringBuilder pointName);
+
+
+        public static  bool SetChannelValue(int stationId, string channel, int dataType, double value)
         {
-            return true;
+            IntPtr intPtr = Marshal.StringToHGlobalAnsi(channel);
+            StringBuilder sb1 = new StringBuilder(channel);
+            int result = SetValue(value, sb1);
+            return result >= 0;
         }
 
-        public bool GetChannelValue(int stationId, string channel, int dataType, out float value)
+        public static  double GetChannelValue(int stationId, string channel, int dataType, out double value)
         {
-            value = 0;
-            return true;
+            value = 0.0f;
+            int moduleType = stationId - 1;//偏移 -1
+            IntPtr intPtr = Marshal.StringToHGlobalAnsi(channel.ToString());
+            double data = GetValue(intPtr, value, moduleType);
+            return data;
         }
 
 
