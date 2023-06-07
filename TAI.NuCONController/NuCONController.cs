@@ -18,21 +18,34 @@ namespace TAI.NuCONController
         public static extern int SetValue(double value, StringBuilder pointName);
 
 
-        public static  bool SetChannelValue(int stationId, string channel, int dataType, double value)
+        public   bool SetChannelValue(int stationId, string channel, int dataType, double value)
         {
             IntPtr intPtr = Marshal.StringToHGlobalAnsi(channel);
             StringBuilder sb1 = new StringBuilder(channel);
-            int result = SetValue(value, sb1);
-            return result >= 0;
+            try
+            {
+                int result = SetValue(value, sb1);
+                return result >= 0;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public static  double GetChannelValue(int stationId, string channel, int dataType, out double value)
+        public   double GetChannelValue(int stationId, string channel, int dataType, out double value)
         {
             value = 0.0f;
             int moduleType = stationId - 1;//偏移 -1
             IntPtr intPtr = Marshal.StringToHGlobalAnsi(channel.ToString());
-            double data = GetValue(intPtr, value, moduleType);
-            return data;
+            try
+            {
+                double data = GetValue(intPtr, value, moduleType);
+                return data;
+            }
+            catch {
+                return -1;
+            }
         }
 
 

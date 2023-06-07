@@ -176,6 +176,7 @@ namespace DMTTestStation
                         Program.StationManager.InitializeModuleTest(card);
                         this.InsertCardModule(card);
                         this.UpdateOperateButtonStatus();
+                        
 
                     }
                 }
@@ -276,7 +277,9 @@ namespace DMTTestStation
 
         private void RefreshDeviceStatus()
         {
-            this.toolStripStatusLabelDeviceStatus.Image = Program.StationManager.DeviceStatus ? global::DMTTestStation.Properties.Resources.Connected : global::DMTTestStation.Properties.Resources.Disconnected;
+            
+            //this.toolStripStatusLabelDeviceStatus.Image = Program.StationManager.DeviceStatus ? global::DMTTestStation.Properties.Resources.Connected : global::DMTTestStation.Properties.Resources.Disconnected;
+            this.toolStripStatusLabelDeviceStatus.Text = Program.StationManager.DeviceStatusContent;
         }
 
         private void RefreshTestData(CardModule card)
@@ -520,6 +523,26 @@ namespace DMTTestStation
                     ((TreeNode)card.Node).Text = card.Description;
                 }
             }
+        }
+
+        private void buttonUser_Click(object sender, EventArgs e)
+        {
+            this.Login();
+        }
+        private void Login()
+        {
+            FormLogin formLogin = new FormLogin();
+            formLogin.ShowDialog();
+            if (formLogin.DialogResult == DialogResult.OK)
+            {
+                this.buttonUser.Text = Program.StationManager.UserName;
+            }
+
+        }
+
+        private void FormMain_Shown(object sender, EventArgs e)
+        {
+            this.Login();
         }
     }
 

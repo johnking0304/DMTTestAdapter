@@ -50,11 +50,14 @@ namespace DMTTestStation
             this.panel4 = new System.Windows.Forms.Panel();
             this.toolStripTestOperate = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabControlLogs = new System.Windows.Forms.TabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelDeviceStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBoxCU = new System.Windows.Forms.GroupBox();
@@ -67,8 +70,6 @@ namespace DMTTestStation
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.openFileDialogCU = new System.Windows.Forms.OpenFileDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonDeleteAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonStartTest = new System.Windows.Forms.ToolStripButton();
@@ -77,7 +78,6 @@ namespace DMTTestStation
             this.toolStripButtonScan = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonUpgrade = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCalibrate = new System.Windows.Forms.ToolStripButton();
-            this.toolStripStatusLabelDeviceStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripButtonLoadCUInfo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonExpand = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCollapse = new System.Windows.Forms.ToolStripButton();
@@ -113,7 +113,7 @@ namespace DMTTestStation
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Margin = new System.Windows.Forms.Padding(5);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(1689, 80);
+            this.panelMain.Size = new System.Drawing.Size(1557, 80);
             this.panelMain.TabIndex = 0;
             // 
             // panel2
@@ -126,12 +126,13 @@ namespace DMTTestStation
             this.panel2.Location = new System.Drawing.Point(0, 80);
             this.panel2.Margin = new System.Windows.Forms.Padding(5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1689, 872);
+            this.panel2.Size = new System.Drawing.Size(1557, 872);
             this.panel2.TabIndex = 1;
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.splitContainer1.Location = new System.Drawing.Point(406, 0);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(5);
             this.splitContainer1.Name = "splitContainer1";
@@ -145,7 +146,7 @@ namespace DMTTestStation
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(1283, 841);
+            this.splitContainer1.Size = new System.Drawing.Size(1151, 841);
             this.splitContainer1.SplitterDistance = 591;
             this.splitContainer1.SplitterWidth = 7;
             this.splitContainer1.TabIndex = 5;
@@ -157,7 +158,7 @@ namespace DMTTestStation
             this.panel5.Location = new System.Drawing.Point(0, 80);
             this.panel5.Margin = new System.Windows.Forms.Padding(5);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1283, 511);
+            this.panel5.Size = new System.Drawing.Size(1151, 511);
             this.panel5.TabIndex = 2;
             // 
             // groupBox3
@@ -168,7 +169,7 @@ namespace DMTTestStation
             this.groupBox3.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox3.Size = new System.Drawing.Size(1283, 511);
+            this.groupBox3.Size = new System.Drawing.Size(1151, 511);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "选择的板卡";
@@ -188,11 +189,11 @@ namespace DMTTestStation
             this.listViewCardTest.FullRowSelect = true;
             this.listViewCardTest.GridLines = true;
             this.listViewCardTest.HideSelection = false;
-            this.listViewCardTest.Location = new System.Drawing.Point(5, 37);
+            this.listViewCardTest.Location = new System.Drawing.Point(5, 33);
             this.listViewCardTest.Margin = new System.Windows.Forms.Padding(5);
             this.listViewCardTest.Name = "listViewCardTest";
             this.listViewCardTest.Scrollable = false;
-            this.listViewCardTest.Size = new System.Drawing.Size(1273, 469);
+            this.listViewCardTest.Size = new System.Drawing.Size(1141, 473);
             this.listViewCardTest.StateImageList = this.imageListListView;
             this.listViewCardTest.TabIndex = 0;
             this.listViewCardTest.UseCompatibleStateImageBehavior = false;
@@ -203,12 +204,12 @@ namespace DMTTestStation
             // columnHeader1
             // 
             this.columnHeader1.Text = "状态";
-            this.columnHeader1.Width = 140;
+            this.columnHeader1.Width = 110;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "板卡信息";
-            this.columnHeader2.Width = 343;
+            this.columnHeader2.Width = 250;
             // 
             // columnHeader3
             // 
@@ -218,12 +219,12 @@ namespace DMTTestStation
             // columnHeader4
             // 
             this.columnHeader4.Text = "测试进度";
-            this.columnHeader4.Width = 310;
+            this.columnHeader4.Width = 200;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "结果";
-            this.columnHeader5.Width = 74;
+            this.columnHeader5.Width = 70;
             // 
             // columnHeader6
             // 
@@ -261,7 +262,7 @@ namespace DMTTestStation
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Margin = new System.Windows.Forms.Padding(5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1283, 80);
+            this.panel4.Size = new System.Drawing.Size(1151, 80);
             this.panel4.TabIndex = 1;
             // 
             // toolStripTestOperate
@@ -283,7 +284,7 @@ namespace DMTTestStation
             this.toolStripTestOperate.Location = new System.Drawing.Point(0, 0);
             this.toolStripTestOperate.Name = "toolStripTestOperate";
             this.toolStripTestOperate.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStripTestOperate.Size = new System.Drawing.Size(1283, 80);
+            this.toolStripTestOperate.Size = new System.Drawing.Size(1151, 80);
             this.toolStripTestOperate.TabIndex = 0;
             this.toolStripTestOperate.Text = "toolStrip2";
             // 
@@ -291,6 +292,16 @@ namespace DMTTestStation
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 80);
             // 
             // groupBox2
             // 
@@ -300,7 +311,7 @@ namespace DMTTestStation
             this.groupBox2.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(1283, 243);
+            this.groupBox2.Size = new System.Drawing.Size(1151, 243);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "日志";
@@ -309,18 +320,18 @@ namespace DMTTestStation
             // 
             this.tabControlLogs.Controls.Add(this.tabPageMain);
             this.tabControlLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlLogs.Location = new System.Drawing.Point(5, 37);
+            this.tabControlLogs.Location = new System.Drawing.Point(5, 33);
             this.tabControlLogs.Name = "tabControlLogs";
             this.tabControlLogs.SelectedIndex = 0;
-            this.tabControlLogs.Size = new System.Drawing.Size(1273, 201);
+            this.tabControlLogs.Size = new System.Drawing.Size(1141, 205);
             this.tabControlLogs.TabIndex = 0;
             // 
             // tabPageMain
             // 
-            this.tabPageMain.Location = new System.Drawing.Point(4, 40);
+            this.tabPageMain.Location = new System.Drawing.Point(4, 37);
             this.tabPageMain.Name = "tabPageMain";
             this.tabPageMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMain.Size = new System.Drawing.Size(1265, 157);
+            this.tabPageMain.Size = new System.Drawing.Size(1133, 164);
             this.tabPageMain.TabIndex = 0;
             this.tabPageMain.Text = "全部";
             this.tabPageMain.UseVisualStyleBackColor = true;
@@ -344,9 +355,15 @@ namespace DMTTestStation
             this.statusStrip.Location = new System.Drawing.Point(401, 841);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 22, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1288, 31);
+            this.statusStrip.Size = new System.Drawing.Size(1156, 31);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabelDeviceStatus
+            // 
+            this.toolStripStatusLabelDeviceStatus.Name = "toolStripStatusLabelDeviceStatus";
+            this.toolStripStatusLabelDeviceStatus.Size = new System.Drawing.Size(82, 24);
+            this.toolStripStatusLabelDeviceStatus.Text = "设备状态";
             // 
             // toolStripStatusLabel1
             // 
@@ -378,6 +395,7 @@ namespace DMTTestStation
             // 
             this.treeViewCUInfo.ContextMenuStrip = this.contextMenuStripTreeView;
             this.treeViewCUInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewCUInfo.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.treeViewCUInfo.FullRowSelect = true;
             this.treeViewCUInfo.ImageIndex = 0;
             this.treeViewCUInfo.ImageList = this.imageListTreeView;
@@ -459,16 +477,6 @@ namespace DMTTestStation
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 80);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 80);
-            // 
             // toolStripButtonDelete
             // 
             this.toolStripButtonDelete.Enabled = false;
@@ -548,13 +556,6 @@ namespace DMTTestStation
             this.toolStripButtonCalibrate.Size = new System.Drawing.Size(74, 75);
             this.toolStripButtonCalibrate.Text = "校准";
             // 
-            // toolStripStatusLabelDeviceStatus
-            // 
-            this.toolStripStatusLabelDeviceStatus.Image = global::DMTTestStation.Properties.Resources.Disconnected;
-            this.toolStripStatusLabelDeviceStatus.Name = "toolStripStatusLabelDeviceStatus";
-            this.toolStripStatusLabelDeviceStatus.Size = new System.Drawing.Size(106, 24);
-            this.toolStripStatusLabelDeviceStatus.Text = "设备状态";
-            // 
             // toolStripButtonLoadCUInfo
             // 
             this.toolStripButtonLoadCUInfo.Image = global::DMTTestStation.Properties.Resources.Open;
@@ -584,15 +585,17 @@ namespace DMTTestStation
             // 
             // buttonUser
             // 
+            this.buttonUser.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonUser.Image = global::DMTTestStation.Properties.Resources.User;
             this.buttonUser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonUser.Location = new System.Drawing.Point(1483, 12);
+            this.buttonUser.Location = new System.Drawing.Point(1351, 12);
             this.buttonUser.Name = "buttonUser";
             this.buttonUser.Size = new System.Drawing.Size(194, 56);
             this.buttonUser.TabIndex = 1;
-            this.buttonUser.Text = "Admin";
+            this.buttonUser.Text = "未登录";
             this.buttonUser.UseVisualStyleBackColor = true;
+            this.buttonUser.Click += new System.EventHandler(this.buttonUser_Click);
             // 
             // pictureBox1
             // 
@@ -608,7 +611,7 @@ namespace DMTTestStation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1689, 952);
+            this.ClientSize = new System.Drawing.Size(1557, 952);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -621,6 +624,7 @@ namespace DMTTestStation
             this.Text = "模块测试工作站 ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.panelMain.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

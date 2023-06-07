@@ -20,6 +20,8 @@ namespace TAI.StationManager
 {
     public class StationManager : BaseController
     {
+
+        public string UserName { get; set; }
         private DeviceModel MeasureDeviceModel { get; set; }
         private DeviceModel GeneratorDeviceModel { get; set; }
         public DigitalDevice DigitalDevice { get; set; }
@@ -47,6 +49,22 @@ namespace TAI.StationManager
                    result &= controller.Active();
                 }
                 return result;
+            }
+        }
+
+        public string DeviceStatusContent
+        {
+
+            get
+            {
+                bool result = this.GeneratorDevice.Active() &&
+                    this.MeasureDevice.Active() &&
+                    this.DigitalDevice.Active();
+                foreach (var controller in this.SwitchControllers)
+                {
+                    result &= controller.Active();
+                }
+                return result?"设备通讯-OK": "设备通讯-Fail";
             }
         }
 
@@ -101,7 +119,7 @@ namespace TAI.StationManager
                 switchController.LoadFromFile(Contant.SWITCH_CONFIG);
                 if (switchController.Enable)
                 {
-                    switchController.Open();
+                    //switchController.Open();
                     switchController.Start();
                 }
                 this.SwitchControllers.Add(switchController);
@@ -171,7 +189,7 @@ namespace TAI.StationManager
             {
                 try
                 {
-                    bool result = this.ParseControlUnit(fileName);
+/*                    bool result = this.ParseControlUnit(fileName);
                     if (result)
                     {
                         string content = Files.LoadFromFile(Contant.ControlUnitInfoFile);
@@ -182,16 +200,16 @@ namespace TAI.StationManager
                             return true;
                         }
                     }
-                    return false;
+                    return false;*/
 
-                    /*                        string content = Files.LoadFromFile(fileName);
-                                            content = content.Trim();
-                                            if (!string.IsNullOrEmpty(content))
-                                            {
-                                                this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
-                                                return true;
-                                            }
-                                        return false;*/
+                    string content = Files.LoadFromFile(fileName);
+                    content = content.Trim();
+                    if (!string.IsNullOrEmpty(content))
+                    {
+                        this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
+                        return true;
+                    }
+                    return false;
 
                 }
                 catch
@@ -413,8 +431,7 @@ namespace TAI.StationManager
         public bool GetAnalogueChannelValue(int stationId, string channel, int channelDataType, ref float dataVale ,ref string message)
         {
             int channelId = int.Parse(channel);
-            message = string.Format("获取模拟量通道数据[{0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString());
-            LogHelper.LogInfoMsg(message);
+
             if (stationId >= (int)StationType.AI && stationId <= (int)StationType.TC)
             {
                 int linkChannelId = ConvertChannelId(stationId, channelId);
@@ -423,6 +440,10 @@ namespace TAI.StationManager
                 this.SwitchChannelOperate(stationId, (ushort)linkChannelId, channelDataType);
                 float value = 0;
                 bool result = this.MeasureDevice.GetValue((ChannelType)channelDataType, ref value);
+
+                message = string.Format("获取模拟量通道数据[{0},通道={1},类型={2},返回值={3}]-{4}", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString(),value,result ? "成功" : "失败");
+                LogHelper.LogInfoMsg(message);
+
                 return result;
             }
             else
@@ -435,9 +456,10 @@ namespace TAI.StationManager
         {
             int channelId = int.Parse(channel);
             bool value = false;
-            message = string.Format("获取数字量通道数据[通道={0}]", channelId);
-            LogHelper.LogInfoMsg(message);
+
             bool result = this.DigitalDevice.GetValue(channelId, ref value);
+            message = string.Format("获取数字量通道数据[通道={0},返回值={1}]-{2}", channelId, value,result?"成功":"失败");
+            LogHelper.LogInfoMsg(message);
             return result;
         }
 
@@ -447,7 +469,7 @@ namespace TAI.StationManager
             int channelId = int.Parse(channel);
             if (stationId >= (int)StationType.PI && stationId <= (int)StationType.TC)
             {
-                message = string.Format("设置模拟量通道数据[类型={0},通道={1},类型={2},值={3}]", ((ModuleType)stationId).Description(), channelId, ((ChannelType)channelDataType).Description(), value);
+                message = string.Format("设置模拟量通道数据[类型={0},通道={1},类型={2},设置值={3}]", ((ModuleType)stationId).Description(), channelId, ((ChannelType)channelDataType).Description(), value);
                 LogHelper.LogInfoMsg(message);
                 bool result = true;
                 if (stationId == (int)StationType.PI)
@@ -492,27 +514,34 @@ namespace TAI.StationManager
         public bool SetDigitalChannelValue(int stationId, string channel, int channelDataType, float value , ref string message )
         {
             int channelId = int.Parse(channel);
-            message = string.Format("设置数量通道数据[通道={0},值={1}]", channelId, value);
-            LogHelper.LogInfoMsg(message);
+
             bool setValue = DoubleUtils.AreEqual(value, 1);
             bool result = this.DigitalDevice.SetValue(channelId, setValue);
+            message = string.Format("设置数量通道数据[通道={0},值={1}]-{2}", channelId, value, result ? "成功" : "失败");
+            LogHelper.LogInfoMsg(message);
             return result;
         }
 
 
         public bool SetNuCONChannelValue(int stationId, string channel, int channelDataType, float value ,ref string message)
         {
-            message = string.Format("设置NuCON通道数据[类型={0},通道={1},类型={2},值={3}]", ((ModuleType)stationId).Description(), channel, ((ChannelType)channelDataType).Description(), value);
-            return true;
+
+            bool result = this.NuCONController.SetChannelValue(stationId,channel, channelDataType, value);
+
+            message = string.Format("设置NuCON通道数据[类型={0},通道={1},类型={2},设置值={3}]-{4}", ((ModuleType)stationId).Description(), channel, ((ChannelType)channelDataType).Description(), value, result ? "成功" : "失败");
+
+            return result;
 
         }
 
-        public bool GetNuCONChannelValue(int stationId, string channel, int channelDataType, ref float dataVale,ref string message)
+        public bool GetNuCONChannelValue(int stationId, string channel, int channelDataType, ref float dataValue,ref string message)
         {
 
-            message = string.Format("获取NuCON通道数据[{0},通道={1},类型={2}]", ((StationType)stationId).ToString(), channel, ((ChannelType)channelDataType).ToString());
-
-            return true;
+            double data = 0;
+            dataValue  = (float)this.NuCONController.GetChannelValue(stationId,channel,channelDataType, out data);
+            bool result = dataValue >= 0;
+            message = string.Format("获取NuCON通道数据[{0},通道={1},类型={2},返回值={3}]-{4}", ((StationType)stationId).ToString(), channel, ((ChannelType)channelDataType).ToString(), dataValue, result ? "成功" : "失败");
+            return result;
         }
 
     }

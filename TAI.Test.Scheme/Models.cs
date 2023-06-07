@@ -30,11 +30,15 @@ namespace TAI.Test.Scheme
 
 
     public enum CriteriaType
-    { 
-         Equals= 0,
-         Compare =1,
-         Less = 2,
-         Greater =3,    
+    {
+        [Description("等于")]
+        Equals = 0,
+        [Description("容差")]
+        Compare =1,
+        [Description("小于")]
+        Less = 2,
+        [Description("大于")]
+        Greater =3,    
     }
 
     public class TestItemNode
@@ -123,7 +127,7 @@ namespace TAI.Test.Scheme
             return DoubleUtils.GreaterThan(value, this.CriteriaValue);
         }
 
-        public bool ProcessConclusion(float data)
+        public bool ProcessConclusion(float data,ref string message)
         {
             this.SimpleData = data;
             switch (this.CriteriaType)
@@ -154,6 +158,7 @@ namespace TAI.Test.Scheme
                         break;
                     }
             }
+            message = string.Format("预期值[{0}]-实际值[{1}]:比较[{2}]", this.CriteriaValue, data,  this.CriteriaType.Description());
 
             this.StopDateTime = DateTime.Now;
             return this.Conclusion;

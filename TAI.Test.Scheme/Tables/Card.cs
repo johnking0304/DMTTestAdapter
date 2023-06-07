@@ -26,21 +26,18 @@ namespace TAI.Test.Scheme
         ///  
         ///</summary>
          [SugarColumn(ColumnName="productid"    )]
-         public string Productid { get; set; }
+         public string ProductId { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="productname"    )]
-         public string Productname { get; set; }
+         public string ProductName { get; set; }
 
-
-        [SugarColumn(ColumnName = "channelnum")]
-        public string ChannelNum { get; set; }
         /// <summary>
         ///  
         ///</summary>
         [SugarColumn(ColumnName="ispassed"    )]
-         public bool Ispassed { get; set; }
+         public bool IsPassed { get; set; }
         /// <summary>
         ///  
         ///</summary>
@@ -55,12 +52,12 @@ namespace TAI.Test.Scheme
         ///  
         ///</summary>
          [SugarColumn(ColumnName="testresult"    )]
-         public string Testresult { get; set; }
+         public string TestResult { get; set; }
         /// <summary>
         ///  
         ///</summary>
          [SugarColumn(ColumnName="testtimestamp")]
-         public DateTime Testtimestamp { get; set; }
+         public DateTime TestTimeStamp { get; set; }
 
     }
 }

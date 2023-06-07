@@ -160,7 +160,7 @@ namespace DMTTestStation
             {
                 this.CardModule.TestDispatcher.StopTest();
             }
-            this.StartButton.Enabled = true;
+            this.StartButton.Enabled = !string.IsNullOrEmpty(this.CardModule.SerialCode);
             this.PauseButton.Enabled = false;
             this.StopButton.Enabled = false;
             this.ViewItem.StateImageIndex = ImageStopIndex;

@@ -30,6 +30,10 @@ namespace TAI.TestDispatcher
         public override void Execute()
         {
             //处理报告
+            this.Dispatcher.SaveConclusion();
+            this.LastMessage = "保存测试数据完成";
+            this.Dispatcher.NotifyMessage(this.LastMessage);
+
             this.Operated = true;
 
             this.LastMessage = "测试报告处理完成";

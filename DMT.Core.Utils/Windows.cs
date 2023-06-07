@@ -105,17 +105,18 @@ namespace DMT.Core.Utils
                 {
                     argsContent += string.Format("{0} ", arg);
                 }
-                argsContent = argsContent.Trim();
+                argsContent = argsContent.Trim() + "\r";
                 
                 ProcessStartInfo startInfo = new ProcessStartInfo(filename, argsContent);
                 process.StartInfo = startInfo;
-                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.UseShellExecute = true;
                 //不显示程序窗口
                 process.StartInfo.CreateNoWindow = false;
                 //启动程序            
                 process.Start();
                 process.WaitForExit();
                 return true;
+             
             }
             finally 
             {

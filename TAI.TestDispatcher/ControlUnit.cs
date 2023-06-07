@@ -75,8 +75,16 @@ namespace TAI.TestDispatcher
         public string Remark { get; set; }
         [JsonProperty(propertyName: "cardVersion")]
         public string CardVersion { get; set; }
+        
+        [JsonProperty(propertyName: "pointnames")]
+        public List<string> PointNames { get; set; }
+        public TestDispatcher TestDispatcher{get;set; }
 
-        public TestDispatcher TestDispatcher{get;set;}
+        [JsonProperty(propertyName: "tbcolumnpos")]
+        public int ColumnPos { get; set; }
+
+        [JsonProperty(propertyName: "tbrowpos")]
+        public int RowPos { get; set; }
 
         public object Operator { get; set; }
 
@@ -89,12 +97,13 @@ namespace TAI.TestDispatcher
                 string content = "";
                 if (string.IsNullOrEmpty(this.SerialCode))
                 {
-                   content = string.Format("[----]{0}", CardType.Description());
+                   content = string.Format("[----]");
                 }
                 else
                 {
-                    content = string.Format("[{0}]{1}",this.SerialCode ,CardType.Description());
+                    content = string.Format("[{0}]",this.SerialCode );
                 }
+                content = string.Format("{0}{1}-({2},{3})-{4}",content, CardType.Description(),this.ColumnPos,this.RowPos,this.IPAddress);
                 return content;
 
             }
@@ -111,8 +120,7 @@ namespace TAI.TestDispatcher
         public bool Initialize()
         {
             this.TestDispatcher = new TestDispatcher(this);
-            this.TestDispatcher.Initialize();           
-            return true;             
+            return this.TestDispatcher.Initialize();                        
         }
 
     }

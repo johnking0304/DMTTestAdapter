@@ -325,7 +325,7 @@ namespace DMT.Core.Protocols
 
                 IAsyncResult connResult= this.TcpClient.BeginConnect(this.Ip, this.Port, null, null);
 
-                connResult.AsyncWaitHandle.WaitOne(1500, true);
+                connResult.AsyncWaitHandle.WaitOne(500, true);
                 if (!connResult.IsCompleted)
                 {
                     this.TcpClient.Close();
