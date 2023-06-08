@@ -16,8 +16,12 @@ namespace TAI.Device
     }
 
 
+
+
     public class DigitalOperator: BaseOperator
     {
+
+        
 
         public ModbusItem PluseCount { get; set; }
         public readonly ushort DefaultPluseCountOffset = 1;
@@ -28,7 +32,7 @@ namespace TAI.Device
         public readonly ushort DefaultInputChannelsOffset = 2;
 
         /// <summary>
-        /// 测量DI模块输出   Write PLC DO点位
+        /// 测量DI模块输出   Write PLC DO点位 24 CH
         /// </summary>
         public ModbusItem OutputChannels { get; set; }
         public readonly ushort DefaultOutputChannelsOffset = 3;
@@ -50,11 +54,19 @@ namespace TAI.Device
         public ModbusItem PluseOutputMode { get; set; }
         public readonly ushort DefaultPluseOutputModeOffset = 7;
 
+
         /// <summary>
         ///测量电压值  
         /// </summary>
         public ModbusItem MeasureVoltage { get; set; }
-        public readonly ushort DefaultMeasureVoltageOffset = 9;
+        public readonly ushort DefaultMeasureVoltageOffset = 8;
+
+        /// <summary>
+        /// 测量DO模块输出    Read PLC DI点位 10CH
+        /// </summary>
+        public ModbusItem Input10Channels { get; set; }
+        public readonly ushort DefaultInput10ChannelsOffset = 9;
+
 
 
         public DigitalOperator(short baseIndex) : base(baseIndex)
@@ -67,21 +79,25 @@ namespace TAI.Device
             this.InputChannels = new ModbusItem(this.Caption, "测量DO模块输出PLC-DI点位", "InputChannels", this.BaseIndex, DefaultInputChannelsOffset, 1, ChannelType.AO);
             this.Items.Add(this.InputChannels);
 
-            this.OutputChannels = new ModbusItem(this.Caption, "测量DI模块输出PLC-DI点位", "OutputChannels", this.BaseIndex, DefaultOutputChannelsOffset, 2, ChannelType.AO);
+            this.OutputChannels = new ModbusItem(this.Caption, "测量DI模块输出PLC-DO点位", "OutputChannels", this.BaseIndex, DefaultOutputChannelsOffset, 2, ChannelType.AO);
             this.Items.Add(this.OutputChannels);
 
             this.PIChannelSelectId = new ModbusItem(this.Caption, " PI通道选择使能", "PIChannelSelectId", this.BaseIndex, DefaultPIChannelSelectIdOffset, 1, ChannelType.AO);
             this.Items.Add(this.PIChannelSelectId);
 
             this.PWChannelSelectId = new ModbusItem(this.Caption, "EPW IPW通道选择", "PWChannelSelectId", this.BaseIndex, DefaultPWChannelSelectIdOffset, 1, ChannelType.AO);
-            this.Items.Add(this.OutputChannels);
+            this.Items.Add(this.PWChannelSelectId);
 
             this.PluseOutputMode = new ModbusItem(this.Caption, " 脉冲输出模式", "PluseOutputMode", this.BaseIndex, DefaultPluseOutputModeOffset, 1, ChannelType.AO);
             this.Items.Add(this.PluseOutputMode);
 
+            this.Input10Channels = new ModbusItem(this.Caption, "测量DO模块输出PLC-DI点位 10CH", "Input10Channels", this.BaseIndex, DefaultInput10ChannelsOffset, 1, ChannelType.AO);
+            this.Items.Add(this.Input10Channels);
+
             this.MeasureVoltage = new ModbusItem(this.Caption, "测量电压值", "MeasureVoltage", this.BaseIndex, DefaultMeasureVoltageOffset, 2, ChannelType.AO);
             this.Items.Add(this.MeasureVoltage);
 
+            
         }
 
     }

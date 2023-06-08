@@ -7,12 +7,19 @@ using DMT.Core.Utils;
 namespace TAI.Device
 {
 
+    public enum DOChannelType
+    {
+        CH10 = 1,
+        CH16 = 2,
+    }
+
     public class DigitalDevice : OperatorController, IController
     {
         public ModbusTCPClient Channel { get; set; }
 
         public DigitalOperator DigitalOperator { get; set; }
 
+        public DOChannelType DOChannelType { get; set; }
 
         public DigitalDevice() : base()
         {
@@ -20,6 +27,8 @@ namespace TAI.Device
             this.Channel = new ModbusTCPClient(this.Caption);
             
             this.StatusMessage.Name = this.Caption;
+
+            this.DOChannelType = DOChannelType.CH16;
 
         }
 
@@ -66,8 +75,6 @@ namespace TAI.Device
             byte[] bytes =ByteUtils.UshortsToBytes(new ushort[1] { (ushort)0 });
             if (channelId >= 1 && channelId <= 8)
             {
-
-
                 byte data = 0;
                 bytes[0] = ByteUtils.SetBitValue(data, (byte)(channelId - 1), value);
                 ushort[] ushorts = ByteUtils.BytesToUshorts(bytes);
@@ -146,8 +153,29 @@ namespace TAI.Device
 
         public bool GetValue(int channelId,ref bool result)
         {
-            ushort[] data = this.Channel.ReadHoldingRegisters(this.DigitalOperator.InputChannels.StartAddress, this.DigitalOperator.InputChannels.Length);
-            if (!this.Channel.HasError)
+            ushort[] data;
+            switch (this.DOChannelType)
+            {
+                case DOChannelType.CH16:
+                    {
+                        data = this.Channel.ReadHoldingRegisters(this.DigitalOperator.InputChannels.StartAddress, this.DigitalOperator.InputChannels.Length);
+                        break;
+                    }
+                case DOChannelType.CH10:
+                    {
+                        data = this.Channel.ReadHoldingRegisters(this.DigitalOperator.Input10Channels.StartAddress, this.DigitalOperator.Input10Channels.Length);
+
+                        break;
+                    }
+                default:
+                    {
+                        data = this.Channel.ReadHoldingRegisters(this.DigitalOperator.InputChannels.StartAddress, this.DigitalOperator.InputChannels.Length);
+                        break;
+                    }
+
+            }
+            
+           if (!this.Channel.HasError)
             {
 
                 result = (data[0] >> (channelId - 1) & 1) == 1;

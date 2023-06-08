@@ -84,7 +84,7 @@ namespace DMT.DatabaseAdapter
         /// <returns></returns>
         public static string SetupMysql(string address, string port, string dbName, string userName, string pwd)
         {
-            string connect = string.Format("server={0};Port={1};Database={2};Uid={3};Pwd={4}", address, port, dbName, userName, pwd);
+            string connect = string.Format("server={0};Port={1};Database={2};Uid={3};Pwd={4};charset=utf8mb4;", address, port, dbName, userName, pwd);
             return SetupMysql(connect);
         }
 
@@ -166,7 +166,7 @@ namespace DMT.DatabaseAdapter
         /// <returns></returns>
         public static string ConnectMysqlTest(string address,string port,string dbName,string userName,string pwd)
         {
-            string connect = string.Format("server={0};Port={1};Database={2};Uid={3};Pwd={4}", address, port, dbName, userName, pwd);
+            string connect = string.Format("server={0};Port={1};Database={2};Uid={3};Pwd={4};charset=utf8mb4;", address, port, dbName, userName, pwd);
             return ConnectMysqlTest(connect);
         }
 

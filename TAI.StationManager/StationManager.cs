@@ -189,7 +189,7 @@ namespace TAI.StationManager
             {
                 try
                 {
-/*                    bool result = this.ParseControlUnit(fileName);
+ /*                   bool result = this.ParseControlUnit(fileName);
                     if (result)
                     {
                         string content = Files.LoadFromFile(Contant.ControlUnitInfoFile);
