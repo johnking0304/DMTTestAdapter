@@ -32,12 +32,12 @@ namespace DMTTestStation
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogs));
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonPause = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.richTextBoxLogs = new System.Windows.Forms.RichTextBox();
-            this.toolStripButtonPause = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panel1.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -67,6 +67,21 @@ namespace DMTTestStation
             this.toolStrip.Size = new System.Drawing.Size(1213, 30);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
+            // 
+            // toolStripButtonPause
+            // 
+            this.toolStripButtonPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonPause.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPause.Image")));
+            this.toolStripButtonPause.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPause.Name = "toolStripButtonPause";
+            this.toolStripButtonPause.Size = new System.Drawing.Size(50, 25);
+            this.toolStripButtonPause.Text = "暂停";
+            this.toolStripButtonPause.Click += new System.EventHandler(this.toolStripButtonPause_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 30);
             // 
             // toolStripButtonClear
             // 
@@ -105,21 +120,7 @@ namespace DMTTestStation
             this.richTextBoxLogs.Size = new System.Drawing.Size(1213, 742);
             this.richTextBoxLogs.TabIndex = 0;
             this.richTextBoxLogs.Text = "";
-            // 
-            // toolStripButtonPause
-            // 
-            this.toolStripButtonPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonPause.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPause.Image")));
-            this.toolStripButtonPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonPause.Name = "toolStripButtonPause";
-            this.toolStripButtonPause.Size = new System.Drawing.Size(50, 25);
-            this.toolStripButtonPause.Text = "暂停";
-            this.toolStripButtonPause.Click += new System.EventHandler(this.toolStripButtonPause_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 30);
+            this.richTextBoxLogs.ContentsResized += new System.Windows.Forms.ContentsResizedEventHandler(this.richTextBoxLogs_ContentsResized);
             // 
             // saveFileDialog
             // 

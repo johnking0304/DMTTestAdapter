@@ -70,23 +70,29 @@ namespace TAI.TestDispatcher
         public bool Initialize()
         {   bool reuslt = this.TestScheme.LoadSchemeFromDatabase();
 
-            for (int i = 0; i < this.CardModule.PointNames.Count; i++)
+            try
             {
-                string nuconLabel = this.CardModule.PointNames[i];
-                TestItemNode node = this.TestScheme.TestItems[i];
-
-                if (node.SignalItem.SignalTypeFrom == SignalType.NuCON)
+                for (int i = 0; i < this.TestScheme.TestItems.Count; i++)
                 {
-                    node.SignalItem.SignalFromPort = nuconLabel;
+                    TestItemNode node = this.TestScheme.TestItems[i];
+                    string nuconLabel = this.CardModule.PointNames[node.ChannelId - 1];
+                    if (node.SignalItem.SignalTypeFrom == SignalType.NuCON)
+                    {
+                        node.SignalItem.SignalFromPort = nuconLabel;
+                    }
+                    else if (node.SignalItem.SignalTypeTo == SignalType.NuCON)
+                    {
+                        node.SignalItem.SignalToPort = nuconLabel;
+                    }
                 }
-                else if (node.SignalItem.SignalTypeTo == SignalType.NuCON)
-                {
-                    node.SignalItem.SignalToPort = nuconLabel;
-                }
+                string fileName = string.Format("{0}.ini", this.CardModule.CardType.ToString());
+                this.TestScheme.LoadFromFile(Path.Combine(Constants.Contant.CARD_MODULES, fileName));
+                return reuslt;
             }
-            string fileName = string.Format("{0}.ini", this.CardModule.CardType.ToString());
-            this.TestScheme.LoadFromFile(Path.Combine(Constants.Contant.CARD_MODULES, fileName));
-            return reuslt;
+            catch
+            {
+                return false;
+            }
         }
 
         public TestItemNode ActiveTestItem

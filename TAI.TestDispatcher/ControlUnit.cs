@@ -11,14 +11,44 @@ namespace TAI.TestDispatcher
 {
     public enum CardType
     {
-        gNone =-1,
-        gDIA =1,
-        gDOA =2,
-        gPIA=3,
-        gAIB=4,
-        gAOB=5,
-        gTDA=6,
-        gTCB=8,
+        gNone = -1,
+        gDIA = 1,
+        gDOA = 2,
+        gPIA = 3,
+        gAIB = 4,
+        gAOB = 5,
+        gTDA = 6,
+        gTCB = 8,
+    }
+
+
+    public class CalibratorFactory
+    {
+        public static BaseCalibrator CreateCalibrator(CalibrateController controller,ModuleType moduleType)
+        {
+            BaseCalibrator calibrator = null;
+            switch (moduleType)
+            {
+                case ModuleType.AI:
+                case ModuleType.TC:
+                case ModuleType.RTD3:
+                case ModuleType.RTD4:
+                    {
+                        calibrator =  new AnalogInputModuleCalibrator(controller);
+                        break;
+                    }
+                case ModuleType.AO:
+                    {
+                        calibrator = new AnalogOutputModuleCalibrator(controller);
+                        break;
+                    }
+
+
+            }
+            return calibrator;
+
+        }
+
     }
 
 
@@ -72,19 +102,37 @@ namespace TAI.TestDispatcher
         [JsonProperty(propertyName: "iPAddress")]
         public string IPAddress { get; set; }
         [JsonProperty(propertyName: "remark")]
+
         public string Remark { get; set; }
         [JsonProperty(propertyName: "cardVersion")]
         public string CardVersion { get; set; }
         
         [JsonProperty(propertyName: "pointnames")]
         public List<string> PointNames { get; set; }
-        public TestDispatcher TestDispatcher{get;set; }
+        
 
         [JsonProperty(propertyName: "tbcolumnpos")]
         public int ColumnPos { get; set; }
 
         [JsonProperty(propertyName: "tbrowpos")]
         public int RowPos { get; set; }
+
+        public string IPAddressText
+        {
+            get {
+                return string.Format("192.168.1.{0}", this.IPAddress);
+            }
+        }
+
+        public TestDispatcher TestDispatcher { get; set; }
+
+
+
+        public int ChannelCount {
+            get {
+                return this.PointNames.Count;
+            }
+        }
 
         public object Operator { get; set; }
 
@@ -103,7 +151,7 @@ namespace TAI.TestDispatcher
                 {
                     content = string.Format("[{0}]",this.SerialCode );
                 }
-                content = string.Format("{0}{1}-({2},{3})-{4}",content, CardType.Description(),this.ColumnPos,this.RowPos,this.IPAddress);
+                content = string.Format("{0}{1}-({2},{3})-{4}",content, CardType.Description(),this.ColumnPos,this.RowPos,this.IPAddressText);
                 return content;
 
             }
@@ -123,6 +171,7 @@ namespace TAI.TestDispatcher
             return this.TestDispatcher.Initialize();                        
         }
 
+       
     }
 
     public class CardModuleGroup: BaseCardModule

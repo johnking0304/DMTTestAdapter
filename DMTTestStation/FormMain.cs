@@ -136,6 +136,29 @@ namespace DMTTestStation
             this.toolStripButtonStartTest.Enabled = this.listViewCardTest.Items.Count > 0;
             this.toolStripButtonStopTest.Enabled = this.listViewCardTest.Items.Count > 0;
             this.toolStripButtonScan.Enabled = this.listViewCardTest.Items.Count > 0;
+
+            this.toolStripButtonCalibrate.Enabled = this.listViewCardTest.Items.Count > 0;
+            if (this.listViewCardTest.SelectedItems.Count == 1)
+            {
+                CardModuleItem cardModuleItem = (CardModuleItem)(this.listViewCardTest.SelectedItems[0].Tag);
+                CardModule card = cardModuleItem.CardModule;
+
+                bool enable = card.CardType == ModuleType.AI || card.CardType == ModuleType.AO
+                    || card.CardType == ModuleType.RTD3 || card.CardType == ModuleType.RTD4 || card.CardType == ModuleType.TC;
+
+                enable &= !card.IsTesting;
+
+                this.toolStripButtonCalibrate.Visible = enable;
+
+                if (string.IsNullOrEmpty(card.SerialCode))
+                { 
+                    this.ScanBarcode(cardModuleItem);
+                }
+            }
+
+
+
+
         }
         private void InsertCardModule(CardModule card)
         {
@@ -170,6 +193,8 @@ namespace DMTTestStation
             {
                 if (treeViewCUInfo.SelectedNode.Tag is CardModule)
                 {
+
+
                     CardModule card = (CardModule)treeViewCUInfo.SelectedNode.Tag;
                     if (card.Operator == null)
                     {                       
@@ -477,6 +502,7 @@ namespace DMTTestStation
         private void listViewCardTest_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.UpdateOperateButtonStatus();
+            
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -507,21 +533,26 @@ namespace DMTTestStation
             this.treeViewCUInfo.CollapseAll();
         }
 
+
+        private void ScanBarcode(CardModuleItem cardModuleItem)
+        {
+            CardModule card = cardModuleItem.CardModule;
+            FormInput formInput = new FormInput();
+            formInput.ShowDialog();
+            if (formInput.DialogResult == DialogResult.OK)
+            {
+                card.SerialCode = formInput.SerialCode;
+                this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;
+                cardModuleItem.StartButton.Enabled = true;
+                ((TreeNode)card.Node).Text = card.Description;
+            }
+        }
         private void toolStripButtonScan_Click(object sender, EventArgs e)
         {
             if (this.listViewCardTest.SelectedItems.Count == 1)
             {
                 CardModuleItem cardModuleItem = (CardModuleItem)(this.listViewCardTest.SelectedItems[0].Tag);
-                CardModule card = cardModuleItem.CardModule;
-                FormInput formInput = new FormInput();
-                formInput.ShowDialog();
-                if (formInput.DialogResult == DialogResult.OK)
-                {
-                    card.SerialCode = formInput.SerialCode;
-                    this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;
-                    cardModuleItem.StartButton.Enabled = true;
-                    ((TreeNode)card.Node).Text = card.Description;
-                }
+                this.ScanBarcode(cardModuleItem);
             }
         }
 
@@ -543,6 +574,40 @@ namespace DMTTestStation
         private void FormMain_Shown(object sender, EventArgs e)
         {
             this.Login();
+        }
+
+        private void toolStripButtonCalibrate_Click(object sender, EventArgs e)
+        {
+            if (this.listViewCardTest.SelectedItems.Count == 1)
+            {
+                CardModuleItem cardModuleItem = (CardModuleItem)(this.listViewCardTest.SelectedItems[0].Tag);
+                CardModule card = cardModuleItem.CardModule;
+                if (!card.IsTesting)
+                {
+                    if (Windows.MessageBoxQuestion("确定开始卡件校准？"))
+                    {
+
+                        FormCalibrate formCalibrate = new FormCalibrate(card);
+
+                        Program.StationManager.CalibrateController.AttachObserver(formCalibrate.Update);
+                        Program.StationManager.CalibrateController.AttachObserver(formCalibrate.FormLogs.Update);
+                        Program.StationManager.StartCalibrateModule(card);
+                        formCalibrate.ShowDialog();
+/*                        if (formCalibrate.DialogResult == DialogResult.OK)
+                        {
+
+                        }*/
+                        Program.StationManager.CalibrateController.DetachObserver(formCalibrate.Update);
+                        Program.StationManager.CalibrateController.DetachObserver(formCalibrate.FormLogs.Update);
+                    }
+                }
+                else
+                {
+                    Windows.MessageBoxWarning("卡件正在测试，无法开始校准！");
+                }
+
+
+            }
         }
     }
 

@@ -555,6 +555,8 @@ namespace DMTTestStation
             this.toolStripButtonCalibrate.Name = "toolStripButtonCalibrate";
             this.toolStripButtonCalibrate.Size = new System.Drawing.Size(74, 75);
             this.toolStripButtonCalibrate.Text = "校准";
+            this.toolStripButtonCalibrate.Visible = false;
+            this.toolStripButtonCalibrate.Click += new System.EventHandler(this.toolStripButtonCalibrate_Click);
             // 
             // toolStripButtonLoadCUInfo
             // 
@@ -621,7 +623,7 @@ namespace DMTTestStation
             this.MaximizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
-            this.Text = "模块测试工作站 ";
+            this.Text = "模块测试工作站 v1.0.0";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.Shown += new System.EventHandler(this.FormMain_Shown);

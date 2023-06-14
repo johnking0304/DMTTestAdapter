@@ -111,6 +111,14 @@ namespace DMT.Core.Channels
             return false;
            
         }
+
+        public Boolean Open(string host, int port)
+        {
+            this.Host = host;
+            this.Port = port;
+            return this.Open();      
+        }
+
         public override Boolean Close()
         {
             try
@@ -311,6 +319,24 @@ namespace DMT.Core.Channels
             return result;  
         }
 
+        public override bool SendCommand(byte[] command)
+        {
+            Boolean result = false;
+            try
+            {
+                this.UDPClient.Send(command, command.Length);
+                this.Notify(UDP_DATA_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.OK, "");
+                result = true;
+            }
+            catch (System.Exception)
+            {
+                this.Notify(UDP_DATA_EVENT, ChannelControl.Send.ToString(), "", ChannelResult.SendError, "");
+                result = false;
+
+            }
+            return result;
+
+        }
         public override Boolean SendCommand(String Command)
         { 
             this.SendCommandAsync(Command);

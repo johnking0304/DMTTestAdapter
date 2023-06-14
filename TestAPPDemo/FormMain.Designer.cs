@@ -160,7 +160,7 @@ namespace TestAPPDemo
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1475, 1028);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "功能单点测试";
@@ -173,9 +173,9 @@ namespace TestAPPDemo
             this.groupBox6.Controls.Add(this.comboBox1);
             this.groupBox6.Controls.Add(this.button10);
             this.groupBox6.Location = new System.Drawing.Point(874, 30);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox6.Size = new System.Drawing.Size(538, 507);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
@@ -184,7 +184,7 @@ namespace TestAPPDemo
             // button15
             // 
             this.button15.Location = new System.Drawing.Point(44, 222);
-            this.button15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button15.Margin = new System.Windows.Forms.Padding(4);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(434, 64);
             this.button15.TabIndex = 4;
@@ -195,7 +195,7 @@ namespace TestAPPDemo
             // button16
             // 
             this.button16.Location = new System.Drawing.Point(264, 123);
-            this.button16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button16.Margin = new System.Windows.Forms.Padding(4);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(213, 63);
             this.button16.TabIndex = 3;
@@ -232,7 +232,7 @@ namespace TestAPPDemo
             "23",
             "24"});
             this.comboBox1.Location = new System.Drawing.Point(44, 74);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(180, 26);
             this.comboBox1.TabIndex = 1;
@@ -240,7 +240,7 @@ namespace TestAPPDemo
             // button10
             // 
             this.button10.Location = new System.Drawing.Point(42, 123);
-            this.button10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button10.Margin = new System.Windows.Forms.Padding(4);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(213, 64);
             this.button10.TabIndex = 0;
@@ -469,7 +469,7 @@ namespace TestAPPDemo
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(666, 234);
-            this.button9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button9.Margin = new System.Windows.Forms.Padding(4);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(136, 52);
             this.button9.TabIndex = 23;
@@ -480,7 +480,7 @@ namespace TestAPPDemo
             // button8
             // 
             this.button8.Location = new System.Drawing.Point(666, 160);
-            this.button8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button8.Margin = new System.Windows.Forms.Padding(4);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(136, 52);
             this.button8.TabIndex = 22;
@@ -491,7 +491,7 @@ namespace TestAPPDemo
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(666, 92);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(136, 52);
             this.button7.TabIndex = 21;
@@ -634,7 +634,7 @@ namespace TestAPPDemo
             // button18
             // 
             this.button18.Location = new System.Drawing.Point(66, 652);
-            this.button18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button18.Margin = new System.Windows.Forms.Padding(4);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(214, 64);
             this.button18.TabIndex = 21;
@@ -663,7 +663,7 @@ namespace TestAPPDemo
             // button17
             // 
             this.button17.Location = new System.Drawing.Point(66, 546);
-            this.button17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button17.Margin = new System.Windows.Forms.Padding(4);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(214, 64);
             this.button17.TabIndex = 5;
@@ -732,7 +732,7 @@ namespace TestAPPDemo
             this.checkBoxCompensate.Checked = true;
             this.checkBoxCompensate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxCompensate.Location = new System.Drawing.Point(88, 100);
-            this.checkBoxCompensate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxCompensate.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxCompensate.Name = "checkBoxCompensate";
             this.checkBoxCompensate.Size = new System.Drawing.Size(70, 22);
             this.checkBoxCompensate.TabIndex = 25;
@@ -859,7 +859,6 @@ namespace TestAPPDemo
             this.buttonGSet.TabIndex = 2;
             this.buttonGSet.Text = "设置输出";
             this.buttonGSet.UseVisualStyleBackColor = true;
-            this.buttonGSet.Visible = false;
             this.buttonGSet.Click += new System.EventHandler(this.button8_Click);
             // 
             // button6

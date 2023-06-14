@@ -61,9 +61,18 @@ namespace DMTTestStation
                     case NotifyEvents.Message:
                     case NotifyEvents.Progress:
                         {
+                            string info = "";
                             if (result is CardModule)
                             {
-                                string info = string.Format("{0}-{1}:{2}\r", DateTime.Now.ToString(), ((CardModule)result).Description , message);
+                               info = string.Format("{0}-{1}:{2}\r", DateTime.Now.ToString(), ((CardModule)result).Description , message);
+                            
+                            }
+                            else  if ( result is BaseCalibrator)
+                            { 
+                                info = string.Format("{0}:{1}\r", DateTime.Now.ToString(), message);
+                            }
+                            if (!string.IsNullOrEmpty(info))
+                            {
                                 if (!this.Paused)
                                 {
                                     this.richTextBoxLogs.AppendText(info);
@@ -72,8 +81,6 @@ namespace DMTTestStation
                                 {
                                     this.CacheMessages.Add(info);
                                 }
-
-                               
                             }
                             break;
                         }
@@ -118,6 +125,12 @@ namespace DMTTestStation
             {
                 Files.WriteFile(this.saveFileDialog.FileName, this.richTextBoxLogs.Text);
             }
+        }
+
+        private void richTextBoxLogs_ContentsResized(object sender, ContentsResizedEventArgs e)
+        {
+            richTextBoxLogs.SelectionStart = richTextBoxLogs.Text.Length;                    //rtbReceive为控件的名字（自己取）
+            richTextBoxLogs.ScrollToCaret();
         }
     }
 }

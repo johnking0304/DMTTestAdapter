@@ -8,6 +8,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.IO;
 using System.Security.Cryptography;
+using System.Runtime.InteropServices;
 
 namespace DMT.Core.Utils
 {
@@ -219,6 +220,62 @@ namespace DMT.Core.Utils
 
     public static class ByteUtils
     {
+
+
+        /// <summary>
+        /// 结构体转byte数组
+        /// </summary>
+        /// <param name="data">数据对象</param>
+        /// <param name="_type">数据类型</param>
+        /// <returns></returns>
+        public static byte[] StructToBytes(object data, Type _type)
+        {
+            //计算对象长度
+            int iAryLen = Marshal.SizeOf(_type);
+            //根据长度定义一个数组
+            byte[] databytes = new byte[iAryLen];
+
+            //在非托管内存中分配一段iAryLen大小的空间
+            IntPtr ptr = Marshal.AllocHGlobal(iAryLen);
+            //将托管内存的东西发送给非托管内存上
+            Marshal.StructureToPtr(data, ptr, true);
+            //将bytes组数Copy到Ptr对应的空间中
+            Marshal.Copy(ptr, databytes, 0, iAryLen);
+            //释放非托管内存
+            Marshal.FreeHGlobal(ptr);
+            return databytes;
+        }
+
+        /// <summary>
+        /// byte数组转结构体
+        /// </summary>
+        /// <param>byte数组</param>
+        /// <param>结构体类型</param>
+        /// <returns>转换后的结构体</returns>
+        public static object BytesToStruct(byte[] bytes, Type type)
+        {
+            //得到结构体的大小
+            int size = Marshal.SizeOf(type);
+            //byte数组长度小于结构体的大小
+            if (size > bytes.Length)
+            {
+                //返回空
+                return null;
+            }
+            //分配结构体大小的内存空间
+            IntPtr structPtr = Marshal.AllocHGlobal(size);
+            //将byte数组拷到分配好的内存空间
+            Marshal.Copy(bytes, 0, structPtr, size);
+            //将内存空间转换为目标结构体
+            object obj = Marshal.PtrToStructure(structPtr, type);
+            //释放内存空间
+            Marshal.FreeHGlobal(structPtr);
+            //返回结构体
+            return obj;
+        }
+
+
+
         /// <summary>
         /// 计算一组二进制数据的累加和。
         /// </summary>

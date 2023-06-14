@@ -30,6 +30,7 @@ namespace TAI.TestDispatcher
             if (this.ActiveCommand == OperateCommand.StartTest)
             {
                 this.ActiveCommand = OperateCommand.None;
+                this.Dispatcher.NotifyMessage("==========================================================");
                 this.LastMessage = "接收到启动测试命令，转换为【测试状态】";
                 LogHelper.LogInfoMsg(this.LastMessage);
                 this.Dispatcher.NotifyMessage(this.LastMessage);

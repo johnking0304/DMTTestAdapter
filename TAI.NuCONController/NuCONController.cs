@@ -20,12 +20,12 @@ namespace TAI.NuCONController
 
         public   bool SetChannelValue(int stationId, string channel, int dataType, double value)
         {
-            IntPtr intPtr = Marshal.StringToHGlobalAnsi(channel);
-            StringBuilder sb1 = new StringBuilder(channel);
+            IntPtr intPtr = Marshal.StringToHGlobalAnsi(channel.ToString());
+            StringBuilder sb1 = new StringBuilder(channel.ToString());
             try
             {
                 int result = SetValue(value, sb1);
-                return result >= 0;
+                return result >= -600;
             }
             catch
             {

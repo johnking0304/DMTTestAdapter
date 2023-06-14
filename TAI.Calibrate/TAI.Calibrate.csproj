@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02161547-496E-43A5-A408-923539A29DF8}</ProjectGuid>
+    <ProjectGuid>{884B4DA4-EAC3-45F2-8013-A1350EB54303}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TAI.TestDispatcher</RootNamespace>
-    <AssemblyName>TAI.TestDispatcher</AssemblyName>
+    <RootNamespace>TAI.Calibrate</RootNamespace>
+    <AssemblyName>TAI.Calibrate</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SqlSugar, Version=5.1.4.76, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,20 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calibrator.cs" />
     <Compile Include="Commands.cs" />
-    <Compile Include="ControlUnit.cs" />
-    <Compile Include="TestDispatcher.cs" />
+    <Compile Include="Calibrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestState\BaseTestState.cs" />
-    <Compile Include="TestState\PauseTestState.cs" />
-    <Compile Include="TestState\FinishTestState.cs" />
-    <Compile Include="TestState\IdleTestState.cs" />
-    <Compile Include="TestState\TestingTestState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMT.Core.Channels\DMT.Core.Channels.csproj">
-      <Project>{15DBB8B0-6391-438B-BE41-CAE129D46E82}</Project>
+      <Project>{15dbb8b0-6391-438b-be41-cae129d46e82}</Project>
       <Name>DMT.Core.Channels</Name>
     </ProjectReference>
     <ProjectReference Include="..\DMT.Core.Models\DMT.Core.Models.csproj">
@@ -69,16 +59,8 @@
       <Project>{898A164E-86AA-4D2F-A096-D9AB030AE9C0}</Project>
       <Name>DMT.Core.Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DMT.DatabaseAdapter\DMT.DatabaseAdapter.csproj">
-      <Project>{0a2c8c10-39cb-4b64-ae7c-c522f701bab3}</Project>
-      <Name>DMT.DatabaseAdapter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TAI.Contants\TAI.Contants.csproj">
-      <Project>{7cf01fb2-2256-43e0-b9c6-ec15ca7dc03c}</Project>
-      <Name>TAI.Contants</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TAI.Device.Analog\TAI.Device.Analog.csproj">
-      <Project>{7d0218de-a6eb-405b-8ba2-95e258e70a8d}</Project>
+      <Project>{7D0218DE-A6EB-405B-8BA2-95E258E70A8D}</Project>
       <Name>TAI.Device.Analog</Name>
     </ProjectReference>
     <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
@@ -86,13 +68,9 @@
       <Name>TAI.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\TAI.Test.Scheme\TAI.Test.Scheme.csproj">
-      <Project>{8efa5950-1f78-4816-bc7b-5731c705e5ac}</Project>
+      <Project>{8EFA5950-1F78-4816-BC7B-5731C705E5AC}</Project>
       <Name>TAI.Test.Scheme</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

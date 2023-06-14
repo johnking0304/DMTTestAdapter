@@ -17,8 +17,10 @@ namespace TAI.TestDispatcher
         {
             this.Caption = "测试状态";
             this.TestingState = TestingState.Testing;
+            
             this.LastMessage = string.Format("进入【测试状态】，等待测试参数");
             LogHelper.LogInfoMsg(this.LastMessage);
+
             this.Dispatcher.Notify((int)NotifyEvents.Progress, this.TestingState.ToString(), "", this.Dispatcher.CardModule, this.LastMessage);
 
         }

@@ -36,6 +36,15 @@
   <PropertyGroup>
     <ApplicationIcon>Test.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="SqlSugar, Version=5.1.4.76, Culture=neutral, PublicKeyToken=null" />
@@ -57,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardModuleItem.cs" />
+    <Compile Include="FormCalibrate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCalibrate.Designer.cs">
+      <DependentUpon>FormCalibrate.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +98,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormCalibrate.resx">
+      <DependentUpon>FormCalibrate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormInput.resx">
       <DependentUpon>FormInput.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,6 +123,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

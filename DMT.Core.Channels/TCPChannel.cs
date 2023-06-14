@@ -135,7 +135,7 @@ namespace DMT.Core.Channels
                     this.Notify(CHANNEL_EVENT, ChannelControl.Open.ToString(),"",ChannelResult.Operating, this.LastMessage);
                     this.Connecting = true;
                 }
-                catch (System.InvalidOperationException)
+                catch 
                 {
                     this.LastErrorCode = ChannelResult.CanNotOpen;
                 }
@@ -187,7 +187,7 @@ namespace DMT.Core.Channels
                 this.Notify(CHANNEL_EVENT, ChannelControl.Close.ToString(),"", ChannelResult.OK, this.LastMessage);
                 this.LastErrorCode = ChannelResult.OK;
             }
-            catch(System.Net.Sockets.SocketException)
+            catch
             {
                 this.LastMessage = "套接字错误！";
                 this.LastErrorCode = ChannelResult.CanNotClose;

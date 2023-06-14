@@ -31,12 +31,12 @@ namespace DMTTestStation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxUserName = new System.Windows.Forms.TextBox();
+            this.buttonLogin = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.buttonLogin = new System.Windows.Forms.Button();
+            this.textBoxUserName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -58,38 +58,15 @@ namespace DMTTestStation
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "登录";
             // 
-            // label1
+            // buttonLogin
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 72);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "用户名";
-            // 
-            // textBoxUserName
-            // 
-            this.textBoxUserName.Location = new System.Drawing.Point(132, 62);
-            this.textBoxUserName.Name = "textBoxUserName";
-            this.textBoxUserName.Size = new System.Drawing.Size(264, 31);
-            this.textBoxUserName.TabIndex = 1;
-            // 
-            // textBoxPassword
-            // 
-            this.textBoxPassword.Location = new System.Drawing.Point(132, 129);
-            this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(264, 31);
-            this.textBoxPassword.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(48, 139);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 21);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "密码";
+            this.buttonLogin.Location = new System.Drawing.Point(132, 385);
+            this.buttonLogin.Name = "buttonLogin";
+            this.buttonLogin.Size = new System.Drawing.Size(122, 41);
+            this.buttonLogin.TabIndex = 5;
+            this.buttonLogin.Text = "登录";
+            this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // buttonCancel
             // 
@@ -101,15 +78,40 @@ namespace DMTTestStation
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // buttonLogin
+            // textBoxPassword
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(132, 385);
-            this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(122, 41);
-            this.buttonLogin.TabIndex = 5;
-            this.buttonLogin.Text = "登录";
-            this.buttonLogin.UseVisualStyleBackColor = true;
-            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
+            this.textBoxPassword.Location = new System.Drawing.Point(132, 129);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
+            this.textBoxPassword.Size = new System.Drawing.Size(264, 31);
+            this.textBoxPassword.TabIndex = 3;
+            this.textBoxPassword.Text = "123456";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(48, 139);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 21);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "密码";
+            // 
+            // textBoxUserName
+            // 
+            this.textBoxUserName.Location = new System.Drawing.Point(132, 62);
+            this.textBoxUserName.Name = "textBoxUserName";
+            this.textBoxUserName.Size = new System.Drawing.Size(264, 31);
+            this.textBoxUserName.TabIndex = 1;
+            this.textBoxUserName.Text = "user1";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(48, 72);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 21);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "用户名";
             // 
             // pictureBox1
             // 

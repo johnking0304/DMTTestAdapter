@@ -37,6 +37,45 @@ namespace TAI.StationManager
         public List<Station> Stations { get; set; }
         public ControlUnit ControlUnit { get; set; }
 
+        public CalibrateController CalibrateController { get; set; }
+
+
+
+
+        public void StartCalibrateModule(CardModule card)
+        {
+
+            this.CalibrateController.StartCalibrateModule(card);
+            if (CalibrateController.Calibrator != null)
+            {
+
+                switch (card.CardType)
+                {
+                    case ModuleType.AI:
+                    case ModuleType.TC:
+                    case ModuleType.RTD3:
+                    case ModuleType.RTD4:
+                        {
+                            CalibrateController.Calibrator.SetChannelValue +=this.SetAnalogueChannelValue;
+                            CalibrateController.Calibrator.GetChannelValue += this.GetAnalogueChannelValue;
+                            break;
+                        }
+                    case ModuleType.AO:
+                        {
+                            CalibrateController.Calibrator.SetChannelValue += this.SetNuCONChannelValue;
+                            CalibrateController.Calibrator.GetChannelValue += this.GetAnalogueChannelValue;
+                            break;
+                        }
+
+
+                }
+            }
+
+        }
+
+
+
+
         public bool DeviceStatus {
 
             get {
@@ -97,18 +136,18 @@ namespace TAI.StationManager
 
             this.DigitalDevice = new DigitalDevice();
             this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
-            this.DigitalDevice.Open();
+            //this.DigitalDevice.Open();
             this.DigitalDevice.Start();
 
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
             this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
-            this.MeasureDevice.Open();
+            //this.MeasureDevice.Open();
             this.MeasureDevice.Start();
 
 
             this.GeneratorDevice = AnalogDeviceFactory.CreateDevice(this.GeneratorDeviceModel);
             this.GeneratorDevice.LoadFromFile(Contant.ANALOG_CONFIG);
-            this.GeneratorDevice.Open();
+            //this.GeneratorDevice.Open();
             this.GeneratorDevice.Start();
 
             this.SwitchControllers = new List<SwitchController>();
@@ -125,7 +164,14 @@ namespace TAI.StationManager
                 this.SwitchControllers.Add(switchController);
             }
 
-            this.NuCONController = new NuCONController.NuCONController();            
+            this.NuCONController = new NuCONController.NuCONController();
+
+            this.CalibrateController = new CalibrateController();
+            this.CalibrateController.LoadFromFile(Contant.CALIBRATOR_CONFIG);
+            this.CalibrateController.Open();
+            
+           
+
             this.StartThread();
 
         }
@@ -189,18 +235,18 @@ namespace TAI.StationManager
             {
                 try
                 {
- /*                   bool result = this.ParseControlUnit(fileName);
-                    if (result)
-                    {
-                        string content = Files.LoadFromFile(Contant.ControlUnitInfoFile);
-                        content = content.Trim();
-                        if (!string.IsNullOrEmpty(content))
-                        {
-                            this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
-                            return true;
-                        }
-                    }
-                    return false;*/
+                    /*                    bool result = this.ParseControlUnit(fileName);
+                                        if (result)
+                                        {
+                                            string content = Files.LoadFromFile(Contant.ControlUnitInfoFile);
+                                            content = content.Trim();
+                                            if (!string.IsNullOrEmpty(content))
+                                            {
+                                                this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
+                                                return true;
+                                            }
+                                        }
+                                        return false;*/
 
                     string content = Files.LoadFromFile(fileName);
                     content = content.Trim();
@@ -414,10 +460,11 @@ namespace TAI.StationManager
             {
                 case StationType.TC:
                 case StationType.AI:
-                case StationType.AO:
+                
                     {
                         return ChannelIdLink.GetOutput(sourceId);
                     }
+                case StationType.AO:
                 case StationType.RTD3:
                 case StationType.RTD4:
 
@@ -440,7 +487,7 @@ namespace TAI.StationManager
                 this.SwitchChannelOperate(stationId, (ushort)linkChannelId, channelDataType);
                 float value = 0;
                 bool result = this.MeasureDevice.GetValue((ChannelType)channelDataType, ref value);
-
+                dataVale = value;
                 message = string.Format("获取模拟量通道数据[{0},通道={1},类型={2},返回值={3}]-{4}", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString(),value,result ? "成功" : "失败");
                 LogHelper.LogInfoMsg(message);
 
@@ -458,6 +505,8 @@ namespace TAI.StationManager
             bool value = false;
 
             bool result = this.DigitalDevice.GetValue(channelId, ref value);
+
+            dataVale = value ? 1 : 0;
             message = string.Format("获取数字量通道数据[通道={0},返回值={1}]-{2}", channelId, value,result?"成功":"失败");
             LogHelper.LogInfoMsg(message);
             return result;
