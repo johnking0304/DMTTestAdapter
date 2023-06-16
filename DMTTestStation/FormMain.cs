@@ -172,10 +172,11 @@ namespace DMTTestStation
             item.SubItems.Add("");
             item.SubItems.Add("");
             item.StateImageIndex = CardModuleItem.ImageIdleIndex;
-            CardModuleItem cardItem = new CardModuleItem(card,item);
+            CardModuleItem cardItem = new CardModuleItem(card,item,Program.StationManager);
             cardItem.CanStartTest += this.CanStartTest;
             item.Tag = cardItem;
             this.listViewCardTest.Items.Add(item);
+            
 
             int rowIndex = listViewCardTest.Items.Count - 1;
             Windows.AddControlToListView(this.listViewCardTest, cardItem.ProgressBar, ProgressColumnIndex, rowIndex);
@@ -201,8 +202,7 @@ namespace DMTTestStation
                         Program.StationManager.InitializeModuleTest(card);
                         this.InsertCardModule(card);
                         this.UpdateOperateButtonStatus();
-                        
-
+                       
                     }
                 }
             }
@@ -537,15 +537,37 @@ namespace DMTTestStation
         private void ScanBarcode(CardModuleItem cardModuleItem)
         {
             CardModule card = cardModuleItem.CardModule;
-            FormInput formInput = new FormInput();
+            FormInput formInput = new FormInput("扫描卡件序列号");
             formInput.ShowDialog();
+            bool start = false;
             if (formInput.DialogResult == DialogResult.OK)
             {
                 card.SerialCode = formInput.SerialCode;
-                this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;
-                cardModuleItem.StartButton.Enabled = true;
+                this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;                
                 ((TreeNode)card.Node).Text = card.Description;
+                start = true;
             }
+
+            if (card.CardType == ModuleType.DO)
+            {
+                formInput = new FormInput("扫描DO端子板序列号");
+                formInput.ShowDialog();
+                if (formInput.DialogResult == DialogResult.OK)
+                {
+                    start = card.Update(formInput.SerialCode);
+                    if (!start)
+                    {
+                        Windows.MessageBoxError("错误的端子板序列号");
+                    }                
+                }
+                else
+                {
+                    start = false;
+                }
+            }
+            cardModuleItem.StartButton.Enabled = start;
+
+
         }
         private void toolStripButtonScan_Click(object sender, EventArgs e)
         {

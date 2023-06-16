@@ -53,6 +53,8 @@ namespace TAI.TestDispatcher
 
 
 
+
+
     public class BaseCardModule
     {
         [JsonProperty(propertyName: "index")]
@@ -93,7 +95,9 @@ namespace TAI.TestDispatcher
         public string CageNum { get; set; }
 
         public string SerialCode { get; set; }
-      
+
+        public string AssistCardCode { get; set; }
+
 
         [JsonProperty(propertyName: "cardNo")]
         public int CardNo { get; set; }
@@ -112,10 +116,10 @@ namespace TAI.TestDispatcher
         
 
         [JsonProperty(propertyName: "tbcolumnpos")]
-        public int ColumnPos { get; set; }
+        public string ColumnPos { get; set; }
 
         [JsonProperty(propertyName: "tbrowpos")]
-        public int RowPos { get; set; }
+        public string RowPos { get; set; }
 
         public string IPAddressText
         {
@@ -126,13 +130,9 @@ namespace TAI.TestDispatcher
 
         public TestDispatcher TestDispatcher { get; set; }
 
+        public CardTestResult CardTestResult { get; set; }
 
-
-        public int ChannelCount {
-            get {
-                return this.PointNames.Count;
-            }
-        }
+        public int ChannelCount { get; set; }
 
         public object Operator { get; set; }
 
@@ -158,17 +158,61 @@ namespace TAI.TestDispatcher
         }
 
 
-        
+
+        public CardModule()
+        {
+            this.CardTestResult = new CardTestResult();
+            
+        }
+
+
+
         public bool IsTesting {
 
             get {
-                return  this.TestDispatcher.TestState.TestingState == TestingState.Testing || this.TestDispatcher.TestState.TestingState == TestingState.Pause;
+                try
+                {
+                    return this.TestDispatcher.TestState.TestingState == TestingState.Testing || this.TestDispatcher.TestState.TestingState == TestingState.Pause;
+                }
+                catch
+                {
+                    return false;
+                }
+                
+                
             }
+
         }
         public bool Initialize()
         {
             this.TestDispatcher = new TestDispatcher(this);
             return this.TestDispatcher.Initialize();                        
+        }
+
+
+        public bool Update(string assistCardCode)
+        {
+
+            if (assistCardCode.Contains("CZ2RBS01"))
+            {
+                this.ChannelCount = 16;
+            }
+            else if (assistCardCode.Contains("CZ2RBS02"))
+            {
+                this.ChannelCount = 10;
+            }
+            else
+            {
+                return false;
+            }
+
+            foreach (var item in this.TestDispatcher.TestScheme.TestItems)
+            {
+                item.Enable = item.ChannelId <= this.ChannelCount;                
+            }
+
+            this.AssistCardCode = assistCardCode; 
+            return true;
         }
 
        
@@ -192,6 +236,7 @@ namespace TAI.TestDispatcher
 
     public class ControlUnit
     {
+        
         public int Index { get; set; }
 
         [JsonProperty(propertyName: "cu")]

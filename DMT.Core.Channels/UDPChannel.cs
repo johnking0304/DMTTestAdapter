@@ -128,7 +128,7 @@ namespace DMT.Core.Channels
                 this.LastErrorCode = ChannelResult.OK;
                 this.Notify(UDP_CONTROL_EVENT, ChannelControl.Close.ToString(), "", ChannelResult.OK, this.LastMessage);
             }
-            catch(System.Net.Sockets.SocketException)
+            catch
             {
                 this.LastMessage = "网络异常！";
                 this.LastErrorCode = ChannelResult.CanNotClose;
@@ -253,7 +253,7 @@ namespace DMT.Core.Channels
                     }
                     if (ReceiveString.Length > 0)
                     {
-                        this.Notify(UDP_DATA_EVENT, ChannelControl.Receive.ToString(), "", resResult, ReceiveString);
+                        this.Notify(UDP_DATA_EVENT, ChannelControl.Report.ToString(), ReceiveString, resResult, "接收到主动上报数据");
                     }
                
                 }

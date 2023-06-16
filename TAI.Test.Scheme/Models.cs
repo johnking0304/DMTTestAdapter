@@ -41,6 +41,9 @@ namespace TAI.Test.Scheme
         Greater =3,    
     }
 
+    
+
+
     public class TestItemNode
     {
         public int Id { get; set; }
@@ -65,6 +68,8 @@ namespace TAI.Test.Scheme
 
         public SignalItem SignalItem { get; set; }
 
+        public bool Enable { get; set; }
+
 
         public bool Updated { get; set; }
         public DateTime StartDateTime { get; set; }
@@ -76,6 +81,8 @@ namespace TAI.Test.Scheme
         public SetChannelValueDelegate SetChannelValue { get; set; }
         public GetChannelValueDelegate GetChannelValue { get; set; }
 
+         
+        
         public int ChannelId { get
             {
                 return this.SignalItem.ChannelId;
@@ -85,6 +92,7 @@ namespace TAI.Test.Scheme
 
         public TestItemNode()
         {
+            this.Enable = true;
             this.Clear();
         }
         public void Assign(TestItem item)
@@ -104,7 +112,7 @@ namespace TAI.Test.Scheme
         public void Clear()
         {
             this.SimpleData = 0;
-            this.Conclusion = false;
+            this.Conclusion = true;
             this.Updated = false;
             this.Message = "";
         }
@@ -271,6 +279,20 @@ namespace TAI.Test.Scheme
             this.ProcessIntervalMillisecond = 0;
         }
 
+        public int ActiveItemCount
+        {
+            get {
+                int count = 0;
+                foreach (var item in this.TestItems)
+                { 
+                    if (item.Enable)
+                    {
+                        count += 1;    
+                    }
+                }
+                return count;
+            }
+        }
 
         public bool Conclusion
         {
@@ -278,7 +300,10 @@ namespace TAI.Test.Scheme
                 bool result = true;
                 foreach (TestItemNode node in this.TestItems)
                 {
-                    result &= node.Conclusion;              
+                    if (node.Enable)
+                    {
+                        result &= node.Conclusion;
+                    }
                 }
                 return result;
             }

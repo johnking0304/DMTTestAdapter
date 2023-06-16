@@ -10,7 +10,13 @@ namespace TAI.TestDispatcher
 {
 
 
-
+    public enum MessageType
+    { 
+        Normal = 0,
+        Warning =1,
+        Error = 2,  
+        Pass =3,
+    }
 
     public enum  OperateCommand
     {
@@ -20,6 +26,127 @@ namespace TAI.TestDispatcher
         StopTest = 3,
     }
 
+
+
+
+    public class CardTestResult
+    {
+        public string CPUUsage { get; set; }
+        public string CUNum { get; set; }
+        public string ERBPosition { get; set; }
+        public string ROMUsage { get; set; }
+
+        [JsonProperty(propertyName: "acceptorName")]
+        public string AcceptorName { get; set; }
+
+        [JsonProperty(propertyName: "cardAddress")]
+        public string CardAddress { get; set; }
+
+        [JsonProperty(propertyName: "cardPosition")]
+        public string CardPosition { get; set; }
+
+        [JsonProperty(propertyName: "cardTemperature")]
+        public string CardTemperature { get; set; }
+
+
+        [JsonProperty(propertyName: "dateTime")]
+        public string TestDateTime { get; set; }
+
+        [JsonProperty(propertyName: "finalResult")]
+        public string FinalResult { get; set; }
+
+        [JsonProperty(propertyName: "hardWareVersion")]
+        public string HardWareVersion { get; set; }
+
+        [JsonProperty(propertyName: "signalType")]
+        public string SignalType { get; set; }
+
+        [JsonProperty(propertyName: "terminalBoardPosition")]
+        public string TerminalBoardPosition { get; set; }
+
+        [JsonProperty(propertyName: "testResult")]
+        public List<TestResult> TestResults { get; set; }
+
+        [JsonProperty(propertyName: "testerName")]
+        public string TesterName { get; set; }
+
+        [JsonProperty(propertyName: "tolerance")]
+        public string Tolerance { get; set; }
+
+        public string QRCode { get; set; }
+
+        public CardTestResult()
+        {
+            this.CPUUsage = "";
+            this.CUNum = "";
+            this.ERBPosition = "";
+            this.ROMUsage = "";
+            this.AcceptorName = "";
+            this.CardAddress = "";
+            this.CardPosition = "";
+            this.CardTemperature = "";
+            this.TestDateTime = "";
+            this.FinalResult = "";
+            this.HardWareVersion = "";
+            this.SignalType = "";
+            this.TerminalBoardPosition = "";
+            this.TesterName = "";
+            this.Tolerance = "";
+            this.QRCode = "";
+            this.TestResults = new List<TestResult>();
+        }
+        public void Assign(TestDispatcher dispatcher)
+        {
+            CardModule cardModule = dispatcher.CardModule;
+            TestScheme scheme = dispatcher.TestScheme;
+
+            this.QRCode = string.Format("{0},{1}",cardModule.SerialCode, cardModule.AssistCardCode);           
+            this.SignalType = cardModule.CardType.ToString();
+            this.HardWareVersion = cardModule.CardVersion;
+            this.CardAddress = cardModule.IPAddressText;
+            this.CardPosition = string.Format("{0},{1}", cardModule.CageNum, cardModule.CardNo);
+            this.TerminalBoardPosition = string.Format("{0},{1}", cardModule.ColumnPos, cardModule.RowPos);
+            this.TestDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            this.FinalResult = scheme.Conclusion ? "PASS" : "NG";
+
+        }
+    }
+
+
+    public class TestResult
+    {
+        //目标值
+        [JsonProperty(propertyName: "Aim")]
+        public float aim { get; set; }
+
+        //通道编号
+        [JsonProperty(propertyName: "channel")]
+        public int Channel { get; set; }
+
+        //容差
+        [JsonProperty(propertyName: "error")]
+        public float Error { get; set; }
+
+        //输入值
+        [JsonProperty(propertyName: "inputValue")]
+        public float InputValue { get; set; }
+
+
+        //实际值
+        [JsonProperty(propertyName: "realNum")]
+        public float RealNum { get; set; }
+
+
+        public void Assign(TestItemNode node)
+        {
+            this.aim = node.CriteriaValue;
+            this.Channel = node.ChannelId;
+            this.Error = node.CriteriaTolerance;
+            this.InputValue = node.SignalValue;
+            this.RealNum = node.SimpleData;
+        }
+    }
 
 
 
@@ -35,12 +162,14 @@ namespace TAI.TestDispatcher
             get
 
             {
-                if (this.TestScheme.TestItems.Count > 0)
+                if (this.TestScheme.ActiveItemCount > 0)
                 {
-                    double percent = ((this.ActiveTestItemIndex + 1.0) / this.TestScheme.TestItems.Count) * 100.0f;
+                    double percent = ((this.ActiveTestItemIndex + 1.0) / this.TestScheme.ActiveItemCount) * 100.0f;
                     return (int)Math.Round(percent);
                 }
                 return 100;
+
+
             }
         }
 
@@ -48,7 +177,7 @@ namespace TAI.TestDispatcher
         {
             get
             {
-                return string.Format("{0}/{1}", this.ActiveTestItemIndex + 1, this.TestScheme.TestItems.Count);
+                return string.Format("{0}/{1}", this.ActiveTestItemIndex + 1, this.TestScheme.ActiveItemCount);
             }
         }
 
@@ -85,6 +214,7 @@ namespace TAI.TestDispatcher
                         node.SignalItem.SignalToPort = nuconLabel;
                     }
                 }
+                this.CardModule.ChannelCount = this.CardModule.PointNames.Count;
                 string fileName = string.Format("{0}.ini", this.CardModule.CardType.ToString());
                 this.TestScheme.LoadFromFile(Path.Combine(Constants.Contant.CARD_MODULES, fileName));
                 return reuslt;
@@ -101,26 +231,38 @@ namespace TAI.TestDispatcher
             {
                 if ((this.ActiveTestItemIndex < this.TestScheme.TestItems.Count) && (this.ActiveTestItemIndex >= 0))
                 {
-                    return this.TestScheme.TestItems[this.ActiveTestItemIndex];
+                    var item = this.TestScheme.TestItems[this.ActiveTestItemIndex];
+                    if (item.Enable)
+                    {
+                        return item;
+                    }
                 }
+
                 return null;
             }
         }
 
         public void SaveConclusion()
         {
-            List<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
+            this.CardModule.CardTestResult.Assign(this);
+            this.CardModule.CardTestResult.TestResults.Clear();
             foreach (TestItemNode node in this.TestScheme.TestItems)
             {
-                KeyValuePair<string, string> item = new KeyValuePair<string, string>(node.ReportKey,node.Conclusion?"PASS":"NG");
-                result.Add(item);           
+                if (node.Enable)
+                {
+                    TestResult result = new TestResult();
+                    result.Assign(node);
+                    this.CardModule.CardTestResult.TestResults.Add(result);
+                }
             }
+
+
             Card card = new Card();
             card.SN = this.CardModule.CageNum;
             card.ProductId = this.CardModule.CardType.ToString();
             card.Tested = true;
             card.IsPassed = this.TestScheme.Conclusion;
-            card.TestResult = JsonConvert.SerializeObject(result);
+            card.TestResult = JsonConvert.SerializeObject(this.CardModule.CardTestResult);
             card.TestTimeStamp = DateTime.Now;
 
             MysqlSugarContext.MysqlSugarDB.Insertable<Card>(card).ExecuteCommand();
@@ -129,10 +271,10 @@ namespace TAI.TestDispatcher
 
         public void ProcessAction()
         {
-            if (this.ActiveTestItem != null)
+            if (this.ActiveTestItem != null )
             {
                 string message = "";
-                bool result = this.ActiveTestItem.SetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalFromPort, (int)this.TestScheme.ChannelDataType, this.ActiveTestItem.SignalValue,ref message);
+                bool result = this.ActiveTestItem.SetChannelValue((int)this.CardModule.CardType, this.ActiveTestItem.SignalItem.SignalFromPort, (int)this.TestScheme.ChannelDataType, this.ActiveTestItem.SignalValue, ref message);
                 this.NotifyMessage(message);
    
                 this.Delay(this.TestScheme.ProcessIntervalMillisecond);
@@ -143,14 +285,16 @@ namespace TAI.TestDispatcher
                 this.ActiveTestItem.ProcessConclusion(dataValue,ref message);
 
                 this.NotifyMessage(message);
-                message = string.Format("比对结果[{0}]", this.ActiveTestItem.Conclusion ? "PASS" : "NG");
-                this.NotifyMessage(message);
+                message = string.Format("比对结果[{0}]", this.ActiveTestItem.Conclusion ? "PASS" : "NG");                
+                this.NotifyMessage(message, this.ActiveTestItem.Conclusion ? MessageType.Pass : MessageType.Error);
                 this.ActiveTestItemIndex += 1;
             }
             else
             {
                 this.TestCompleted = true;
             }
+
+
         }
 
 
@@ -162,9 +306,10 @@ namespace TAI.TestDispatcher
             }
         }
 
-        public void NotifyMessage(string message)
+        public void NotifyMessage(string message,MessageType messageType=MessageType.Normal)
         {
-            this.Notify((int)NotifyEvents.Message,this.CardModule.Description,"",this.CardModule,message);
+
+            this.Notify((int)NotifyEvents.Message,this.CardModule.Description, messageType.ToString(), this.CardModule,message);
         }
 
 

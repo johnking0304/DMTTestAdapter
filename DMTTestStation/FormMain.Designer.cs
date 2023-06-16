@@ -31,7 +31,7 @@ namespace DMTTestStation
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("控制器信息");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("控制器信息");
             this.panelMain = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -402,10 +402,10 @@ namespace DMTTestStation
             this.treeViewCUInfo.Location = new System.Drawing.Point(5, 97);
             this.treeViewCUInfo.Margin = new System.Windows.Forms.Padding(5);
             this.treeViewCUInfo.Name = "treeViewCUInfo";
-            treeNode1.Name = "节点0";
-            treeNode1.Text = "控制器信息";
+            treeNode2.Name = "节点0";
+            treeNode2.Text = "控制器信息";
             this.treeViewCUInfo.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewCUInfo.SelectedImageKey = "module.png";
             this.treeViewCUInfo.Size = new System.Drawing.Size(391, 770);
             this.treeViewCUInfo.TabIndex = 1;
@@ -623,7 +623,7 @@ namespace DMTTestStation
             this.MaximizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
-            this.Text = "模块测试工作站 v1.0.0";
+            this.Text = "模块测试工作站 v1.0.1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.Shown += new System.EventHandler(this.FormMain_Shown);

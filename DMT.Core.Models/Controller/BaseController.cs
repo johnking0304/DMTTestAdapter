@@ -7,6 +7,42 @@ using Newtonsoft.Json;
 
 namespace DMT.Core.Models
 {
+
+    public class BaseConfig
+    {
+        public string Caption { get; set; }
+        public string ConfigFileName { get; set; }
+        public virtual void LoadFromFile(string fileName)
+        {
+            this.ConfigFileName = fileName;
+
+
+            string[] list = IniFiles.GetAllSectionNames(fileName);
+
+            if (!((System.Collections.IList)list).Contains(this.Caption))
+            {
+                this.SaveToFile(fileName);
+            }
+        }
+
+        public virtual void SaveToFile(string fileName)
+        {
+            this.ConfigFileName = fileName;
+        }
+
+        public virtual void SaveToFile()
+        {
+            if (this.ConfigFileName.Length > 0)
+            {
+                this.SaveToFile(this.ConfigFileName);
+            }
+        }
+
+
+    }
+
+
+
     public class StatusMessage
     {
         [JsonProperty(propertyName: "message")]

@@ -108,6 +108,12 @@ namespace DMTTestStation
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            this.Close();
+            
+        }
+
+        private void FormCalibrate_FormClosing(object sender, FormClosingEventArgs e)
+        {
             if (!this.Completed)
             {
                 if (Windows.MessageBoxQuestion("正在进行卡件校准，确认停止吗？"))
@@ -116,11 +122,10 @@ namespace DMTTestStation
                 }
                 else
                 {
-                    return;
+                    e.Cancel = true; 
                 }
             }
-            this.Close();
-            
+
         }
     }
 }

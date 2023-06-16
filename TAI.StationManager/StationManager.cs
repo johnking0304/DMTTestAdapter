@@ -16,8 +16,12 @@ using TAI.TestDispatcher;
 using TAI.Test.Scheme;
 using DMT.DatabaseAdapter;
 
+
 namespace TAI.StationManager
 {
+
+    
+
     public class StationManager : BaseController
     {
 
@@ -56,7 +60,7 @@ namespace TAI.StationManager
                     case ModuleType.RTD3:
                     case ModuleType.RTD4:
                         {
-                            CalibrateController.Calibrator.SetChannelValue +=this.SetAnalogueChannelValue;
+                            CalibrateController.Calibrator.SetChannelValue += this.SetAnalogueChannelValue;
                             CalibrateController.Calibrator.GetChannelValue += this.GetAnalogueChannelValue;
                             break;
                         }
@@ -76,16 +80,18 @@ namespace TAI.StationManager
 
 
 
-        public bool DeviceStatus {
+        public bool DeviceStatus
+        {
 
-            get {
+            get
+            {
 
                 bool result = this.GeneratorDevice.Active() &&
                     this.MeasureDevice.Active() &&
                     this.DigitalDevice.Active();
                 foreach (var controller in this.SwitchControllers)
                 {
-                   result &= controller.Active();
+                    result &= controller.Active();
                 }
                 return result;
             }
@@ -103,7 +109,7 @@ namespace TAI.StationManager
                 {
                     result &= controller.Active();
                 }
-                return result?"设备通讯-OK": "设备通讯-Fail";
+                return result ? "设备通讯-OK" : "设备通讯-Fail";
             }
         }
 
@@ -112,9 +118,42 @@ namespace TAI.StationManager
         {
             this.Caption = "StationManager";
             this.Stations = new List<Station>();
-            this.WaitMilliseconds = 5000;          
+            this.WaitMilliseconds = 5000;
             this.LoadConfig();
         }
+
+
+        public void SelectDevice(CardModule module)
+        {
+            if (module.CardType == ModuleType.DO)
+            {
+                switch (module.ChannelCount)
+                {
+                    case 10:
+                        {
+                            this.DigitalDevice.DOChannelType = DOChannelType.CH10;
+                            break;
+                        }
+                    case 16:
+                        {
+                            this.DigitalDevice.DOChannelType = DOChannelType.CH16;
+                            break;
+                        }
+                }
+            }
+        
+        }
+
+        public void GenerateTestResult(CardModule module)
+        {
+            CardTestResult cardResult = new CardTestResult();
+            
+            
+
+
+
+        }
+
 
 
 
@@ -169,14 +208,14 @@ namespace TAI.StationManager
             this.CalibrateController = new CalibrateController();
             this.CalibrateController.LoadFromFile(Contant.CALIBRATOR_CONFIG);
             this.CalibrateController.Open();
-            
-           
+
+
 
             this.StartThread();
 
         }
 
-       
+
         public override void ProcessEvent()
         {
             if (this.WaitTimeOut())
@@ -191,7 +230,7 @@ namespace TAI.StationManager
             bool result = this.DigitalDevice.Initialize();
             result &= this.MeasureDevice.Initialize();
             result &= this.GeneratorDevice.Initialize();
-            result &= MysqlSugarContext.SetupMysql(this.MysqlConfig.Address, this.MysqlConfig.Port, this.MysqlConfig.DatabaseName, this.MysqlConfig.UserName, this.MysqlConfig.Password) =="";
+            result &= MysqlSugarContext.SetupMysql(this.MysqlConfig.Address, this.MysqlConfig.Port, this.MysqlConfig.DatabaseName, this.MysqlConfig.UserName, this.MysqlConfig.Password) == "";
 
 
             foreach (SwitchController switchController in this.SwitchControllers)
@@ -219,9 +258,9 @@ namespace TAI.StationManager
                 }
                 else
                 {
-                    Windows.MessageBoxError(string.Format("转换工具[{0}]不存在！",Contant.ControlUnitParseTool));
+                    Windows.MessageBoxError(string.Format("转换工具[{0}]不存在！", Contant.ControlUnitParseTool));
                     return false;
-                }           
+                }
             }
             else
             {
@@ -253,6 +292,14 @@ namespace TAI.StationManager
                     if (!string.IsNullOrEmpty(content))
                     {
                         this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
+                        foreach (var cardGroup in this.ControlUnit.CardGroups)
+                        {
+                            foreach (CardModule card in cardGroup.Cards)
+                            {
+                                card.CardTestResult.TesterName = this.UserName;
+                                 //FixMe 信息补全
+                            }
+                        }
                         return true;
                     }
                     return false;
@@ -352,8 +399,8 @@ namespace TAI.StationManager
         }
 
         public void RemoveModuleTest(CardModule module)
-        {            
-            module.TestDispatcher.DetachObserver(this.subjectObserver.Update);           
+        {
+            module.TestDispatcher.DetachObserver(this.subjectObserver.Update);
             module.TestDispatcher.Dispose();
             module.TestDispatcher = null;
             module.Operator = null;
@@ -460,7 +507,7 @@ namespace TAI.StationManager
             {
                 case StationType.TC:
                 case StationType.AI:
-                
+
                     {
                         return ChannelIdLink.GetOutput(sourceId);
                     }
@@ -475,7 +522,7 @@ namespace TAI.StationManager
             return sourceId;
         }
 
-        public bool GetAnalogueChannelValue(int stationId, string channel, int channelDataType, ref float dataVale ,ref string message)
+        public bool GetAnalogueChannelValue(int stationId, string channel, int channelDataType, ref float dataVale, ref string message)
         {
             int channelId = int.Parse(channel);
 
@@ -488,7 +535,7 @@ namespace TAI.StationManager
                 float value = 0;
                 bool result = this.MeasureDevice.GetValue((ChannelType)channelDataType, ref value);
                 dataVale = value;
-                message = string.Format("获取模拟量通道数据[{0},通道={1},类型={2},返回值={3}]-{4}", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString(),value,result ? "成功" : "失败");
+                message = string.Format("获取模拟量通道数据[{0},通道={1},类型={2},返回值={3}]-{4}", ((StationType)stationId).ToString(), channelId, ((ChannelType)channelDataType).ToString(), value, result ? "成功" : "失败");
                 LogHelper.LogInfoMsg(message);
 
                 return result;
@@ -507,13 +554,13 @@ namespace TAI.StationManager
             bool result = this.DigitalDevice.GetValue(channelId, ref value);
 
             dataVale = value ? 1 : 0;
-            message = string.Format("获取数字量通道数据[通道={0},返回值={1}]-{2}", channelId, value,result?"成功":"失败");
+            message = string.Format("获取数字量通道数据[通道={0},返回值={1}]-{2}", channelId, value, result ? "成功" : "失败");
             LogHelper.LogInfoMsg(message);
             return result;
         }
 
 
-        public bool SetAnalogueChannelValue(int stationId, string channel, int channelDataType, float value,ref string message)
+        public bool SetAnalogueChannelValue(int stationId, string channel, int channelDataType, float value, ref string message)
         {
             int channelId = int.Parse(channel);
             if (stationId >= (int)StationType.PI && stationId <= (int)StationType.TC)
@@ -560,7 +607,7 @@ namespace TAI.StationManager
             }
         }
 
-        public bool SetDigitalChannelValue(int stationId, string channel, int channelDataType, float value , ref string message )
+        public bool SetDigitalChannelValue(int stationId, string channel, int channelDataType, float value, ref string message)
         {
             int channelId = int.Parse(channel);
 
@@ -572,10 +619,10 @@ namespace TAI.StationManager
         }
 
 
-        public bool SetNuCONChannelValue(int stationId, string channel, int channelDataType, float value ,ref string message)
+        public bool SetNuCONChannelValue(int stationId, string channel, int channelDataType, float value, ref string message)
         {
 
-            bool result = this.NuCONController.SetChannelValue(stationId,channel, channelDataType, value);
+            bool result = this.NuCONController.SetChannelValue(stationId, channel, channelDataType, value);
 
             message = string.Format("设置NuCON通道数据[类型={0},通道={1},类型={2},设置值={3}]-{4}", ((ModuleType)stationId).Description(), channel, ((ChannelType)channelDataType).Description(), value, result ? "成功" : "失败");
 
@@ -583,11 +630,11 @@ namespace TAI.StationManager
 
         }
 
-        public bool GetNuCONChannelValue(int stationId, string channel, int channelDataType, ref float dataValue,ref string message)
+        public bool GetNuCONChannelValue(int stationId, string channel, int channelDataType, ref float dataValue, ref string message)
         {
 
             double data = 0;
-            dataValue  = (float)this.NuCONController.GetChannelValue(stationId,channel,channelDataType, out data);
+            dataValue = (float)this.NuCONController.GetChannelValue(stationId, channel, channelDataType, out data);
             bool result = dataValue >= 0;
             message = string.Format("获取NuCON通道数据[{0},通道={1},类型={2},返回值={3}]-{4}", ((StationType)stationId).ToString(), channel, ((ChannelType)channelDataType).ToString(), dataValue, result ? "成功" : "失败");
             return result;

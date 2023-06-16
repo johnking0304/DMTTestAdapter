@@ -30,23 +30,23 @@ namespace DMTTestStation
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormInput));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxInput = new System.Windows.Forms.GroupBox();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxInput.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // groupBoxInput
             // 
-            this.groupBox1.Controls.Add(this.textBoxInput);
-            this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 24);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(595, 163);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "序列号";
+            this.groupBoxInput.Controls.Add(this.textBoxInput);
+            this.groupBoxInput.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.groupBoxInput.Location = new System.Drawing.Point(12, 24);
+            this.groupBoxInput.Name = "groupBoxInput";
+            this.groupBoxInput.Size = new System.Drawing.Size(595, 162);
+            this.groupBoxInput.TabIndex = 0;
+            this.groupBoxInput.TabStop = false;
+            this.groupBoxInput.Text = "序列号";
             // 
             // textBoxInput
             // 
@@ -59,7 +59,7 @@ namespace DMTTestStation
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(312, 225);
+            this.buttonOk.Location = new System.Drawing.Point(303, 217);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(141, 55);
             this.buttonOk.TabIndex = 1;
@@ -69,7 +69,7 @@ namespace DMTTestStation
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(466, 225);
+            this.buttonCancel.Location = new System.Drawing.Point(466, 217);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(141, 55);
             this.buttonCancel.TabIndex = 2;
@@ -81,10 +81,10 @@ namespace DMTTestStation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(619, 307);
+            this.ClientSize = new System.Drawing.Size(628, 300);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBoxInput);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -93,15 +93,15 @@ namespace DMTTestStation
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "输入";
             this.Load += new System.EventHandler(this.FormInput_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxInput.ResumeLayout(false);
+            this.groupBoxInput.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBoxInput;
         private System.Windows.Forms.TextBox textBoxInput;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;

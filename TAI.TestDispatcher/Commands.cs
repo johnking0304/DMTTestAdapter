@@ -75,8 +75,12 @@ namespace TAI.TestDispatcher
 
         private void SetADLData()
         {
-
             this.ADLData.CommandString = new byte[200];
+            for (int i=0;i<200;i++)
+            {
+                this.ADLData.CommandString[i] = (byte)'\0';
+            }
+
         }
      
             
@@ -87,6 +91,12 @@ namespace TAI.TestDispatcher
             this.ADLHeader.HDRType = HDRTYPE;
             this.ADLHeader.CMDType = READBLOCK;
             this.ADLHeader.SequenceNum = 0;
+            this.ADLHeader.Reserved = new ushort[3] { (byte)'\0', (byte)'\0', (byte)'\0' };
+            this.ADLHeader.HostName = new byte[24];
+            for (int i = 0; i < 24; i++)
+            {
+                this.ADLHeader.HostName[i] = (byte)'\0';
+            }
             this.ADLHeader.Port = (ushort)this.Calibrator.Controller.UDPService.Port;
             this.ADLHeader.IpAddress = new byte[4] { 0xc0, 0xa8, 0x01, byte.Parse(this.Calibrator.ActiveCardModule.IPAddress) };
 
@@ -168,6 +178,7 @@ namespace TAI.TestDispatcher
         public SetCalibrateValueCommand(BaseCalibrator calibrator,string setContent) : base(calibrator)
         {
             this.CommandContent = setContent;
+            this.ADLHeader.CMDType = WRITEBLOCK;
         }
 
     }
@@ -177,6 +188,7 @@ namespace TAI.TestDispatcher
         public SaveCalibrateValueCommand(BaseCalibrator calibrator, string setContent) : base(calibrator)
         {
             this.CommandContent = setContent;
+            this.ADLHeader.CMDType = WRITEBLOCK;
         }
 
     }

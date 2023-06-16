@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TAI.StationManager;
 using TAI.TestDispatcher;
 
 namespace DMTTestStation
@@ -36,8 +37,11 @@ namespace DMTTestStation
 
         public CanStartTest CanStartTest { get; set; }
 
-        public CardModuleItem(CardModule card, ListViewItem item)
+        public StationManager Manager { get; set; }
+
+        public CardModuleItem(CardModule card, ListViewItem item,StationManager manager)
         {
+            this.Manager = manager;
             this.CardModule = card;
             this.ViewItem = item;
             this.StartButton = new Button();
@@ -96,6 +100,7 @@ namespace DMTTestStation
         {
             if (this.CanStartTest(this.CardModule))
             {
+                this.Manager.SelectDevice(this.CardModule);
                 this.CardModule.TestDispatcher.StartTest();
                 this.StartButton.Enabled = false;
                 this.PauseButton.Enabled = true;
@@ -164,6 +169,8 @@ namespace DMTTestStation
             this.PauseButton.Enabled = false;
             this.StopButton.Enabled = false;
             this.ViewItem.StateImageIndex = ImageStopIndex;
+            this.ProgressBar.Value = 0;
+            this.ViewItem.SubItems[4].Text = "";
         }
         protected void OnStopClick(object sender, EventArgs e)
         {

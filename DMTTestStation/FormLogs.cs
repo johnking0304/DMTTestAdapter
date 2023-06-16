@@ -50,7 +50,56 @@ namespace DMTTestStation
             }
         }
 
-      
+
+
+
+        public  void AppendTextWithColor(string content, Color color, bool IsaddNewLine)
+        {
+            if (IsaddNewLine)
+            {
+                content += Environment.NewLine;
+            }
+            this.richTextBoxLogs.SelectionStart = this.richTextBoxLogs.TextLength;
+            this.richTextBoxLogs.SelectionLength = 0;
+            this.richTextBoxLogs.SelectionColor = color;
+            this.richTextBoxLogs.AppendText(content);
+            this.richTextBoxLogs.SelectionColor = this.richTextBoxLogs.ForeColor;
+        }
+
+
+        public Color GetColorWithMessageType(MessageType messageType)
+        {
+            Color color = Color.Black;
+            switch (messageType)
+            {
+                case MessageType.Normal:
+                    {
+                        color = Color.Black;
+                        break;
+                    }
+                case MessageType.Error:
+                    {
+                        color = Color.Red;
+                        break;
+                    }
+                case MessageType.Pass:
+                    {
+                        color = Color.Green;
+                        break;
+                    }
+                case MessageType.Warning:
+                    {
+                        color = Color.Yellow;
+                        break;
+                    }
+
+            }
+            return color;
+
+        }
+
+
+
         private void ShowStatus(int Event, string flag, string content, object result, string message, object sender)
         {
             try
@@ -61,6 +110,8 @@ namespace DMTTestStation
                     case NotifyEvents.Message:
                     case NotifyEvents.Progress:
                         {
+                            MessageType messageType = (MessageType)Enum.Parse(typeof(MessageType), content);
+
                             string info = "";
                             if (result is CardModule)
                             {
@@ -75,7 +126,9 @@ namespace DMTTestStation
                             {
                                 if (!this.Paused)
                                 {
-                                    this.richTextBoxLogs.AppendText(info);
+                                    Color color = GetColorWithMessageType(messageType);
+
+                                    this.AppendTextWithColor(info, color, false);
                                 }
                                 else
                                 {

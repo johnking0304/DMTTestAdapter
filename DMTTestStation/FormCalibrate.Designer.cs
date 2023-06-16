@@ -186,6 +186,7 @@ namespace DMTTestStation
             this.Name = "FormCalibrate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "校准";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCalibrate_FormClosing);
             this.Load += new System.EventHandler(this.FormCalibrate_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);

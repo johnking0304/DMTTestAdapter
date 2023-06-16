@@ -114,7 +114,9 @@ namespace DMTTestStation
             // 
             // richTextBoxLogs
             // 
+            this.richTextBoxLogs.BackColor = System.Drawing.Color.White;
             this.richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxLogs.ForeColor = System.Drawing.Color.Black;
             this.richTextBoxLogs.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxLogs.Name = "richTextBoxLogs";
             this.richTextBoxLogs.Size = new System.Drawing.Size(1213, 742);

@@ -13,9 +13,10 @@ namespace DMTTestStation
     public partial class FormInput : Form
     {
         public string SerialCode { get; set; }
-        public FormInput()
+        public FormInput(string caption)
         {
             InitializeComponent();
+            this.groupBoxInput.Text = caption;
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
