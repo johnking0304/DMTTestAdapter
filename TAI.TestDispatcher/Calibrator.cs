@@ -237,28 +237,30 @@ namespace TAI.TestDispatcher
         {
             if (!this.CalibrateCompleted)
             {
-                this.NotifyMessage(string.Format("----通道{0}------------------------------", this.ActiveChannelIndex + 1));
-                foreach (CalibrateValueItem item in this.CalibrateConfig.Items)
-                {
-                    string message = "";
-                    //输入模拟量设备，Fluke 7526 表置值  
-                    this.SetChannelValue((int)ActiveCardModule.CardType, (this.ActiveChannelIndex+1).ToString(), (int)this.CalibrateConfig.ChannelDataType, item.AnalogDeviceValue, ref message);
-                    this.NotifyMessage(message);
-                    this.Delay(this.CalibrateConfig.WaitSteadyMilliSeconds);
+                string indexString = string.Format("通道{0}", this.ActiveChannelIndex + 1);
+                if (this.ActiveCardModule.ChannleEnableMap[indexString]) { 
+                    this.NotifyMessage(string.Format("----通道{0}------------------------------", this.ActiveChannelIndex + 1));
+                    foreach (CalibrateValueItem item in this.CalibrateConfig.Items)
+                    {
+                        string message = "";
+                        //输入模拟量设备，Fluke 7526 表置值  
+                        this.SetChannelValue((int)ActiveCardModule.CardType, (this.ActiveChannelIndex+1).ToString(), (int)this.CalibrateConfig.ChannelDataType, item.AnalogDeviceValue, ref message);
+                        this.NotifyMessage(message);
+                        this.Delay(this.CalibrateConfig.WaitSteadyMilliSeconds);
+                        this.ConnectModule();
+                        this.Delay(1000);
+                        this.SetCalibrateChannelValue(item.CalibrateValue, item.SetFormat);
+                        this.Delay(1000);
+                        this.ConnectModule();
+                        this.Delay(1000);
+                        this.GetCalibrateChannelValue();
+                        Delay(1000);
+                    }
                     this.ConnectModule();
-                    this.Delay(1000);
-                    this.SetCalibrateChannelValue(item.CalibrateValue, item.SetFormat);
-                    this.Delay(1000);
-                    this.ConnectModule();
-                    this.Delay(1000);
-                    this.GetCalibrateChannelValue();
-                    Delay(1000);
+                    Delay(500);
+                    this.SaveCalibrateChannelValue();
+                    this.Delay(2000);
                 }
-                this.ConnectModule();
-                Delay(500);
-                this.SaveCalibrateChannelValue();
-                this.Delay(2000);
-
                 this.ActiveChannelIndex += 1;
             }
             else

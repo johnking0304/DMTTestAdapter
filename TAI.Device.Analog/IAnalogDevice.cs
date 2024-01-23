@@ -11,8 +11,7 @@ namespace TAI.Device
     {
         BeamexMC6=0,
         Fluke7526=1,
-        Fluke8846=2,
-        
+        Fluke8846=2,       
     }
 
     //0 电流模式

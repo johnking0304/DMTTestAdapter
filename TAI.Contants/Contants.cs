@@ -32,18 +32,22 @@ namespace TAI.Constants
 
         public static readonly string MODULE_CONFIG = Path.Combine(HOME, "module.ini");
 
+        public static readonly string TEST_RESULT = Path.Combine(HOME, "testresult.txt");
+
         public static string STATIONS
         {
             get => Files.InitializePath(Path.Combine(HOME, "stations"));
         }
 
-        public static readonly string ControlUnitParseTool = Path.Combine(HOME, "CUParseTool.exe");
+        public static readonly string ControlUnitExportResultTool = Path.Combine(HOME, "TestReportExport.exe");
 
-        public static readonly string ControlUnitInfoFile = Path.Combine(HOME, "ControlUnitInfo.txt");
+        public static readonly string ControlUnitParseTool = Path.Combine(HOME, "Data\\CU\\CUParseTool.exe");
+
+        public static readonly string ControlUnitInfoFile = Path.Combine(HOME, "Data\\CU\\ControlUnitInfo.txt");
         public static string CARD_MODULES
         {
             get => Files.InitializePath(Path.Combine(HOME, "modules"));
         }
 
-    }
+            }
 }

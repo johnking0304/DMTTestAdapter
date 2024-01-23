@@ -1,4 +1,7 @@
 ﻿
+using System;
+using System.Windows.Forms;
+
 namespace DMTTestStation
 {
     partial class FormMain
@@ -31,16 +34,19 @@ namespace DMTTestStation
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("控制器信息");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("控制器信息");
             this.panelMain = new System.Windows.Forms.Panel();
+            this.buttonUser = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel5 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.listViewCardTest = new System.Windows.Forms.ListView();
+            this.listViewCardTest = new DMTTestStation.MyListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,9 +55,19 @@ namespace DMTTestStation
             this.imageListListView = new System.Windows.Forms.ImageList(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.toolStripTestOperate = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDeleteAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonStartTest = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPauseTest = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonStopTest = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonScan = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonUpgrade = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCalibrate = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabControlLogs = new System.Windows.Forms.TabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
@@ -63,27 +79,19 @@ namespace DMTTestStation
             this.groupBoxCU = new System.Windows.Forms.GroupBox();
             this.treeViewCUInfo = new System.Windows.Forms.TreeView();
             this.contextMenuStripTreeView = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ToolStripMenuItemInsertToList = new System.Windows.Forms.ToolStripMenuItem();
             this.imageListTreeView = new System.Windows.Forms.ImageList(this.components);
             this.panel3 = new System.Windows.Forms.Panel();
             this.toolStripCU = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.openFileDialogCU = new System.Windows.Forms.OpenFileDialog();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.toolStripButtonDelete = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonDeleteAll = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonStartTest = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonPauseTest = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonStopTest = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonScan = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonUpgrade = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonCalibrate = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonLoadCUInfo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonExpand = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCollapse = new System.Windows.Forms.ToolStripButton();
-            this.buttonUser = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ToolStripMenuItemInsertToList = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialogCU = new System.Windows.Forms.OpenFileDialog();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -97,10 +105,8 @@ namespace DMTTestStation
             this.tabControlLogs.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.groupBoxCU.SuspendLayout();
-            this.contextMenuStripTreeView.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolStripCU.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
@@ -115,6 +121,29 @@ namespace DMTTestStation
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(1557, 80);
             this.panelMain.TabIndex = 0;
+            // 
+            // buttonUser
+            // 
+            this.buttonUser.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonUser.Image = global::DMTTestStation.Properties.Resources.User;
+            this.buttonUser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonUser.Location = new System.Drawing.Point(1351, 12);
+            this.buttonUser.Name = "buttonUser";
+            this.buttonUser.Size = new System.Drawing.Size(194, 56);
+            this.buttonUser.TabIndex = 1;
+            this.buttonUser.UseVisualStyleBackColor = true;
+            this.buttonUser.Click += new System.EventHandler(this.buttonUser_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DMTTestStation.Properties.Resources.logoWithSnpas_360;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(471, 60);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // panel2
             // 
@@ -146,8 +175,8 @@ namespace DMTTestStation
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(1151, 841);
-            this.splitContainer1.SplitterDistance = 591;
+            this.splitContainer1.Size = new System.Drawing.Size(1151, 850);
+            this.splitContainer1.SplitterDistance = 596;
             this.splitContainer1.SplitterWidth = 7;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -158,7 +187,7 @@ namespace DMTTestStation
             this.panel5.Location = new System.Drawing.Point(0, 80);
             this.panel5.Margin = new System.Windows.Forms.Padding(5);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1151, 511);
+            this.panel5.Size = new System.Drawing.Size(1151, 516);
             this.panel5.TabIndex = 2;
             // 
             // groupBox3
@@ -169,17 +198,19 @@ namespace DMTTestStation
             this.groupBox3.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox3.Size = new System.Drawing.Size(1151, 511);
+            this.groupBox3.Size = new System.Drawing.Size(1151, 516);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "选择的板卡";
             // 
             // listViewCardTest
             // 
+            this.listViewCardTest.AutoArrange = false;
             this.listViewCardTest.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
+            this.columnHeader9,
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6,
@@ -189,22 +220,24 @@ namespace DMTTestStation
             this.listViewCardTest.FullRowSelect = true;
             this.listViewCardTest.GridLines = true;
             this.listViewCardTest.HideSelection = false;
-            this.listViewCardTest.Location = new System.Drawing.Point(5, 33);
+            this.listViewCardTest.Location = new System.Drawing.Point(5, 24);
             this.listViewCardTest.Margin = new System.Windows.Forms.Padding(5);
+            this.listViewCardTest.MultiSelect = false;
             this.listViewCardTest.Name = "listViewCardTest";
-            this.listViewCardTest.Scrollable = false;
-            this.listViewCardTest.Size = new System.Drawing.Size(1141, 473);
+            this.listViewCardTest.Size = new System.Drawing.Size(1141, 487);
             this.listViewCardTest.StateImageList = this.imageListListView;
             this.listViewCardTest.TabIndex = 0;
             this.listViewCardTest.UseCompatibleStateImageBehavior = false;
             this.listViewCardTest.View = System.Windows.Forms.View.Details;
-            this.listViewCardTest.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listViewCardTest_ColumnWidthChanging);
+            this.listViewCardTest.Scroll += new System.Windows.Forms.ScrollEventHandler(this.listViewCardTest_Scroll);
+            this.listViewCardTest.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listViewCardTest_ColumnWidthChanged);
             this.listViewCardTest.SelectedIndexChanged += new System.EventHandler(this.listViewCardTest_SelectedIndexChanged);
+            this.listViewCardTest.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewCardTest_MouseClick);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "状态";
-            this.columnHeader1.Width = 110;
+            this.columnHeader1.Width = 80;
             // 
             // columnHeader2
             // 
@@ -214,7 +247,11 @@ namespace DMTTestStation
             // columnHeader3
             // 
             this.columnHeader3.Text = "类型";
-            this.columnHeader3.Width = 86;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "硬件版本";
+            this.columnHeader9.Width = 150;
             // 
             // columnHeader4
             // 
@@ -280,7 +317,9 @@ namespace DMTTestStation
             this.toolStripButtonScan,
             this.toolStripSeparator4,
             this.toolStripButtonUpgrade,
-            this.toolStripButtonCalibrate});
+            this.toolStripButtonCalibrate,
+            this.toolStripSeparator5,
+            this.toolStripButtonExport});
             this.toolStripTestOperate.Location = new System.Drawing.Point(0, 0);
             this.toolStripTestOperate.Name = "toolStripTestOperate";
             this.toolStripTestOperate.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
@@ -288,20 +327,116 @@ namespace DMTTestStation
             this.toolStripTestOperate.TabIndex = 0;
             this.toolStripTestOperate.Text = "toolStrip2";
             // 
+            // toolStripButtonDelete
+            // 
+            this.toolStripButtonDelete.Enabled = false;
+            this.toolStripButtonDelete.Image = global::DMTTestStation.Properties.Resources.Delete;
+            this.toolStripButtonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDelete.Name = "toolStripButtonDelete";
+            this.toolStripButtonDelete.Size = new System.Drawing.Size(60, 77);
+            this.toolStripButtonDelete.Text = "删除";
+            this.toolStripButtonDelete.Click += new System.EventHandler(this.toolStripButtonDelete_Click);
+            // 
+            // toolStripButtonDeleteAll
+            // 
+            this.toolStripButtonDeleteAll.Enabled = false;
+            this.toolStripButtonDeleteAll.Image = global::DMTTestStation.Properties.Resources.DeleteAll;
+            this.toolStripButtonDeleteAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDeleteAll.Name = "toolStripButtonDeleteAll";
+            this.toolStripButtonDeleteAll.Size = new System.Drawing.Size(84, 77);
+            this.toolStripButtonDeleteAll.Text = "全部删除";
+            this.toolStripButtonDeleteAll.Click += new System.EventHandler(this.toolStripButtonDeleteAll_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripButtonStartTest
+            // 
+            this.toolStripButtonStartTest.Enabled = false;
+            this.toolStripButtonStartTest.Image = global::DMTTestStation.Properties.Resources.Start;
+            this.toolStripButtonStartTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStartTest.Name = "toolStripButtonStartTest";
+            this.toolStripButtonStartTest.Size = new System.Drawing.Size(84, 77);
+            this.toolStripButtonStartTest.Text = "全部开始";
+            this.toolStripButtonStartTest.Visible = false;
+            this.toolStripButtonStartTest.Click += new System.EventHandler(this.toolStripButtonStartTest_Click);
+            // 
+            // toolStripButtonPauseTest
+            // 
+            this.toolStripButtonPauseTest.Enabled = false;
+            this.toolStripButtonPauseTest.Image = global::DMTTestStation.Properties.Resources.Pause;
+            this.toolStripButtonPauseTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPauseTest.Name = "toolStripButtonPauseTest";
+            this.toolStripButtonPauseTest.Size = new System.Drawing.Size(84, 77);
+            this.toolStripButtonPauseTest.Text = "全部暂停";
+            this.toolStripButtonPauseTest.Click += new System.EventHandler(this.toolStripButtonPauseTest_Click);
+            // 
+            // toolStripButtonStopTest
+            // 
+            this.toolStripButtonStopTest.Enabled = false;
+            this.toolStripButtonStopTest.Image = global::DMTTestStation.Properties.Resources.Stop;
+            this.toolStripButtonStopTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonStopTest.Name = "toolStripButtonStopTest";
+            this.toolStripButtonStopTest.Size = new System.Drawing.Size(84, 77);
+            this.toolStripButtonStopTest.Text = "全部停止";
+            this.toolStripButtonStopTest.Click += new System.EventHandler(this.toolStripButtonStopTest_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 80);
             // 
+            // toolStripButtonScan
+            // 
+            this.toolStripButtonScan.Enabled = false;
+            this.toolStripButtonScan.Image = global::DMTTestStation.Properties.Resources.barcode;
+            this.toolStripButtonScan.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonScan.Name = "toolStripButtonScan";
+            this.toolStripButtonScan.Size = new System.Drawing.Size(96, 77);
+            this.toolStripButtonScan.Text = "扫描二维码";
+            this.toolStripButtonScan.Click += new System.EventHandler(this.toolStripButtonScan_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripButtonUpgrade
+            // 
+            this.toolStripButtonUpgrade.Enabled = false;
+            this.toolStripButtonUpgrade.Image = global::DMTTestStation.Properties.Resources.upgrade;
+            this.toolStripButtonUpgrade.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonUpgrade.Name = "toolStripButtonUpgrade";
+            this.toolStripButtonUpgrade.Size = new System.Drawing.Size(60, 77);
+            this.toolStripButtonUpgrade.Text = "升级";
+            // 
+            // toolStripButtonCalibrate
+            // 
+            this.toolStripButtonCalibrate.Enabled = false;
+            this.toolStripButtonCalibrate.Image = global::DMTTestStation.Properties.Resources.calibrate;
+            this.toolStripButtonCalibrate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCalibrate.Name = "toolStripButtonCalibrate";
+            this.toolStripButtonCalibrate.Size = new System.Drawing.Size(60, 77);
+            this.toolStripButtonCalibrate.Text = "校准";
+            this.toolStripButtonCalibrate.Visible = false;
+            this.toolStripButtonCalibrate.Click += new System.EventHandler(this.toolStripButtonCalibrate_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripButtonExport
+            // 
+            this.toolStripButtonExport.Enabled = false;
+            this.toolStripButtonExport.Image = global::DMTTestStation.Properties.Resources.Export;
+            this.toolStripButtonExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonExport.Name = "toolStripButtonExport";
+            this.toolStripButtonExport.Size = new System.Drawing.Size(84, 77);
+            this.toolStripButtonExport.Text = "测试报告";
+            this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
             // 
             // groupBox2
             // 
@@ -311,7 +446,7 @@ namespace DMTTestStation
             this.groupBox2.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Size = new System.Drawing.Size(1151, 243);
+            this.groupBox2.Size = new System.Drawing.Size(1151, 247);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "日志";
@@ -320,18 +455,18 @@ namespace DMTTestStation
             // 
             this.tabControlLogs.Controls.Add(this.tabPageMain);
             this.tabControlLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlLogs.Location = new System.Drawing.Point(5, 33);
+            this.tabControlLogs.Location = new System.Drawing.Point(5, 24);
             this.tabControlLogs.Name = "tabControlLogs";
             this.tabControlLogs.SelectedIndex = 0;
-            this.tabControlLogs.Size = new System.Drawing.Size(1141, 205);
+            this.tabControlLogs.Size = new System.Drawing.Size(1141, 218);
             this.tabControlLogs.TabIndex = 0;
             // 
             // tabPageMain
             // 
-            this.tabPageMain.Location = new System.Drawing.Point(4, 37);
+            this.tabPageMain.Location = new System.Drawing.Point(4, 29);
             this.tabPageMain.Name = "tabPageMain";
             this.tabPageMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMain.Size = new System.Drawing.Size(1133, 164);
+            this.tabPageMain.Size = new System.Drawing.Size(1133, 185);
             this.tabPageMain.TabIndex = 0;
             this.tabPageMain.Text = "全部";
             this.tabPageMain.UseVisualStyleBackColor = true;
@@ -341,7 +476,7 @@ namespace DMTTestStation
             this.splitter1.Location = new System.Drawing.Point(401, 0);
             this.splitter1.Margin = new System.Windows.Forms.Padding(5);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(5, 841);
+            this.splitter1.Size = new System.Drawing.Size(5, 850);
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
@@ -352,29 +487,29 @@ namespace DMTTestStation
             this.toolStripStatusLabelDeviceStatus,
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelTime});
-            this.statusStrip.Location = new System.Drawing.Point(401, 841);
+            this.statusStrip.Location = new System.Drawing.Point(401, 850);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 22, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1156, 31);
+            this.statusStrip.Size = new System.Drawing.Size(1156, 22);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
             // 
             // toolStripStatusLabelDeviceStatus
             // 
             this.toolStripStatusLabelDeviceStatus.Name = "toolStripStatusLabelDeviceStatus";
-            this.toolStripStatusLabelDeviceStatus.Size = new System.Drawing.Size(82, 24);
+            this.toolStripStatusLabelDeviceStatus.Size = new System.Drawing.Size(56, 17);
             this.toolStripStatusLabelDeviceStatus.Text = "设备状态";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 24);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(56, 17);
             this.toolStripStatusLabel1.Text = "系统时间";
             // 
             // toolStripStatusLabelTime
             // 
             this.toolStripStatusLabelTime.Name = "toolStripStatusLabelTime";
-            this.toolStripStatusLabelTime.Size = new System.Drawing.Size(0, 24);
+            this.toolStripStatusLabelTime.Size = new System.Drawing.Size(0, 17);
             // 
             // groupBoxCU
             // 
@@ -399,15 +534,15 @@ namespace DMTTestStation
             this.treeViewCUInfo.FullRowSelect = true;
             this.treeViewCUInfo.ImageIndex = 0;
             this.treeViewCUInfo.ImageList = this.imageListTreeView;
-            this.treeViewCUInfo.Location = new System.Drawing.Point(5, 97);
+            this.treeViewCUInfo.Location = new System.Drawing.Point(5, 87);
             this.treeViewCUInfo.Margin = new System.Windows.Forms.Padding(5);
             this.treeViewCUInfo.Name = "treeViewCUInfo";
-            treeNode2.Name = "节点0";
-            treeNode2.Text = "控制器信息";
+            treeNode1.Name = "节点0";
+            treeNode1.Text = "控制器信息";
             this.treeViewCUInfo.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeViewCUInfo.SelectedImageKey = "module.png";
-            this.treeViewCUInfo.Size = new System.Drawing.Size(391, 770);
+            this.treeViewCUInfo.Size = new System.Drawing.Size(391, 780);
             this.treeViewCUInfo.TabIndex = 1;
             this.treeViewCUInfo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeViewCUInfo_MouseDoubleClick);
             this.treeViewCUInfo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeViewCUInfo_MouseUp);
@@ -415,17 +550,8 @@ namespace DMTTestStation
             // contextMenuStripTreeView
             // 
             this.contextMenuStripTreeView.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStripTreeView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemInsertToList});
             this.contextMenuStripTreeView.Name = "contextMenuStripTreeView";
-            this.contextMenuStripTreeView.Size = new System.Drawing.Size(207, 34);
-            // 
-            // ToolStripMenuItemInsertToList
-            // 
-            this.ToolStripMenuItemInsertToList.Name = "ToolStripMenuItemInsertToList";
-            this.ToolStripMenuItemInsertToList.Size = new System.Drawing.Size(206, 30);
-            this.ToolStripMenuItemInsertToList.Text = "添加到测试列表";
-            this.ToolStripMenuItemInsertToList.Click += new System.EventHandler(this.ToolStripMenuItemInsertToList_Click);
+            this.contextMenuStripTreeView.Size = new System.Drawing.Size(61, 4);
             // 
             // imageListTreeView
             // 
@@ -440,7 +566,7 @@ namespace DMTTestStation
             // 
             this.panel3.Controls.Add(this.toolStripCU);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(5, 37);
+            this.panel3.Location = new System.Drawing.Point(5, 27);
             this.panel3.Margin = new System.Windows.Forms.Padding(5);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(391, 60);
@@ -462,10 +588,44 @@ namespace DMTTestStation
             this.toolStripCU.TabIndex = 0;
             this.toolStripCU.Text = "toolStrip1";
             // 
+            // toolStripButtonLoadCUInfo
+            // 
+            this.toolStripButtonLoadCUInfo.Image = global::DMTTestStation.Properties.Resources.Open;
+            this.toolStripButtonLoadCUInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadCUInfo.Name = "toolStripButtonLoadCUInfo";
+            this.toolStripButtonLoadCUInfo.Size = new System.Drawing.Size(69, 57);
+            this.toolStripButtonLoadCUInfo.Text = "载入...";
+            this.toolStripButtonLoadCUInfo.Click += new System.EventHandler(this.toolStripButtonLoadCUInfo_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 60);
+            // 
+            // toolStripButtonExpand
+            // 
+            this.toolStripButtonExpand.Image = global::DMTTestStation.Properties.Resources.Expand;
+            this.toolStripButtonExpand.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonExpand.Name = "toolStripButtonExpand";
+            this.toolStripButtonExpand.Size = new System.Drawing.Size(60, 57);
+            this.toolStripButtonExpand.Text = "展开";
+            this.toolStripButtonExpand.Click += new System.EventHandler(this.toolStripButtonExpand_Click);
+            // 
+            // toolStripButtonCollapse
+            // 
+            this.toolStripButtonCollapse.Image = global::DMTTestStation.Properties.Resources.Collapse;
+            this.toolStripButtonCollapse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCollapse.Name = "toolStripButtonCollapse";
+            this.toolStripButtonCollapse.Size = new System.Drawing.Size(60, 57);
+            this.toolStripButtonCollapse.Text = "收缩";
+            this.toolStripButtonCollapse.Click += new System.EventHandler(this.toolStripButtonCollapse_Click);
+            // 
+            // ToolStripMenuItemInsertToList
+            // 
+            this.ToolStripMenuItemInsertToList.Name = "ToolStripMenuItemInsertToList";
+            this.ToolStripMenuItemInsertToList.Size = new System.Drawing.Size(206, 30);
+            this.ToolStripMenuItemInsertToList.Text = "添加到测试列表";
+            this.ToolStripMenuItemInsertToList.Click += new System.EventHandler(this.ToolStripMenuItemInsertToList_Click);
             // 
             // openFileDialogCU
             // 
@@ -477,141 +637,16 @@ namespace DMTTestStation
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // toolStripButtonDelete
+            // contextMenuStrip1
             // 
-            this.toolStripButtonDelete.Enabled = false;
-            this.toolStripButtonDelete.Image = global::DMTTestStation.Properties.Resources.Delete;
-            this.toolStripButtonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDelete.Name = "toolStripButtonDelete";
-            this.toolStripButtonDelete.Size = new System.Drawing.Size(74, 75);
-            this.toolStripButtonDelete.Text = "删除";
-            this.toolStripButtonDelete.Click += new System.EventHandler(this.toolStripButtonDelete_Click);
-            // 
-            // toolStripButtonDeleteAll
-            // 
-            this.toolStripButtonDeleteAll.Enabled = false;
-            this.toolStripButtonDeleteAll.Image = global::DMTTestStation.Properties.Resources.DeleteAll;
-            this.toolStripButtonDeleteAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDeleteAll.Name = "toolStripButtonDeleteAll";
-            this.toolStripButtonDeleteAll.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonDeleteAll.Text = "全部删除";
-            this.toolStripButtonDeleteAll.Click += new System.EventHandler(this.toolStripButtonDeleteAll_Click);
-            // 
-            // toolStripButtonStartTest
-            // 
-            this.toolStripButtonStartTest.Enabled = false;
-            this.toolStripButtonStartTest.Image = global::DMTTestStation.Properties.Resources.Start;
-            this.toolStripButtonStartTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStartTest.Name = "toolStripButtonStartTest";
-            this.toolStripButtonStartTest.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonStartTest.Text = "全部开始";
-            this.toolStripButtonStartTest.Visible = false;
-            this.toolStripButtonStartTest.Click += new System.EventHandler(this.toolStripButtonStartTest_Click);
-            // 
-            // toolStripButtonPauseTest
-            // 
-            this.toolStripButtonPauseTest.Enabled = false;
-            this.toolStripButtonPauseTest.Image = global::DMTTestStation.Properties.Resources.Pause;
-            this.toolStripButtonPauseTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonPauseTest.Name = "toolStripButtonPauseTest";
-            this.toolStripButtonPauseTest.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonPauseTest.Text = "全部暂停";
-            this.toolStripButtonPauseTest.Click += new System.EventHandler(this.toolStripButtonPauseTest_Click);
-            // 
-            // toolStripButtonStopTest
-            // 
-            this.toolStripButtonStopTest.Enabled = false;
-            this.toolStripButtonStopTest.Image = global::DMTTestStation.Properties.Resources.Stop;
-            this.toolStripButtonStopTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStopTest.Name = "toolStripButtonStopTest";
-            this.toolStripButtonStopTest.Size = new System.Drawing.Size(110, 75);
-            this.toolStripButtonStopTest.Text = "全部停止";
-            this.toolStripButtonStopTest.Click += new System.EventHandler(this.toolStripButtonStopTest_Click);
-            // 
-            // toolStripButtonScan
-            // 
-            this.toolStripButtonScan.Enabled = false;
-            this.toolStripButtonScan.Image = global::DMTTestStation.Properties.Resources.barcode;
-            this.toolStripButtonScan.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonScan.Name = "toolStripButtonScan";
-            this.toolStripButtonScan.Size = new System.Drawing.Size(128, 75);
-            this.toolStripButtonScan.Text = "扫描二维码";
-            this.toolStripButtonScan.Click += new System.EventHandler(this.toolStripButtonScan_Click);
-            // 
-            // toolStripButtonUpgrade
-            // 
-            this.toolStripButtonUpgrade.Enabled = false;
-            this.toolStripButtonUpgrade.Image = global::DMTTestStation.Properties.Resources.upgrade;
-            this.toolStripButtonUpgrade.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonUpgrade.Name = "toolStripButtonUpgrade";
-            this.toolStripButtonUpgrade.Size = new System.Drawing.Size(74, 75);
-            this.toolStripButtonUpgrade.Text = "升级";
-            // 
-            // toolStripButtonCalibrate
-            // 
-            this.toolStripButtonCalibrate.Enabled = false;
-            this.toolStripButtonCalibrate.Image = global::DMTTestStation.Properties.Resources.calibrate;
-            this.toolStripButtonCalibrate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonCalibrate.Name = "toolStripButtonCalibrate";
-            this.toolStripButtonCalibrate.Size = new System.Drawing.Size(74, 75);
-            this.toolStripButtonCalibrate.Text = "校准";
-            this.toolStripButtonCalibrate.Visible = false;
-            this.toolStripButtonCalibrate.Click += new System.EventHandler(this.toolStripButtonCalibrate_Click);
-            // 
-            // toolStripButtonLoadCUInfo
-            // 
-            this.toolStripButtonLoadCUInfo.Image = global::DMTTestStation.Properties.Resources.Open;
-            this.toolStripButtonLoadCUInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonLoadCUInfo.Name = "toolStripButtonLoadCUInfo";
-            this.toolStripButtonLoadCUInfo.Size = new System.Drawing.Size(86, 55);
-            this.toolStripButtonLoadCUInfo.Text = "载入...";
-            this.toolStripButtonLoadCUInfo.Click += new System.EventHandler(this.toolStripButtonLoadCUInfo_Click);
-            // 
-            // toolStripButtonExpand
-            // 
-            this.toolStripButtonExpand.Image = global::DMTTestStation.Properties.Resources.Expand;
-            this.toolStripButtonExpand.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonExpand.Name = "toolStripButtonExpand";
-            this.toolStripButtonExpand.Size = new System.Drawing.Size(74, 55);
-            this.toolStripButtonExpand.Text = "展开";
-            this.toolStripButtonExpand.Click += new System.EventHandler(this.toolStripButtonExpand_Click);
-            // 
-            // toolStripButtonCollapse
-            // 
-            this.toolStripButtonCollapse.Image = global::DMTTestStation.Properties.Resources.Collapse;
-            this.toolStripButtonCollapse.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonCollapse.Name = "toolStripButtonCollapse";
-            this.toolStripButtonCollapse.Size = new System.Drawing.Size(74, 55);
-            this.toolStripButtonCollapse.Text = "收缩";
-            this.toolStripButtonCollapse.Click += new System.EventHandler(this.toolStripButtonCollapse_Click);
-            // 
-            // buttonUser
-            // 
-            this.buttonUser.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonUser.Image = global::DMTTestStation.Properties.Resources.User;
-            this.buttonUser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonUser.Location = new System.Drawing.Point(1351, 12);
-            this.buttonUser.Name = "buttonUser";
-            this.buttonUser.Size = new System.Drawing.Size(194, 56);
-            this.buttonUser.TabIndex = 1;
-            this.buttonUser.Text = "未登录";
-            this.buttonUser.UseVisualStyleBackColor = true;
-            this.buttonUser.Click += new System.EventHandler(this.buttonUser_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::DMTTestStation.Properties.Resources.logoWithSnpas_360;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(471, 60);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.contextMenuStrip1.AutoClose = false;
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1557, 952);
             this.Controls.Add(this.panel2);
@@ -620,14 +655,14 @@ namespace DMTTestStation
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5);
-            this.MaximizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
-            this.Text = "模块测试工作站 v1.0.1";
+            this.Text = "模块测试工作站 v1.0.4";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
-            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.panelMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -645,15 +680,15 @@ namespace DMTTestStation
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.groupBoxCU.ResumeLayout(false);
-            this.contextMenuStripTreeView.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.toolStripCU.ResumeLayout(false);
             this.toolStripCU.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
+
+
 
         #endregion
 
@@ -676,7 +711,7 @@ namespace DMTTestStation
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ToolStrip toolStripCU;
         private System.Windows.Forms.ToolStripButton toolStripButtonLoadCUInfo;
-        private System.Windows.Forms.ListView listViewCardTest;
+        private MyListView listViewCardTest;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
@@ -696,7 +731,6 @@ namespace DMTTestStation
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTime;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Button buttonUser;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripTreeView;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemInsertToList;
         private System.Windows.Forms.TabControl tabControlLogs;
         private System.Windows.Forms.TabPage tabPageMain;
@@ -708,6 +742,11 @@ namespace DMTTestStation
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton toolStripButtonUpgrade;
         private System.Windows.Forms.ToolStripButton toolStripButtonCalibrate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton toolStripButtonExport;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripTreeView;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }
 

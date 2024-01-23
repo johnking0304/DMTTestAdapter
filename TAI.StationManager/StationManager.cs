@@ -26,6 +26,10 @@ namespace TAI.StationManager
     {
 
         public string UserName { get; set; }
+
+        public string SiteName { get; set; }
+        public string reviewer { get; set; }
+
         private DeviceModel MeasureDeviceModel { get; set; }
         private DeviceModel GeneratorDeviceModel { get; set; }
         public DigitalDevice DigitalDevice { get; set; }
@@ -40,11 +44,7 @@ namespace TAI.StationManager
         public DeviceType DeviceType { get; set; }
         public List<Station> Stations { get; set; }
         public ControlUnit ControlUnit { get; set; }
-
         public CalibrateController CalibrateController { get; set; }
-
-
-
 
         public void StartCalibrateModule(CardModule card)
         {
@@ -144,13 +144,23 @@ namespace TAI.StationManager
         
         }
 
-        public void GenerateTestResult(CardModule module)
+        public void GenerateTestResultFile(string fileName)
         {
-            CardTestResult cardResult = new CardTestResult();
-            
-            
+            List<CardTestResult> resultList = new List<CardTestResult>();
 
+            foreach (CardModuleGroup group in this.ControlUnit.CardGroups)
+            {
+                foreach (CardModule card in group.Cards)
+                {
+                    if (card.TestCompleted)
+                    {
+                        resultList.Add(card.CardTestResult);
+                    }               
+                }
+            }
 
+            string content = JsonConvert.SerializeObject(resultList);
+            Files.WriteFile(fileName,content);
 
         }
 
@@ -175,18 +185,18 @@ namespace TAI.StationManager
 
             this.DigitalDevice = new DigitalDevice();
             this.DigitalDevice.LoadFromFile(Contant.DIGITAL_CONFIG);
-            //this.DigitalDevice.Open();
+            this.DigitalDevice.Open();
             this.DigitalDevice.Start();
 
             this.MeasureDevice = AnalogDeviceFactory.CreateDevice(this.MeasureDeviceModel);
             this.MeasureDevice.LoadFromFile(Contant.ANALOG_CONFIG);
-            //this.MeasureDevice.Open();
+            this.MeasureDevice.Open();
             this.MeasureDevice.Start();
 
 
             this.GeneratorDevice = AnalogDeviceFactory.CreateDevice(this.GeneratorDeviceModel);
             this.GeneratorDevice.LoadFromFile(Contant.ANALOG_CONFIG);
-            //this.GeneratorDevice.Open();
+            this.GeneratorDevice.Open();
             this.GeneratorDevice.Start();
 
             this.SwitchControllers = new List<SwitchController>();
@@ -197,7 +207,7 @@ namespace TAI.StationManager
                 switchController.LoadFromFile(Contant.SWITCH_CONFIG);
                 if (switchController.Enable)
                 {
-                    //switchController.Open();
+                    switchController.Open();
                     switchController.Start();
                 }
                 this.SwitchControllers.Add(switchController);
@@ -243,15 +253,31 @@ namespace TAI.StationManager
 
             return result;
         }
+        public bool ExportControlUnitTestResult()
+        {
+            if (File.Exists(Contant.ControlUnitExportResultTool))
+            {
+                var parse = new Task(() => Windows.StartProcess(Contant.ControlUnitExportResultTool,null));
+                parse.Start();
+                Task.WaitAll(parse);//等待所有任务结束
+                return true;
+            }
+            else
+            {
+                Windows.MessageBoxError(string.Format("结果导出工具[{0}]不存在！", Contant.ControlUnitExportResultTool));
+                return false;
+            }
 
+
+        }
 
         public bool ParseControlUnit(string fileName)
         {
             if (File.Exists(fileName))
             {
                 if (File.Exists(Contant.ControlUnitParseTool))
-                {
-                    var parse = new Task(() => Windows.StartProcess(Contant.ControlUnitParseTool, new string[1] { Contant.ControlUnitInfoFile }));
+                { 
+                    var parse = new Task(() => Windows.StartProcess(Contant.ControlUnitParseTool, new string[1] { fileName }));
                     parse.Start();
                     Task.WaitAll(parse);//等待所有任务结束
                     return true;
@@ -274,20 +300,20 @@ namespace TAI.StationManager
             {
                 try
                 {
-                    /*                    bool result = this.ParseControlUnit(fileName);
-                                        if (result)
-                                        {
-                                            string content = Files.LoadFromFile(Contant.ControlUnitInfoFile);
-                                            content = content.Trim();
-                                            if (!string.IsNullOrEmpty(content))
-                                            {
-                                                this.ControlUnit = JsonConvert.DeserializeObject<ControlUnit>(content);
-                                                return true;
-                                            }
-                                        }
-                                        return false;*/
 
                     string content = Files.LoadFromFile(fileName);
+                    if (content.Contains("NuCon Cu File"))
+                    {
+                        bool result = this.ParseControlUnit(fileName);
+                        if (!result)
+                        {
+                            return false;
+                        }
+                        fileName = Contant.ControlUnitInfoFile;
+                    }
+
+
+                    content = Files.LoadFromFile(fileName);
                     content = content.Trim();
                     if (!string.IsNullOrEmpty(content))
                     {
@@ -297,12 +323,15 @@ namespace TAI.StationManager
                             foreach (CardModule card in cardGroup.Cards)
                             {
                                 card.CardTestResult.TesterName = this.UserName;
-                                 //FixMe 信息补全
+                                card.CardTestResult.Reviewer = this.reviewer;
+                                card.CardTestResult.SiteName = this.SiteName;
+                                card.CardTestResult.CUNum = this.ControlUnit.Caption;
+                                //FixMe 信息补全
                             }
                         }
                         return true;
                     }
-                    return false;
+                    return false;                    
 
                 }
                 catch

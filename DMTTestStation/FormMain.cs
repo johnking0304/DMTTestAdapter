@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using TAI.Test.Scheme;
-using DMT.DatabaseAdapter;
-using TAI.StationManager;
 using TAI.TestDispatcher;
 using DMT.Core.Utils;
 using DMT.Core.Models;
 using TAI.Modules;
+using TAI.Constants;
 
 namespace DMTTestStation
 {
@@ -21,14 +15,16 @@ namespace DMTTestStation
     public partial class FormMain : Form
     {
         public const int DescriptionColumnIndex = 1;
-        public const int ProgressColumnIndex = 3;
-        public const int ConclusionColumnIndex = 4;
-        public const int StartButtonColumnIndex = 5;
-        public const int PauseButtonColumnIndex = 6;
-        public const int StopButtonColumnIndex = 7;
+        public const int HardwareVersionColumnIndex = 3;
+        public const int ProgressColumnIndex = 4;
+        public const int ConclusionColumnIndex = 5;
+        public const int StartButtonColumnIndex = 6;
+        public const int PauseButtonColumnIndex = 7;
+        public const int StopButtonColumnIndex = 8;
 
         public FormLogs FormMainLogs { get; set; }
 
+        private List<ToolStripMenuItem> toolStripMenuItems = new List<ToolStripMenuItem>();
 
         public FormMain()
         {
@@ -37,9 +33,10 @@ namespace DMTTestStation
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Program.StationManager = new StationManager();
-            Program.StationManager.Initialize();
+            //Program.StationManager = new StationManager();
+            //Program.StationManager.Initialize();
             Program.StationManager.AttachObserver(this.Update);
+            this.buttonUser.Text = Program.StationManager.SiteName + "-" + Program.StationManager.UserName;
             this.InitializeFormViewer();
         }
 
@@ -60,6 +57,8 @@ namespace DMTTestStation
                 this.treeViewCUInfo.Nodes.Clear();
                 ControlUnit CU = Program.StationManager.ControlUnit;
                 TreeNode mainNode = this.treeViewCUInfo.Nodes.Add("ControlUnit", Program.StationManager.ControlUnit.Name);
+                this.groupBoxCU.Text = "控制器" + "(CU"+ CU.Caption +")";
+                mainNode.Text = "控制器" + "(CU" + CU.Caption + ")";
                 mainNode.ImageIndex = 0;
                 mainNode.SelectedImageIndex = 0;
                 foreach (var cardGroup in CU.CardGroups)
@@ -128,6 +127,22 @@ namespace DMTTestStation
             return null;
         }
 
+
+        private void SetTreeNodeBackColor(CardModule card)
+        {
+            for (int i = 0; i < this.treeViewCUInfo.Nodes[0].Nodes.Count; i++)
+                for(int j = 0; j < this.treeViewCUInfo.Nodes[0].Nodes[i].Nodes.Count; j++)
+                {
+                    CardModule module = (CardModule)treeViewCUInfo.Nodes[0].Nodes[i].Nodes[j].Tag;
+                    if (module.Equals(card))
+                    {
+                        this.treeViewCUInfo.Nodes[0].Nodes[i].Nodes[j].BackColor = card.TestDispatcher.TestScheme.Conclusion ? Color.LightBlue : Color.LightPink;
+                    }
+                }
+
+        }
+
+
         private void UpdateOperateButtonStatus()
         {
             this.toolStripButtonDeleteAll.Enabled = this.listViewCardTest.Items.Count > 0;
@@ -138,6 +153,8 @@ namespace DMTTestStation
             this.toolStripButtonScan.Enabled = this.listViewCardTest.Items.Count > 0;
 
             this.toolStripButtonCalibrate.Enabled = this.listViewCardTest.Items.Count > 0;
+
+            this.toolStripButtonExport.Enabled = this.listViewCardTest.Items.Count > 0;
             if (this.listViewCardTest.SelectedItems.Count == 1)
             {
                 CardModuleItem cardModuleItem = (CardModuleItem)(this.listViewCardTest.SelectedItems[0].Tag);
@@ -162,31 +179,46 @@ namespace DMTTestStation
         }
         private void InsertCardModule(CardModule card)
         {
-            ListViewItem item = new ListViewItem();
+           
+            ListViewItem item = new ListViewItem();                       
             item.Text = (listViewCardTest.Items.Count+1).ToString();
             item.SubItems.Add(card.Description);
             item.SubItems.Add(card.CardType.ToString());
+            item.SubItems.Add("");//硬件信息
             item.SubItems.Add("");// 测试进度
             item.SubItems.Add("--");//结果
             item.SubItems.Add("");
             item.SubItems.Add("");
             item.SubItems.Add("");
+                        
             item.StateImageIndex = CardModuleItem.ImageIdleIndex;
             CardModuleItem cardItem = new CardModuleItem(card,item,Program.StationManager);
+            this.tabControlLogs.TabPages.Add(cardItem.TabPageLogs);
+            this.tabControlLogs.SelectTab(cardItem.TabPageLogs);
             cardItem.CanStartTest += this.CanStartTest;
             item.Tag = cardItem;
             this.listViewCardTest.Items.Add(item);
-            
+            card.ChannleEnableMap = new Dictionary<string, bool>();
+            card.ChannleEnableMap.Clear();
+            for (int i = 0; i < ((CardModuleItem)item.Tag).CardModule.ChannelCount; i++)
+            {
+                string indexString = "通道" + (i + 1).ToString();
+                card.ChannleEnableMap.Add(indexString, true);
+               
+            }
 
             int rowIndex = listViewCardTest.Items.Count - 1;
+            
             Windows.AddControlToListView(this.listViewCardTest, cardItem.ProgressBar, ProgressColumnIndex, rowIndex);
             Windows.AddControlToListView(this.listViewCardTest, cardItem.StartButton, StartButtonColumnIndex, rowIndex);
             Windows.AddControlToListView(this.listViewCardTest, cardItem.PauseButton, PauseButtonColumnIndex, rowIndex);
             Windows.AddControlToListView(this.listViewCardTest, cardItem.StopButton, StopButtonColumnIndex, rowIndex);
+            Windows.AddControlToListView(this.listViewCardTest, cardItem.HardwareVersionTextBox, HardwareVersionColumnIndex, rowIndex);
             card.Operator = cardItem;
 
             cardItem.TabPageLogs.Parent = this.tabControlLogs;
         }
+
 
         private void InsertCardModuleToListView()
         {
@@ -194,16 +226,19 @@ namespace DMTTestStation
             {
                 if (treeViewCUInfo.SelectedNode.Tag is CardModule)
                 {
-
-
                     CardModule card = (CardModule)treeViewCUInfo.SelectedNode.Tag;
                     if (card.Operator == null)
                     {                       
                         Program.StationManager.InitializeModuleTest(card);
                         this.InsertCardModule(card);
-                        this.UpdateOperateButtonStatus();
+                        //this.UpdateOperateButtonStatus();
                        
                     }
+                    int index = this.listViewCardTest.Items.Count;
+                    this.listViewCardTest.Select();
+                    this.listViewCardTest.Items[index - 1].Selected = true;
+                    this.listViewCardTest.Items[index - 1].Focused = true;
+                    this.listViewCardTest.Items[index - 1].EnsureVisible();
                 }
             }
 
@@ -270,17 +305,13 @@ namespace DMTTestStation
                     Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StartButton, StartButtonColumnIndex, rowIndex);
                     Windows.UpdateControlToListView(this.listViewCardTest, cardItem.PauseButton, PauseButtonColumnIndex, rowIndex);
                     Windows.UpdateControlToListView(this.listViewCardTest, cardItem.StopButton, StopButtonColumnIndex, rowIndex);
-
+                    Windows.UpdateControlToListView(this.listViewCardTest, cardItem.HardwareVersionTextBox, HardwareVersionColumnIndex, rowIndex);
                 }
             }
             finally
             {
                 this.listViewCardTest.EndUpdate();
             }
-        }
-        private void listViewCardTest_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            this.RefreshCardModuleItemList();
         }
 
         public void Update(int notifyEvent, string flag, string content, object result, string message, object sender)
@@ -363,7 +394,10 @@ namespace DMTTestStation
                                         {
                                             moduleItem.ViewItem.StateImageIndex = cardModule.TestDispatcher.TestScheme.Conclusion ? CardModuleItem.ImageFinishPassIndex : CardModuleItem.ImageFinishNGIndex;
                                             moduleItem.ViewItem.SubItems[ConclusionColumnIndex].Text = cardModule.TestDispatcher.TestScheme.Conclusion ? "PASS" : "NG";
-                                            
+                                            this.SetTreeNodeBackColor(cardModule);
+
+
+
                                         }
                                         else
                                         {
@@ -499,8 +533,19 @@ namespace DMTTestStation
 
         }
 
+        private void listViewCardTest_Scroll(object sender, ScrollEventArgs e)
+        {
+            this.RefreshCardModuleItemList();
+        }
+
         private void listViewCardTest_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.contextMenuStrip1.Close();
+            if (this.listViewCardTest.SelectedItems.Count == 1) 
+            {
+                CardModuleItem cardModuleItem = (CardModuleItem)(this.listViewCardTest.SelectedItems[0].Tag);
+                this.tabControlLogs.SelectTab(cardModuleItem.TabPageLogs);
+            }
             this.UpdateOperateButtonStatus();
             
         }
@@ -536,16 +581,28 @@ namespace DMTTestStation
 
         private void ScanBarcode(CardModuleItem cardModuleItem)
         {
+            
             CardModule card = cardModuleItem.CardModule;
+            if (card.IsTesting)
+            {
+                return;
+            }
             FormInput formInput = new FormInput("扫描卡件序列号");
             formInput.ShowDialog();
             bool start = false;
             if (formInput.DialogResult == DialogResult.OK)
             {
                 card.SerialCode = formInput.SerialCode;
-                this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;                
-                ((TreeNode)card.Node).Text = card.Description;
-                start = true;
+                if (card.SerialCode.StartsWith("M"))
+                {
+                    this.listViewCardTest.SelectedItems[0].SubItems[DescriptionColumnIndex].Text = card.Description;
+                    ((TreeNode)card.Node).Text = card.Description;
+                    start = true;
+                }
+                else 
+                {
+                    Windows.MessageBoxError("请扫描正确的二维码！"); 
+                }
             }
 
             if (card.CardType == ModuleType.DO)
@@ -565,6 +622,9 @@ namespace DMTTestStation
                     start = false;
                 }
             }
+            this.listViewCardTest.Select();
+            this.listViewCardTest.SelectedItems[0].Selected = true;
+            this.listViewCardTest.SelectedItems[0].Focused = true;
             cardModuleItem.StartButton.Enabled = start;
 
 
@@ -588,14 +648,10 @@ namespace DMTTestStation
             formLogin.ShowDialog();
             if (formLogin.DialogResult == DialogResult.OK)
             {
-                this.buttonUser.Text = Program.StationManager.UserName;
+                this.buttonUser.Text = Program.StationManager.SiteName + "-" +  Program.StationManager.UserName;
             }
+            formLogin.Close();
 
-        }
-
-        private void FormMain_Shown(object sender, EventArgs e)
-        {
-            this.Login();
         }
 
         private void toolStripButtonCalibrate_Click(object sender, EventArgs e)
@@ -627,11 +683,89 @@ namespace DMTTestStation
                 {
                     Windows.MessageBoxWarning("卡件正在测试，无法开始校准！");
                 }
-
-
             }
         }
+
+        private void toolStripButtonExport_Click(object sender, EventArgs e)
+        {
+            Program.StationManager.GenerateTestResultFile(Contant.TEST_RESULT);
+            if (Program.StationManager.ExportControlUnitTestResult())
+            {
+                Windows.MessageBoxInformation("测试结果文件保存完成！");
+            }
+        }
+
+
+        private void addContextMenuStripItem(ListViewItem item)
+        {
+            this.contextMenuStrip1.Items.Clear();
+            this.toolStripMenuItems.Clear();
+            ToolStripMenuItem menuAllItem = new ToolStripMenuItem("全选/全不选");
+            toolStripMenuItems.Add(menuAllItem);
+            menuAllItem.Checked = true;
+            this.contextMenuStrip1.Items.Add(menuAllItem);
+
+            for (int i = 0; i < ((CardModuleItem)item.Tag).CardModule.ChannelCount; i++) 
+            { 
+                string indexString = "通道" + (i+1).ToString();
+                ToolStripMenuItem menuItem = new ToolStripMenuItem(indexString);
+                menuItem.Checked = true;
+                ((CardModuleItem)item.Tag).CardModule.ChannleEnableMap[menuItem.Text] = menuItem.Checked;
+                menuItem.Click += new EventHandler(this.MenuClick);
+
+                toolStripMenuItems.Add(menuItem);
+                this.contextMenuStrip1.Items.Add(menuItem);
+            }
+
+            menuAllItem.Click += new System.EventHandler(this.MenuAllClick);
+        }
+
+        private void MenuClick(object sender, EventArgs e) {
+            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+            menuItem.Checked = !menuItem.Checked;
+            ListView viewItem = (ListView)((ContextMenuStrip)menuItem.Owner).SourceControl;
+            CardModuleItem item = (CardModuleItem)viewItem.SelectedItems[0].Tag;
+            item.CardModule.ChannleEnableMap[menuItem.Text] = menuItem.Checked;
+           }
+
+        private void MenuAllClick(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
+            toolStripMenuItem.Checked = !toolStripMenuItem.Checked;
+            ListView viewItem = (ListView)((ContextMenuStrip)toolStripMenuItem.Owner).SourceControl;
+            CardModuleItem item = (CardModuleItem)viewItem.SelectedItems[0].Tag;
+
+            foreach (ToolStripMenuItem menuItem in toolStripMenuItems)
+            {
+                menuItem.Checked = toolStripMenuItem.Checked;
+                item.CardModule.ChannleEnableMap[menuItem.Text] = menuItem.Checked;
+            }
+        }
+
+        private void listViewCardTest_MouseClick(object sender, MouseEventArgs e)
+        {
+            ListView listView = (ListView)sender;
+            ListViewItem item = listView.GetItemAt(e.X, e.Y);
+
+            if (item != null && e.Button == MouseButtons.Right)
+            {
+                this.addContextMenuStripItem(item);
+                this.contextMenuStrip1.Show(listView, e.X, e.Y);
+            }
+        }
+
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void listViewCardTest_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            this.RefreshCardModuleItemList();
+        }
     }
+
+    
 
 
 

@@ -41,9 +41,11 @@ namespace DMTTestStation
             // 
             this.groupBoxInput.Controls.Add(this.textBoxInput);
             this.groupBoxInput.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBoxInput.Location = new System.Drawing.Point(12, 24);
+            this.groupBoxInput.Location = new System.Drawing.Point(11, 20);
+            this.groupBoxInput.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBoxInput.Name = "groupBoxInput";
-            this.groupBoxInput.Size = new System.Drawing.Size(595, 162);
+            this.groupBoxInput.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBoxInput.Size = new System.Drawing.Size(529, 135);
             this.groupBoxInput.TabIndex = 0;
             this.groupBoxInput.TabStop = false;
             this.groupBoxInput.Text = "序列号";
@@ -51,17 +53,20 @@ namespace DMTTestStation
             // textBoxInput
             // 
             this.textBoxInput.Font = new System.Drawing.Font("微软雅黑", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBoxInput.Location = new System.Drawing.Point(34, 52);
+            this.textBoxInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.textBoxInput.Location = new System.Drawing.Point(30, 43);
+            this.textBoxInput.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxInput.Name = "textBoxInput";
-            this.textBoxInput.Size = new System.Drawing.Size(532, 66);
+            this.textBoxInput.Size = new System.Drawing.Size(473, 56);
             this.textBoxInput.TabIndex = 0;
             this.textBoxInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxInput_KeyDown);
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(303, 217);
+            this.buttonOk.Location = new System.Drawing.Point(269, 181);
+            this.buttonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(141, 55);
+            this.buttonOk.Size = new System.Drawing.Size(125, 46);
             this.buttonOk.TabIndex = 1;
             this.buttonOk.Text = "确定";
             this.buttonOk.UseVisualStyleBackColor = true;
@@ -69,9 +74,10 @@ namespace DMTTestStation
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(466, 217);
+            this.buttonCancel.Location = new System.Drawing.Point(414, 181);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(141, 55);
+            this.buttonCancel.Size = new System.Drawing.Size(125, 46);
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "取消";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -79,14 +85,15 @@ namespace DMTTestStation
             // 
             // FormInput
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 300);
+            this.ClientSize = new System.Drawing.Size(558, 250);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.groupBoxInput);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormInput";

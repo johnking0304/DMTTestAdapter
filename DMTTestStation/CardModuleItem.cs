@@ -27,6 +27,7 @@ namespace DMTTestStation
         public Button PauseButton { get; set; }
         public Button StopButton { get; set; }
         public ProgressBar ProgressBar { get; set; }
+        public TextBox HardwareVersionTextBox { get; set; }
 
 
         public TabPage TabPageLogs { get; set; }
@@ -39,14 +40,14 @@ namespace DMTTestStation
 
         public StationManager Manager { get; set; }
 
-        public CardModuleItem(CardModule card, ListViewItem item,StationManager manager)
+        public CardModuleItem(CardModule card, ListViewItem item, StationManager manager)
         {
             this.Manager = manager;
             this.CardModule = card;
             this.ViewItem = item;
             this.StartButton = new Button();
             this.StartButton.Text = "开始";
-            this.StartButton.Enabled = false;
+            this.StartButton.Enabled = !string.IsNullOrEmpty(card.SerialCode);
             this.StartButton.ImageAlign = ContentAlignment.MiddleLeft;
             this.StartButton.Click += (EventHandler)this.OnStartClick;
             this.StartButton.Image = Properties.Resources.StartTest;
@@ -71,12 +72,16 @@ namespace DMTTestStation
             this.ProgressBar.Minimum = 0;
             this.ProgressBar.Maximum = 100;
 
+            this.HardwareVersionTextBox = new TextBox();
+            this.HardwareVersionTextBox.AutoSize = false;
+            this.HardwareVersionTextBox.TextChanged += (EventHandler)this.TextBoxEditFinished;
 
             this.FormLogs = new FormLogs(this.CardModule.Description);
             this.CardModule.TestDispatcher.AttachObserver(this.FormLogs.Update);
             this.TabPageLogs = new TabPage();
             Windows.AddFormToContainer(this.FormLogs, this.TabPageLogs);
             this.TabPageLogs.Text = this.CardModule.CardType.ToString();
+
         }
 
         public void Dispose()
@@ -85,10 +90,12 @@ namespace DMTTestStation
             this.StartButton.Visible = false;
             this.ProgressBar.Visible = false;
             this.PauseButton.Visible = false;
+            this.HardwareVersionTextBox.Visible = false;
             this.StopButton.Dispose();
             this.StartButton.Dispose();
             this.ProgressBar.Dispose();
             this.PauseButton.Dispose();
+            this.HardwareVersionTextBox.Dispose();
             this.CardModule.TestDispatcher.DetachObserver(this.FormLogs.Update);
             this.FormLogs.Dispose();
             this.TabPageLogs.Parent = null;
@@ -100,6 +107,7 @@ namespace DMTTestStation
         {
             if (this.CanStartTest(this.CardModule))
             {
+                this.CardModule.Update();
                 this.Manager.SelectDevice(this.CardModule);
                 this.CardModule.TestDispatcher.StartTest();
                 this.StartButton.Enabled = false;
@@ -176,8 +184,8 @@ namespace DMTTestStation
         {
             this.StopTest();
         }
-
-
-
+        protected void TextBoxEditFinished(object sender, EventArgs e) { 
+            this.CardModule.HardwareVersion = this.HardwareVersionTextBox.Text;
+        }
     }
 }

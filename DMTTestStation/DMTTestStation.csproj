@@ -66,6 +66,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardModuleItem.cs" />
+    <Compile Include="FormDeleteUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDeleteUser.Designer.cs">
+      <DependentUpon>FormDeleteUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddUser.Designer.cs">
+      <DependentUpon>FormAddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReviewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReviewer.Designer.cs">
+      <DependentUpon>FormReviewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUser.Designer.cs">
+      <DependentUpon>FormUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormCalibrate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,8 +120,17 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormDeleteUser.resx">
+      <DependentUpon>FormDeleteUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddUser.resx">
+      <DependentUpon>FormAddUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCalibrate.resx">
       <DependentUpon>FormCalibrate.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,12 +139,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogs.resx">
       <DependentUpon>FormLogs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReviewer.resx">
+      <DependentUpon>FormReviewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUser.resx">
+      <DependentUpon>FormUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +189,10 @@
     <ProjectReference Include="..\DMT.DatabaseAdapter\DMT.DatabaseAdapter.csproj">
       <Project>{0a2c8c10-39cb-4b64-ae7c-c522f701bab3}</Project>
       <Name>DMT.DatabaseAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TAI.Contants\TAI.Contants.csproj">
+      <Project>{7cf01fb2-2256-43e0-b9c6-ec15ca7dc03c}</Project>
+      <Name>TAI.Contants</Name>
     </ProjectReference>
     <ProjectReference Include="..\TAI.Modules\TAI.Modules.csproj">
       <Project>{C69632F0-7BCD-4D05-BC99-0D01C334C354}</Project>
@@ -200,6 +244,7 @@
     <None Include="Resources\DeleteAll.png" />
     <None Include="Resources\Delete.png" />
     <None Include="Resources\login.png" />
+    <None Include="Resources\Export.png" />
     <Content Include="Test.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

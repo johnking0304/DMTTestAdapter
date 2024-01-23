@@ -34,6 +34,14 @@ namespace DMT.Core.Utils
 
             int left = listview.Items[rowIndex].SubItems[columnIndex].Bounds.Left + (int)((listview.Items[rowIndex].SubItems[columnIndex].Bounds.Width - width) / 2);
             int top = listview.Items[rowIndex].SubItems[columnIndex].Bounds.Top + (int)((listview.Items[rowIndex].SubItems[columnIndex].Bounds.Height - height) / 2);
+            if (left < listview.Bounds.Left || top < listview.Bounds.Top)
+            {
+                control.Visible = false;
+            }
+            else 
+            {
+                control.Visible = true;
+            }
             control.Location = new Point(left, top);
         }
 
@@ -101,17 +109,20 @@ namespace DMT.Core.Utils
             try
             {
                 string argsContent = "";
-                foreach (string arg in args)
+                if (args != null)
                 {
-                    argsContent += string.Format("{0} ", arg);
+                    foreach (string arg in args)
+                    {
+                        argsContent += string.Format("{0} ", arg);
+                    }
+                    argsContent = argsContent.Trim() + "\r";
                 }
-                argsContent = argsContent.Trim() + "\r";
                 
                 ProcessStartInfo startInfo = new ProcessStartInfo(filename, argsContent);
                 process.StartInfo = startInfo;
                 process.StartInfo.UseShellExecute = true;
                 //不显示程序窗口
-                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.CreateNoWindow = true;
                 //启动程序            
                 process.Start();
                 process.WaitForExit();
@@ -149,7 +160,7 @@ namespace DMT.Core.Utils
                 // 输出错误
                 process.StartInfo.RedirectStandardError = true;
                 //不显示程序窗口
-                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.CreateNoWindow = true;
                 //启动程序
                 process.Start();
 

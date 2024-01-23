@@ -53,6 +53,7 @@ namespace TAI.Test.Scheme
 
         public string AliasName { get; set; }
 
+        public bool Enabled { get; set; }
 
         public int Level { get; set; }
 

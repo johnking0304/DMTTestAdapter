@@ -56,6 +56,7 @@ namespace TAI.TestDispatcher
         public const int HDRTYPE = 0x06;
         public const int WRITEBLOCK = 0x05;
         public const int READBLOCK = 0x04;
+        public const int IOPVER = 0x34;
         public ADLHeader ADLHeader  =new ADLHeader();
         public BlockHeader BlockHeader;
         public ADLData ADLData;
@@ -201,6 +202,40 @@ namespace TAI.TestDispatcher
             this.ADLHeader.CMDType = READBLOCK;
         }
 
+
+        public override byte[] Package()
+        {
+
+            int adlLength = Marshal.SizeOf(typeof(ADLHeader));
+            int blockLength = Marshal.SizeOf(typeof(BlockHeader));
+
+            this.Calibrator.SequenceNumber += 1;
+            this.ADLHeader.SequenceNum = this.Calibrator.SequenceNumber;
+            this.ADLHeader.Length = (ushort)blockLength;
+
+            int LAST_PACKET_LEN = adlLength + blockLength;
+            byte[] SendBuffer = new byte[LAST_PACKET_LEN];
+
+            byte[] data = ByteUtils.StructToBytes(this.ADLHeader, typeof(ADLHeader));
+
+            Array.Copy(data, 0, SendBuffer, 0, data.Length);
+
+            data = ByteUtils.StructToBytes(this.BlockHeader, typeof(BlockHeader));
+
+            Array.Copy(data, 0, SendBuffer, adlLength, data.Length);
+
+            return SendBuffer;
+
+        }
+    }
+
+    public class ReadVersionCommand : CalibrateCommand {
+
+        public ReadVersionCommand(BaseCalibrator calibrator) : base(calibrator)
+        {
+            this.ADLHeader.CMDType = READBLOCK;
+            this.BlockHeader.MemoryType = IOPVER;
+        }
 
         public override byte[] Package()
         {

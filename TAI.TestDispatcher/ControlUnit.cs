@@ -1,11 +1,9 @@
 ﻿using DMT.Core.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TAI.Modules;
 using Newtonsoft.Json;
+using TAI.Constants;
 
 namespace TAI.TestDispatcher
 {
@@ -95,8 +93,12 @@ namespace TAI.TestDispatcher
         public string CageNum { get; set; }
 
         public string SerialCode { get; set; }
+        public string CUNnm { get; set; }
 
         public string AssistCardCode { get; set; }
+
+        [JsonProperty(propertyName: "hardWareVersion")] 
+        public string HardwareVersion { get; set; }
 
 
         [JsonProperty(propertyName: "cardNo")]
@@ -113,7 +115,9 @@ namespace TAI.TestDispatcher
         
         [JsonProperty(propertyName: "pointnames")]
         public List<string> PointNames { get; set; }
-        
+
+        public Dictionary<string, bool> ChannleEnableMap { get; set; }
+
 
         [JsonProperty(propertyName: "tbcolumnpos")]
         public string ColumnPos { get; set; }
@@ -121,6 +125,7 @@ namespace TAI.TestDispatcher
         [JsonProperty(propertyName: "tbrowpos")]
         public string RowPos { get; set; }
 
+        public bool TestCompleted { get; set; }
         public string IPAddressText
         {
             get {
@@ -149,9 +154,10 @@ namespace TAI.TestDispatcher
                 }
                 else
                 {
-                    content = string.Format("[{0}]",this.SerialCode );
+                    string DisPlayCode = this.SerialCode.Split(',')[0];
+                    content = string.Format("[{0}]", DisPlayCode);
                 }
-                content = string.Format("{0}{1}-({2},{3})-{4}",content, CardType.Description(),this.ColumnPos,this.RowPos,this.IPAddressText);
+                content = string.Format("{0}{1}-({2}{3}-{4},{5})-{6}",content, CardType.Description(),this.ColumnPos,this.RowPos,this.CageNum, this.CardNo, this.IPAddressText);
                 return content;
 
             }
@@ -164,7 +170,6 @@ namespace TAI.TestDispatcher
             this.CardTestResult = new CardTestResult();
             
         }
-
 
 
         public bool IsTesting {
@@ -192,30 +197,39 @@ namespace TAI.TestDispatcher
 
         public bool Update(string assistCardCode)
         {
-
+            bool CanStart = false;
             if (assistCardCode.Contains("CZ2RBS01"))
             {
                 this.ChannelCount = 16;
+                CanStart = true;
             }
             else if (assistCardCode.Contains("CZ2RBS02"))
             {
                 this.ChannelCount = 10;
-            }
-            else
-            {
-                return false;
+                CanStart = true;
             }
 
             foreach (var item in this.TestDispatcher.TestScheme.TestItems)
             {
-                item.Enable = item.ChannelId <= this.ChannelCount;                
+                string itemString = "通道" + item.ChannelId.ToString();
+                item.Enable = (item.ChannelId <= this.ChannelCount) && this.ChannleEnableMap[itemString];                
             }
 
             this.AssistCardCode = assistCardCode; 
+            return CanStart;
+        }
+
+        public bool Update()
+        {
+            foreach (var item in this.TestDispatcher.TestScheme.TestItems)
+            {
+                string itemString = "通道" + item.ChannelId.ToString();
+                item.Enable = (item.ChannelId <= this.ChannelCount) && this.ChannleEnableMap[itemString];
+            }
             return true;
         }
 
-       
+
     }
 
     public class CardModuleGroup: BaseCardModule
@@ -241,6 +255,7 @@ namespace TAI.TestDispatcher
 
         [JsonProperty(propertyName: "cu")]
         public string Caption { get; set; }
+
 
         public string Name { get; set; }
 
